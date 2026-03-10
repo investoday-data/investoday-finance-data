@@ -131,8 +131,11 @@ python skills/scripts/call_api.py search key=贵州茅台 type=11
 当平台新增或变更接口时，重新生成 `skills/references/`：
 
 ```bash
-# 生成文档
+# 读取本地缓存（create/openapi.json + create/tree.json）生成文档
 python create/generate_references.py
+
+# 先从远程拉取最新数据，更新本地缓存，再生成文档
+python create/generate_references.py --remote
 
 # 生成文档并验证 API Key 可用性
 python create/generate_references.py --validate

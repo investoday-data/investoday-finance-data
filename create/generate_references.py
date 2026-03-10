@@ -23,9 +23,14 @@ API Key 用途（可选）：
   - 用于 --validate 验证密钥可用性
   - 从项目根目录 .env 或环境变量 INVESTODAY_API_KEY 中读取
 
+本地缓存文件（与本脚本同目录）：
+  openapi.json   OpenAPI 规范（优先读取，避免每次请求网络）
+  tree.json      菜单分组树
+
 用法（从项目根目录执行）：
-  python create/generate_references.py            # 生成文档
-  python create/generate_references.py --validate # 生成文档并验证 API Key
+  python create/generate_references.py             # 读本地缓存生成文档
+  python create/generate_references.py --remote    # 拉远程最新数据并更新缓存
+  python create/generate_references.py --validate  # 生成文档并验证 API Key
 """
 
 import json
@@ -47,11 +52,12 @@ OPENAPI_URL = "https://data-api.investoday.net/data/cloud/sys/api/export/api"
 TREE_URL    = "https://data-api.investoday.net/data/cloud/sys/common/tree?apiId=-1"
 BASE_URL    = "https://data-api.investoday.net/data"
 
-# API Key 验证时使用的低权限接口（L1 免费）
 VALIDATE_ENDPOINT = "/trade-calender/special-date"
 
-DEFAULT_OUTPUT_DIR = Path(__file__).parent.parent / "skills" / "references"
-REQUEST_TIMEOUT = 30
+DEFAULT_OUTPUT_DIR  = Path(__file__).parent.parent / "skills" / "references"
+LOCAL_OPENAPI_FILE  = Path(__file__).parent / "openapi.json"
+LOCAL_TREE_FILE     = Path(__file__).parent / "tree.json"
+REQUEST_TIMEOUT     = 30
 
 # ─── 环境变量 / .env 加载 ──────────────────────────────────────────────────────
 
@@ -67,7 +73,7 @@ def load_api_key() -> str | None:
     if key:
         return key.strip()
 
-    # 再尝试 .env 文件（向上查找，最多 3 层）
+    # 再尝试 .env 文件（向上查找，最多 4 层）
     search_dir = Path(__file__).parent
     for _ in range(4):
         env_file = search_dir / ".env"
@@ -96,14 +102,26 @@ def fetch_json(url: str, headers: dict | None = None) -> Any:
         sys.exit(1)
 
 
-def fetch_openapi() -> dict:
-    print("正在获取 OpenAPI 规范...")
-    return fetch_json(OPENAPI_URL)
+def fetch_openapi(force_remote: bool = False) -> dict:
+    if not force_remote and LOCAL_OPENAPI_FILE.exists():
+        print(f"读取本地 OpenAPI 规范（{LOCAL_OPENAPI_FILE.name}）...")
+        return json.loads(LOCAL_OPENAPI_FILE.read_text(encoding="utf-8"))
+    print("正在获取远程 OpenAPI 规范...")
+    data = fetch_json(OPENAPI_URL)
+    LOCAL_OPENAPI_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  已保存至 {LOCAL_OPENAPI_FILE.name}")
+    return data
 
 
-def fetch_tree() -> list:
-    print("正在获取菜单分组树...")
-    result = fetch_json(TREE_URL)
+def fetch_tree(force_remote: bool = False) -> list:
+    if not force_remote and LOCAL_TREE_FILE.exists():
+        print(f"读取本地菜单分组树（{LOCAL_TREE_FILE.name}）...")
+        result = json.loads(LOCAL_TREE_FILE.read_text(encoding="utf-8"))
+    else:
+        print("正在获取远程菜单分组树...")
+        result = fetch_json(TREE_URL)
+        LOCAL_TREE_FILE.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"  已保存至 {LOCAL_TREE_FILE.name}")
     if isinstance(result, dict) and "data" in result:
         return result["data"]
     return result
@@ -142,6 +160,9 @@ def parse_openapi_paths(openapi: dict) -> dict[str, dict]:
             if not op_id:
                 continue
 
+            http_method = method.upper()
+
+            # GET 接口：参数在 parameters 数组（query/path）
             params = [
                 {
                     "name":     p.get("name", ""),
@@ -154,9 +175,25 @@ def parse_openapi_paths(openapi: dict) -> dict[str, dict]:
                 for p in operation.get("parameters", [])
             ]
 
+            # POST 接口：参数在 requestBody（JSON body）
+            if http_method == "POST" and "requestBody" in operation:
+                content = operation["requestBody"].get("content", {})
+                schema  = content.get("application/json", {}).get("schema", {})
+                props   = schema.get("properties", {})
+                required_fields = set(schema.get("required", []))
+                for name, prop in props.items():
+                    params.append({
+                        "name":     name,
+                        "in":       "body",
+                        "required": name in required_fields,
+                        "desc":     prop.get("description", ""),
+                        "example":  prop.get("example", ""),
+                        "type":     prop.get("type", "string"),
+                    })
+
             path_map[op_id] = {
                 "path":            path.lstrip("/"),
-                "method":          method.upper(),
+                "method":          http_method,
                 "summary":         operation.get("summary", ""),
                 "description":     operation.get("description", ""),
                 "parameters":      params,
@@ -193,12 +230,11 @@ def flatten_tree(nodes: list, parent_path: list | None = None) -> list[dict]:
             results.extend(flatten_tree([child], current_path))
         for api in node.get("apis", []):
             results.append({
-                "group_path":   current_path,
-                "api_name":     api.get("apiName", ""),
-                "tool_name":    api.get("toolName", ""),
-                "tool_id":      api.get("toolId", ""),
-                "api_path":     api.get("apiPath", ""),
-                "access_level": api.get("apiAccessLevel", ""),
+                "group_path": current_path,
+                "api_name":   api.get("apiName", ""),
+                "tool_name":  api.get("toolName", ""),
+                "tool_id":    api.get("toolId", ""),
+                "api_path":   api.get("apiPath", ""),
             })
     return results
 
@@ -241,15 +277,38 @@ def _field_table(fields: list[dict]) -> str:
     return "\n".join(rows) + "\n"
 
 
-def _code_example(api_path: str, params: list[dict]) -> str:
-    """生成 call_api.py 调用命令示例"""
+def _code_example(api_path: str, method: str, params: list[dict]) -> str:
+    """
+    生成 call_api.py 调用命令示例。
+    只展示必填参数，可选参数由 LLM 按需查表传入。
+    无必填参数时展示完整命令（不带参数）。
+    """
+    required = [p for p in params if p.get("required")]
+    show     = required if required else []
+
     parts = [f"python skills/scripts/call_api.py {api_path}"]
-    for p in params:
-        ex = p["example"]
-        if ex == "" or ex is None:
-            ex = f"<{p['name']}>"
-        parts.append(f"{p['name']}={ex}")
+    if method == "POST":
+        parts.append("--method POST")
+
+    for p in show:
+        ex  = p["example"]
+        typ = p.get("type", "string")
+        if typ == "array":
+            # array 参数：展开为多个 key=value
+            items = ex if isinstance(ex, list) else [str(ex).strip("[]' ").split(",")[0].strip().strip("'\"")]
+            for item in items[:2]:
+                parts.append(f"{p['name']}={str(item).strip()}")
+        else:
+            val = ex if (ex != "" and ex is not None) else f"<{p['name']}>"
+            parts.append(f"{p['name']}={val}")
+
     cmd = " ".join(parts)
+
+    # 在命令下方加一行说明可选参数的提示
+    optional_names = [p["name"] for p in params if not p.get("required")]
+    if optional_names:
+        optional_hint = f"# 可选参数: {', '.join(optional_names)}"
+        return f"```bash\n{optional_hint}\n{cmd}\n```"
     return f"```bash\n{cmd}\n```"
 
 
@@ -257,17 +316,18 @@ def _render_api_block(api: dict, detail: dict) -> list[str]:
     """渲染单个接口的 Markdown 块"""
     lines = []
     api_path = api.get("api_path") or detail.get("path", "")
+    method   = detail.get("method", "GET")
     desc     = detail.get("description", "")
     params   = detail.get("parameters", [])
 
     lines.append(f"#### {api['api_name']}")
     lines.append("")
-    lines.append(f"接口：`{api.get('tool_name') or api.get('tool_id', '')}`")
+    method_badge = "**`POST`**" if method == "POST" else "`GET`"
+    lines.append(f"接口：`{api.get('tool_name') or api.get('tool_id', '')}`　{method_badge}")
     lines.append("")
 
     summary = detail.get("summary", "")
     if desc and desc != summary:
-        # 保留完整描述，换行替换为空格
         clean_desc = desc.replace("\n", " ").strip()
         lines.append(clean_desc)
         lines.append("")
@@ -284,7 +344,7 @@ def _render_api_block(api: dict, detail: dict) -> list[str]:
 
     lines.append("**接口示例**")
     lines.append("")
-    lines.append(_code_example(api_path, params))
+    lines.append(_code_example(api_path, method, params))
     lines.append("")
 
     lines.append("---")
@@ -302,8 +362,6 @@ def generate_subgroup_md(top_group: str, sub_group: str, apis: list, path_map: d
     title = top_group if sub_group == top_group else f"{top_group} / {sub_group}"
     lines = [
         f"# {title}",
-        "",
-        "> 本文件由 `create/generate_references.py` 自动生成，请勿手动修改。",
         "",
         "---",
         "",
@@ -378,6 +436,8 @@ def main():
                         help="验证 API Key 可用性（需要 .env 或环境变量 INVESTODAY_API_KEY）")
     parser.add_argument("--api-key", dest="api_key", default=None,
                         help="直接传入 API Key（优先级最高）")
+    parser.add_argument("--remote", action="store_true",
+                        help="强制从远程拉取最新数据（同时更新本地 openapi.json / tree.json）")
     args = parser.parse_args()
 
     # API Key 处理
@@ -389,9 +449,9 @@ def main():
         else:
             validate_api_key(api_key)
 
-    # 获取数据
-    openapi    = fetch_openapi()
-    tree_data  = fetch_tree()
+    # 获取数据（默认读本地缓存，--remote 强制拉远程）
+    openapi    = fetch_openapi(force_remote=args.remote)
+    tree_data  = fetch_tree(force_remote=args.remote)
 
     print("解析数据...")
     path_map   = parse_openapi_paths(openapi)
