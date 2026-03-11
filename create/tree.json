@@ -41,7 +41,8 @@
               "toolId": "get_trade_special_date",
               "apiPath": "trade-calender/special-date",
               "enabled": 1,
-              "apiAccessLevel": "L1"
+              "apiAccessLevel": "L1",
+              "apiMethod": "GET"
             },
             {
               "apiId": 10070,
@@ -54,7 +55,8 @@
               "toolId": "get_cn_trade_calender_list",
               "apiPath": "trade-calender/special-date/cn/list",
               "enabled": 1,
-              "apiAccessLevel": "L1"
+              "apiAccessLevel": "L1",
+              "apiMethod": "GET"
             },
             {
               "apiId": 10220,
@@ -67,7 +69,8 @@
               "toolId": "entity_recognition",
               "apiPath": "entity-recognition",
               "enabled": 1,
-              "apiAccessLevel": "L5"
+              "apiAccessLevel": "L5",
+              "apiMethod": "POST"
             },
             {
               "apiId": 10412,
@@ -80,7 +83,8 @@
               "toolId": "search",
               "apiPath": "search",
               "enabled": 1,
-              "apiAccessLevel": "L1"
+              "apiAccessLevel": "L1",
+              "apiMethod": "GET"
             },
             {
               "apiId": 110496,
@@ -93,7 +97,8 @@
               "toolId": "is_trade_date",
               "apiPath": "trade-calender/cn/is-trade-date",
               "enabled": 1,
-              "apiAccessLevel": "L1"
+              "apiAccessLevel": "L1",
+              "apiMethod": "GET"
             }
           ]
         },
@@ -123,7 +128,8 @@
               "toolId": "get_market_change_ratio_status",
               "apiPath": "market/change-ratio-status",
               "enabled": 1,
-              "apiAccessLevel": "L2"
+              "apiAccessLevel": "L2",
+              "apiMethod": "GET"
             }
           ]
         },
@@ -181,7 +187,8 @@
                       "toolId": "get_stock_basic_info",
                       "apiPath": "stock/basic-info",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10097,
@@ -194,7 +201,8 @@
                       "toolId": "list_stock_special_notices",
                       "apiPath": "stock/special-notices",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10363,
@@ -207,7 +215,8 @@
                       "toolId": "get_stock_former_names",
                       "apiPath": "stock/former-names",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -237,7 +246,8 @@
                       "toolId": "get_company_profiles",
                       "apiPath": "stock/company/profiles",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -284,7 +294,8 @@
                       "toolId": "list_stock_unadjusted_quotes",
                       "apiPath": "stock/unadjusted-quotes",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -314,7 +325,8 @@
                       "toolId": "list_stock_adjusted_quotes",
                       "apiPath": "stock/adjusted-quotes",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10306,
@@ -327,7 +339,8 @@
                       "toolId": "list_stock_share_adj_factors",
                       "apiPath": "stock/adjustment-factors",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -357,7 +370,8 @@
                       "toolId": "get_stock_val_indicators",
                       "apiPath": "stock/val-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10308,
@@ -370,7 +384,8 @@
                       "toolId": "list_stock_performance_metrics",
                       "apiPath": "stock/perfor-metrics",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10309,
@@ -383,7 +398,8 @@
                       "toolId": "list_stock_limit_up_down",
                       "apiPath": "stock/limit-up-down",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10310,
@@ -396,7 +412,8 @@
                       "toolId": "list_stock_daily_fund_flows",
                       "apiPath": "stock/daily-fund-flows",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10311,
@@ -409,7 +426,8 @@
                       "toolId": "list_soctk_strength_trend_indicators",
                       "apiPath": "stock/str-trend-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10312,
@@ -422,7 +440,8 @@
                       "toolId": "list_stock_oscillator_indicators",
                       "apiPath": "stock/osc-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10313,
@@ -435,7 +454,8 @@
                       "toolId": "list_stock_price_volume_indicators",
                       "apiPath": "stock/price-vol-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10314,
@@ -448,7 +468,8 @@
                       "toolId": "list_stock_vol_indicators",
                       "apiPath": "stock/vol-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10364,
@@ -461,7 +482,8 @@
                       "toolId": "list_stock_turnover_rates",
                       "apiPath": "stock/turnover-rates",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10401,
@@ -474,7 +496,8 @@
                       "toolId": "get_stk_sw_idu_returns",
                       "apiPath": "stock/sw-industry-return",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -504,7 +527,8 @@
                       "toolId": "list_stock_dragon_tiger_details",
                       "apiPath": "stock/dt-details",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10316,
@@ -517,7 +541,8 @@
                       "toolId": "list_stk_dragon_tiger_broke_details",
                       "apiPath": "stcok/dt-broker-det",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -547,7 +572,8 @@
                       "toolId": "get_stock_quote_realtime",
                       "apiPath": "stock-quote/realtime",
                       "enabled": 1,
-                      "apiAccessLevel": "L3"
+                      "apiAccessLevel": "L3",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10065,
@@ -560,7 +586,8 @@
                       "toolId": "get_stock_realtime_quote_merge",
                       "apiPath": "stock-quote/realtime-merge",
                       "enabled": 1,
-                      "apiAccessLevel": "L3"
+                      "apiAccessLevel": "L3",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -607,7 +634,8 @@
                       "toolId": "list_stock_cash_flows",
                       "apiPath": "stock/cash-flows",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10345,
@@ -620,7 +648,8 @@
                       "toolId": "list_stock_income_statements",
                       "apiPath": "stock/income-statements",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10346,
@@ -633,7 +662,8 @@
                       "toolId": "list_stock_balance_sheet",
                       "apiPath": "stock/balance-sheets",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -663,7 +693,8 @@
                       "toolId": "list_stock_income_statement_q",
                       "apiPath": "stock/income-statements-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10349,
@@ -676,7 +707,8 @@
                       "toolId": "list_stock_cash_flows_q",
                       "apiPath": "stock/cash-flows-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10351,
@@ -689,7 +721,8 @@
                       "toolId": "list_stock_balance_sheet_q",
                       "apiPath": "stock/balance-sheets-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -719,7 +752,8 @@
                       "toolId": "list_stk_dupont_analysis",
                       "apiPath": "stock/dupont-analysis",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10388,
@@ -732,7 +766,8 @@
                       "toolId": "list_stk_fin_ind_sw_rnk_q",
                       "apiPath": "stock/fin-ind-sw-rnk-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -762,7 +797,8 @@
                       "toolId": "list_stock_fin_derivative_inds",
                       "apiPath": "stock/fin-der-inds",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10354,
@@ -775,7 +811,8 @@
                       "toolId": "list_per_share_indicators",
                       "apiPath": "stock/per-share-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10355,
@@ -788,7 +825,8 @@
                       "toolId": "get_stock_fin_ind_growth",
                       "apiPath": "stock/financial-indicators-growth",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10356,
@@ -801,7 +839,8 @@
                       "toolId": "list_fin_ind_profit",
                       "apiPath": "stock/financial-indicators-profitab",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10358,
@@ -814,7 +853,8 @@
                       "toolId": "list_fin_ind_operating",
                       "apiPath": "stock/financial-indicators-operatin",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10359,
@@ -827,7 +867,8 @@
                       "toolId": "list_fin_ind_solvency",
                       "apiPath": "stock/financial-indicators-solvency",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10360,
@@ -840,7 +881,8 @@
                       "toolId": "list_fin_ind_cash_collect",
                       "apiPath": "stock/financial-indicators-cash-col",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -870,7 +912,8 @@
                       "toolId": "list_stock_earnings_bulletins",
                       "apiPath": "stock/earnings-bulletins",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -900,7 +943,8 @@
                       "toolId": "list_stock_fin_ind_grow_q",
                       "apiPath": "stock/financial-indicators-grow_q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 110500,
@@ -913,7 +957,8 @@
                       "toolId": "list_stock_fin_ind_grow_q",
                       "apiPath": "stock/financial-indicators-grow-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110501,
@@ -926,7 +971,8 @@
                       "toolId": "list_stock_fin_derivative_inds_q",
                       "apiPath": "stock/fin-der-inds-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110502,
@@ -939,7 +985,8 @@
                       "toolId": "list_per_share_indicators_q",
                       "apiPath": "stock/per-share-indicators-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110503,
@@ -952,7 +999,8 @@
                       "toolId": "list_fin_ind_profit_q",
                       "apiPath": "stock/fin-indicators-profitab-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110504,
@@ -965,7 +1013,8 @@
                       "toolId": "list_fin_ind_operating_q",
                       "apiPath": "stock/fin-indicators-operatin-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110505,
@@ -978,7 +1027,8 @@
                       "toolId": "list_fin_ind_solvency_q",
                       "apiPath": "stock/fin-indicators-solvency-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110506,
@@ -991,7 +1041,8 @@
                       "toolId": "list_fin_ind_cash_coll_q",
                       "apiPath": "stock/fin-indicators-cash-coll-q",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
@@ -1068,7 +1119,8 @@
                           "toolId": "get_stock_finance_profit_ability",
                           "apiPath": "stock/finance/profit-ability",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10247,
@@ -1081,7 +1133,8 @@
                           "toolId": "get_stock_finance_profit_ability_hist",
                           "apiPath": "stock/finance/profit-ability-hist",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10248,
@@ -1094,7 +1147,8 @@
                           "toolId": "get_stock_finance_growth_ability",
                           "apiPath": "stock/finance/growth-ability",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10249,
@@ -1107,7 +1161,8 @@
                           "toolId": "get_stock_finance_growth_ability_hist",
                           "apiPath": "stock/finance/growth-ability-hist",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10250,
@@ -1120,7 +1175,8 @@
                           "toolId": "get_stock_finance_strength",
                           "apiPath": "stock/finance/financial-strength",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10251,
@@ -1133,7 +1189,8 @@
                           "toolId": "get_fin_health_history",
                           "apiPath": "stock/finance/financial-strength-ht",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10257,
@@ -1146,7 +1203,8 @@
                           "toolId": "get_stock_financial_strength_ext_hist",
                           "apiPath": "stock/financial-strength-ext-hist",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10258,
@@ -1159,7 +1217,8 @@
                           "toolId": "get_stock_finance_valuation",
                           "apiPath": "stock/finance/valuation",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10259,
@@ -1172,7 +1231,8 @@
                           "toolId": "get_stock_finance_valuation_hist",
                           "apiPath": "stock/finance/valuation-hist",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10260,
@@ -1185,7 +1245,8 @@
                           "toolId": "get_stock_finance_industry_compare",
                           "apiPath": "stock/finance/industry-compare",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         },
                         {
                           "apiId": 10397,
@@ -1198,7 +1259,8 @@
                           "toolId": "get_stock_fin_subitem_score",
                           "apiPath": "stock/financial-subitem-score",
                           "enabled": 1,
-                          "apiAccessLevel": "L2"
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
                         }
                       ]
                     }
@@ -1215,7 +1277,8 @@
                       "toolId": "get_stock_score",
                       "apiPath": "stock/score",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10367,
@@ -1228,7 +1291,8 @@
                       "toolId": "list_stock_growth_op_revs",
                       "apiPath": "stock/growth-operating-revenues",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1274,7 +1338,8 @@
                       "toolId": "get_stk_investment_risks",
                       "apiPath": "stock/investment-risks",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10392,
@@ -1287,7 +1352,8 @@
                       "toolId": "get_stk_fundamentals",
                       "apiPath": "stock/fundamentals",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10393,
@@ -1300,7 +1366,8 @@
                       "toolId": "get_stock_prospects",
                       "apiPath": "stock/prospects",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10394,
@@ -1313,7 +1380,8 @@
                       "toolId": "get_stock_business_themes",
                       "apiPath": "stock/business-investment-themes",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1424,7 +1492,8 @@
                       "toolId": "list_stock_market_ind_dm",
                       "apiPath": "stock/market-technical-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L5"
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1487,7 +1556,8 @@
                       "toolId": "list_stock_report_schema",
                       "apiPath": "stock/report-schema",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10318,
@@ -1500,7 +1570,8 @@
                       "toolId": "list_stock_violation_penalt",
                       "apiPath": "stock/violation-penalties",
                       "enabled": 1,
-                      "apiAccessLevel": "L4"
+                      "apiAccessLevel": "L4",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10319,
@@ -1513,7 +1584,8 @@
                       "toolId": "list_stock_major_contracts",
                       "apiPath": "stock/major-contracts",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10361,
@@ -1526,7 +1598,8 @@
                       "toolId": "list_stock_holder_cnt",
                       "apiPath": "stock/holder-cnt",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10362,
@@ -1539,7 +1612,8 @@
                       "toolId": "list_stock_arbitration_cases",
                       "apiPath": "stock/arbitration-cases",
                       "enabled": 1,
-                      "apiAccessLevel": "L4"
+                      "apiAccessLevel": "L4",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10366,
@@ -1552,7 +1626,8 @@
                       "toolId": "get_stock_industries",
                       "apiPath": "stock/industries",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1582,7 +1657,8 @@
                       "toolId": "list_stock_block_trades",
                       "apiPath": "stock/block-trades",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10321,
@@ -1595,7 +1671,8 @@
                       "toolId": "list_stock_margin_trade",
                       "apiPath": "stock/margin-trades",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10322,
@@ -1608,7 +1685,8 @@
                       "toolId": "list_stock_margin_trade_totals",
                       "apiPath": "stock/mgn-trd-totals",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10323,
@@ -1621,7 +1699,8 @@
                       "toolId": "get_stock_margin_requirement",
                       "apiPath": "stock/margin-requirement-ratios",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10324,
@@ -1634,7 +1713,8 @@
                       "toolId": "get_stock_margin_securities",
                       "apiPath": "stock/margin-securities",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1664,7 +1744,8 @@
                       "toolId": "list_stock_executive_shareholding_change",
                       "apiPath": "stock/exec-shrhld-chg",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10326,
@@ -1677,7 +1758,8 @@
                       "toolId": "list_stock_management_dirs",
                       "apiPath": "stock/mgmt-dirs",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10327,
@@ -1690,7 +1772,8 @@
                       "toolId": "list_stock_core_mgmt_changes",
                       "apiPath": "stock/core-mgmt-chg",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1720,7 +1803,8 @@
                       "toolId": "list_stock_related_transactions",
                       "apiPath": "stock/related-txns",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1750,7 +1834,8 @@
                       "toolId": "get_stock_rights_issues",
                       "apiPath": "stock/rights-issues",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10330,
@@ -1763,7 +1848,8 @@
                       "toolId": "list_stocks_dividends",
                       "apiPath": "stock/dividends",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10331,
@@ -1776,7 +1862,8 @@
                       "toolId": "list_stocks_public_offering_place",
                       "apiPath": "stock/pub-off-place",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10332,
@@ -1789,7 +1876,8 @@
                       "toolId": "list_stocks_rights_issue_res",
                       "apiPath": "stock/rights-issue-res",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10333,
@@ -1802,7 +1890,8 @@
                       "toolId": "list_stock_offerings",
                       "apiPath": "stock/offerings",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1832,7 +1921,8 @@
                       "toolId": "list_stock_capital_changes",
                       "apiPath": "stock/capital-stock-changes",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10335,
@@ -1845,7 +1935,8 @@
                       "toolId": "list_stock_top10_circulating_shareh",
                       "apiPath": "stock/top-10-circulating-shareholde",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10336,
@@ -1858,7 +1949,8 @@
                       "toolId": "list_stock_pledge_details",
                       "apiPath": "stock/pledge-details",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10337,
@@ -1871,7 +1963,8 @@
                       "toolId": "list_stock_freeze_details",
                       "apiPath": "stock/freeze-details",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10340,
@@ -1884,7 +1977,8 @@
                       "toolId": "list_stock_repurchase_plans",
                       "apiPath": "stock/repurchase-plans",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10365,
@@ -1897,7 +1991,8 @@
                       "toolId": "list_stock_institutional_holdings_stats",
                       "apiPath": "stock/insti_holding",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1927,7 +2022,8 @@
                       "toolId": "list_stock_absorption_mergers",
                       "apiPath": "stock/absorp-mergers",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10341,
@@ -1940,7 +2036,8 @@
                       "toolId": "list_stock_tender_offers",
                       "apiPath": "stock/tender-offers",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -1970,7 +2067,8 @@
                       "toolId": "list_stock_inst_research",
                       "apiPath": "stock/institutional-research",
                       "enabled": 1,
-                      "apiAccessLevel": "L4"
+                      "apiAccessLevel": "L4",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -2020,7 +2118,8 @@
                   "toolId": "get_industry_realtime_quote",
                   "apiPath": "industry-quote/realtime",
                   "enabled": 1,
-                  "apiAccessLevel": "L3"
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10068,
@@ -2033,7 +2132,8 @@
                   "toolId": "get_concept_realtime_quote",
                   "apiPath": "concept-quote/realtime",
                   "enabled": 1,
-                  "apiAccessLevel": "L3"
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10186,
@@ -2046,7 +2146,8 @@
                   "toolId": "list_industry_forecasts",
                   "apiPath": "industry/forecasts",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2076,7 +2177,8 @@
                   "toolId": "get_industry_stock_realtime_quote",
                   "apiPath": "industry-quote/stock-realtime",
                   "enabled": 1,
-                  "apiAccessLevel": "L3"
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10069,
@@ -2089,7 +2191,8 @@
                   "toolId": "get_concept_stock_realtime_quote",
                   "apiPath": "concept-quote/stock-realtime",
                   "enabled": 1,
-                  "apiAccessLevel": "L3"
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2119,7 +2222,8 @@
                   "toolId": "list_stock_concept_classifications",
                   "apiPath": "stock/concept-classifications",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10073,
@@ -2132,7 +2236,8 @@
                   "toolId": "list_industries",
                   "apiPath": "industries",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10074,
@@ -2145,7 +2250,8 @@
                   "toolId": "list_concepts",
                   "apiPath": "concepts",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2175,7 +2281,8 @@
                   "toolId": "get_industry_financial_overview",
                   "apiPath": "industry/financial-overview",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2205,7 +2312,8 @@
                   "toolId": "list_industry_rotation",
                   "apiPath": "industry/rotation",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2235,7 +2343,8 @@
                   "toolId": "list_industry_prosperity_index",
                   "apiPath": "industry/prosperity-index",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             }
@@ -2282,7 +2391,8 @@
                   "toolId": "list_index_quotes",
                   "apiPath": "index/quotes",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10071,
@@ -2295,7 +2405,8 @@
                   "toolId": "get_index_realtime_quotes",
                   "apiPath": "index-quote/realtime",
                   "enabled": 1,
-                  "apiAccessLevel": "L3"
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -2325,7 +2436,8 @@
                   "toolId": "get_index_valuation",
                   "apiPath": "index/valuation",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2355,7 +2467,8 @@
                   "toolId": "get_index_range_gains",
                   "apiPath": "index/range-gains",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2385,7 +2498,8 @@
                   "toolId": "get_index_basic_info",
                   "apiPath": "index/basic-info",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             }
@@ -2448,7 +2562,8 @@
                   "toolId": "list_news",
                   "apiPath": "news",
                   "enabled": 1,
-                  "apiAccessLevel": "L4"
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10277,
@@ -2461,7 +2576,8 @@
                   "toolId": "list_entity_related_news",
                   "apiPath": "news/entity-related",
                   "enabled": 1,
-                  "apiAccessLevel": "L4"
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "GET"
                 }
               ]
             }
@@ -2508,7 +2624,8 @@
                   "toolId": "list_report_research",
                   "apiPath": "report/research",
                   "enabled": 1,
-                  "apiAccessLevel": "L4"
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2538,7 +2655,8 @@
                   "toolId": "list_research_sentiment",
                   "apiPath": "research/sentiment",
                   "enabled": 1,
-                  "apiAccessLevel": "L5"
+                  "apiAccessLevel": "L5",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -2568,7 +2686,8 @@
                   "toolId": "list_report_stock_forecast_ratings",
                   "apiPath": "report/stock-forecast-ratings",
                   "enabled": 1,
-                  "apiAccessLevel": "L4"
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10196,
@@ -2581,7 +2700,8 @@
                   "toolId": "get_report_earnings_forecast_rating",
                   "apiPath": "report/earnings-forecast-rating-cha",
                   "enabled": 1,
-                  "apiAccessLevel": "L4"
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "GET"
                 }
               ]
             }
@@ -2614,7 +2734,8 @@
               "toolId": "list_announcements",
               "apiPath": "announcements",
               "enabled": 1,
-              "apiAccessLevel": "L4"
+              "apiAccessLevel": "L4",
+              "apiMethod": "GET"
             },
             {
               "apiId": 10264,
@@ -2627,7 +2748,8 @@
               "toolId": "get_announcement_content",
               "apiPath": "announcements/content",
               "enabled": 1,
-              "apiAccessLevel": "L4"
+              "apiAccessLevel": "L4",
+              "apiMethod": "GET"
             }
           ]
         },
@@ -2685,7 +2807,8 @@
                       "toolId": "list_hk_stock_cash_flows",
                       "apiPath": "hk-stock/cash-flows",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10369,
@@ -2698,7 +2821,8 @@
                       "toolId": "list_hk_stock_balance_sheet",
                       "apiPath": "hk-stock/balance-sheets",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10370,
@@ -2711,7 +2835,8 @@
                       "toolId": "list_hk_stock_income_statements",
                       "apiPath": "hk-stock/income-state",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -2744,7 +2869,8 @@
                   "toolId": "get_hk_stock_basic_info",
                   "apiPath": "hk-stock/basic-info",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 10372,
@@ -2757,7 +2883,8 @@
                   "toolId": "get_hk_stock_name_change",
                   "apiPath": "hk-stock/name-change",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 },
                 {
                   "apiId": 110499,
@@ -2770,7 +2897,8 @@
                   "toolId": "get_hk_stock_transfers",
                   "apiPath": "hk-stock/transfers",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "GET"
                 }
               ]
             },
@@ -2830,7 +2958,8 @@
                       "toolId": "list_hk_stock_adjusted_quotes",
                       "apiPath": "hk-stock/adjusted-quotes",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -2860,7 +2989,8 @@
                       "toolId": "get_hk_stock_range_change",
                       "apiPath": "hk-stock/range-change",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10375,
@@ -2873,7 +3003,8 @@
                       "toolId": "get_hk_stock_turnrate",
                       "apiPath": "hk-stock/turnrate",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10376,
@@ -2886,7 +3017,8 @@
                       "toolId": "get_hk_stock_valuations",
                       "apiPath": "hk-stock/valuations",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10377,
@@ -2899,7 +3031,8 @@
                       "toolId": "list_hk_stock_strength_trend_indicators",
                       "apiPath": "hk-stock/str-trend-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10378,
@@ -2912,7 +3045,8 @@
                       "toolId": "list_hk_stock_oscillator_indicators",
                       "apiPath": "hk-stock/osc-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10379,
@@ -2925,7 +3059,8 @@
                       "toolId": "list_hk_stock_price_volume_indicators",
                       "apiPath": "hk-stock/price-vol-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -3052,7 +3187,8 @@
                       "toolId": "list_hk_stock_dividends",
                       "apiPath": "hk-stock/dividends",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -3082,7 +3218,8 @@
                       "toolId": "list_hk_stock_capital_changes",
                       "apiPath": "hk-stock/cap_changes",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -3132,7 +3269,8 @@
                   "toolId": "generate_chart",
                   "apiPath": "generate-chart",
                   "enabled": 1,
-                  "apiAccessLevel": null
+                  "apiAccessLevel": null,
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 10383,
@@ -3145,7 +3283,8 @@
                   "toolId": "generate_nex_chart",
                   "apiPath": "generate-nex-chart",
                   "enabled": 1,
-                  "apiAccessLevel": "L5"
+                  "apiAccessLevel": "L5",
+                  "apiMethod": "POST"
                 }
               ]
             }
@@ -3206,7 +3345,8 @@
                       "toolId": "list_economic_cn_cpi",
                       "apiPath": "economic/cn-cpi",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     },
                     {
                       "apiId": 10396,
@@ -3219,7 +3359,8 @@
                       "toolId": "list_economic_cn_ppi",
                       "apiPath": "economic/cn-ppi",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -3287,7 +3428,8 @@
               "toolId": "list_stk_consultations",
               "apiPath": "stock/consultations",
               "enabled": 1,
-              "apiAccessLevel": "L4"
+              "apiAccessLevel": "L4",
+              "apiMethod": "GET"
             },
             {
               "apiId": 10411,
@@ -3300,7 +3442,8 @@
               "toolId": "list_stock_op_reviews",
               "apiPath": "stock/operating-reviews",
               "enabled": 1,
-              "apiAccessLevel": "L4"
+              "apiAccessLevel": "L4",
+              "apiMethod": "GET"
             }
           ]
         },
@@ -3358,7 +3501,8 @@
                       "toolId": "list_fund_daily_quotes",
                       "apiPath": "fund/daily-quotes",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3388,7 +3532,8 @@
                       "toolId": "list_fund_adj_quotes",
                       "apiPath": "fund/adjusted-quotes",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3418,7 +3563,8 @@
                       "toolId": "get_fund_quote_realtime",
                       "apiPath": "fund-quote/realtime",
                       "enabled": 1,
-                      "apiAccessLevel": "L3"
+                      "apiAccessLevel": "L3",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -3448,7 +3594,8 @@
                       "toolId": "list_fund_tech_indicators",
                       "apiPath": "fund/technical-indicators",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
@@ -3495,7 +3642,8 @@
                       "toolId": "list_fund_current_manager_returns",
                       "apiPath": "fund/current-manager-returns",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110452,
@@ -3508,7 +3656,8 @@
                       "toolId": "get_fund_basic_info",
                       "apiPath": "fund/basic-info",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110453,
@@ -3521,7 +3670,8 @@
                       "toolId": "get_fund_code_assoc",
                       "apiPath": "fund/code-associations",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110454,
@@ -3534,7 +3684,8 @@
                       "toolId": "get_fund_categories",
                       "apiPath": "fund/categories",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3564,7 +3715,8 @@
                       "toolId": "get_fund_listings_record",
                       "apiPath": "fund/listings-record",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110456,
@@ -3577,7 +3729,8 @@
                       "toolId": "list_subscription_redemption_status",
                       "apiPath": "fund/subscription-redemption-status",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3607,7 +3760,8 @@
                       "toolId": "get_fund_manager_basic_info",
                       "apiPath": "fund-manager/basic-info",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3637,7 +3791,8 @@
                       "toolId": "list_fund_perf_benchmarks",
                       "apiPath": "fund/performance-benchmarks",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110459,
@@ -3650,7 +3805,8 @@
                       "toolId": "list_fund_invest_targets",
                       "apiPath": "fund/investment-targets",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3680,7 +3836,8 @@
                       "toolId": "get_fund_award_records",
                       "apiPath": "fund/award-records",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3710,7 +3867,8 @@
                       "toolId": "list_fund_fee_structures",
                       "apiPath": "fund/fee-structures",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3740,7 +3898,8 @@
                       "toolId": "get_fund_company_evals",
                       "apiPath": "fund-company/evaluations",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
@@ -3787,7 +3946,8 @@
                       "toolId": "list_fund_nav_history",
                       "apiPath": "fund/nav/history",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110464,
@@ -3800,7 +3960,8 @@
                       "toolId": "list_fund_adj_navs",
                       "apiPath": "fund/adjusted-navs",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110465,
@@ -3813,7 +3974,8 @@
                       "toolId": "list_currency_yield_history",
                       "apiPath": "fund/currency-yield-history",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3843,7 +4005,8 @@
                       "toolId": "get_fund_peer_avg_metric",
                       "apiPath": "fund/eval-peer-avg-ind",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110468,
@@ -3856,7 +4019,8 @@
                       "toolId": "list_fund_return_rate",
                       "apiPath": "fund/return-rate",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3886,7 +4050,8 @@
                       "toolId": "list_fund_mgr_perf",
                       "apiPath": "fund-manager/performance",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110470,
@@ -3899,7 +4064,8 @@
                       "toolId": "list_fund_mgr_returns",
                       "apiPath": "fund-manager/interval-returns",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3929,7 +4095,8 @@
                       "toolId": "get_fund_performance_attribution",
                       "apiPath": "fund/performance-attribution",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110472,
@@ -3942,7 +4109,8 @@
                       "toolId": "list_perf_benchmark_quote",
                       "apiPath": "fund/perf-benchmark-quote",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110473,
@@ -3955,7 +4123,8 @@
                       "toolId": "list_fund_idx_ret_corr",
                       "apiPath": "fund/index-return-correlations",
                       "enabled": 1,
-                      "apiAccessLevel": "L2"
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -3985,7 +4154,8 @@
                       "toolId": "list_fund_dividend_distributions",
                       "apiPath": "fund/dividend",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     },
                     {
                       "apiId": 110475,
@@ -3998,7 +4168,8 @@
                       "toolId": "list_fund_share_splits",
                       "apiPath": "funds/share-splits",
                       "enabled": 1,
-                      "apiAccessLevel": "L1"
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
@@ -4031,7 +4202,8 @@
                   "toolId": "list_fund_portfolio_stock_holdings",
                   "apiPath": "fund/portfolio-stock-holdings",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110477,
@@ -4044,7 +4216,8 @@
                   "toolId": "list_fund_portfolio_asset_holdings",
                   "apiPath": "fund/portfolio-asset-holdings",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110478,
@@ -4057,7 +4230,8 @@
                   "toolId": "list_portfolio_fund_holdings",
                   "apiPath": "fund/portfolio-fund-holdings",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110479,
@@ -4070,7 +4244,8 @@
                   "toolId": "list_fund_portfolio_bond_holdings",
                   "apiPath": "fund/portfolio-bond-holdings",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110493,
@@ -4083,7 +4258,8 @@
                   "toolId": "list_industry_hold_fund",
                   "apiPath": "fund/industry-hold-fund",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110494,
@@ -4096,7 +4272,8 @@
                   "toolId": "list_concept_hold_fund",
                   "apiPath": "fund/concept-hold-fund",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4126,7 +4303,8 @@
                   "toolId": "list_fund_hold_structures",
                   "apiPath": "fund/holder-structures",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110483,
@@ -4139,7 +4317,8 @@
                   "toolId": "list_fund_shares",
                   "apiPath": "fund/shares-changes",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4169,7 +4348,8 @@
                   "toolId": "list_concept_hold_fund_batch",
                   "apiPath": "fund/concept-hold-fund/batch",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110286,
@@ -4182,7 +4362,8 @@
                   "toolId": "list_industry_hold_fund_batch",
                   "apiPath": "fund/industry-hold-fund/batch",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110484,
@@ -4195,7 +4376,8 @@
                   "toolId": "list_fund_holdings_perf",
                   "apiPath": "fund/holdings-stocks-industries",
                   "enabled": 1,
-                  "apiAccessLevel": "L2"
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4225,7 +4407,8 @@
                   "toolId": "list_etf_sub_red_lists",
                   "apiPath": "fund/etf-sub-redemption-list",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110487,
@@ -4238,7 +4421,8 @@
                   "toolId": "list_etf_constituent_stks",
                   "apiPath": "fund/etf-constituent-stocks",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4268,7 +4452,8 @@
                   "toolId": "list_fund_fin_inds",
                   "apiPath": "fund/financial-indicators",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 },
                 {
                   "apiId": 110489,
@@ -4281,7 +4466,8 @@
                   "toolId": "list_fund_fin_inds_q",
                   "apiPath": "fund/financial-indicators-q",
                   "enabled": 1,
-                  "apiAccessLevel": "L1"
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             }
