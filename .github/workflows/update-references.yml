@@ -1,0 +1,56 @@
+name: Update API References
+
+on:
+  # 允许手动触发（GitHub UI / API / Jenkins 调用）
+  workflow_dispatch:
+    inputs:
+      triggered_by:
+        description: '触发来源（如 jenkins、manual）'
+        required: false
+        default: 'manual'
+
+  # 也可以设置定时自动触发（可选，与 Jenkins 触发二选一或并存）
+  # schedule:
+  #   - cron: '0 2 * * 1'  # 每周一凌晨 2 点（UTC）
+
+jobs:
+  update-references:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许 push 回 repo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate references (fetch remote API spec)
+        run: python create/generate_references.py --remote
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push updated references
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add skills/references/ create/openapi.json create/tree.json
+          git commit -m "chore: auto-update API references [skip ci]"
+          git push
+
+      - name: No changes detected
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "✅ References already up-to-date, nothing to commit."
