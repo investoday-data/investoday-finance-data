@@ -2207,6 +2207,34 @@
                   "enabled": 1,
                   "apiAccessLevel": "L3",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110510,
+                  "apiName": "行业换手率",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1031,
+                  "remarks": null,
+                  "toolName": "list_idu_turnover_rates",
+                  "toolId": "list_idu_turnover_rates",
+                  "apiPath": "industry/turnover-rates",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110511,
+                  "apiName": "行业行情统计",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1031,
+                  "remarks": null,
+                  "toolName": "get_industry_market_stats",
+                  "toolId": "get_industry_market_stats",
+                  "apiPath": "industry/market-stats",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -3379,7 +3407,64 @@
                   ]
                 }
               ],
-              "apis": []
+              "apis": [
+                {
+                  "apiId": 110512,
+                  "apiName": "国债收益率",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1114,
+                  "remarks": null,
+                  "toolName": "list_gover_bond_yield",
+                  "toolId": "list_gover_bond_yield",
+                  "apiPath": "economic/gover-bond-yield",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110513,
+                  "apiName": "货币供应量",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1114,
+                  "remarks": null,
+                  "toolName": "list_money_supplies",
+                  "toolId": "list_money_supplies",
+                  "apiPath": "economic/money-supplies",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110514,
+                  "apiName": "社融规模存量",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1114,
+                  "remarks": null,
+                  "toolName": "list_social_financing_sto",
+                  "toolId": "list_social_financing_sto",
+                  "apiPath": "economic/social-financing-sto",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110515,
+                  "apiName": "货币市场质押式回购指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1114,
+                  "remarks": null,
+                  "toolName": "list_money_market_repo_in",
+                  "toolId": "list_money_market_repo_in",
+                  "apiPath": "economic/money-market-repo-in",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
+                }
+              ]
             },
             {
               "createBy": null,

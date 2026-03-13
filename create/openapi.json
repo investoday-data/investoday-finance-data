@@ -39293,6 +39293,750 @@
           }
         ]
       }
+    },
+    "/industry/turnover-rates": {
+      "post": {
+        "tags": [
+          "行业换手率"
+        ],
+        "summary": "行业换手率",
+        "description": "通过行业代码和日期范围查询指定行业的历史换手率数据，返回行业代码、名称、日期、换手率及其近一年百分位，适用于分析行业流动性及市场活跃度。",
+        "operationId": "list_idu_turnover_rates",
+        "requestBody": {
+          "description": "通过行业代码和日期范围查询指定行业的历史换手率数据，返回行业代码、名称、日期、换手率及其近一年百分位，适用于分析行业流动性及市场活跃度。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "industryCode"
+                ],
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码",
+                    "example": "640000"
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "000027"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "深圳能源"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "1993-12-29 00:00:00"
+                    },
+                    "turnover": {
+                      "type": "number",
+                      "description": "换手率(%)",
+                      "example": 0.2489
+                    },
+                    "turnoverAvg10d": {
+                      "type": "number",
+                      "description": "近一年换手率百分位",
+                      "example": 0.1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/industry/market-stats": {
+      "post": {
+        "tags": [
+          "行业行情统计"
+        ],
+        "summary": "行业行情统计",
+        "description": "通过行业代码（可选）查询指定行业（默认为全部行业）的行情统计数据，包括行业代码、名称、近一日至近五年等多个时间维度的涨跌幅、近一日至近二十日的主力资金净流入（万元），以及PE、PB、PS的近五年历史百分位，用于行业表现分析和资金流向监控。",
+        "operationId": "get_industry_market_stats",
+        "requestBody": {
+          "description": "通过行业代码（可选）查询指定行业（默认为全部行业）的行情统计数据，包括行业代码、名称、近一日至近五年等多个时间维度的涨跌幅、近一日至近二十日的主力资金净流入（万元），以及PE、PB、PS的近五年历史百分位，用于行业表现分析和资金流向监控。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "industryCode"
+                ],
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码",
+                    "example": "640000"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "64000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "机械设备"
+                    },
+                    "return1d": {
+                      "type": "number",
+                      "description": "近一日涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return1w": {
+                      "type": "number",
+                      "description": "近一周涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return1m": {
+                      "type": "number",
+                      "description": "近一月涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return3m": {
+                      "type": "number",
+                      "description": "近三月涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return6m": {
+                      "type": "number",
+                      "description": "近半年涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return1y": {
+                      "type": "number",
+                      "description": "近一年涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return3y": {
+                      "type": "number",
+                      "description": "近三年涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "return5y": {
+                      "type": "number",
+                      "description": "近五年涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "returnYtd": {
+                      "type": "number",
+                      "description": "今年以来涨跌幅(%)",
+                      "example": 10.0
+                    },
+                    "pbPct5y": {
+                      "type": "number",
+                      "description": "PB近五年历史百分位",
+                      "example": 0.9983
+                    },
+                    "pePct5y": {
+                      "type": "number",
+                      "description": "PE近五年历史百分位",
+                      "example": 0.9942
+                    },
+                    "psPct5y": {
+                      "type": "number",
+                      "description": "PS近五年历史百分位",
+                      "example": 0.9975
+                    },
+                    "netMainInflow1dMn": {
+                      "type": "number",
+                      "description": "近1日主力净流(万元)",
+                      "example": 1243416.7117
+                    },
+                    "netMainInflow3dMn": {
+                      "type": "number",
+                      "description": "近3日主力净流(万元)",
+                      "example": 1439349.7327
+                    },
+                    "netMainInflow5dMn": {
+                      "type": "number",
+                      "description": "近5日主力净流(万元)",
+                      "example": 2745604.8824
+                    },
+                    "netMainInflow10dMn": {
+                      "type": "number",
+                      "description": "近10日主力净流(万元)",
+                      "example": 3698071.1197
+                    },
+                    "netMainInflow20dMn": {
+                      "type": "number",
+                      "description": "近20日主力净流(万元)",
+                      "example": 3698071.1197
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/economic/gover-bond-yield": {
+      "post": {
+        "tags": [
+          "国债收益率"
+        ],
+        "summary": "国债收益率",
+        "description": "查询中国国债收益率曲线数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各关键期限（3个月、6个月、2年、10年、30年）的国债收益率，用于宏观经济分析、利率走势研判和固定收益投资决策。",
+        "operationId": "list_gover_bond_yield",
+        "requestBody": {
+          "description": "查询中国国债收益率曲线数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各关键期限（3个月、6个月、2年、10年、30年）的国债收益率，用于宏观经济分析、利率走势研判和固定收益投资决策。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布时间",
+                      "example": "2025-01-01"
+                    },
+                    "bnd3m": {
+                      "type": "number",
+                      "description": "三月期债券收益率(%)",
+                      "example": 1.5475
+                    },
+                    "bnd6m": {
+                      "type": "number",
+                      "description": "六月期债券收益率(%)",
+                      "example": 1.5475
+                    },
+                    "bnd2y": {
+                      "type": "number",
+                      "description": "两年期债券收益率(%)",
+                      "example": 1.5475
+                    },
+                    "bnd10y": {
+                      "type": "number",
+                      "description": "十年期债券收益率(%)",
+                      "example": 1.5475
+                    },
+                    "bnd30y": {
+                      "type": "number",
+                      "description": "三十年期债券收益率(%)",
+                      "example": 1.5475
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/economic/money-supplies": {
+      "post": {
+        "tags": [
+          "货币供应量"
+        ],
+        "summary": "货币供应量",
+        "description": "查询中国货币供应量数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各统计日期的M0、M1、M2的绝对数值、同比及环比增长率，以及M1-M2剪刀差，用于宏观经济分析、货币政策研判和流动性监测。",
+        "operationId": "list_money_supplies",
+        "requestBody": {
+          "description": "查询中国货币供应量数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各统计日期的M0、M1、M2的绝对数值、同比及环比增长率，以及M1-M2剪刀差，用于宏观经济分析、货币政策研判和流动性监测。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2025-12-30"
+                    },
+                    "m0": {
+                      "type": "number",
+                      "description": "流通中货币M0(亿元)",
+                      "example": 100100.0
+                    },
+                    "m1": {
+                      "type": "number",
+                      "description": "货币M1(亿元)",
+                      "example": 100100.0
+                    },
+                    "m2": {
+                      "type": "number",
+                      "description": "货币和准货币M2(亿元)",
+                      "example": 100100.0
+                    },
+                    "m0YoyPct": {
+                      "type": "number",
+                      "description": "M0同比增长(%)",
+                      "example": 20.0
+                    },
+                    "m1YoyPct": {
+                      "type": "number",
+                      "description": "M1同比增长(%)",
+                      "example": 20.0
+                    },
+                    "m2YoyPct": {
+                      "type": "number",
+                      "description": "M2同比增长(%)",
+                      "example": 20.0
+                    },
+                    "m0QoqPct": {
+                      "type": "number",
+                      "description": "M0环比增长(%)",
+                      "example": 20.0
+                    },
+                    "m1QoqPct": {
+                      "type": "number",
+                      "description": "M1环比增长(%)",
+                      "example": 20.0
+                    },
+                    "m2QoqPct": {
+                      "type": "number",
+                      "description": "M2环比增长(%)",
+                      "example": 20.0
+                    },
+                    "m1M2Spread": {
+                      "type": "number",
+                      "description": "M1-M2剪刀差",
+                      "example": 10.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/economic/social-financing-sto": {
+      "post": {
+        "tags": [
+          "社融规模存量"
+        ],
+        "summary": "社融规模存量",
+        "description": "查询中国社会融资规模存量数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各月的社融存量（单位：亿元）及其同比增速，用于宏观经济分析、金融流动性监测和货币政策研判。",
+        "operationId": "list_social_financing_sto",
+        "requestBody": {
+          "description": "查询中国社会融资规模存量数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各月的社融存量（单位：亿元）及其同比增速，用于宏观经济分析、金融流动性监测和货币政策研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "开始日期",
+                      "example": "2025-12-30"
+                    },
+                    "totalSocialFinStockYoy": {
+                      "type": "number",
+                      "description": "社融规模存量（亿元）",
+                      "example": 10000.0
+                    },
+                    "totalSocialFinStockBn": {
+                      "type": "number",
+                      "description": "社融存量同比增速",
+                      "example": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/economic/money-market-repo-in": {
+      "post": {
+        "tags": [
+          "货币市场质押式回购指标"
+        ],
+        "summary": "货币市场质押式回购指标",
+        "description": "查询中国国债收益率曲线数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各关键期限（3个月、6个月、2年、10年、30年）的国债收益率，用于宏观经济分析、利率走势研判和固定收益投资决策。",
+        "operationId": "list_money_market_repo_in",
+        "requestBody": {
+          "description": "查询中国国债收益率曲线数据，支持按起止日期（格式为yyyy-MM-dd）筛选，返回指定日期范围内各关键期限（3个月、6个月、2年、10年、30年）的国债收益率，用于宏观经济分析、利率走势研判和固定收益投资决策。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-12-30"
+                    },
+                    "rateType": {
+                      "type": "number",
+                      "description": "利率品种"
+                    },
+                    "openRate": {
+                      "type": "number",
+                      "description": "开盘利率(%)",
+                      "example": 1.3
+                    },
+                    "closeRate": {
+                      "type": "number",
+                      "description": "收盘利率(%)",
+                      "example": 1.4283
+                    },
+                    "weightedAvgRate": {
+                      "type": "number",
+                      "description": "加权利率",
+                      "example": 1.4248
+                    },
+                    "weightedAvgRateBond": {
+                      "type": "number",
+                      "description": "加权平均利率（利率债）",
+                      "example": 1.4078
+                    },
+                    "avgRepoTermDays": {
+                      "type": "number",
+                      "description": "平均回购期限（天）",
+                      "example": 1
+                    },
+                    "dealCount": {
+                      "type": "number",
+                      "description": "成交笔数（笔）",
+                      "example": 18471
+                    },
+                    "volume": {
+                      "type": "string",
+                      "description": "成交量（亿元）",
+                      "example": "6169.8356"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
