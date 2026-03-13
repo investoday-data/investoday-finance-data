@@ -61,10 +61,12 @@ def load_api_key() -> str:
                     continue
                 k, _, v = line.partition("=")
                 if k.strip() == "INVESTODAY_API_KEY":
-                    return v.strip().strip('"').strip("'")
+                    val = v.strip().strip('"').strip("'")
+                    if val:
+                        return val
         search_dir = search_dir.parent
 
-    print("ERROR: 未找到 INVESTODAY_API_KEY，请设置环境变量或 .env 文件", file=sys.stderr)
+    print("ERROR: 请配置apikey后请求", file=sys.stderr)
     sys.exit(1)
 
 # ─── 参数解析 ──────────────────────────────────────────────────────────────────
@@ -75,9 +77,7 @@ def parse_args(argv: list[str]) -> tuple[str, str, dict]:
     返回: (api_path, method, params_dict)
 
     支持格式：
-      key=value          字符串
-      key=123            自动转为整数
-      key=1.5            自动转为浮点数
+      key=value          字符串（所有值均保持字符串，避免前导零等问题）
       --method GET|POST  指定 HTTP 方法（默认 GET）
     """
     if not argv:
@@ -106,23 +106,18 @@ def parse_args(argv: list[str]) -> tuple[str, str, dict]:
             sys.exit(1)
         else:
             k, _, v = arg.partition("=")
-            # 自动类型转换（含负数）
-            try:
-                typed_v: int | float | str = int(v)
-            except ValueError:
-                try:
-                    typed_v = float(v)
-                except ValueError:
-                    typed_v = v
+            if not k:
+                print(f"ERROR: 参数格式错误 '{arg}'，key 不能为空", file=sys.stderr)
+                sys.exit(1)
             # 同一 key 出现多次 → 收集为 list（用于 array 类型参数）
             if k in params:
                 existing = params[k]
                 if isinstance(existing, list):
-                    existing.append(typed_v)
+                    existing.append(v)
                 else:
-                    params[k] = [existing, typed_v]
+                    params[k] = [existing, v]
             else:
-                params[k] = typed_v
+                params[k] = v
         i += 1
 
     return api_path, method, params
@@ -135,8 +130,7 @@ def call_api(api_path: str, method: str, params: dict, api_key: str) -> None:
 
     try:
         if method == "POST":
-            # POST：参数以 JSON body 发送（空参数也发 {}，保证 Content-Type 正确）
-            headers["Content-Type"] = "application/json"
+            # POST：参数以 JSON body 发送，requests 会自动设置 Content-Type: application/json
             resp = requests.post(
                 url,
                 headers=headers,
@@ -151,7 +145,9 @@ def call_api(api_path: str, method: str, params: dict, api_key: str) -> None:
                 params=params if params else None,
                 timeout=REQUEST_TIMEOUT,
             )
-        resp.raise_for_status()
+        if not resp.ok:
+            print(f"ERROR: HTTP {resp.status_code}: {url}\n{resp.text[:500]}", file=sys.stderr)
+            sys.exit(1)
     except requests.Timeout:
         print(f"ERROR: 请求超时（{REQUEST_TIMEOUT}s）: {url}", file=sys.stderr)
         sys.exit(1)
@@ -172,7 +168,11 @@ def call_api(api_path: str, method: str, params: dict, api_key: str) -> None:
         sys.exit(1)
 
     # 只输出 data 字段，方便大模型直接消费
-    print(json.dumps(result.get("data"), ensure_ascii=False, indent=2))
+    data = result.get("data")
+    if data is None:
+        print("ERROR: API 响应中无 data 字段", file=sys.stderr)
+        sys.exit(1)
+    print(json.dumps(data, ensure_ascii=False, indent=2))
 
 # ─── 入口 ──────────────────────────────────────────────────────────────────────
 
