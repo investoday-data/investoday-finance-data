@@ -38814,6 +38814,485 @@
           }
         ]
       }
+    },
+    "/stock/all": {
+      "get": {
+        "tags": [
+          "全市场股票列表"
+        ],
+        "summary": "全市场股票列表",
+        "description": "获取全市场A股和B股股票的基本信息列表，包含股票代码、名称、所属交易所、上市板块、上市状态、上市日期、退市日期、股票类型、公司内部ID及公司成长阶段等核心数据，支持分页查询，适用于需要批量获取股票基础信息进行筛选、分析或构建股票池的场景。",
+        "operationId": "list_stock_all",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "页码。\n最小值:1;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "601881"
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "市场类型",
+                      "example": "SH",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "SH代表上海;\nSZ代表深圳;\nBJ代表北京",
+                          "enum": [
+                            "SH",
+                            "SZ",
+                            "BJ"
+                          ]
+                        }
+                      ]
+                    },
+                    "boardName": {
+                      "type": "string",
+                      "description": "上市板块",
+                      "example": "主板"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "中国银河"
+                    },
+                    "stockFullName": {
+                      "type": "string",
+                      "description": "证券全称",
+                      "example": "中国银河证券股份有限公司"
+                    },
+                    "listStatus": {
+                      "type": "integer",
+                      "description": "上市状态",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "0代表发行待流通;\n1代表首次流通;\n2代表转换后流通;\n3代表暂停后恢复流通;\n4代表暂停流通;\n5代表终止流通（包括到期或被转换的自然终止情况）;\n6代表特别处理;\n7代表撤销特别处理;\n8代表退市整理期;\n9代表其他",
+                          "format": "int32",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                          ]
+                        }
+                      ]
+                    },
+                    "listDate": {
+                      "type": "string",
+                      "description": "上市日期",
+                      "example": "2017-01-23 00:00:00"
+                    },
+                    "delistDate": {
+                      "type": "string",
+                      "description": "摘牌日期",
+                      "example": "2023-08-15"
+                    },
+                    "stockType": {
+                      "type": "string",
+                      "description": "股票类别",
+                      "example": "A股"
+                    },
+                    "companyId": {
+                      "type": "string",
+                      "description": "机构内部ID",
+                      "example": "BS123458"
+                    },
+                    "companyGrowthStage": {
+                      "type": "integer",
+                      "description": "公司成长阶段",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表初创期;\n2代表成长期;\n3代表成熟期;\n4代表衰退期/转型期",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/fund/all": {
+      "get": {
+        "tags": [
+          "全市场基金列表"
+        ],
+        "summary": "全市场基金列表",
+        "description": "获取全市场基金列表，支持分页查询，返回基金代码、名称、类型、管理人、托管人、投资目标、策略、理念、风险收益特征、上市状态、成立日期、上市日期、终止上市日期、到期日期、场内场外代码、业绩比较基准、流通份额等核心信息，用于基金筛选、市场概览和产品分析。",
+        "operationId": "list_fund_all",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "页码。\n最小值:1;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "000006JK"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "000006"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "西部利得量化成长混合A"
+                    },
+                    "tradeName": {
+                      "type": "string",
+                      "description": "交易简称",
+                      "example": "量化成长混合"
+                    },
+                    "indexFundType": {
+                      "type": "integer",
+                      "description": "指数型属性",
+                      "format": "int32",
+                      "example": 0,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表指数型;\n2代表优化指数型;\n0代表非指数型",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "fundType": {
+                      "type": "integer",
+                      "description": "基金类型",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "0代表公司型封闭式;\n1代表契约型封闭式;\n2代表契约型开放式;\n3代表其他;\n4代表ETF;\n5代表LOFs;\n6代表外币基金;\n7代表创新型封闭 式;\n8代表创新型开放式;\n9代表ETF联接基金",
+                          "format": "int32",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                          ]
+                        }
+                      ]
+                    },
+                    "isQdii": {
+                      "type": "integer",
+                      "description": "是否QDII",
+                      "format": "int32",
+                      "example": 0,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表是;\n0代表否",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "isFof": {
+                      "type": "integer",
+                      "description": "是否为FOF基金",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表是;\n0代表否",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "lockPeriod": {
+                      "type": "integer",
+                      "description": "锁定期(单位：月)",
+                      "format": "int32",
+                      "example": 36
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "证券市场编码",
+                      "example": "S",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "S代表上交所;\nZ代表深交所;\nB代表北交所;\n没有值表示场外基金",
+                          "enum": [
+                            "S",
+                            "Z",
+                            "B",
+                            "没有值表示场外基金"
+                          ]
+                        }
+                      ]
+                    },
+                    "listStatus": {
+                      "type": "string",
+                      "description": "上市状态",
+                      "example": "1",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "0代表待发行/发行待上市;\n1代表上市（合同已生效而非已上市交易，取已上市交易请加上上市日期和退市日 期限定）;\n4代表暂停上市;\n5代表终止上市;\n9代表其他",
+                          "enum": [
+                            "0",
+                            "1",
+                            "4",
+                            "5",
+                            "9"
+                          ]
+                        }
+                      ]
+                    },
+                    "establishDate": {
+                      "type": "string",
+                      "description": "成立日期",
+                      "example": "2019-03-19 00:00:00"
+                    },
+                    "listDate": {
+                      "type": "string",
+                      "description": "上市日期",
+                      "example": "2023-05-15"
+                    },
+                    "delistDate": {
+                      "type": "string",
+                      "description": "终止上市日期",
+                      "example": "2023-08-15"
+                    },
+                    "expireDate": {
+                      "type": "string",
+                      "description": "到期日",
+                      "example": "2025-12-31"
+                    },
+                    "custodianName": {
+                      "type": "string",
+                      "description": "托管人名称",
+                      "example": "中国农业银行股份有限公司"
+                    },
+                    "investmentField": {
+                      "type": "string",
+                      "description": "投资领域",
+                      "example": "人工智能"
+                    },
+                    "investmentObjective": {
+                      "type": "string",
+                      "description": "投资目标",
+                      "example": "    本基金主要通过量化投资策略进行股票投资，在严格控制风险和保持资产高流动性的前提下，努力实现基金资产的长期稳健增值。"
+                    },
+                    "benchmarkCode": {
+                      "type": "string",
+                      "description": "业绩比较基准",
+                      "example": "中证500指数收益率*75%+同期银行活期存款利率（税后）*25%"
+                    },
+                    "outstandingShares": {
+                      "type": "number",
+                      "description": "最新流通份额",
+                      "example": 1234567890.12
+                    },
+                    "managementCompanyName": {
+                      "type": "string",
+                      "description": "管理人简称",
+                      "example": "西部利得基金管理有限公司"
+                    },
+                    "fundNameFull": {
+                      "type": "string",
+                      "description": "基金全称",
+                      "example": "西部利得量化成长混合型发起式证券投资基金A类"
+                    },
+                    "fundMasterId": {
+                      "type": "string",
+                      "description": "基金主编码",
+                      "example": "000006JK"
+                    },
+                    "investmentStrategy": {
+                      "type": "string",
+                      "description": "投资策略",
+                      "example": "    本基金采取积极的大类资产配置策略，通过对宏观经济、微观经济运行态势、政策环境、利率走势、证券市场走。"
+                    },
+                    "investmentPhilosophy": {
+                      "type": "string",
+                      "description": "投资理念",
+                      "example": "价值投资，注重基本面分析，追求长期稳健回报"
+                    },
+                    "riskReturnProfile": {
+                      "type": "string",
+                      "description": "风险收益特征",
+                      "example": "本基金为混合型基金，在通常情况下其预期风险和预期收益高于债券型基金和货币市场基金，但低于股票型基金。"
+                    },
+                    "fundMasterCode": {
+                      "type": "string",
+                      "description": "基金主代码",
+                      "example": "000006"
+                    },
+                    "exchangeSubscriptionCode": {
+                      "type": "string",
+                      "description": "场内申赎代码",
+                      "example": "511010"
+                    },
+                    "exchangeName": {
+                      "type": "string",
+                      "description": "场内简称",
+                      "example": "沪深300ETF"
+                    },
+                    "backEndSubscriptionCode": {
+                      "type": "string",
+                      "description": "后端申购代码",
+                      "example": "501055"
+                    },
+                    "settlementDays": {
+                      "type": "integer",
+                      "description": "申赎确认天数",
+                      "format": "int32",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {

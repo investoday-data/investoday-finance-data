@@ -217,6 +217,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110508,
+                      "apiName": "全市场股票列表",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1081,
+                      "remarks": null,
+                      "toolName": "list_stock_all",
+                      "toolId": "list_stock_all",
+                      "apiPath": "stock/all",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
@@ -3686,6 +3700,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110509,
+                      "apiName": "全市场基金列表",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11117,
+                      "remarks": null,
+                      "toolName": "list_fund_all",
+                      "toolId": "list_fund_all",
+                      "apiPath": "fund/all",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "GET"
                     }
                   ]
                 },
