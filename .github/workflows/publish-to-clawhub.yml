@@ -1,0 +1,83 @@
+name: Publish to ClawHub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/SKILL.md'
+
+  workflow_run:
+    workflows: ["Package Skills"]
+    types:
+      - completed
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      changelog:
+        description: 'Changelog text'
+        required: false
+        default: 'Manual release'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install clawhub CLI
+        run: npm install -g clawhub
+
+      - name: Verify auth
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+        run: clawhub whoami
+
+      - name: Read version from SKILL.md
+        id: skill
+        run: |
+          VERSION=$(grep '^version:' skills/SKILL.md | head -1 | awk '{print $2}')
+          if [ -z "$VERSION" ]; then
+            echo "ERROR: version field not found in skills/SKILL.md" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Skill version: $VERSION"
+
+      - name: Check if version already published
+        id: check
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+        run: |
+          PUBLISHED=$(clawhub inspect investoday-api 2>/dev/null | grep 'Latest:' | awk '{print $2}')
+          echo "Published: $PUBLISHED  |  Local: ${{ steps.skill.outputs.version }}"
+          if [ "$PUBLISHED" = "${{ steps.skill.outputs.version }}" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip (version already published)
+        if: steps.check.outputs.skip == 'true'
+        run: echo "✅ investoday-api@${{ steps.skill.outputs.version }} already published, nothing to do."
+
+      - name: Publish to ClawHub
+        if: steps.check.outputs.skip == 'false'
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+        run: |
+          clawhub publish "${{ github.workspace }}/skills" \
+            --slug investoday-api \
+            --version ${{ steps.skill.outputs.version }} \
+            --changelog "${{ github.event.inputs.changelog || 'Automated release from GitHub Actions' }}" \
+            --no-input
