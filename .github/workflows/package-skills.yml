@@ -1,7 +1,15 @@
 name: Package Skills
 
 on:
-  # skills/ 目录有变动时自动触发
+  # Update API References workflow 完成后自动触发（支持 GITHUB_TOKEN 推送的场景）
+  workflow_run:
+    workflows: ["Update API References"]
+    types:
+      - completed
+    branches:
+      - main
+
+  # skills/ 有人工 push 变动时也触发（直接推送场景）
   push:
     branches:
       - main
@@ -14,6 +22,8 @@ on:
 jobs:
   package:
     runs-on: ubuntu-latest
+    # workflow_run 触发时，仅在上游 workflow 成功后才继续
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
 
@@ -26,27 +36,27 @@ jobs:
       - name: Package skills folder
         run: |
           cd skills
-          zip -r ../skills.zip .
+          zip -r ../investoday-finance-data-skills.zip .
           cd ..
 
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet skills.zip 2>/dev/null && \
-            git ls-files --error-unmatch skills.zip 2>/dev/null && \
+          git diff --quiet investoday-finance-data-skills.zip 2>/dev/null && \
+            git ls-files --error-unmatch investoday-finance-data-skills.zip 2>/dev/null && \
             echo "changed=false" >> $GITHUB_OUTPUT || \
             echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit and push skills.zip
+      - name: Commit and push investoday-finance-data-skills.zip
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add skills.zip
-          git commit -m "chore: update skills.zip [skip ci]"
+          git add investoday-finance-data-skills.zip
+          git commit -m "chore: update investoday-finance-data-skills.zip [skip ci]"
           git pull --rebase origin main
           git push
 
       - name: No changes detected
         if: steps.changes.outputs.changed == 'false'
-        run: echo "✅ skills.zip already up-to-date, nothing to commit."
+        run: echo "✅ investoday-finance-data-skills.zip already up-to-date, nothing to commit."
