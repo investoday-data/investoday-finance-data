@@ -62,14 +62,26 @@ jobs:
         run: echo "✅ investoday-finance-data-skills.zip already up-to-date, nothing to commit."
 
       - name: Upload to Tencent Cloud COS and purge CDN
-        uses: sylingd/tencent-cos-and-cdn-action@v1
-        with:
-          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
-          cos_bucket: ${{ secrets.COS_BUCKET }}
-          cos_region: ${{ secrets.COS_REGION }}
-          local_path: investoday-finance-data-skills.zip
-          remote_path: application/skill-store/packages/investoday-finance-data
-          cos_replace_file: 'true'
-          cdn_type: cdn
-          cdn_prefix: https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data-skills.zip
+        env:
+          COS_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          COS_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          COS_BUCKET: ${{ secrets.COS_BUCKET }}
+          COS_REGION: ${{ secrets.COS_REGION }}
+        run: |
+          pip install coscmd
+          coscmd config -a "$COS_SECRET_ID" -s "$COS_SECRET_KEY" -b "$COS_BUCKET" -r "$COS_REGION"
+          coscmd upload investoday-finance-data-skills.zip application/skill-store/packages/investoday-finance-data/investoday-finance-data-skills.zip
+
+          # 刷新 CDN 缓存
+          pip install tencentcloud-sdk-python
+          python3 - <<'EOF'
+          import json, os
+          from tencentcloud.common import credential
+          from tencentcloud.cdn.v20180606 import cdn_client, models
+          cred = credential.Credential(os.environ["COS_SECRET_ID"], os.environ["COS_SECRET_KEY"])
+          client = cdn_client.CdnClient(cred, "")
+          req = models.PurgeUrlsCacheRequest()
+          req.Urls = ["https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data-skills.zip"]
+          resp = client.PurgeUrlsCache(req)
+          print(f"CDN purge submitted: {resp.TaskId}")
+          EOF
