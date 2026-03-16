@@ -40037,6 +40037,455 @@
           }
         ]
       }
+    },
+    "/industry-quote/realtime-v2": {
+      "post": {
+        "tags": [
+          "行业的最新实时日行情V2"
+        ],
+        "summary": "行业的最新实时日行情V2",
+        "description": "通过指定行业代码（可批量，空数组表示全市场）、行业等级、行业分类（如申万SW）等条件，获取行业的最新实时行情数据，包括行业价格、涨跌幅、近一周涨跌幅、成交量、总市值、数据时间（格式为yyyy-MM-dd HH:mm:ss）、行业内股票涨跌家数、领涨股及ETF信息、行业排名等核心指标，并支持按指定字段（如涨跌幅）和排序方式（升序/降序）进行分页查询，适用于实时监测行业板块表现、分析市场热点和进行行业对比等任务。",
+        "operationId": "list_ind_real_quote_v2",
+        "parameters": [
+          {
+            "name": "industryLevel",
+            "in": "query",
+            "description": "行业等级(1、2、3)行业代码为空时必传",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "industryType",
+            "in": "query",
+            "description": "行业类型(默认: SW)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "SW"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "排序方式(asc、desc)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "desc"
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "description": "排序字段(接口返回值)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "changeRatio"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "通过指定行业代码（可批量，空数组表示全市场）、行业等级、行业分类（如申万SW）等条件，获取行业的最新实时行情数据，包括行业价格、涨跌幅、近一周涨跌幅、成交量、总市值、数据时间（格式为yyyy-MM-dd HH:mm:ss）、行业内股票涨跌家数、领涨股及ETF信息、行业排名等核心指标，并支持按指定字段（如涨跌幅）和排序方式（升序/降序）进行分页查询，适用于实时监测行业板块表现、分析市场热点和进行行业对比等任务。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码(全市场为:[])",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "740000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "煤炭"
+                    },
+                    "changeRatio": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.04
+                    },
+                    "changeRatio1W": {
+                      "type": "number",
+                      "description": "近一周涨跌幅",
+                      "example": 0.12
+                    },
+                    "dataTime": {
+                      "type": "string",
+                      "description": "数据时间",
+                      "example": "2025-01-01 10:10:10"
+                    },
+                    "industryAmount": {
+                      "type": "integer",
+                      "description": "行业总数",
+                      "format": "int32",
+                      "example": 30
+                    },
+                    "leadUpFundCode": {
+                      "type": "string",
+                      "description": "领涨ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUpFundName": {
+                      "type": "string",
+                      "description": "领ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUpStockCode": {
+                      "type": "string",
+                      "description": "领涨股代码",
+                      "example": "002594"
+                    },
+                    "leadUpStockName": {
+                      "type": "string",
+                      "description": "领涨股名称",
+                      "example": "比亚迪"
+                    },
+                    "limitUpAmount": {
+                      "type": "integer",
+                      "description": "涨停家数",
+                      "format": "int32",
+                      "example": 10
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "价格",
+                      "example": 12
+                    },
+                    "ratioRank": {
+                      "type": "integer",
+                      "description": "同行业排名",
+                      "format": "int32",
+                      "example": 1
+                    },
+                    "stockAmount": {
+                      "type": "integer",
+                      "description": "股票家数",
+                      "format": "int32",
+                      "example": 30
+                    },
+                    "stockBxAmount": {
+                      "type": "integer",
+                      "description": "0%家数",
+                      "format": "int32",
+                      "example": 1
+                    },
+                    "stockDownAmount": {
+                      "type": "integer",
+                      "description": "下跌家数",
+                      "format": "int32",
+                      "example": 2
+                    },
+                    "stockUpAmount": {
+                      "type": "integer",
+                      "description": "上涨家数",
+                      "format": "int32",
+                      "example": 3
+                    },
+                    "totalValue": {
+                      "type": "number",
+                      "description": "总市值 T日",
+                      "example": 15343870.0
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 1354808410.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/concept-quote/realtime-v2": {
+      "post": {
+        "tags": [
+          "概念的最新实时日行情V2"
+        ],
+        "summary": "概念的最新实时日行情V2",
+        "description": "根据聚源或财联社的概念类型，查询指定概念代码（可批量）的最新实时行情数据，包括概念名称、涨跌幅、近一周涨跌幅、概念内股票涨跌家数、涨停家数、总市值、领涨股票及ETF信息、数据更新时间（yyyy-MM-dd HH:mm:ss），并支持按指定字段（如涨跌幅）进行排序和分页，用于实时监测概念板块的整体表现和热点追踪。",
+        "operationId": "list_concept_real_quote",
+        "parameters": [
+          {
+            "name": "conceptType",
+            "in": "query",
+            "description": "概念类型",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1,
+              "allOf": [
+                {
+                  "type": "integer",
+                  "description": "1代表聚源;\n2代表财联社",
+                  "format": "int32",
+                  "enum": [
+                    1,
+                    2
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "排序方式(asc、desc)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "desc"
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "description": "排序字段(接口返回值)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "changeRatio"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "根据聚源或财联社的概念类型，查询指定概念代码（可批量）的最新实时行情数据，包括概念名称、涨跌幅、近一周涨跌幅、概念内股票涨跌家数、涨停家数、总市值、领涨股票及ETF信息、数据更新时间（yyyy-MM-dd HH:mm:ss），并支持按指定字段（如涨跌幅）进行排序和分页，用于实时监测概念板块的整体表现和热点追踪。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conceptCodes": {
+                    "type": "array",
+                    "description": "概念代码(全市场为:[])",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "conceptCode": {
+                      "type": "string",
+                      "description": "概念代码",
+                      "example": "14010009"
+                    },
+                    "conceptName": {
+                      "type": "string",
+                      "description": "概念名称",
+                      "example": "海参"
+                    },
+                    "changeRatio": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.02
+                    },
+                    "changeRatio1W": {
+                      "type": "number",
+                      "description": "近一周涨跌幅",
+                      "example": 0.08
+                    },
+                    "conceptAmount": {
+                      "type": "integer",
+                      "description": "概念总数",
+                      "format": "int32",
+                      "example": 50
+                    },
+                    "dataTime": {
+                      "type": "string",
+                      "description": "数据时间",
+                      "example": "2025-01-01 10:10:10"
+                    },
+                    "leadUp1WFundCode": {
+                      "type": "string",
+                      "description": "领涨1周ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUp1WFundName": {
+                      "type": "string",
+                      "description": "领涨1周ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUp1WStockCode": {
+                      "type": "string",
+                      "description": "领涨1周股票代码",
+                      "example": "002594"
+                    },
+                    "leadUp1WStockName": {
+                      "type": "string",
+                      "description": "领涨1周股票名称",
+                      "example": "比亚迪"
+                    },
+                    "leadUpFundCode": {
+                      "type": "string",
+                      "description": "领涨ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUpFundName": {
+                      "type": "string",
+                      "description": "领ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUpStockCode": {
+                      "type": "string",
+                      "description": "领涨股代码",
+                      "example": "002594"
+                    },
+                    "leadUpStockName": {
+                      "type": "string",
+                      "description": "领涨股名称",
+                      "example": "比亚迪"
+                    },
+                    "limitUpAmount": {
+                      "type": "integer",
+                      "description": "涨停家数",
+                      "format": "int32",
+                      "example": 10
+                    },
+                    "ratioRank": {
+                      "type": "integer",
+                      "description": "同概念排名",
+                      "format": "int32",
+                      "example": 1
+                    },
+                    "stockBxAmount": {
+                      "type": "integer",
+                      "description": "不涨不跌家数",
+                      "format": "int32",
+                      "example": 2
+                    },
+                    "stockDownAmount": {
+                      "type": "integer",
+                      "description": "下跌家数",
+                      "format": "int32",
+                      "example": 3
+                    },
+                    "stockUpAmount": {
+                      "type": "integer",
+                      "description": "上涨家数",
+                      "format": "int32",
+                      "example": 5
+                    },
+                    "totalValue": {
+                      "type": "number",
+                      "description": "总市值 T日",
+                      "example": 44213521214
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {

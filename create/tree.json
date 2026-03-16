@@ -2162,6 +2162,34 @@
                   "enabled": 1,
                   "apiAccessLevel": "L2",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110516,
+                  "apiName": "行业的最新实时日行情V2",
+                  "apiType": "PROXY",
+                  "apiStatus": "release",
+                  "groupId": 1030,
+                  "remarks": null,
+                  "toolName": "list_ind_real_quote_v2",
+                  "toolId": "list_ind_real_quote_v2",
+                  "apiPath": "industry-quote/realtime-v2",
+                  "enabled": 1,
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110517,
+                  "apiName": "概念的最新实时日行情V2",
+                  "apiType": "PROXY",
+                  "apiStatus": "release",
+                  "groupId": 1030,
+                  "remarks": null,
+                  "toolName": "list_concept_real_quote",
+                  "toolId": "list_concept_real_quote",
+                  "apiPath": "concept-quote/realtime-v2",
+                  "enabled": 1,
+                  "apiAccessLevel": "L3",
+                  "apiMethod": "POST"
                 }
               ]
             },
