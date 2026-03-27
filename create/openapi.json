@@ -8406,9 +8406,9 @@
               "allOf": [
                 {
                   "type": "string",
-                  "description": "data代表日期;\nmainNetInflow代表主力净流入",
+                  "description": "date代表日期;\nmainNetInflow代表主力净流入",
                   "enum": [
-                    "data",
+                    "date",
                     "mainNetInflow"
                   ]
                 }
