@@ -51,117 +51,117 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "pubdate": {
+                    "pubDate": {
                       "type": "string",
                       "description": "基准日期(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-19 00:00:00"
                     },
-                    "before1day": {
+                    "before1Day": {
                       "type": "string",
                       "description": "上一个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-16 00:00:00"
                     },
-                    "before2day": {
+                    "before2Day": {
                       "type": "string",
                       "description": "前2个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-15 00:00:00"
                     },
-                    "before3day": {
+                    "before3Day": {
                       "type": "string",
                       "description": "前3个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-14 00:00:00"
                     },
-                    "before4day": {
+                    "before4Day": {
                       "type": "string",
                       "description": "前4个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-13 00:00:00"
                     },
-                    "before1week": {
+                    "before1Week": {
                       "type": "string",
                       "description": "1周前交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-12 00:00:00"
                     },
-                    "before2week": {
+                    "before2Week": {
                       "type": "string",
                       "description": "2周前交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-04-30 00:00:00"
                     },
-                    "before1month": {
+                    "before1Month": {
                       "type": "string",
                       "description": "1月前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-04-18 00:00:00"
                     },
-                    "before2month": {
+                    "before2Month": {
                       "type": "string",
                       "description": "2月前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-03-19 00:00:00"
                     },
-                    "before3month": {
+                    "before3Month": {
                       "type": "string",
                       "description": "3月前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-02-19 00:00:00"
                     },
-                    "before6month": {
+                    "before6Month": {
                       "type": "string",
                       "description": "6月前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2024-11-19 00:00:00"
                     },
-                    "before1year": {
+                    "before1Year": {
                       "type": "string",
                       "description": "1年前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2024-05-17 00:00:00"
                     },
-                    "before2year": {
+                    "before2Year": {
                       "type": "string",
                       "description": "2年前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2023-05-19 00:00:00"
                     },
-                    "before3year": {
+                    "before3Year": {
                       "type": "string",
                       "description": "3年前首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2022-05-19 00:00:00"
                     },
-                    "firstctweek": {
+                    "firstCtWeek": {
                       "type": "string",
                       "description": "本周首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-19 00:00:00"
                     },
-                    "lastctweek": {
+                    "lastCtWeek": {
                       "type": "string",
                       "description": "本周最后交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-23 00:00:00"
                     },
-                    "firstctmonth": {
+                    "firstCtMonth": {
                       "type": "string",
                       "description": "本月首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-06 00:00:00"
                     },
-                    "lastctmonth": {
+                    "lastCtMonth": {
                       "type": "string",
                       "description": "本月最后交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-30 00:00:00"
                     },
-                    "firstctyear": {
+                    "firstCtYear": {
                       "type": "string",
                       "description": "本年首个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-01-02 00:00:00"
                     },
-                    "lastctyear": {
+                    "lastCtYear": {
                       "type": "string",
                       "description": "本年最后交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-12-31 00:00:00"
                     },
-                    "after1day": {
+                    "after1Day": {
                       "type": "string",
                       "description": "后1个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-20 00:00:00"
                     },
-                    "after2day": {
+                    "after2Day": {
                       "type": "string",
                       "description": "后2个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-21 00:00:00"
                     },
-                    "after3day": {
+                    "after3Day": {
                       "type": "string",
                       "description": "后3个交易日(格式yyyy-MM-dd HH:mm:ss)",
                       "example": "2025-05-22 00:00:00"
@@ -266,22 +266,22 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": "000001"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": "平安银行"
                     },
-                    "conceptcode": {
+                    "conceptCode": {
                       "type": "string",
                       "description": "概念代码",
                       "example": "15030008"
                     },
-                    "conceptname": {
+                    "conceptName": {
                       "type": "string",
                       "description": "概念名称",
                       "example": "人工智能"
@@ -291,7 +291,7 @@
                       "description": "说明",
                       "example": "人工智能概念是指涉及人工智能技术研发、应用或相关业务的公司集合"
                     },
-                    "selectiondate": {
+                    "selectionDate": {
                       "type": "string",
                       "description": "入选日期",
                       "example": "2023-01-15"
@@ -624,37 +624,37 @@
                       "description": "发布日期",
                       "example": "2015-05-26 00:00:00"
                     },
-                    "indexcode": {
+                    "indexCode": {
                       "type": "string",
                       "description": "指数代码",
                       "example": "000300"
                     },
-                    "indexname": {
+                    "indexName": {
                       "type": "string",
                       "description": "指数名称",
                       "example": "沪深300"
                     },
-                    "previouscloseprice": {
+                    "previousClosePrice": {
                       "type": "number",
                       "description": "昨收盘价",
                       "example": 3850.25
                     },
-                    "openprice": {
+                    "openPrice": {
                       "type": "number",
                       "description": "开盘价",
                       "example": 3860.15
                     },
-                    "highprice": {
+                    "highPrice": {
                       "type": "number",
                       "description": "最高价",
                       "example": 3880.45
                     },
-                    "lowprice": {
+                    "lowPrice": {
                       "type": "number",
                       "description": "最低价",
                       "example": 3845.3
                     },
-                    "closeprice": {
+                    "closePrice": {
                       "type": "number",
                       "description": "收盘价",
                       "example": 3875.6
@@ -664,7 +664,7 @@
                       "description": "成交量",
                       "example": 125000000.0
                     },
-                    "tradingamountcny": {
+                    "tradingAmountCny": {
                       "type": "number",
                       "description": "成交金额（元）",
                       "example": 4850000000.0
@@ -795,18 +795,18 @@
                       "description": "发布日期（格式yyyy-MM-dd）",
                       "example": "2025-01-15"
                     },
-                    "announcementid": {
+                    "announcementId": {
                       "type": "integer",
                       "description": "公告标识",
                       "format": "int32",
                       "example": 9128035
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": "000001"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": "平安银行"
@@ -816,7 +816,7 @@
                       "description": "标题",
                       "example": "同享科技:董事会决议公告"
                     },
-                    "hasattachment": {
+                    "hasAttachment": {
                       "type": "integer",
                       "description": "有无附件",
                       "format": "int32",
@@ -833,12 +833,12 @@
                         }
                       ]
                     },
-                    "attachmenturl": {
+                    "attachmentUrl": {
                       "type": "string",
                       "description": "附件URL",
                       "example": "https://www.bse.cn/disclosure/2025/2025-01-15/f3973168ca8e4c87a5c434c4a858b9e4.pdf"
                     },
-                    "risktype": {
+                    "riskType": {
                       "type": "integer",
                       "description": "风险类型",
                       "format": "int32",
@@ -871,12 +871,12 @@
                         }
                       ]
                     },
-                    "announcementsource": {
+                    "announcementSource": {
                       "type": "string",
                       "description": "公告来源",
                       "example": "北交所"
                     },
-                    "announcementcontenttype": {
+                    "announcementContentType": {
                       "type": "string",
                       "description": "公告内容类别代码",
                       "example": "040301"
@@ -932,84 +932,84 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-06-11 16:45:45"
                     },
-                    "upamount": {
+                    "upAmount": {
                       "type": "integer",
                       "description": "上涨数量（涨幅>0%）",
                       "format": "int32",
                       "example": 3413
                     },
-                    "downamount": {
+                    "downAmount": {
                       "type": "integer",
                       "description": "下跌数量（涨幅<0%）",
                       "format": "int32",
                       "example": 1737
                     },
-                    "uptopamount": {
+                    "upTopAmount": {
                       "type": "integer",
                       "description": "涨停数量（主板涨幅=10%、创业板、科创板=20%、北交所=30%）",
                       "format": "int32",
                       "example": 71
                     },
-                    "upover8amount": {
+                    "upOver8Amount": {
                       "type": "integer",
                       "description": "上涨数量（8%,+∞）",
                       "format": "int32",
                       "example": 35
                     },
-                    "upbx68amount": {
+                    "upBx68Amount": {
                       "type": "integer",
                       "description": "上涨数量（6%,8%]",
                       "format": "int32",
                       "example": 47
                     },
-                    "upbx26amount": {
+                    "upBx26Amount": {
                       "type": "integer",
                       "description": "上涨数量（2%,6%]",
                       "format": "int32",
                       "example": 622
                     },
-                    "upbx02amount": {
+                    "upBx02Amount": {
                       "type": "integer",
                       "description": "上涨数量（0%,2%]",
                       "format": "int32",
                       "example": 2638
                     },
-                    "bxamount": {
+                    "bxAmount": {
                       "type": "integer",
                       "description": "平盘数量（涨幅=0%）",
                       "format": "int32",
                       "example": 244
                     },
-                    "downbx02amount": {
+                    "downBx02Amount": {
                       "type": "integer",
                       "description": "下跌数量[-2%,0%)",
                       "format": "int32",
                       "example": 1467
                     },
-                    "downbx26amount": {
+                    "downBx26Amount": {
                       "type": "integer",
                       "description": "下跌数量[-6%,-2%)",
                       "format": "int32",
                       "example": 226
                     },
-                    "downbx68amount": {
+                    "downBx68Amount": {
                       "type": "integer",
                       "description": "下跌数量[-8%,-6%)",
                       "format": "int32",
                       "example": 16
                     },
-                    "downover8amount": {
+                    "downOver8Amount": {
                       "type": "integer",
                       "description": "下跌数量（-∞,-8%）",
                       "format": "int32",
                       "example": 21
                     },
-                    "downtopamount": {
+                    "downTopAmount": {
                       "type": "integer",
                       "description": "跌停数量（主板涨幅=-10%、创业板、科创板=-20%、北交所=-30%）",
                       "format": "int32",
@@ -1073,57 +1073,57 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": "002594"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": "比亚迪"
                     },
-                    "markettype": {
+                    "marketType": {
                       "type": "string",
                       "description": "市场类型(沪-sh、深-sz、京-bj)",
                       "example": "sz"
                     },
-                    "openprice": {
+                    "openPrice": {
                       "type": "number",
                       "description": "开盘价",
                       "example": 359.89
                     },
-                    "closepriceyday": {
+                    "closePriceYDay": {
                       "type": "number",
                       "description": "昨日收盘价",
                       "example": 361.99
                     },
-                    "currentprice": {
+                    "currentPrice": {
                       "type": "number",
                       "description": "当前价格",
                       "example": 353.86
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": -0.02245918
                     },
-                    "highprice": {
+                    "highPrice": {
                       "type": "number",
                       "description": "最高价",
                       "example": 359.89
                     },
-                    "lowprice": {
+                    "lowPrice": {
                       "type": "number",
                       "description": "最低价",
                       "example": 353.62
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-06-12 13:40:21"
                     },
-                    "systime": {
+                    "sysTime": {
                       "type": "string",
                       "description": "系统时间",
                       "example": "2025-06-12 13:40:30"
@@ -1133,84 +1133,84 @@
                       "description": "状态",
                       "example": "0"
                     },
-                    "dealstockamount": {
+                    "dealStockAmount": {
                       "type": "integer",
                       "description": "成交股数",
                       "format": "int32",
                       "example": 100071
                     },
-                    "dealmoney": {
+                    "dealMoney": {
                       "type": "number",
                       "description": "成交金额",
                       "example": 3563408640.0
                     },
-                    "limituptime": {
+                    "limitUpTime": {
                       "type": "string",
                       "description": "涨停时间"
                     },
-                    "limitdowntime": {
+                    "limitDownTime": {
                       "type": "string",
                       "description": "跌停时间"
                     },
-                    "limitupprice": {
+                    "limitUpPrice": {
                       "type": "number",
                       "description": "涨停价",
                       "example": 398.19
                     },
-                    "limitdownprice": {
+                    "limitDownPrice": {
                       "type": "number",
                       "description": "跌停价",
                       "example": 325.79
                     },
-                    "circulationvalue": {
+                    "circulationValue": {
                       "type": "number",
                       "description": "流通市值",
                       "example": 420782222502.59
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "总市值",
                       "example": 1075403847801.6344
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "一周涨跌幅",
                       "example": -0.01561285
                     },
-                    "changeratiob10d": {
+                    "changeRatioB10D": {
                       "type": "number",
                       "description": "10日涨跌幅",
                       "example": -0.01880209
                     },
-                    "changeratiob1m": {
+                    "changeRatioB1M": {
                       "type": "number",
                       "description": "1月涨跌幅"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "280500"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "乘用车"
                     },
-                    "industrylv1code": {
+                    "industryLV1Code": {
                       "type": "string",
                       "description": "一级行业代码",
                       "example": "280000"
                     },
-                    "industrylv1name": {
+                    "industryLV1Name": {
                       "type": "string",
                       "description": "一级行业名称",
                       "example": "汽车"
                     },
-                    "dealmoney1w": {
+                    "dealMoney1W": {
                       "type": "number",
                       "description": "近一周成交额"
                     },
-                    "dealstockamount1w": {
+                    "dealStockAmount1W": {
                       "type": "number",
                       "description": "近一周成交量"
                     }
@@ -1272,7 +1272,7 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "stockrealquote": {
+                    "stockRealQuote": {
                       "type": "object",
                       "properties": {
                         "stockCode": {
@@ -1411,7 +1411,7 @@
                       },
                       "description": "股票实时行情数据"
                     },
-                    "stockrealpriceext": {
+                    "stockRealPriceExt": {
                       "type": "object",
                       "properties": {
                         "highPriceDate60D": {
@@ -1447,7 +1447,7 @@
                       },
                       "description": "股票扩展行情数据"
                     },
-                    "industryrealquote": {
+                    "industryRealQuote": {
                       "type": "object",
                       "properties": {
                         "industryCode": {
@@ -1490,7 +1490,7 @@
                       },
                       "description": "行业实时行情数据"
                     },
-                    "conceptrealquotes": {
+                    "conceptRealQuotes": {
                       "type": "array",
                       "items": {
                         "type": "object",
@@ -1633,12 +1633,12 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "740000"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "煤炭"
@@ -1648,7 +1648,7 @@
                       "description": "行业指数",
                       "example": 2549.1562
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "行业涨跌幅",
                       "example": -0.0121602
@@ -1659,69 +1659,69 @@
                       "format": "int32",
                       "example": 9547379
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "行业一周涨跌幅",
                       "example": -0.00646898
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "行业总市值",
                       "example": 1756873387871.2708
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "行业涨跌幅排名",
                       "format": "int32",
                       "example": 31
                     },
-                    "industryamount": {
+                    "industryAmount": {
                       "type": "integer",
                       "description": "行业成分股数量",
                       "format": "int32",
                       "example": 31
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "行业涨停股数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "行业上涨股数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "行业下跌股数量",
                       "format": "int32",
                       "example": 32
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "行业平盘股数量",
                       "format": "int32",
                       "example": 4
                     },
-                    "stockamount": {
+                    "stockAmount": {
                       "type": "integer",
                       "description": "行业股票总数",
                       "format": "int32",
                       "example": 37
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "行业领涨股代码",
                       "example": ""
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "行业领涨股名称",
                       "example": ""
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间"
                     }
@@ -1783,12 +1783,12 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "740000"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "煤炭"
@@ -1798,7 +1798,7 @@
                       "description": "行业指数",
                       "example": 2549.1562
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "行业涨跌幅",
                       "example": -0.0121602
@@ -1808,73 +1808,73 @@
                       "description": "行业成交量",
                       "example": "9547379"
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "行业一周涨跌幅",
                       "example": -0.00646898
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "行业总市值",
                       "example": 1756873387871.2708
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "行业涨跌幅排名",
                       "format": "int32",
                       "example": 31
                     },
-                    "industryamount": {
+                    "industryAmount": {
                       "type": "integer",
                       "description": "行业成分股数量",
                       "format": "int32",
                       "example": 31
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "行业涨停股数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "行业上涨股数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "行业下跌股数量",
                       "format": "int32",
                       "example": 32
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "行业平盘股数量",
                       "format": "int32",
                       "example": 4
                     },
-                    "stockamount": {
+                    "stockAmount": {
                       "type": "integer",
                       "description": "行业股票总数",
                       "format": "int32",
                       "example": 37
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "行业领涨股代码",
                       "example": ""
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "行业领涨股名称",
                       "example": ""
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间"
                     },
-                    "stockrealquotes": {
+                    "stockRealQuotes": {
                       "type": "array",
                       "items": {
                         "type": "object",
@@ -2011,78 +2011,78 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "conceptcode": {
+                    "conceptCode": {
                       "type": "string",
                       "description": "概念板块代码",
                       "example": "14060061"
                     },
-                    "conceptname": {
+                    "conceptName": {
                       "type": "string",
                       "description": "概念板块名称",
                       "example": "磷酸铁"
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "概念板块涨跌幅",
                       "example": -0.00740056
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "概念板块一周涨跌幅",
                       "example": -0.00371402
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "概念板块涨跌幅排名（排名值越小涨幅越大）",
                       "format": "int32",
                       "example": 966
                     },
-                    "conceptamount": {
+                    "conceptAmount": {
                       "type": "integer",
                       "description": "概念板块成分股数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "概念板块涨停股数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "概念板块上涨股数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "概念板块下跌股数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "概念板块平盘股数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "概念板块领涨股代码",
                       "example": ""
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "概念板块领涨股名称",
                       "example": ""
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "概念板块总市值",
                       "example": 2307164588.474928
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-06-12 15:10:06"
@@ -2155,83 +2155,83 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "conceptcode": {
+                    "conceptCode": {
                       "type": "string",
                       "description": "概念编码",
                       "example": "14060061"
                     },
-                    "conceptname": {
+                    "conceptName": {
                       "type": "string",
                       "description": "概念名称",
                       "example": "磷酸铁"
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": -0.00740056
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "一周涨跌幅",
                       "example": -0.00371402
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "涨跌幅排名",
                       "format": "int32",
                       "example": 966
                     },
-                    "conceptamount": {
+                    "conceptAmount": {
                       "type": "integer",
                       "description": "概念包含股票数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "涨停股票数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "上涨股票数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "下跌股票数量",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "平盘股票数量",
                       "format": "int32",
                       "example": 0
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "领涨股票代码",
                       "example": ""
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "领涨股票名称",
                       "example": ""
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "总市值",
                       "example": 2307164588.474928
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-06-12 15:10:06"
                     },
-                    "stockrealquotes": {
+                    "stockRealQuotes": {
                       "type": "array",
                       "items": {
                         "type": "object",
@@ -2451,57 +2451,57 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "indexcode": {
+                    "indexCode": {
                       "type": "string",
                       "description": "指数代码",
                       "example": "000001"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "指数名称",
                       "example": "上证指数"
                     },
-                    "openprice": {
+                    "openPrice": {
                       "type": "number",
                       "description": "开盘价",
                       "example": 3369.3662
                     },
-                    "closepriceyday": {
+                    "closePriceYDay": {
                       "type": "number",
                       "description": "昨日收盘价",
                       "example": 3376.9961
                     },
-                    "currentprice": {
+                    "currentPrice": {
                       "type": "number",
                       "description": "当前价格",
                       "example": 3385.1443
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": 0.00241285
                     },
-                    "highprice": {
+                    "highPrice": {
                       "type": "number",
                       "description": "最高价",
                       "example": 3385.5259
                     },
-                    "lowprice": {
+                    "lowPrice": {
                       "type": "number",
                       "description": "最低价",
                       "example": 3368.8765
                     },
-                    "dealstockamount": {
+                    "dealStockAmount": {
                       "type": "string",
                       "description": "成交股数",
                       "example": "335443869"
                     },
-                    "dealmoney": {
+                    "dealMoney": {
                       "type": "string",
                       "description": "成交金额",
                       "example": "401388535808"
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-06-16 14:14:39"
@@ -2620,17 +2620,17 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "10"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "能源"
                     },
-                    "industrytype": {
+                    "industryType": {
                       "type": "string",
                       "description": "行业类型",
                       "example": "INDUS1_CL",
@@ -2649,7 +2649,7 @@
                         }
                       ]
                     },
-                    "industrylevel": {
+                    "industryLevel": {
                       "type": "string",
                       "description": "行业等级",
                       "example": "1",
@@ -2665,7 +2665,7 @@
                         }
                       ]
                     },
-                    "indexcode": {
+                    "indexCode": {
                       "type": "string",
                       "description": "行业指数代码",
                       "example": "399001"
@@ -2750,12 +2750,12 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "conceptcode": {
+                    "conceptCode": {
                       "type": "string",
                       "description": "概念代码",
                       "example": "001"
                     },
-                    "conceptname": {
+                    "conceptName": {
                       "type": "string",
                       "description": "概念名称",
                       "example": "次新股"
@@ -3476,27 +3476,27 @@
                       "description": "标题",
                       "example": "小米集团2024Q4前瞻：销量亮眼，看好2025年增长"
                     },
-                    "corecontent": {
+                    "coreContent": {
                       "type": "string",
                       "description": "核心内容",
                       "example": "小米手机2024Q4出货4270万台，同比增4.8%，市占率12.9%居全球前三。IoT业务有望随家电补贴政策增长，汽车2024年交付13.5万台，2025年目标30万台。预计2024 - 2026年收入、消费电子主业及汽车经调整净利有不同表现，重申 买入 评级。"
                     },
-                    "analysisviewpoint": {
+                    "analysisViewpoint": {
                       "type": "string",
                       "description": "分析观点",
                       "example": "1. **手机业务表现佳**：2024Q4出货4270万台，同比增长4.8%，市占率12.9%，稳居全球前三，展现了较强的市场竞争力。2. **IoT业务有望增长**：2024家电以旧换新补贴政策见成效，促使IoT业务有望快速增长。3. **汽车业务目标明确**：2024年首年交付13.5万台，2025年目标交付30万台，显示出积极的发展态势。4. **财务预期良好**：预计2024 - 2026年收入、消费电子主业经调整净利增长，汽车经调整净利逐步改善，重申 买入 评级。"
                     },
-                    "investmentopportunity": {
+                    "investmentOpportunity": {
                       "type": "string",
                       "description": "投资机会",
                       "example": "- **小米集团投资机会**：小米手机销量增长、IoT业务有望提升、汽车业务发展前景良好，预计财务表现佳，重申 买入 评级，具有投资价值。"
                     },
-                    "investmentrisk": {
+                    "investmentRisk": {
                       "type": "string",
                       "description": "投资风险",
                       "example": "- **手机竞争风险**：手机竞争超预期或影响业绩。- **IoT进展风险**：IoT进展不及预期可能拖累业务。- **智能车竞争风险**：智能车竞争超预期会带来不利影响。"
                     },
-                    "comscore": {
+                    "comScore": {
                       "type": "number",
                       "description": "综合得分(值范围：-5～5)",
                       "example": 3.3
@@ -3521,32 +3521,32 @@
                         }
                       ]
                     },
-                    "keyreason": {
+                    "keyReason": {
                       "type": "string",
                       "description": "关键事由",
                       "example": " 小米集团 2024Q4业绩 小米手机销量 小米汽车交付目标 "
                     },
-                    "sentimentanalysis": {
+                    "sentimentAnalysis": {
                       "type": "string",
                       "description": "情绪分析",
                       "example": "小米24Q4业绩优，各业务前景好，虽有风险提示但整体利好。"
                     },
-                    "analysisframework": {
+                    "analysisFramework": {
                       "type": "string",
                       "description": "分析框架",
                       "example": "分析小米2024Q4手机出货及市占率情况→考量IoT业务受补贴政策影响→关注小米汽车交付情况及目标→预测2024 - 2026年公司收入、消费电子主业和汽车经调整净利→得出重申买入评级结论"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": "平安银行"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": "000001"
                     },
-                    "minrelevance": {
+                    "minRelevance": {
                       "type": "integer",
                       "description": "关联度(范围1~6)",
                       "format": "int32",
@@ -3610,207 +3610,207 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "640000"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "能源"
                     },
-                    "latestquarterannual": {
+                    "latestQuarterAnnual": {
                       "type": "string",
                       "description": "最近季度年度",
                       "example": "2024"
                     },
-                    "latestquarterlyrep": {
+                    "latestQuarterlyRep": {
                       "type": "string",
                       "description": "最近季度报告期",
                       "example": "Q3"
                     },
-                    "prequarterquarterlyannual": {
+                    "preQuarterQuarterlyAnnual": {
                       "type": "string",
                       "description": "上一季度季度年度",
                       "example": "2024"
                     },
-                    "prequarterrep": {
+                    "preQuarterRep": {
                       "type": "string",
                       "description": "上一季度报告期",
                       "example": "Q2"
                     },
-                    "lastquarterquarterannual": {
+                    "lastQuarterQuarterAnnual": {
                       "type": "string",
                       "description": "次上季度季度年度",
                       "example": "2024"
                     },
-                    "lastquarterreportperiod": {
+                    "lastQuarterReportPeriod": {
                       "type": "string",
                       "description": "次上季度报告期",
                       "example": "Q1"
                     },
-                    "businessincome3yavggrowthrate": {
+                    "businessIncome3YAvgGrowthRate": {
                       "type": "number",
                       "description": "业务收入3年平均增长率(%)",
                       "example": 15.5
                     },
-                    "netprofit3yavggrowthrate": {
+                    "netProfit3YAvgGrowthRate": {
                       "type": "number",
                       "description": "净利润3年平均增长率(%)",
                       "example": 12.3
                     },
-                    "businessincomeavggrowthratenext3y": {
+                    "businessIncomeAvgGrowthRateNext3Y": {
                       "type": "number",
                       "description": "业务收入未来3年平均增长率(%)",
                       "example": 18.2
                     },
-                    "netprofitavggrowthrate3y": {
+                    "netProfitAvgGrowthRate3Y": {
                       "type": "number",
                       "description": "净利润未来3年平均增长率(%)",
                       "example": 14.8
                     },
-                    "latestquarterroe": {
+                    "latestQuarterRoe": {
                       "type": "string",
                       "description": "最近季度净资产收益率(%)",
                       "example": "8.5%"
                     },
-                    "latestquarterbizincomegrowthratepct": {
+                    "latestQuarterBizIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "最近季度业务收入增长率(%)",
                       "example": 22.1
                     },
-                    "latestquarternetprofitgrowthratepct": {
+                    "latestQuarterNetProfitGrowthRatePct": {
                       "type": "number",
                       "description": "最近季度净利润增长率(%)",
                       "example": 19.6
                     },
-                    "prequarterbizincomegrowthrate": {
+                    "preQuarterBizIncomeGrowthRate": {
                       "type": "number",
                       "description": "上一季度业务收入增长率(%)",
                       "example": 18.3
                     },
-                    "prequarternetprofitgrowthratepct": {
+                    "preQuarterNetProfitGrowthRatePct": {
                       "type": "number",
                       "description": "上一季度净利润增长率(%)",
                       "example": 16.7
                     },
-                    "prequarterroe": {
+                    "preQuarterROE": {
                       "type": "number",
                       "description": "上一季度净资产收益率(%)",
                       "example": 7.8
                     },
-                    "growthrateoflastquarterbizincome": {
+                    "growthRateOfLastQuarterBizIncome": {
                       "type": "number",
                       "description": "次上季度业务收入增长率(%)",
                       "example": 15.2
                     },
-                    "prevquarternetprofitgrowthratepct": {
+                    "prevQuarterNetProfitGrowthRatePct": {
                       "type": "number",
                       "description": "次上季度净利润增长率(%)",
                       "example": 13.4
                     },
-                    "lastquarterroepct": {
+                    "lastQuarterRoePct": {
                       "type": "string",
                       "description": "次上季度净资产收益率(%)",
                       "example": "6.9%"
                     },
-                    "latest4quarterbusinessincomegrowthratepct": {
+                    "latest4QuarterBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "最近四季度业务收入增长率(%)",
                       "example": 20.1
                     },
-                    "latest4quarternetprofitgrowthratepct": {
+                    "latest4QuarterNetProfitGrowthRatePct": {
                       "type": "number",
                       "description": "最近四季度净利润增长率(%)",
                       "example": 17.8
                     },
-                    "latest4quarterroepct": {
+                    "latest4QuarterRoePct": {
                       "type": "number",
                       "description": "最近四季度净资产收益率(%)",
                       "example": 7.8
                     },
-                    "latest4quarterdividendpayoutratio": {
+                    "latest4QuarterDividendPayoutRatio": {
                       "type": "number",
                       "description": "最近四季度股息支付率(%)",
                       "example": 35.2
                     },
-                    "latest4quarterdividendyield": {
+                    "latest4QuarterDividendYield": {
                       "type": "number",
                       "description": "最近四季度股息率",
                       "example": 2.8
                     },
-                    "latest4quartersgrossmarginpct": {
+                    "latest4QuartersGrossMarginPct": {
                       "type": "number",
                       "description": "最近四季毛利率(%)",
                       "example": 28.5
                     },
-                    "latestassetliabilityratio": {
+                    "latestAssetLiabilityRatio": {
                       "type": "number",
                       "description": "最新资产负债率(%)",
                       "example": 45.3
                     },
-                    "latest4quarter3yavgroe": {
+                    "latest4Quarter3YAvgROE": {
                       "type": "number",
                       "description": "最近四季度三年平均净资产收率(%)",
                       "example": 8.2
                     },
-                    "latest4quartersassetturnoverrate": {
+                    "latest4QuartersAssetTurnoverRate": {
                       "type": "number",
                       "description": "最近四季度资产周转率",
                       "example": 1.2
                     },
-                    "latest4quarterreceivableturnoverrate": {
+                    "latest4QuarterReceivableTurnoverRate": {
                       "type": "number",
                       "description": "最近四季度应收账款周转率",
                       "example": 6.8
                     },
-                    "latest4quartersinventoryturnoverratio": {
+                    "latest4QuartersInventoryTurnoverRatio": {
                       "type": "number",
                       "description": "最近四季度存货周转率",
                       "example": 4.2
                     },
-                    "latest4quartersalesnetprofitrate": {
+                    "latest4QuarterSalesNetProfitRate": {
                       "type": "number",
                       "description": "最近四季度销售净利率(%)",
                       "example": 12.5
                     },
-                    "latest4quarternetprofit": {
+                    "latest4QuarterNetProfit": {
                       "type": "string",
                       "description": "最近四季度净利润",
                       "example": "1250000000"
                     },
-                    "latest4quarteroperateincome": {
+                    "latest4QuarterOperateIncome": {
                       "type": "number",
                       "description": "最近四季度业务收入",
                       "example": 10000000000.0
                     },
-                    "last4quartersoperatingcashflownet": {
+                    "last4QuartersOperatingCashFlowNet": {
                       "type": "number",
                       "description": "最近四季度经营活动产生的现金流量净额",
                       "example": 1500000000.0
                     },
-                    "latest4quartersroicpct": {
+                    "latest4QuartersROICPct": {
                       "type": "number",
                       "description": "最近四季度ROIC(%)",
                       "example": 9.8
                     },
-                    "last4quartersassetyieldpct": {
+                    "last4QuartersAssetYieldPct": {
                       "type": "number",
                       "description": "近四季度资产报酬率(%)",
                       "example": 6.5
                     },
-                    "latest4quartersmainincomecashcontentratiopct": {
+                    "latest4QuartersMainIncomeCashContentRatioPct": {
                       "type": "number",
                       "description": "最近四季度主营收入现金含量占比(%)",
                       "example": 85.2
                     },
-                    "latest4quarterprereceivablestorevenueratio": {
+                    "latest4QuarterPreReceivablesToRevenueRatio": {
                       "type": "number",
                       "description": "最近四季度预收账款占营业收入比例(%)",
                       "example": 12.8
                     },
-                    "indsystem": {
+                    "indSystem": {
                       "type": "string",
                       "description": "行业体系",
                       "example": "申万一级"
@@ -3873,300 +3873,300 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "640000"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "能源"
                     },
-                    "tyear": {
+                    "TYear": {
                       "type": "string",
                       "description": "T年",
                       "example": "2024"
                     },
-                    "tyearnetprofitgrowthrate": {
+                    "tYearNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T年净利润增长率(%)",
                       "example": 15.5
                     },
-                    "tplus1ynetprofitgrowthrate": {
+                    "tPlus1YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+1年净利润增长率(%)",
                       "example": 18.2
                     },
-                    "tplus2ynetprofitgrowthrate": {
+                    "tPlus2YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+2年净利润增长率(%)",
                       "example": 16.8
                     },
-                    "tplus3ynetprofitgrowthrate": {
+                    "tPlus3YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+3年净利润增长率(%)",
                       "example": 14.3
                     },
-                    "t1ynetprofitgrowthrate": {
+                    "t1YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-1年净利润增长率(%)",
                       "example": 12.1
                     },
-                    "tminus2ynetprofitgrowthrate": {
+                    "tMinus2YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-2年净利润增长率(%)",
                       "example": 8.7
                     },
-                    "future12monthsnetprofitgrowthrate": {
+                    "future12MonthsNetProfitGrowthRate": {
                       "type": "number",
                       "description": "未来12个月净利润增长率(%)",
                       "example": 17.3
                     },
-                    "t3ynetincomegrowthrate": {
+                    "t3yNetIncomeGrowthRate": {
                       "type": "number",
                       "description": "T-3年净利润增长率(%)",
                       "example": 6.4
                     },
-                    "t4ynetprofitgrowthrate": {
+                    "t4YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-4年净利润增长率(%)",
                       "example": 4.2
                     },
-                    "tyearnetprofitgrowthratemarketranking": {
+                    "tYearNetProfitGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 25
                     },
-                    "tplus1ynetprofitgrowthratemarketranking": {
+                    "tPlus1YNetProfitGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+1年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 18
                     },
-                    "tplus2ynetprofitgrowthratemarketranking": {
+                    "tPlus2YNetProfitGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+2年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 22
                     },
-                    "tplus3ynetprofitgrowthratemarketranking": {
+                    "tPlus3YNetProfitGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+3年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 28
                     },
-                    "t1ynetprofitgrowthraterankinmarket": {
+                    "t1YNetProfitGrowthRateRankInMarket": {
                       "type": "integer",
                       "description": "T-1年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 35
                     },
-                    "t2ynetprofitgrowthratemarketrank": {
+                    "t2yNetProfitGrowthRateMarketRank": {
                       "type": "integer",
                       "description": "T-2年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 45
                     },
-                    "future12monthsnetprofitgrowthratemarketrank": {
+                    "future12MonthsNetProfitGrowthRateMarketRank": {
                       "type": "integer",
                       "description": "未来12个月净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 20
                     },
-                    "t3ynetprofitgrowthratemarketranking": {
+                    "t3yNetProfitGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T-3年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 58
                     },
-                    "profitgrowthrankinmarkett4y": {
+                    "profitGrowthRankInMarketT4Y": {
                       "type": "integer",
                       "description": "T-4年净利润增长率在市场中排名",
                       "format": "int32",
                       "example": 72
                     },
-                    "tyearbizincomegrowthratepct": {
+                    "tYearBizIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T年业务收入增长率(%)",
                       "example": 22.5
                     },
-                    "tplus1ybusinessincomegrowthratepct": {
+                    "tPlus1YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T+1年业务收入增长率(%)",
                       "example": 25.8
                     },
-                    "tplus2ybusinessincomegrowthratepct": {
+                    "tPlus2YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T+2年业务收入增长率(%)",
                       "example": 23.2
                     },
-                    "tplus3ybusinessincomegrowthratepct": {
+                    "tPlus3YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T+3年业务收入增长率(%)",
                       "example": 20.6
                     },
-                    "t1ybusinessincomegrowthratepct": {
+                    "t1YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T-1年业务收入增长率(%)",
                       "example": 18.3
                     },
-                    "t2ybusinessincomegrowthratepct": {
+                    "t2YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T-2年业务收入增长率(%)",
                       "example": 15.7
                     },
-                    "growthratenext12months": {
+                    "growthRateNext12Months": {
                       "type": "number",
                       "description": "未来12个月业务收入增长率(%)",
                       "example": 24.1
                     },
-                    "t3ybusinessincomegrowthratepct": {
+                    "t3YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T-3年业务收入增长率(%)",
                       "example": 12.4
                     },
-                    "t4ybusinessincomegrowthratepct": {
+                    "t4YBusinessIncomeGrowthRatePct": {
                       "type": "number",
                       "description": "T-4年业务收入增长率(%)",
                       "example": 9.8
                     },
-                    "tyearbizincomegrowthratemarketranking": {
+                    "tYearBizIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 15
                     },
-                    "tplus1ybusinessincomegrowthratemarketranking": {
+                    "tPlus1YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+1年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 12
                     },
-                    "tplus2ybusinessincomegrowthratemarketranking": {
+                    "tPlus2YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+2年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 18
                     },
-                    "tplus3ybusinessincomegrowthratemarketranking": {
+                    "tPlus3YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T+3年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 22
                     },
-                    "t1ybusinessincomegrowthratemarketranking": {
+                    "t1YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T-1年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 28
                     },
-                    "t2ybusinessincomegrowthratemarketranking": {
+                    "t2YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T-2年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 35
                     },
-                    "growthraterankinmarketnext12m": {
+                    "growthRateRankInMarketNext12M": {
                       "type": "integer",
                       "description": "未来12个月业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 16
                     },
-                    "t3ybusinessincomegrowthratemarketranking": {
+                    "t3YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T-3年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 42
                     },
-                    "t4ybusinessincomegrowthratemarketranking": {
+                    "t4YBusinessIncomeGrowthRateMarketRanking": {
                       "type": "integer",
                       "description": "T-4年业务收入增长率在市场中排名",
                       "format": "int32",
                       "example": 58
                     },
-                    "netprofitty": {
+                    "netProfitTY": {
                       "type": "number",
                       "description": "T年净利润",
                       "example": 1250000000.0
                     },
-                    "tplus1ynetprofit": {
+                    "tPlus1YNetProfit": {
                       "type": "number",
                       "description": "T+1年净利润",
                       "example": 1480000000.0
                     },
-                    "tplus2ynetprofit": {
+                    "tPlus2YNetProfit": {
                       "type": "number",
                       "description": "T+2年净利润",
                       "example": 1729000000.0
                     },
-                    "tplus3ynetprofit": {
+                    "tPlus3YNetProfit": {
                       "type": "number",
                       "description": "T+3年净利润",
                       "example": 1976000000.0
                     },
-                    "pre1ynetincome": {
+                    "pre1YNetIncome": {
                       "type": "number",
                       "description": "T-1年净利润",
                       "example": 1114000000.0
                     },
-                    "pre2ynetincome": {
+                    "pre2YNetIncome": {
                       "type": "number",
                       "description": "T-2年净利润",
                       "example": 1025000000.0
                     },
-                    "pre3ynetincome": {
+                    "pre3YNetIncome": {
                       "type": "number",
                       "description": "T-3年净利润",
                       "example": 963000000.0
                     },
-                    "pre4ynetincome": {
+                    "pre4YNetIncome": {
                       "type": "number",
                       "description": "T-4年净利润",
                       "example": 924000000.0
                     },
-                    "tyearbusinessincome": {
+                    "tYearBusinessIncome": {
                       "type": "number",
                       "description": "T年业务收入",
                       "example": 10000000000.0
                     },
-                    "tplus1ybusinessincome": {
+                    "tPlus1YBusinessIncome": {
                       "type": "number",
                       "description": "T+1年业务收入",
                       "example": 12580000000.0
                     },
-                    "tplus2ybusinessincome": {
+                    "tPlus2YBusinessIncome": {
                       "type": "number",
                       "description": "T+2年业务收入",
                       "example": 15490000000.0
                     },
-                    "tplus3ybusinessincome": {
+                    "tPlus3YBusinessIncome": {
                       "type": "number",
                       "description": "T+3年业务收入",
                       "example": 18690000000.0
                     },
-                    "tminus1ybusinessincome": {
+                    "tMinus1YBusinessIncome": {
                       "type": "number",
                       "description": "T-1年业务收入",
                       "example": 8450000000.0
                     },
-                    "t2ybusinessincome": {
+                    "t2YBusinessIncome": {
                       "type": "number",
                       "description": "T-2年业务收入",
                       "example": 7300000000.0
                     },
-                    "t3ybusinessincome": {
+                    "t3YBusinessIncome": {
                       "type": "number",
                       "description": "T-3年业务收入",
                       "example": 6500000000.0
                     },
-                    "t4ybusinessincome": {
+                    "t4YBusinessIncome": {
                       "type": "number",
                       "description": "T-4年业务收入",
                       "example": 5820000000.0
                     },
-                    "indsystem": {
+                    "indSystem": {
                       "type": "string",
                       "description": "行业体系",
                       "example": "申万行业体系",
@@ -4492,12 +4492,12 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": "000001"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": "平安银行"
@@ -4507,62 +4507,62 @@
                       "description": "报告编号",
                       "example": "00596208-E35A-11ED-994A-0242AC110003"
                     },
-                    "securitytype": {
+                    "securityType": {
                       "type": "string",
                       "description": "证券类型",
                       "example": "股票"
                     },
-                    "markettype": {
+                    "marketType": {
                       "type": "string",
                       "description": "市场类型",
                       "example": "深交所"
                     },
-                    "reportid": {
+                    "reportId": {
                       "type": "string",
                       "description": "报告ID",
                       "example": "00596208-E35A-11ED-994A-0242AC110003"
                     },
-                    "tplus1yprofitforecastchg": {
+                    "tPlus1YProfitForecastChg": {
                       "type": "integer",
                       "description": "T+1年盈利预测变动",
                       "format": "int32",
                       "example": 1
                     },
-                    "investratingchg": {
+                    "investRatingChg": {
                       "type": "integer",
                       "description": "投资评级变动",
                       "format": "int32",
                       "example": 1
                     },
-                    "targetpricechg": {
+                    "targetPriceChg": {
                       "type": "integer",
                       "description": "目标价变动",
                       "format": "int32",
                       "example": 1
                     },
-                    "tplus1ychangereason": {
+                    "tPlus1YChangeReason": {
                       "type": "string",
                       "description": "T+1年变动原因",
                       "example": "业绩超预期增长"
                     },
-                    "tplus2yprofitforecastchg": {
+                    "tPlus2YProfitForecastChg": {
                       "type": "integer",
                       "description": "T+2年盈利预测变动",
                       "format": "int32",
                       "example": 1
                     },
-                    "changereasont2y": {
+                    "changeReasonT2Y": {
                       "type": "string",
                       "description": "T+2年变动原因",
                       "example": "市场环境改善"
                     },
-                    "tplus3yprofitforecastchg": {
+                    "tPlus3YProfitForecastChg": {
                       "type": "integer",
                       "description": "T+3年盈利预测变动",
                       "format": "int32",
                       "example": 1
                     },
-                    "tplus3ychangereason": {
+                    "tPlus3YChangeReason": {
                       "type": "string",
                       "description": "T+3年变动原因",
                       "example": "长期战略布局"
@@ -4852,12 +4852,12 @@
                       "description": "发布时间",
                       "example": "2025-04-02 15:45:02"
                     },
-                    "newsid": {
+                    "newsId": {
                       "type": "string",
                       "description": "新闻ID",
                       "example": "NEWS20250402001"
                     },
-                    "newstype": {
+                    "newsType": {
                       "type": "integer",
                       "description": "新闻类型",
                       "format": "int32",
@@ -4886,27 +4886,27 @@
                       "description": "摘要",
                       "example": "报道指出...后续盈利表现待察。"
                     },
-                    "keypoints": {
+                    "keyPoints": {
                       "type": "string",
                       "description": "关键要点",
                       "example": "\"3月基金发行 发行份额超1000亿份\""
                     },
-                    "impactanalysis": {
+                    "impactAnalysis": {
                       "type": "string",
                       "description": "影响分析",
                       "example": "股市回暖→基金发行上升→市场盈利待察"
                     },
-                    "investmentopportunity": {
+                    "investmentOpportunity": {
                       "type": "string",
                       "description": "投资机会",
                       "example": "- <价值红利风格>..."
                     },
-                    "investmentrisk": {
+                    "investmentRisk": {
                       "type": "string",
                       "description": "投资风险",
                       "example": "- <中小盘成长风格>..."
                     },
-                    "sentimentscore": {
+                    "sentimentScore": {
                       "type": "number",
                       "description": "情绪得分(范围-5~5)",
                       "example": 2
@@ -4931,17 +4931,17 @@
                         }
                       ]
                     },
-                    "sentimentanalysis": {
+                    "sentimentAnalysis": {
                       "type": "string",
                       "description": "情绪分析",
                       "example": "3月基金发行回暖...整体偏积极。"
                     },
-                    "themecode": {
+                    "themeCode": {
                       "type": "string",
                       "description": "主题代码",
                       "example": "AI001"
                     },
-                    "newslevel": {
+                    "newsLevel": {
                       "type": "integer",
                       "description": "新闻等级",
                       "format": "int32",
@@ -5016,51 +5016,51 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "emotionscore": {
+                    "emotionScore": {
                       "type": "string",
                       "description": "情绪面得分"
                     },
-                    "emotionscoreavg": {
+                    "emotionScoreAvg": {
                       "type": "string",
                       "description": "情绪面得分-行业平均值"
                     },
-                    "financescore": {
+                    "financeScore": {
                       "type": "string",
                       "description": "财务面得分"
                     },
-                    "financescoreavg": {
+                    "financeScoreAvg": {
                       "type": "string",
                       "description": "财务面得分-行业平均值"
                     },
-                    "idu4lv1id": {
+                    "idu4Lv1Id": {
                       "type": "string",
                       "description": "申万1级行业代码"
                     },
-                    "idu4lv1name": {
+                    "idu4Lv1Name": {
                       "type": "string",
                       "description": "申万1级行业名称"
                     },
-                    "idu4lv2id": {
+                    "idu4Lv2Id": {
                       "type": "string",
                       "description": "申万2级行业代码"
                     },
-                    "idu4lv2name": {
+                    "idu4Lv2Name": {
                       "type": "string",
                       "description": "申万2级行业名称"
                     },
-                    "idu4lv3id": {
+                    "idu4Lv3Id": {
                       "type": "string",
                       "description": "申万3级行业代码"
                     },
-                    "idu4lv3name": {
+                    "idu4Lv3Name": {
                       "type": "string",
                       "description": "申万3级行业名称"
                     },
-                    "industryscore": {
+                    "industryScore": {
                       "type": "string",
                       "description": "赛道得分"
                     },
-                    "industryscoreavg": {
+                    "industryScoreAvg": {
                       "type": "string",
                       "description": "赛道得分-行业平均值"
                     },
@@ -5068,23 +5068,23 @@
                       "type": "string",
                       "description": "综合评分"
                     },
-                    "scoreavg": {
+                    "scoreAvg": {
                       "type": "string",
                       "description": "综合评分-平均值"
                     },
-                    "skillscore": {
+                    "skillScore": {
                       "type": "string",
                       "description": "技术得分"
                     },
-                    "skillscoreavg": {
+                    "skillScoreAvg": {
                       "type": "string",
                       "description": "技术得分-行业平均值"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称"
                     }
@@ -5149,11 +5149,11 @@
                       "type": "string",
                       "description": "毛利率%"
                     },
-                    "f2030rk": {
+                    "f2030Rk": {
                       "type": "string",
                       "description": "毛利率排名【0-100】"
                     },
-                    "f2030rkhist": {
+                    "f2030RkHist": {
                       "type": "string",
                       "description": "毛利率历史排名【0-100】"
                     },
@@ -5161,11 +5161,11 @@
                       "type": "string",
                       "description": "营业利润率%"
                     },
-                    "f2040rk": {
+                    "f2040Rk": {
                       "type": "string",
                       "description": "营业利润率排名【0-100】"
                     },
-                    "f2040rkhist": {
+                    "f2040RkHist": {
                       "type": "string",
                       "description": "营业利润率历史排名【0-100】"
                     },
@@ -5173,11 +5173,11 @@
                       "type": "string",
                       "description": "净利率%"
                     },
-                    "f2050rk": {
+                    "f2050Rk": {
                       "type": "string",
                       "description": "净利率排名【0-100】"
                     },
-                    "f2050rkhist": {
+                    "f2050RkHist": {
                       "type": "string",
                       "description": "净利率历史排名【0-100】"
                     },
@@ -5185,11 +5185,11 @@
                       "type": "string",
                       "description": "股本回报率ROE%"
                     },
-                    "f2060rk": {
+                    "f2060Rk": {
                       "type": "string",
                       "description": "股本回报率ROE排名【0-100】"
                     },
-                    "f2060rkhist": {
+                    "f2060RkHist": {
                       "type": "string",
                       "description": "股本回报率ROE历史排名【0-100】"
                     },
@@ -5197,11 +5197,11 @@
                       "type": "string",
                       "description": "资产收益率ROA%"
                     },
-                    "f2070rk": {
+                    "f2070Rk": {
                       "type": "string",
                       "description": "资产收益率ROA排名 【0-100】"
                     },
-                    "f2070rkhist": {
+                    "f2070RkHist": {
                       "type": "string",
                       "description": "资产收益率ROA历史排名【0-100】"
                     },
@@ -5209,11 +5209,11 @@
                       "type": "string",
                       "description": "资本回报率%"
                     },
-                    "f2080rk": {
+                    "f2080Rk": {
                       "type": "string",
                       "description": "资本回报率排名【0-100】"
                     },
-                    "f2080rkhist": {
+                    "f2080RkHist": {
                       "type": "string",
                       "description": "资本回报率历史排名【0-100】"
                     },
@@ -5221,11 +5221,11 @@
                       "type": "string",
                       "description": "乔尔.格林布拉特资本回报当前值"
                     },
-                    "f2090rk": {
+                    "f2090Rk": {
                       "type": "string",
                       "description": "乔尔.格林布拉特资本回报行业排名"
                     },
-                    "f2090rkhist": {
+                    "f2090RkHist": {
                       "type": "string",
                       "description": "乔尔.格林布拉特资本回报历史行业排名"
                     },
@@ -5233,11 +5233,11 @@
                       "type": "string",
                       "description": "已动用资本回报率当前值"
                     },
-                    "f2100rk": {
+                    "f2100Rk": {
                       "type": "string",
                       "description": "已动用资本回报率行业排名"
                     },
-                    "f2100rkhist": {
+                    "f2100RkHist": {
                       "type": "string",
                       "description": "已动用资本回报率历史行业排名"
                     },
@@ -5245,11 +5245,11 @@
                       "type": "string",
                       "description": "盈利能力综合得分"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称"
                     }
@@ -5374,12 +5374,12 @@
                       "description": "盈利能力综合得分",
                       "example": ""
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
@@ -5469,11 +5469,11 @@
                       "type": "string",
                       "description": "3年每股收入增长率"
                     },
-                    "f2120rk": {
+                    "f2120Rk": {
                       "type": "string",
                       "description": "3年每股收入增长率行业排名【0-100】"
                     },
-                    "f2120rkhist": {
+                    "f2120RkHist": {
                       "type": "string",
                       "description": "3年每股收入增长率历史行业排名【0-100】"
                     },
@@ -5481,11 +5481,11 @@
                       "type": "string",
                       "description": "每股收益增长率当前值"
                     },
-                    "f2130rk": {
+                    "f2130Rk": {
                       "type": "string",
                       "description": "每股收益增长率行业排名【0-100】"
                     },
-                    "f2130rkhist": {
+                    "f2130RkHist": {
                       "type": "string",
                       "description": "每股收益增长率历史行业排名【0-100】"
                     },
@@ -5493,11 +5493,11 @@
                       "type": "string",
                       "description": "总收入增长率当前值"
                     },
-                    "f2140rk": {
+                    "f2140Rk": {
                       "type": "string",
                       "description": "总收入增长率行业排名【0-100】"
                     },
-                    "f2140rkhist": {
+                    "f2140RkHist": {
                       "type": "string",
                       "description": "总收入增长率历史行业排名【0-100】"
                     },
@@ -5505,11 +5505,11 @@
                       "type": "string",
                       "description": "3年每股股息折旧及摊销增长率当前值"
                     },
-                    "f2150rk": {
+                    "f2150Rk": {
                       "type": "string",
                       "description": "3年每股股息折旧及摊销增长率行业排名"
                     },
-                    "f2150rkhist": {
+                    "f2150RkHist": {
                       "type": "string",
                       "description": "3年每股股息折旧及摊销增长率历史行业排名"
                     },
@@ -5517,11 +5517,11 @@
                       "type": "string",
                       "description": "3年扣非每股收益增长率当前值"
                     },
-                    "f2160rk": {
+                    "f2160Rk": {
                       "type": "string",
                       "description": "3年扣非每股收益增长率行业排名"
                     },
-                    "f2160rkhist": {
+                    "f2160RkHist": {
                       "type": "string",
                       "description": "3年扣非每股收益增长率历史行业排名"
                     },
@@ -5529,11 +5529,11 @@
                       "type": "string",
                       "description": "3年每股自由现金流增长率当前值"
                     },
-                    "f2170rk": {
+                    "f2170Rk": {
                       "type": "string",
                       "description": "3年每股自由现金流增长率行业排名"
                     },
-                    "f2170rkhist": {
+                    "f2170RkHist": {
                       "type": "string",
                       "description": "3年每股自由现金流增长率历史行业排名"
                     },
@@ -5541,11 +5541,11 @@
                       "type": "string",
                       "description": "3年每股账面价值增长率当前值"
                     },
-                    "f2180rk": {
+                    "f2180Rk": {
                       "type": "string",
                       "description": "3年每股账面价值增长率行业排名"
                     },
-                    "f2180rkhist": {
+                    "f2180RkHist": {
                       "type": "string",
                       "description": "3年每股账面价值增长率历史行业排名"
                     },
@@ -5553,11 +5553,11 @@
                       "type": "string",
                       "description": "成长能力综合得分"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称"
                     }
@@ -5637,40 +5637,40 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "f2120ext": {
+                    "f2120Ext": {
                       "type": "number",
                       "description": "最近四季度每股收入"
                     },
-                    "f2130ext": {
+                    "f2130Ext": {
                       "type": "number",
                       "description": "最近四季度持续经营每股收益"
                     },
-                    "f2140ext": {
+                    "f2140Ext": {
                       "type": "number",
                       "description": "最近四季度营业收入"
                     },
-                    "f2150ext": {
+                    "f2150Ext": {
                       "type": "number",
                       "description": "最近四季度每股股息折旧及摊销"
                     },
-                    "f2160ext": {
+                    "f2160Ext": {
                       "type": "number",
                       "description": "最近四季度扣非每股收益"
                     },
-                    "f2170ext": {
+                    "f2170Ext": {
                       "type": "number",
                       "description": "最近四季度每股自由现金流"
                     },
-                    "f2180ext": {
+                    "f2180Ext": {
                       "type": "number",
                       "description": "3年每股账面价值增长率当前值"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
@@ -5760,11 +5760,11 @@
                       "type": "string",
                       "description": "现金负债率当前值"
                     },
-                    "f2190rk": {
+                    "f2190Rk": {
                       "type": "string",
                       "description": "现金负债率行业排名"
                     },
-                    "f2190rkhist": {
+                    "f2190RkHist": {
                       "type": "string",
                       "description": "现金负债率历史行业排名"
                     },
@@ -5772,11 +5772,11 @@
                       "type": "string",
                       "description": "股东权益比率当前值"
                     },
-                    "f2200rk": {
+                    "f2200Rk": {
                       "type": "string",
                       "description": "股东权益比率行业排名"
                     },
-                    "f2200rkhist": {
+                    "f2200RkHist": {
                       "type": "string",
                       "description": "股东权益比率历史行业排名"
                     },
@@ -5784,11 +5784,11 @@
                       "type": "string",
                       "description": "利息保障倍数当前值"
                     },
-                    "f2210rk": {
+                    "f2210Rk": {
                       "type": "string",
                       "description": "利息保障倍数行业排名【0-100】"
                     },
-                    "f2210rkhist": {
+                    "f2210RkHist": {
                       "type": "string",
                       "description": "利息保障倍数历史行业排名【0-100】"
                     },
@@ -5808,11 +5808,11 @@
                       "type": "string",
                       "description": "财务实力综合得分"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称"
                     }
@@ -5907,12 +5907,12 @@
                       "description": "利息保障倍数当前值",
                       "example": ""
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
@@ -6028,12 +6028,12 @@
                       "description": "财务造假嫌疑（M分数）当前值",
                       "example": ""
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
@@ -6123,11 +6123,11 @@
                       "type": "string",
                       "description": "市盈率当前值"
                     },
-                    "f2250rk": {
+                    "f2250Rk": {
                       "type": "string",
                       "description": "市盈率行业排名【0-100】"
                     },
-                    "f2250rkhist": {
+                    "f2250RkHist": {
                       "type": "string",
                       "description": "市盈率历史行业排名【0-100】"
                     },
@@ -6135,11 +6135,11 @@
                       "type": "string",
                       "description": "预估市盈率当前值"
                     },
-                    "f2260rk": {
+                    "f2260Rk": {
                       "type": "string",
                       "description": "预估市盈率行业排名【0-100】"
                     },
-                    "f2260rkhist": {
+                    "f2260RkHist": {
                       "type": "string",
                       "description": "预估市盈率历史行业排名【0-100】"
                     },
@@ -6147,11 +6147,11 @@
                       "type": "string",
                       "description": "市盈增长比当前值"
                     },
-                    "f2270rk": {
+                    "f2270Rk": {
                       "type": "string",
                       "description": "市盈增长比行业排名【0-100】"
                     },
-                    "f2270rkhist": {
+                    "f2270RkHist": {
                       "type": "string",
                       "description": "市盈增长比历史行业排名【0-100】"
                     },
@@ -6159,11 +6159,11 @@
                       "type": "string",
                       "description": "市销率当前值"
                     },
-                    "f2280rk": {
+                    "f2280Rk": {
                       "type": "string",
                       "description": "市销率行业排名【0-100】"
                     },
-                    "f2280rkhist": {
+                    "f2280RkHist": {
                       "type": "string",
                       "description": "市销率历史排名【0-100】"
                     },
@@ -6171,11 +6171,11 @@
                       "type": "string",
                       "description": "市净率当前值"
                     },
-                    "f2290rk": {
+                    "f2290Rk": {
                       "type": "string",
                       "description": "市净率行业排名【0-100】"
                     },
-                    "f2290rkhist": {
+                    "f2290RkHist": {
                       "type": "string",
                       "description": "市净率历史行业排名【0-100】"
                     },
@@ -6183,11 +6183,11 @@
                       "type": "string",
                       "description": "股价/每股经营现金流当前值"
                     },
-                    "f2300rk": {
+                    "f2300Rk": {
                       "type": "string",
                       "description": "股价/每股经营现金流行业排名【0-100】"
                     },
-                    "f2300rkhist": {
+                    "f2300RkHist": {
                       "type": "string",
                       "description": "股价/每股经营现金流历史行业排名【0-100】"
                     },
@@ -6195,11 +6195,11 @@
                       "type": "string",
                       "description": "企业价值倍数当前值"
                     },
-                    "f2310rk": {
+                    "f2310Rk": {
                       "type": "string",
                       "description": "企业价值倍数行业排名【0-100】"
                     },
-                    "f2310rkhist": {
+                    "f2310RkHist": {
                       "type": "string",
                       "description": "企业价值倍数历史行业排名【0-100】"
                     },
@@ -6207,11 +6207,11 @@
                       "type": "string",
                       "description": "企业价值/收入当前值"
                     },
-                    "f2320rk": {
+                    "f2320Rk": {
                       "type": "string",
                       "description": "企业价值/收入行业排名【0-100】"
                     },
-                    "f2320rkhist": {
+                    "f2320RkHist": {
                       "type": "string",
                       "description": "企业价值/收入历史行业排名【0-100】"
                     },
@@ -6219,11 +6219,11 @@
                       "type": "string",
                       "description": "乔尔.格林布拉特收益率当前值"
                     },
-                    "f2330rk": {
+                    "f2330Rk": {
                       "type": "string",
                       "description": "乔尔.格林布拉特收益率行业排名【0-100】"
                     },
-                    "f2330rkhist": {
+                    "f2330RkHist": {
                       "type": "string",
                       "description": "乔尔.格林布拉特收益率历史行业排名【0-100】"
                     },
@@ -6231,11 +6231,11 @@
                       "type": "string",
                       "description": "扣非市盈率当前值"
                     },
-                    "f2340rk": {
+                    "f2340Rk": {
                       "type": "string",
                       "description": "扣非市盈率行业排名"
                     },
-                    "f2340rkhist": {
+                    "f2340RkHist": {
                       "type": "string",
                       "description": "扣非市盈率历史行业排名"
                     },
@@ -6243,11 +6243,11 @@
                       "type": "string",
                       "description": "周期调整市盈率当前值"
                     },
-                    "f2350rk": {
+                    "f2350Rk": {
                       "type": "string",
                       "description": "周期调整市盈率行业排名"
                     },
-                    "f2350rkhist": {
+                    "f2350RkHist": {
                       "type": "string",
                       "description": "周期调整市盈率历史行业排名"
                     },
@@ -6255,11 +6255,11 @@
                       "type": "string",
                       "description": "股价/每股有形账面价值当前值"
                     },
-                    "f2370rk": {
+                    "f2370Rk": {
                       "type": "string",
                       "description": "股价/每股有形账面价值行业排名"
                     },
-                    "f2370rkhist": {
+                    "f2370RkHist": {
                       "type": "string",
                       "description": "股价/每股有形账面价值历史行业排名"
                     },
@@ -6267,11 +6267,11 @@
                       "type": "string",
                       "description": "股价/自由现金流当前值"
                     },
-                    "f2380rk": {
+                    "f2380Rk": {
                       "type": "string",
                       "description": "股价/自由现金流行业排名"
                     },
-                    "f2380rkhist": {
+                    "f2380RkHist": {
                       "type": "string",
                       "description": "股价/自由现金流历史行业排名"
                     },
@@ -6279,11 +6279,11 @@
                       "type": "string",
                       "description": "企业价值/EBIT当前值"
                     },
-                    "f2390rk": {
+                    "f2390Rk": {
                       "type": "string",
                       "description": "企业价值/EBIT行业排名"
                     },
-                    "f2390rkhist": {
+                    "f2390RkHist": {
                       "type": "string",
                       "description": "企业价值/EBIT历史行业排名"
                     },
@@ -6291,11 +6291,11 @@
                       "type": "string",
                       "description": "股价/净流动资产价值得分当前值"
                     },
-                    "f2470rk": {
+                    "f2470Rk": {
                       "type": "string",
                       "description": "股价/净流动资产价值得分行业排名"
                     },
-                    "f2470rkhist": {
+                    "f2470RkHist": {
                       "type": "string",
                       "description": "股价/净流动资产价值得分历史行业排名"
                     },
@@ -6303,11 +6303,11 @@
                       "type": "string",
                       "description": "大师估值综合得分"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码"
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称"
                     }
@@ -6452,12 +6452,12 @@
                       "description": "企业价值/EBIT当前值",
                       "example": ""
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
@@ -6614,22 +6614,22 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "stockcode": {
+                    "stockCode": {
                       "type": "string",
                       "description": "股票代码",
                       "example": ""
                     },
-                    "stockname": {
+                    "stockName": {
                       "type": "string",
                       "description": "股票名称",
                       "example": ""
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": ""
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": ""
@@ -6658,7 +6658,7 @@
                         }
                       ]
                     },
-                    "mktvalue": {
+                    "mktValue": {
                       "type": "string",
                       "description": "总市值",
                       "example": ""
@@ -6742,7 +6742,7 @@
                       "description": "发布日期（格式yyyy-MM-dd）",
                       "example": "2025-01-15"
                     },
-                    "announcementid": {
+                    "announcementId": {
                       "type": "integer",
                       "description": "公告ID",
                       "format": "int32",
@@ -6863,83 +6863,83 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": ""
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": ""
                     },
-                    "reportyear": {
+                    "reportYear": {
                       "type": "string",
                       "description": "报告年度",
                       "example": ""
                     },
-                    "reportperiod": {
+                    "reportPeriod": {
                       "type": "string",
                       "description": "报告时段",
                       "example": ""
                     },
-                    "roettmqoqgrowth": {
+                    "roeTtmQoqGrowth": {
                       "type": "number",
                       "description": "ROE(TTM)环比增速"
                     },
-                    "roettmqoqgrowthlabel": {
+                    "roeTtmQoqGrowthLabel": {
                       "type": "integer",
                       "description": "ROE(TTM)环比增速的标签",
                       "format": "int32"
                     },
-                    "grossmarginttmmomgrowth": {
+                    "grossMarginTTMMoMGrowth": {
                       "type": "number",
                       "description": "毛利率(TTM)环比增速"
                     },
-                    "grossmarginttmmomgrowthlabel": {
+                    "grossMarginTTMMoMGrowthLabel": {
                       "type": "integer",
                       "description": "毛利率(TTM)环比增速的标签",
                       "format": "int32"
                     },
-                    "ttmnetprofitmarginqoq": {
+                    "ttmNetProfitMarginQoq": {
                       "type": "string",
                       "description": "净利率(TTM)环比增速",
                       "example": ""
                     },
-                    "ttmnetprofitmarginqoqlabel": {
+                    "ttmNetProfitMarginQoqLabel": {
                       "type": "integer",
                       "description": "净利率(TTM)环比增速的标签",
                       "format": "int32"
                     },
-                    "latestqtrnetprofityoyqoq": {
+                    "latestQtrNetProfitYoyQoq": {
                       "type": "number",
                       "description": "最近一季度归母净利润同比增速的环比增速"
                     },
-                    "latestqtrnetprofityoyqoqlabel": {
+                    "latestQtrNetProfitYoyQoqLabel": {
                       "type": "integer",
                       "description": "最近一季度归母净利润同比增速的环比增速的标签",
                       "format": "int32"
                     },
-                    "latestqtropincomeyoyqoq": {
+                    "latestQtrOpIncomeYoyQoq": {
                       "type": "number",
                       "description": "最近一季度营业总收入同比增速的环比增速"
                     },
-                    "latestqtropincomeyoyqoqlabel": {
+                    "latestQtrOpIncomeYoyQoqLabel": {
                       "type": "integer",
                       "description": "最近一季度营业总收入同比增速的环比增速的标签",
                       "format": "int32"
                     },
-                    "latestqtradjnetprofityoymom": {
+                    "latestQtrAdjNetProfitYoyMom": {
                       "type": "string",
                       "description": "最近一季度扣非净利润同比增速的环比增速",
                       "example": ""
                     },
-                    "latestqtradjnetprofityoymomlabel": {
+                    "latestQtrAdjNetProfitYoyMomLabel": {
                       "type": "integer",
                       "description": "最近一季度扣非净利润同比增速的环比增速的标签",
                       "format": "int32"
                     },
-                    "totaltag": {
+                    "totalTag": {
                       "type": "integer",
                       "description": "总的标签",
                       "format": "int32"
@@ -7161,12 +7161,12 @@
                       "description": "发布时间",
                       "example": "2025-04-02 15:45:02"
                     },
-                    "newsid": {
+                    "newsId": {
                       "type": "string",
                       "description": "新闻ID",
                       "example": "NEWS20250402001"
                     },
-                    "newstype": {
+                    "newsType": {
                       "type": "integer",
                       "description": "新闻类型",
                       "format": "int32",
@@ -7195,27 +7195,27 @@
                       "description": "摘要",
                       "example": "报道指出...后续盈利表现待察。"
                     },
-                    "keypoints": {
+                    "keyPoints": {
                       "type": "string",
                       "description": "关键要点",
                       "example": "3月基金发行 发行份额超1000亿份"
                     },
-                    "impactanalysis": {
+                    "impactAnalysis": {
                       "type": "string",
                       "description": "影响分析",
                       "example": "股市回暖→基金发行上升→市场盈利待察"
                     },
-                    "investmentopportunity": {
+                    "investmentOpportunity": {
                       "type": "string",
                       "description": "投资机会",
                       "example": "- <价值红利风格>..."
                     },
-                    "investmentrisk": {
+                    "investmentRisk": {
                       "type": "string",
                       "description": "投资风险",
                       "example": "- <中小盘成长风格>..."
                     },
-                    "sentimentscore": {
+                    "sentimentScore": {
                       "type": "number",
                       "description": "情绪得分(范围-5~5)",
                       "example": 2
@@ -7240,17 +7240,17 @@
                         }
                       ]
                     },
-                    "sentimentanalysis": {
+                    "sentimentAnalysis": {
                       "type": "string",
                       "description": "情绪分析",
                       "example": "3月基金发行回暖...整体偏积极。"
                     },
-                    "themecode": {
+                    "themeCode": {
                       "type": "string",
                       "description": "主题代码",
                       "example": "AI001"
                     },
-                    "newslevel": {
+                    "newsLevel": {
                       "type": "integer",
                       "description": "新闻等级",
                       "format": "int32",
@@ -7267,12 +7267,12 @@
                         }
                       ]
                     },
-                    "entitycode": {
+                    "entityCode": {
                       "type": "string",
                       "description": "实体代码",
                       "example": "600839"
                     },
-                    "entityname": {
+                    "entityName": {
                       "type": "string",
                       "description": "实体名称",
                       "example": "四川长虹"
@@ -7526,57 +7526,57 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "fundcode": {
+                    "fundCode": {
                       "type": "string",
                       "description": "基金代码",
                       "example": "159616"
                     },
-                    "fundname": {
+                    "fundName": {
                       "type": "string",
                       "description": "基金名称",
                       "example": "农牧ETF"
                     },
-                    "markettype": {
+                    "marketType": {
                       "type": "string",
                       "description": "市场类型(沪-sh、深-sz、京-bj)",
                       "example": "sz"
                     },
-                    "openprice": {
+                    "openPrice": {
                       "type": "number",
                       "description": "开盘价",
                       "example": 0.855
                     },
-                    "closepriceyday": {
+                    "closePriceYDay": {
                       "type": "number",
                       "description": "昨日收盘价",
                       "example": 0.855
                     },
-                    "currentprice": {
+                    "currentPrice": {
                       "type": "number",
                       "description": "当前价格",
                       "example": 0.84
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": -0.0175
                     },
-                    "highprice": {
+                    "highPrice": {
                       "type": "number",
                       "description": "最高价",
                       "example": 0.855
                     },
-                    "lowprice": {
+                    "lowPrice": {
                       "type": "number",
                       "description": "最低价",
                       "example": 0.835
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-11-04 15:09:00"
                     },
-                    "systime": {
+                    "sysTime": {
                       "type": "string",
                       "description": "系统时间",
                       "example": "2025-11-04 15:09:02"
@@ -8340,14 +8340,14 @@
           "股票日资金流向"
         ],
         "summary": "股票日资金流向",
-        "description": "通过指定股票代码和日期范围（格式为yyyy-MM-dd），查询该股票在指定交易日内的资金流向数据，包括小单、中单、大单、超大单的资金流入、流出、净流入金额及占比，以及主力资金净流入金额和占比，用于分析不同资金规模的交易行为和主力动向。",
+        "description": "通过股票代码和日期范围（格式为yyyy-MM-dd）查询指定股票的资金流向数据，包括按小单、中单、大单、超大单分类的资金流入、流出、净流入及其占比，以及主力净流入、内外盘总手数、内外盘差值、控盘比例等核心指标，适用于分析个股每日的资金动向和市场情绪。",
         "operationId": "list_stock_daily_fund_flows",
         "parameters": [
           {
             "name": "stockCode",
             "in": "query",
-            "description": "股票代码",
-            "required": true,
+            "description": "股票代码【与pubDate组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
             "schema": {
               "type": "string",
               "example": "002594"
@@ -8393,6 +8393,56 @@
               "type": "integer",
               "format": "int32",
               "example": 10
+            }
+          },
+          {
+            "name": "orderField",
+            "in": "query",
+            "description": "排序字段（默认日期）",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "date",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "data代表日期;\nmainNetInflow代表主力净流入",
+                  "enum": [
+                    "data",
+                    "mainNetInflow"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "orderDirection",
+            "in": "query",
+            "description": "排序方向（倒序）",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "desc",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "asc代表正序;\ndesc代表倒序",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "pubDate",
+            "in": "query",
+            "description": "发布日期（格式yyyy-MM-dd）【与stockCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2020-01-01"
             }
           }
         ],
@@ -18096,7 +18146,7 @@
                       "description": "每股收益(摊薄)",
                       "example": 0.45
                     },
-                    "trevps": {
+                    "tRevPS": {
                       "type": "number",
                       "description": "每股业务收入",
                       "example": 2.9791
@@ -18136,7 +18186,7 @@
           "财务指标（成长能力）"
         ],
         "summary": "财务指标（成长能力）",
-        "description": "通过股票代码查询沪深京股票的成长能力财务指标，包括营业收入同比、净利润同比和扣非净利润同比，用于评估公司的财务增长趋势。",
+        "description": "通过股票代码和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入同比数据，用于评估公司的成长潜力和财务健康状况。",
         "operationId": "get_stock_fin_ind_growth",
         "parameters": [
           {
@@ -18235,6 +18285,46 @@
                       "type": "number",
                       "description": "营业收入同比",
                       "example": 0.356
+                    },
+                    "revGrowth1y": {
+                      "type": "number",
+                      "description": "业务收入1年平均增长率",
+                      "example": 0.2
+                    },
+                    "npGrowth1y": {
+                      "type": "number",
+                      "description": "净利润1年平均增长率",
+                      "example": 0.1
+                    },
+                    "epsGrowth1y": {
+                      "type": "number",
+                      "description": "每股收益1年平均增长率",
+                      "example": 0.452
+                    },
+                    "taGrowth1y": {
+                      "type": "number",
+                      "description": "总资产1年平均增长率",
+                      "example": 0.11
+                    },
+                    "npRecurringGrowth1y": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润1年平均增长率",
+                      "example": 0.25
+                    },
+                    "opProfitGrowth1y": {
+                      "type": "number",
+                      "description": "业务利润1年平均增长率",
+                      "example": 0.33
+                    },
+                    "cfoGrowth1y": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额1年平均增长率",
+                      "example": 0.1
+                    },
+                    "equityGrowth1y": {
+                      "type": "number",
+                      "description": "净资产1年平均增长率",
+                      "example": 0.2
                     }
                   }
                 }
@@ -18261,7 +18351,7 @@
           "财务指标（盈利能力）"
         ],
         "summary": "财务指标（盈利能力）",
-        "description": "通过股票代码和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA和平均ROIC，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
+        "description": "通过股票代码和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日期，用于分析公司的盈利能力和资本回报效率。",
         "operationId": "list_fin_ind_profit",
         "parameters": [
           {
@@ -18385,6 +18475,11 @@
                       "type": "number",
                       "description": "ROIC",
                       "example": 0.154
+                    },
+                    "roaEbit": {
+                      "type": "number",
+                      "description": "总资产报酬率(EBIT/资产)",
+                      "example": 0.0632704647
                     }
                   }
                 }
@@ -18520,6 +18615,16 @@
                       "type": "number",
                       "description": "应收账款周转率",
                       "example": 2.0421
+                    },
+                    "inventoryDays": {
+                      "type": "number",
+                      "description": "存货周转天数 ",
+                      "example": 59.38436
+                    },
+                    "payableDays": {
+                      "type": "number",
+                      "description": "应付帐款周转天数",
+                      "example": 29.15964
                     }
                   }
                 }
@@ -18546,7 +18651,7 @@
           "财务指标（偿债能力）"
         ],
         "summary": "财务指标（偿债能力）",
-        "description": "通过股票代码、开始日期和结束日期查询指定沪深京股票的偿债能力财务指标，包括经营现金流流动负债比和EBIT利息保障倍数等核心数据，用于评估企业的财务风险和偿债能力。",
+        "description": "通过股票代码、开始日期和结束日期（格式为yyyy-MM-dd）查询指定沪深京股票的偿债能力财务指标，包括经营现金流流动负债比、EBIT利息保障倍数、经营现金流与总负债比、经营现金流与有息债务比、经营现金流与非流动负债比、营业利润与流动负债比、营业利润与总负债比、息税折旧摊销前利润与总负债比、息税折旧摊销前利润与有息债务比等核心数据，用于评估企业的财务风险和偿债能力。",
         "operationId": "list_fin_ind_solvency",
         "parameters": [
           {
@@ -18650,6 +18755,41 @@
                       "type": "number",
                       "description": "EBIT利息保障倍数",
                       "example": 54.6579
+                    },
+                    "cfoToTotalLiabilities": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额／负债总额",
+                      "example": 1
+                    },
+                    "cfoToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/有息债务",
+                      "example": 3.03257631
+                    },
+                    "cfoToNonCurrentLiab": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/非流动负债",
+                      "example": 1.50485065
+                    },
+                    "operatingProfitToCurrentLiab": {
+                      "type": "number",
+                      "description": "营业利润/流动负债",
+                      "example": 1
+                    },
+                    "operatingProfitToTotalLiabilities": {
+                      "type": "number",
+                      "description": "营业利润/负债合计",
+                      "example": 0.15168014
+                    },
+                    "ebitdaToTotalLiabilities": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/负债合计",
+                      "example": 0.19155736
+                    },
+                    "ebitdaToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/有息债务",
+                      "example": 2.54500393
                     }
                   }
                 }
@@ -18676,7 +18816,7 @@
           "财务指标（收现能力）"
         ],
         "summary": "财务指标（收现能力）",
-        "description": "通过股票代码和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的财务收现能力指标，包括预收款项营收占比、销售收现营收占比和经营现金流营收占比，以及对应的股票信息、报告期截止日期和发布日期，用于分析企业现金流质量和营收实现效率。",
+        "description": "通过股票代码和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的财务现金回收能力指标，包括预收款项营收占比、销售收现营收占比、经营现金流营收占比、经营现金流与资产总额比率、经营现金流与归母净利润比率、经营现金流与营业利润比率等核心数据，同时返回股票信息、报告期截止日期和发布日期（格式为yyyy-MM-dd HH:mm:ss），用于分析企业现金流质量和营收实现效率。",
         "operationId": "list_fin_ind_cash_collect",
         "parameters": [
           {
@@ -18785,6 +18925,21 @@
                       "type": "number",
                       "description": "经营现金流营收占比",
                       "example": 0.185
+                    },
+                    "operatingCashToAssets": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/资产总额",
+                      "example": 0.17036175
+                    },
+                    "operatingCashToParentProfit": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额/归母净利润",
+                      "example": 3.31526621
+                    },
+                    "operatingCashToOperatingProfit": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额/营业利润",
+                      "example": 2.64338131
                     }
                   }
                 }
@@ -22940,7 +23095,7 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "pubDt": {
+                    "PUBDT": {
                       "type": "string",
                       "description": "发布日期",
                       "example": "2023-11-15"
@@ -22950,57 +23105,57 @@
                       "description": "股票代码",
                       "example": "00001"
                     },
-                    "f2004": {
+                    "F2004": {
                       "type": "string",
                       "description": "中文简称",
                       "example": "长和"
                     },
-                    "f1000": {
+                    "F1000": {
                       "type": "string",
                       "description": "公司代码",
                       "example": "LA00001"
                     },
-                    "f1100": {
+                    "F1100": {
                       "type": "string",
                       "description": "变动日期",
                       "example": "2024-06-15"
                     },
-                    "f1101": {
+                    "F1101": {
                       "type": "number",
                       "description": "优先股股数",
                       "example": 5000000.0
                     },
-                    "f1102": {
+                    "F1102": {
                       "type": "number",
                       "description": "普通股股数",
                       "example": 1000000.0
                     },
-                    "f1103": {
+                    "F1103": {
                       "type": "number",
                       "description": "H股股数",
                       "example": 1000000.0
                     },
-                    "f1104": {
+                    "F1104": {
                       "type": "number",
                       "description": "其他股数（大陆股数）",
                       "example": 10000.0
                     },
-                    "f1105": {
+                    "F1105": {
                       "type": "number",
                       "description": "特殊股数",
                       "example": 10000.0
                     },
-                    "f1106": {
+                    "F1106": {
                       "type": "number",
                       "description": "香港股数部分",
                       "example": 1500.5
                     },
-                    "f1107": {
+                    "F1107": {
                       "type": "number",
                       "description": "大陆股数部分",
                       "example": 1000000.0
                     },
-                    "f1108": {
+                    "F1108": {
                       "type": "number",
                       "description": "总股数",
                       "example": 1000000000.0
@@ -25620,25 +25775,25 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "pagenum": {
+                    "pageNum": {
                       "type": "integer",
                       "description": "页码",
                       "format": "int32",
                       "example": 1
                     },
-                    "pagesize": {
+                    "pageSize": {
                       "type": "integer",
                       "description": "页长",
                       "format": "int32",
                       "example": 10
                     },
-                    "totalcount": {
+                    "totalCount": {
                       "type": "integer",
                       "description": "总条数",
                       "format": "int32",
                       "example": 26064
                     },
-                    "totalpage": {
+                    "totalPage": {
                       "type": "integer",
                       "description": "总页数",
                       "format": "int32",
@@ -26076,7 +26231,7 @@
           "财务指标（单季度成长能力）"
         ],
         "summary": "财务指标（单季度成长能力）",
-        "description": "通过股票代码查询沪深京股票的季度成长能力财务指标，包括营业收入同比等核心增长数据，并可指定财报披露日期范围进行筛选，用于评估公司的财务增长趋势。",
+        "description": "通过股票代码查询沪深京股票的季度成长能力财务指标，包括营业收入同比、业务收入1年平均增长率、净利润1年平均增长率、每股收益1年平均增长率、总资产1年平均增长率、经常性业务产生的净利润1年平均增长率、业务利润1年平均增长率、经营活动产生的现金流量净额1年平均增长率、净资产1年平均增长率等核心增长数据，并可指定财报披露日期范围（yyyy-MM-dd）进行筛选，用于评估公司的财务增长趋势和季度表现。",
         "operationId": "list_stock_fin_ind_grow_q",
         "parameters": [
           {
@@ -26175,6 +26330,46 @@
                       "type": "number",
                       "description": "营业收入同比",
                       "example": 0.356
+                    },
+                    "revGrowth1y": {
+                      "type": "number",
+                      "description": "业务收入1年平均增长率",
+                      "example": 0.2
+                    },
+                    "npGrowth1y": {
+                      "type": "number",
+                      "description": "净利润1年平均增长率",
+                      "example": 0.1
+                    },
+                    "epsGrowth1y": {
+                      "type": "number",
+                      "description": "每股收益1年平均增长率",
+                      "example": 0.452
+                    },
+                    "taGrowth1y": {
+                      "type": "number",
+                      "description": "总资产1年平均增长率",
+                      "example": 0.11
+                    },
+                    "npRecurringGrowth1y": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润1年平均增长率",
+                      "example": 0.25
+                    },
+                    "opProfitGrowth1y": {
+                      "type": "number",
+                      "description": "业务利润1年平均增长率",
+                      "example": 0.33
+                    },
+                    "cfoGrowth1y": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额1年平均增长率",
+                      "example": 0.1
+                    },
+                    "equityGrowth1y": {
+                      "type": "number",
+                      "description": "净资产1年平均增长率",
+                      "example": 0.2
                     }
                   }
                 }
@@ -27972,7 +28167,7 @@
                       "description": "变更日期",
                       "example": "2019-03-25 00:00:00"
                     },
-                    "t2.f6h13": {
+                    "t2.F6H13": {
                       "type": "string",
                       "description": "适用渠道代码",
                       "example": "ONLINE"
@@ -38093,7 +38288,7 @@
                       "description": "每股收益(摊薄)",
                       "example": 0.45
                     },
-                    "trevps": {
+                    "tRevPS": {
                       "type": "number",
                       "description": "每股业务收入",
                       "example": 2.9791
@@ -38133,10 +38328,10 @@
           "财务指标（单季度盈利能力）"
         ],
         "summary": "财务指标（单季度盈利能力）",
-        "description": "通过股票代码和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA和平均ROIC，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
+        "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的季度财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
         "operationId": "list_fin_ind_profit_q",
         "requestBody": {
-          "description": "通过股票代码和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA和平均ROIC，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
+          "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的季度财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
           "content": {
             "application/json": {
               "schema": {
@@ -38254,6 +38449,11 @@
                       "type": "number",
                       "description": "ROIC",
                       "example": 0.154
+                    },
+                    "roaEbit": {
+                      "type": "number",
+                      "description": "总资产报酬率(EBIT/资产)",
+                      "example": 0.0632704647
                     }
                   }
                 }
@@ -38280,10 +38480,10 @@
           "财务指标（单季度营运能力）"
         ],
         "summary": "财务指标（单季度营运能力）",
-        "description": "通过股票代码和日期范围查询沪深京股票的运营能力财务指标，包括固定资产合计周转率、流动资产周转率和应收账款周转率，同时提供股票名称、财报披露日期和报告期截止日期，用于分析企业资产运营效率。",
+        "description": "通过股票代码（单只或批量）和日期范围（yyyy-MM-dd格式）查询沪深京股票的季度运营能力财务指标，包括固定资产合计周转率、流动资产周转率、应收账款周转率、存货周转天数和应付账款周转天数，同时提供股票名称、财报披露日期和报告期截止日期，用于分析企业资产运营效率。",
         "operationId": "list_fin_ind_operating_q",
         "requestBody": {
-          "description": "通过股票代码和日期范围查询沪深京股票的运营能力财务指标，包括固定资产合计周转率、流动资产周转率和应收账款周转率，同时提供股票名称、财报披露日期和报告期截止日期，用于分析企业资产运营效率。",
+          "description": "通过股票代码（单只或批量）和日期范围（yyyy-MM-dd格式）查询沪深京股票的季度运营能力财务指标，包括固定资产合计周转率、流动资产周转率、应收账款周转率、存货周转天数和应付账款周转天数，同时提供股票名称、财报披露日期和报告期截止日期，用于分析企业资产运营效率。",
           "content": {
             "application/json": {
               "schema": {
@@ -38386,6 +38586,16 @@
                       "type": "number",
                       "description": "应收账款周转率",
                       "example": 2.0421
+                    },
+                    "inventoryDays": {
+                      "type": "number",
+                      "description": "存货周转天数 ",
+                      "example": 59.38436
+                    },
+                    "payableDays": {
+                      "type": "number",
+                      "description": "应付帐款周转天数",
+                      "example": 29.15964
                     }
                   }
                 }
@@ -38412,10 +38622,10 @@
           "财务指标（单季度偿债能力）"
         ],
         "summary": "财务指标（单季度偿债能力）",
-        "description": "通过股票代码、开始日期和结束日期查询指定沪深京股票的偿债能力财务指标，包括经营现金流流动负债比和EBIT利息保障倍数等核心数据，用于评估企业的财务风险和偿债能力。",
+        "description": "通过股票代码（可批量）和报告期起止日期（格式为yyyy-MM-dd）查询指定沪深京股票的季度偿债能力财务指标，包括经营现金流流动负债比、EBIT利息保障倍数、经营现金流与总负债比、经营现金流与有息债务比等核心偿债能力数据，用于评估企业的财务风险和偿债能力。",
         "operationId": "list_fin_ind_solvency_q",
         "requestBody": {
-          "description": "通过股票代码、开始日期和结束日期查询指定沪深京股票的偿债能力财务指标，包括经营现金流流动负债比和EBIT利息保障倍数等核心数据，用于评估企业的财务风险和偿债能力。",
+          "description": "通过股票代码（可批量）和报告期起止日期（格式为yyyy-MM-dd）查询指定沪深京股票的季度偿债能力财务指标，包括经营现金流流动负债比、EBIT利息保障倍数、经营现金流与总负债比、经营现金流与有息债务比等核心偿债能力数据，用于评估企业的财务风险和偿债能力。",
           "content": {
             "application/json": {
               "schema": {
@@ -38513,6 +38723,41 @@
                       "type": "number",
                       "description": "EBIT利息保障倍数",
                       "example": 54.6579
+                    },
+                    "cfoToTotalLiabilities": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额／负债总额",
+                      "example": 1
+                    },
+                    "cfoToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/有息债务",
+                      "example": 3.03257631
+                    },
+                    "cfoToNonCurrentLiab": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/非流动负债",
+                      "example": 1.50485065
+                    },
+                    "operatingProfitToCurrentLiab": {
+                      "type": "number",
+                      "description": "营业利润/流动负债",
+                      "example": 1
+                    },
+                    "operatingProfitToTotalLiabilities": {
+                      "type": "number",
+                      "description": "营业利润/负债合计",
+                      "example": 0.15168014
+                    },
+                    "ebitdaToTotalLiabilities": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/负债合计",
+                      "example": 0.19155736
+                    },
+                    "ebitdaToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/有息债务",
+                      "example": 2.54500393
                     }
                   }
                 }
@@ -38539,10 +38784,10 @@
           "财务指标（单季度收现能力）"
         ],
         "summary": "财务指标（单季度收现能力）",
-        "description": "通过股票代码和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的财务收现能力指标，包括预收款项营收占比、销售收现营收占比和经营现金流营收占比，以及对应的股票信息、报告期截止日期和发布日期，用于分析企业现金流质量和营收实现效率。",
+        "description": "通过股票代码（单个或批量）和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的单季度财务收现能力指标，包括预收款项营收占比、销售收现营收占比、经营现金流营收占比，以及经营现金流与资产总额、归母净利润、营业利润的比率，同时提供股票信息、报告期截止日期和发布日期，用于分析企业现金流质量和营收实现效率。",
         "operationId": "list_fin_ind_cash_coll_q",
         "requestBody": {
-          "description": "通过股票代码和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的财务收现能力指标，包括预收款项营收占比、销售收现营收占比和经营现金流营收占比，以及对应的股票信息、报告期截止日期和发布日期，用于分析企业现金流质量和营收实现效率。",
+          "description": "通过股票代码（单个或批量）和可选的报告期起止日期（格式为yyyy-MM-dd），查询沪深京A股或B股公司的单季度财务收现能力指标，包括预收款项营收占比、销售收现营收占比、经营现金流营收占比，以及经营现金流与资产总额、归母净利润、营业利润的比率，同时提供股票信息、报告期截止日期和发布日期，用于分析企业现金流质量和营收实现效率。",
           "content": {
             "application/json": {
               "schema": {
@@ -38645,6 +38890,21 @@
                       "type": "number",
                       "description": "经营现金流营收占比",
                       "example": 0.185
+                    },
+                    "operatingCashToAssets": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/资产总额",
+                      "example": 0.17036175
+                    },
+                    "operatingCashToParentProfit": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额/归母净利润",
+                      "example": 3.31526621
+                    },
+                    "operatingCashToOperatingProfit": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额/营业利润",
+                      "example": 2.64338131
                     }
                   }
                 }
@@ -38776,12 +39036,12 @@
                       "description": "指数的总市值",
                       "example": 122081713834.268
                     },
-                    "pe": {
+                    "PE": {
                       "type": "number",
                       "description": "市盈率",
                       "example": 14.3326
                     },
-                    "pb": {
+                    "PB": {
                       "type": "number",
                       "description": "市净率",
                       "example": 1.376
@@ -40139,58 +40399,58 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "industrycode": {
+                    "industryCode": {
                       "type": "string",
                       "description": "行业代码",
                       "example": "740000"
                     },
-                    "industryname": {
+                    "industryName": {
                       "type": "string",
                       "description": "行业名称",
                       "example": "煤炭"
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": 0.04
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "近一周涨跌幅",
                       "example": 0.12
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-01-01 10:10:10"
                     },
-                    "industryamount": {
+                    "industryAmount": {
                       "type": "integer",
                       "description": "行业总数",
                       "format": "int32",
                       "example": 30
                     },
-                    "leadupfundcode": {
+                    "leadUpFundCode": {
                       "type": "string",
                       "description": "领涨ETF基金代码",
                       "example": "159590"
                     },
-                    "leadupfundname": {
+                    "leadUpFundName": {
                       "type": "string",
                       "description": "领ETF基金名称",
                       "example": "软件ETF"
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "领涨股代码",
                       "example": "002594"
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "领涨股名称",
                       "example": "比亚迪"
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "涨停家数",
                       "format": "int32",
@@ -40201,37 +40461,37 @@
                       "description": "价格",
                       "example": 12
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "同行业排名",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockamount": {
+                    "stockAmount": {
                       "type": "integer",
                       "description": "股票家数",
                       "format": "int32",
                       "example": 30
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "0%家数",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "下跌家数",
                       "format": "int32",
                       "example": 2
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "上涨家数",
                       "format": "int32",
                       "example": 3
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "总市值 T日",
                       "example": 15343870.0
@@ -40362,108 +40622,108 @@
                       "description": "响应消息",
                       "example": "success"
                     },
-                    "conceptcode": {
+                    "conceptCode": {
                       "type": "string",
                       "description": "概念代码",
                       "example": "14010009"
                     },
-                    "conceptname": {
+                    "conceptName": {
                       "type": "string",
                       "description": "概念名称",
                       "example": "海参"
                     },
-                    "changeratio": {
+                    "changeRatio": {
                       "type": "number",
                       "description": "涨跌幅",
                       "example": 0.02
                     },
-                    "changeratio1w": {
+                    "changeRatio1W": {
                       "type": "number",
                       "description": "近一周涨跌幅",
                       "example": 0.08
                     },
-                    "conceptamount": {
+                    "conceptAmount": {
                       "type": "integer",
                       "description": "概念总数",
                       "format": "int32",
                       "example": 50
                     },
-                    "datatime": {
+                    "dataTime": {
                       "type": "string",
                       "description": "数据时间",
                       "example": "2025-01-01 10:10:10"
                     },
-                    "leadup1wfundcode": {
+                    "leadUp1WFundCode": {
                       "type": "string",
                       "description": "领涨1周ETF基金代码",
                       "example": "159590"
                     },
-                    "leadup1wfundname": {
+                    "leadUp1WFundName": {
                       "type": "string",
                       "description": "领涨1周ETF基金名称",
                       "example": "软件ETF"
                     },
-                    "leadup1wstockcode": {
+                    "leadUp1WStockCode": {
                       "type": "string",
                       "description": "领涨1周股票代码",
                       "example": "002594"
                     },
-                    "leadup1wstockname": {
+                    "leadUp1WStockName": {
                       "type": "string",
                       "description": "领涨1周股票名称",
                       "example": "比亚迪"
                     },
-                    "leadupfundcode": {
+                    "leadUpFundCode": {
                       "type": "string",
                       "description": "领涨ETF基金代码",
                       "example": "159590"
                     },
-                    "leadupfundname": {
+                    "leadUpFundName": {
                       "type": "string",
                       "description": "领ETF基金名称",
                       "example": "软件ETF"
                     },
-                    "leadupstockcode": {
+                    "leadUpStockCode": {
                       "type": "string",
                       "description": "领涨股代码",
                       "example": "002594"
                     },
-                    "leadupstockname": {
+                    "leadUpStockName": {
                       "type": "string",
                       "description": "领涨股名称",
                       "example": "比亚迪"
                     },
-                    "limitupamount": {
+                    "limitUpAmount": {
                       "type": "integer",
                       "description": "涨停家数",
                       "format": "int32",
                       "example": 10
                     },
-                    "ratiorank": {
+                    "ratioRank": {
                       "type": "integer",
                       "description": "同概念排名",
                       "format": "int32",
                       "example": 1
                     },
-                    "stockbxamount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "description": "不涨不跌家数",
                       "format": "int32",
                       "example": 2
                     },
-                    "stockdownamount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "description": "下跌家数",
                       "format": "int32",
                       "example": 3
                     },
-                    "stockupamount": {
+                    "stockUpAmount": {
                       "type": "integer",
                       "description": "上涨家数",
                       "format": "int32",
                       "example": 5
                     },
-                    "totalvalue": {
+                    "totalValue": {
                       "type": "number",
                       "description": "总市值 T日",
                       "example": 44213521214
