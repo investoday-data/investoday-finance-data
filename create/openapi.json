@@ -8318,10 +8318,12 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "1代表涨停；-1代表跌停；0代表未涨跌停",
+                          "description": "1代表涨停;\n-1代表跌停;\n0代表未涨跌停",
                           "format": "int32",
                           "enum": [
-                            1
+                            1,
+                            -1,
+                            0
                           ]
                         }
                       ]
