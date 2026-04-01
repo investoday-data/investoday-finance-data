@@ -3367,7 +3367,7 @@
                   "toolId": "generate_chart",
                   "apiPath": "generate-chart",
                   "enabled": 1,
-                  "apiAccessLevel": null,
+                  "apiAccessLevel": "L1",
                   "apiMethod": "POST"
                 },
                 {
@@ -3381,7 +3381,7 @@
                   "toolId": "generate_nex_chart",
                   "apiPath": "generate-nex-chart",
                   "enabled": 1,
-                  "apiAccessLevel": "L5",
+                  "apiAccessLevel": "L1",
                   "apiMethod": "POST"
                 }
               ]
@@ -4674,7 +4674,7 @@
               "apis": [
                 {
                   "apiId": 110518,
-                  "apiName": "上市发债企业基本信息",
+                  "apiName": "发债企业基本信息",
                   "apiType": "SQL",
                   "apiStatus": "release",
                   "groupId": 11155,
@@ -4716,7 +4716,7 @@
                 },
                 {
                   "apiId": 110521,
-                  "apiName": "产品信息",
+                  "apiName": "供应链产品信息",
                   "apiType": "SQL",
                   "apiStatus": "release",
                   "groupId": 11155,
