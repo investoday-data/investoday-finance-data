@@ -1213,6 +1213,11 @@
                     "dealStockAmount1W": {
                       "type": "number",
                       "description": "近一周成交量"
+                    },
+                    "turnOverRate": {
+                      "type": "number",
+                      "description": "换手率",
+                      "example": 1.8
                     }
                   }
                 }
@@ -21688,6 +21693,160 @@
             "ApiKeyAuth": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "港股基本信息"
+        ],
+        "summary": "港股基本信息",
+        "description": "通过股票代码（可批量）查询香港股票的基本信息，包括股票代码、名称（中文全称、简称、英文简称）、上市状态、上市板块、交易货币、买卖单位、上市日期、摘牌日期、公司代码、交易市场编码以及是否为港股通标的等核心数据，便于大模型进行股票基本信息的查询和分析。",
+        "operationId": "get_hk_stock_basic_info",
+        "requestBody": {
+          "description": "通过股票代码（可批量）查询香港股票的基本信息，包括股票代码、名称（中文全称、简称、英文简称）、上市状态、上市板块、交易货币、买卖单位、上市日期、摘牌日期、公司代码、交易市场编码以及是否为港股通标的等核心数据，便于大模型进行股票基本信息的查询和分析。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码",
+                    "example": [
+                      "00001",
+                      "00004"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "00001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "长和"
+                    },
+                    "stockNameFull": {
+                      "type": "string",
+                      "description": "证券全称",
+                      "example": "长江和记实业有限公司"
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "交易市场编码",
+                      "example": "HK"
+                    },
+                    "stockNameEn": {
+                      "type": "string",
+                      "description": "证券英文简称",
+                      "example": "CKH HOLDINGS"
+                    },
+                    "listStatus": {
+                      "type": "string",
+                      "description": "上市状态",
+                      "example": "正常"
+                    },
+                    "boardName": {
+                      "type": "string",
+                      "description": "上市板块",
+                      "example": "主板"
+                    },
+                    "currencyCode": {
+                      "type": "string",
+                      "description": "交易货币",
+                      "example": "HKD"
+                    },
+                    "lotSize": {
+                      "type": "number",
+                      "description": "买卖单位(股/手)",
+                      "example": 500.0
+                    },
+                    "listDate": {
+                      "type": "string",
+                      "description": "上市日期",
+                      "example": "1972-11-01 00:00:00"
+                    },
+                    "delistDate": {
+                      "type": "string",
+                      "description": "摘牌日期",
+                      "example": "2023-08-15"
+                    },
+                    "companyCode": {
+                      "type": "string",
+                      "description": "公司代码",
+                      "example": "LH00001"
+                    },
+                    "isConnect": {
+                      "type": "string",
+                      "description": "港股通标记",
+                      "example": "1",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "1：是；\n0：否；",
+                          "enum": [
+                            "1：是；\n0：否；"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
       }
     },
     "/hk-stock/name-change": {
@@ -27274,12 +27433,12 @@
                 "properties": {
                   "fundCode": {
                     "type": "string",
-                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "description": "基金代码",
                     "example": "000001"
                   },
                   "fundCodes": {
                     "type": "array",
-                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "description": "基金代码列表",
                     "example": [
                       "000001",
                       "000006"
@@ -27287,6 +27446,18 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
                   }
                 }
               }
@@ -41691,6 +41862,90 @@
                       "type": "number",
                       "description": "主营产业毛利占比",
                       "example": 0.677738
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/stock-quote/capital-flow": {
+      "get": {
+        "tags": [
+          "股票实时资金流向"
+        ],
+        "summary": "股票实时资金流向",
+        "description": "通过股票代码获取指定股票的实时资金流向数据，包括超大单净流入、大单净流入、主力净流入等关键指标，以及股票名称和行情日期，用于实时监控和分析个股的资金动向。",
+        "operationId": "get_stock_realtime_fund_flow",
+        "parameters": [
+          {
+            "name": "stockCode",
+            "in": "query",
+            "description": "股票代码",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "002594"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "002594"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "比亚迪"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "行情日期"
+                    },
+                    "largeNetInflow": {
+                      "type": "number",
+                      "description": "大单净流入"
+                    },
+                    "mainNetInflow": {
+                      "type": "number",
+                      "description": "主力净流入（超大单+大单）"
+                    },
+                    "superLargeNetInflow": {
+                      "type": "number",
+                      "description": "超大单净流入"
                     }
                   }
                 }
