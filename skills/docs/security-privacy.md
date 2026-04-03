@@ -3,11 +3,12 @@
 ## 安全
 
 - 仅通过 HTTPS 调用 `data-api.investoday.net`
+- 凭证按以下顺序读取：环境变量 `INVESTODAY_API_KEY`，若未设置则读取 skill 根目录 `.env` 中的同名键
 - API Key 仅用于身份验证，不会被记录或转发至第三方
 
 ## 隐私
 
-- 离开本机的数据：接口路径、查询参数、`INVESTODAY_API_KEY`
+- 离开本机的数据：接口路径、查询参数、解析后的 `INVESTODAY_API_KEY`
 - 不离开本机的数据：本地文件、环境中的其他变量、对话内容
 
 ## 外部接口

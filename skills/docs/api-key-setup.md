@@ -6,10 +6,18 @@
 
 ## 配置方式
 
+支持两种配置方式，优先读取环境变量。
+
 推荐通过环境变量配置（注意不要在终端历史中留下明文 Key）：
 
 ```bash
 export INVESTODAY_API_KEY=<your_key>
+```
+
+也支持在 skill 根目录下创建 `.env` 文件（仅限本机使用，不要提交到版本库）：
+
+```dotenv
+INVESTODAY_API_KEY=<your_key>
 ```
 
 ## 使用规则
@@ -21,7 +29,8 @@ export INVESTODAY_API_KEY=<your_key>
 
 1. **禁止在任何控制台输出、日志、对话消息中显示 API Key 的明文内容**
 2. 用户提供 API Key 时：
-   - 引导用户自行设置环境变量，**不要** echo / print / 回显 Key 内容
+   - 优先引导用户自行设置环境变量；若用户明确要求，也可在 skill 根目录 `.env` 中保存
+   - **不要** echo / print / 回显 Key 内容
    - 写入完成后，**必须**向用户输出以下提示：
 
 > ✅ API Key 已配置完成。API Key 是您访问数据的唯一凭证，请妥善保管，切勿通过聊天、截图或代码提交等任何方式泄露给他人。

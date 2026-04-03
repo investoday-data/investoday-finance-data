@@ -20,8 +20,9 @@
  *   # array 类型参数：同一 key 重复传入，自动合并为列表
  *   node scripts/call_api.js index-quote/realtime --method POST indexCodes=000001 indexCodes=399006
  *
- * 环境变量：
- *   INVESTODAY_API_KEY  API Key（必须）
+ * 凭证来源：
+ *   1. 环境变量 INVESTODAY_API_KEY（优先）
+ *   2. Skill 根目录 .env 中的 INVESTODAY_API_KEY
  *
  * 输出：
  *   JSON 格式的 data 字段内容，调用失败时输出错误信息并以非零退出码退出
@@ -62,7 +63,7 @@ function loadApiKey() {
   if (fileKey) return fileKey;
 
   process.stderr.write(
-    "ERROR: 设置环境变量 INVESTODAY_API_KEY 后再请求。"
+    "ERROR: 请先设置环境变量 INVESTODAY_API_KEY，或在 skill 根目录 .env 中配置同名键。"
   );
   process.exit(1);
 }
@@ -151,7 +152,9 @@ async function callApi(apiPath, method, params, apiKey) {
     resp = await fetch(url, fetchOpts);
   } catch (err) {
     if (err.name === "TimeoutError" || err.name === "AbortError") {
-      process.stderr.write(`ERROR: 请求超时（${REQUEST_TIMEOUT / 1000}s）: ${url}\n`);
+      process.stderr.write(
+        `ERROR: 请求超时（${REQUEST_TIMEOUT / 1000}s）: ${url}\n`
+      );
     } else {
       // 脱敏：避免 API Key 泄露
       let msg = String(err.message || err);
