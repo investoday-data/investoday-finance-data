@@ -1,7 +1,7 @@
 ---
 name: investoday-finance-data
 version: 1.5.0
-description: 今日投资数据市场金融数据接口，覆盖A股/港股/基金/指数/宏观经济 180+ 个接口。当需要查询股票行情、财务报表、公司公告、研报评级、基金净值、行业分析、宏观经济指标时使用；或需要实体识别（股票代码与名称互转）、构建量化分析、生成投研报告等金融数据场景。
+description: 通过 InvestToday API 获取中国市场金融数据，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 180+ 接口。适用于用户需要查询行情、财报、公告、研报评级、宏观指标、证券代码与名称映射，或直接获取结构化 JSON / 原始数据时。需要 INVESTODAY_API_KEY 环境变量，或在 skill 根目录 .env 中配置同名键。
 homepage: https://github.com/investoday-data/investoday-api-skills.git
 tags:
   # 资产类别
@@ -72,7 +72,7 @@ requirements:
 > 国际用户请查看英文版：[SKILL_EN.md](./SKILL_EN.md)
 > For international users, see: [SKILL_EN.md](./SKILL_EN.md)
 
-今日投资数据市场提供 A 股、港股、基金、指数、宏观经济等 180+ 个金融数据接口。
+通过 InvestToday API 获取中国市场金融数据，适合在需要查询行情、财报、公告、研报评级、宏观指标、证券代码与名称映射，或直接获取结构化 JSON / 原始数据时使用。
 
 ## API Key
 

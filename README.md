@@ -12,20 +12,29 @@
 
 前往 [今日投资数据平台](https://data-api.investoday.net/login) 注册并创建 API Key。
 
-### 2. 安装依赖
+### 2. 准备运行环境
 
-```bash
-pip install -r requirements.txt
-```
+`skills/` 目录的运行时依赖为 **Node.js 18+**。
+
+仓库顶层的 `requirements.txt` 仅用于维护脚本，不属于 `skills/` 的运行时依赖。
 
 ### 3. 配置 API Key
 
+支持两种配置方式，优先读取环境变量：
+
 ```bash
-cp .env.example .env
-# 编辑 .env，填入：INVESTODAY_API_KEY=your_key_here
+export INVESTODAY_API_KEY=your_key_here
+```
+
+或者在 `skills/` 根目录创建 `.env` 文件（仅限本机使用，不要提交到版本库）：
+
+```dotenv
+INVESTODAY_API_KEY=your_key_here
 ```
 
 ### 4. 安装 Skill
+
+发布到 ClawHub 或手动安装时，仅需上传 / 复制 `skills/` 目录。
 
 将 `skills/` 目录复制到对应平台的 Skills 目录：
 
@@ -41,6 +50,12 @@ cp -r skills/ ~/.claude/skills/investoday/
 ```
 
 重启客户端后，AI 自动加载该 Skill。
+
+### 5. 仓库结构说明
+
+- `skills/`：实际发布和运行的 Skill 内容
+- `create/`：用于生成 / 更新参考文档的维护脚本，不属于 Skill 运行时
+- `requirements.txt`：仅供维护脚本使用，不是 Skill 安装前置依赖
 
 ---
 

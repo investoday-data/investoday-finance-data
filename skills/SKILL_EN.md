@@ -1,6 +1,6 @@
 # InvestToday Financial Data
 
-InvestToday provides 180+ financial data APIs covering China A-shares, Hong Kong stocks, funds, indices, macro data, and research-oriented datasets.
+Fetch Chinese-market financial data via InvestToday API, covering A-shares, Hong Kong stocks, funds, indices, financials, announcements, research, and macro data. Use it when the user needs quotes, financial statements, announcements, rating data, code/name mapping, or structured JSON/raw data.
 
 > 中文版说明请见：[SKILL.md](./SKILL.md)
 
