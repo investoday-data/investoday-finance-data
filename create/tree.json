@@ -602,6 +602,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L3",
                       "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110525,
+                      "apiName": "股票实时资金流向",
+                      "apiType": "PROXY",
+                      "apiStatus": "release",
+                      "groupId": 1096,
+                      "remarks": null,
+                      "toolName": "get_stk_rt_fund_flow",
+                      "toolId": "get_stock_realtime_fund_flow",
+                      "apiPath": "stock-quote/capital-flow",
+                      "enabled": 1,
+                      "apiAccessLevel": "L3",
+                      "apiMethod": "GET"
                     }
                   ]
                 }
@@ -2969,6 +2983,20 @@
                   "enabled": 1,
                   "apiAccessLevel": "L2",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110526,
+                  "apiName": "港股基本信息",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1055,
+                  "remarks": null,
+                  "toolName": "get_hk_stock_basic_info",
+                  "toolId": "get_hk_stock_basic_info",
+                  "apiPath": "hk-stock/basic-info",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -3339,7 +3367,7 @@
                   "toolId": "generate_chart",
                   "apiPath": "generate-chart",
                   "enabled": 1,
-                  "apiAccessLevel": null,
+                  "apiAccessLevel": "L1",
                   "apiMethod": "POST"
                 },
                 {
@@ -3353,7 +3381,7 @@
                   "toolId": "generate_nex_chart",
                   "apiPath": "generate-nex-chart",
                   "enabled": 1,
-                  "apiAccessLevel": "L5",
+                  "apiAccessLevel": "L1",
                   "apiMethod": "POST"
                 }
               ]
@@ -4646,7 +4674,7 @@
               "apis": [
                 {
                   "apiId": 110518,
-                  "apiName": "上市发债企业基本信息",
+                  "apiName": "发债企业基本信息",
                   "apiType": "SQL",
                   "apiStatus": "release",
                   "groupId": 11155,
@@ -4688,7 +4716,7 @@
                 },
                 {
                   "apiId": 110521,
-                  "apiName": "产品信息",
+                  "apiName": "供应链产品信息",
                   "apiType": "SQL",
                   "apiStatus": "release",
                   "groupId": 11155,
