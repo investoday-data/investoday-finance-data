@@ -69,8 +69,8 @@ requirements:
 ---
 # 今日投资数据市场 (InvestToday)
 
-> 国际用户请查看英文版：[SKILL_EN.md](./SKILL_EN.md)
-> For international users, see: [SKILL_EN.md](./SKILL_EN.md)
+> 国际用户请查看英文版：[SKILL_EN.md](SKILL_EN.md)
+> For international users, see: [SKILL_EN.md](SKILL_EN.md)
 
 通过 InvestToday API 获取中国市场金融数据，适合在需要查询行情、财报、公告、研报评级、宏观指标、证券代码与名称映射，或直接获取结构化 JSON / 原始数据时使用。
 
@@ -93,7 +93,7 @@ INVESTODAY_API_KEY=<your_key>
 
 - 大模型执行时，直接调用脚本即可，不需要在每次执行前额外检查 `INVESTODAY_API_KEY` 是否已配置
 - **不要**在控制台、日志、对话消息、命令行参数或错误信息中显示 API Key 明文
-- 详细配置与安全规范见 [API Key 设置说明](./docs/api-key-setup.md)
+- 详细配置与安全规范见 [API Key 设置说明](docs/api-key-setup.md)
 
 ## 调用接口
 
@@ -122,12 +122,12 @@ node scripts/call_api.js fund/daily-quotes --method POST fundCode=000001 beginDa
 ## 接口索引
 
 - 若已明确接口路径，可直接调用脚本
-- 若不确定分类或参数，先查看 [接口索引](./docs/references-index.md)
+- 若不确定分类或参数，先查看 [接口索引](docs/references-index.md)
 - 再打开对应 `references/` 文档确认接口路径、请求方法和输入参数
 
 ## 信任与数据说明
 
-- 详细说明见 [安全与隐私说明](./docs/security-privacy.md)
+- 详细说明见 [安全与隐私说明](docs/security-privacy.md)
 
 ## 相关链接
 

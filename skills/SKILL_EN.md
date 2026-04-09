@@ -2,7 +2,7 @@
 
 Fetch Chinese-market financial data via InvestToday API, covering A-shares, Hong Kong stocks, funds, indices, financials, announcements, research, and macro data. Use it when the user needs quotes, financial statements, announcements, rating data, code/name mapping, or structured JSON/raw data.
 
-> 中文版说明请见：[SKILL.md](./SKILL.md)
+> 中文版说明请见：[SKILL.md](SKILL.md)
 
 ## API Key
 
@@ -22,7 +22,7 @@ INVESTODAY_API_KEY=<your_key>
 
 - Call the script directly; there is no need to pre-check whether `INVESTODAY_API_KEY` is configured before each invocation
 - **Do not** expose the API Key in terminal output, logs, chat messages, command-line arguments, or error output
-- Detailed setup and safety rules: [API Key Setup](./docs/api-key-setup.en.md)
+- Detailed setup and safety rules: [API Key Setup](docs/api-key-setup.en.md)
 
 ## Calling the API
 
@@ -51,13 +51,13 @@ node scripts/call_api.js fund/daily-quotes --method POST fundCode=000001 beginDa
 ## Reference Index
 
 - If you already know the endpoint path, call the script directly
-- If you are unsure about the category or parameters, check [Reference Index](./docs/references-index.en.md)
+- If you are unsure about the category or parameters, check [Reference Index](docs/references-index.en.md)
 - Then open the matching file under `references/` to confirm the endpoint path, method, and parameters
 - The reference docs are currently maintained in Chinese
 
 ## Trust & Data Handling
 
-- See [Security &amp; Privacy](./docs/security-privacy.en.md)
+- See [Security &amp; Privacy](docs/security-privacy.en.md)
 
 ## Related Links
 
