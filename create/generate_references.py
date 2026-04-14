@@ -21,7 +21,7 @@
 
 API Key 用途（可选）：
   - 用于 --validate 验证密钥可用性
-  - 从项目根目录 .env 或环境变量 INVESTODAY_API_KEY 中读取
+  - 仅从环境变量 INVESTODAY_API_KEY 中读取
 
 本地缓存文件（与本脚本同目录）：
   openapi.json   OpenAPI 规范（优先读取，避免每次请求网络）
@@ -39,12 +39,7 @@ import sys
 import os
 from pathlib import Path
 from typing import Any
-
-try:
-    import requests
-except ImportError:
-    print("请先安装依赖: pip install requests", file=sys.stderr)
-    sys.exit(1)
+from urllib import request, error
 
 # ─── 配置 ──────────────────────────────────────────────────────────────────────
 
@@ -59,33 +54,15 @@ LOCAL_OPENAPI_FILE  = Path(__file__).parent / "openapi.json"
 LOCAL_TREE_FILE     = Path(__file__).parent / "tree.json"
 REQUEST_TIMEOUT     = 30
 
-# ─── 环境变量 / .env 加载 ──────────────────────────────────────────────────────
+# ─── 环境变量加载 ─────────────────────────────────────────────────────────────
 
 def load_api_key() -> str | None:
     """
-    按优先级加载 API Key：
-    1. 命令行参数（由 argparse 传入）
-    2. 环境变量 INVESTODAY_API_KEY
-    3. 项目根目录的 .env 文件
+    仅从环境变量 INVESTODAY_API_KEY 读取 API Key。
     """
-    # 先尝试环境变量
     key = os.environ.get("INVESTODAY_API_KEY")
     if key:
         return key.strip()
-
-    # 再尝试 .env 文件（向上查找，最多 4 层）
-    search_dir = Path(__file__).parent
-    for _ in range(4):
-        env_file = search_dir / ".env"
-        if env_file.exists():
-            for line in env_file.read_text(encoding="utf-8").splitlines():
-                line = line.strip()
-                if line.startswith("#") or "=" not in line:
-                    continue
-                k, _, v = line.partition("=")
-                if k.strip() == "INVESTODAY_API_KEY":
-                    return v.strip().strip('"').strip("'")
-        search_dir = search_dir.parent
 
     return None
 
@@ -94,10 +71,10 @@ def load_api_key() -> str | None:
 def fetch_json(url: str, headers: dict | None = None) -> Any:
     """从 URL 获取 JSON 数据"""
     try:
-        resp = requests.get(url, headers=headers or {}, timeout=REQUEST_TIMEOUT)
-        resp.raise_for_status()
-        return resp.json()
-    except requests.RequestException as e:
+        req = request.Request(url, headers=headers or {})
+        with request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
+            return json.load(resp)
+    except (error.URLError, error.HTTPError) as e:
         print(f"请求失败 {url}: {e}", file=sys.stderr)
         sys.exit(1)
 
@@ -129,21 +106,21 @@ def fetch_tree(force_remote: bool = False) -> list:
 
 def validate_api_key(api_key: str) -> bool:
     """调用免费接口验证 API Key 是否有效"""
-    print(f"正在验证 API Key ({api_key[:8]}...)...")
+    print("正在验证 API Key...")
     try:
-        resp = requests.get(
+        req = request.Request(
             f"{BASE_URL}{VALIDATE_ENDPOINT}",
             headers={"apiKey": api_key},
-            timeout=REQUEST_TIMEOUT,
         )
-        data = resp.json()
+        with request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
+            data = json.load(resp)
         if data.get("code") == 0:
             print("✅ API Key 验证通过")
             return True
         else:
             print(f"❌ API Key 验证失败: [{data.get('code')}] {data.get('message')}")
             return False
-    except Exception as e:
+    except (error.URLError, error.HTTPError, TimeoutError, OSError, ValueError) as e:
         print(f"❌ API Key 验证异常: {e}")
         return False
 
@@ -218,11 +195,23 @@ def _extract_response_fields(operation: dict) -> list[dict]:
     """从 200 响应中提取 data 字段列表"""
     try:
         schema = operation["responses"]["200"]["content"]["application/json"]["schema"]
-        data_prop = schema.get("properties", {}).get("data", {})
-        if data_prop.get("type") == "array":
-            source = data_prop.get("items", {}).get("properties", {})
+        properties = schema.get("properties", {})
+        data_prop = properties.get("data", {})
+
+        if data_prop:
+            if data_prop.get("type") == "array":
+                source = data_prop.get("items", {}).get("properties", {})
+            else:
+                source = data_prop.get("properties", {})
+        elif schema.get("type") == "array":
+            source = schema.get("items", {}).get("properties", {})
         else:
-            source = data_prop.get("properties", {})
+            source = {
+                key: value
+                for key, value in properties.items()
+                if key not in {"code", "message"}
+            }
+
         return [
             {"name": k, "desc": v.get("description", ""), "example": v.get("example", "")}
             for k, v in source.items()
@@ -307,14 +296,14 @@ def _field_table(fields: list[dict]) -> str:
 
 def _code_example(api_path: str, method: str, params: list[dict]) -> str:
     """
-    生成 call_api.py 调用命令示例。
+    生成 investoday-api 调用命令示例。
     只展示必填参数，可选参数由 LLM 按需查表传入。
     无必填参数时展示完整命令（不带参数）。
     """
     required = [p for p in params if p.get("required")]
     show     = required if required else []
 
-    parts = [f"node scripts/call_api.js {api_path}"]
+    parts = [f"investoday-api {api_path}"]
     if method == "POST":
         parts.append("--method POST")
 
@@ -365,13 +354,13 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
     tool_id   = api.get('tool_id', '')
     is_dual   = dual_method_ids and tool_id in dual_method_ids
     title_suffix = f"（{method}）" if is_dual else ""
-    lines.append(f"#### {api['api_name']}{title_suffix}")
+    lines.append(f"## {api['api_name']}{title_suffix}")
     lines.append("")
     method_badge = "**`POST`**" if method == "POST" else "`GET`"
     tool_name = api.get('tool_name') or tool_id
-    lines.append(f"接口：`{tool_name}`　")
-    lines.append(f"请求方式: {method_badge}　")
-    lines.append(f"tool_id: `{tool_id or tool_name}`")
+    lines.append(f"接口路径：`{api_path}`")
+    lines.append(f"请求方式：{method_badge}")
+    lines.append(f"tool_id：`{tool_id or tool_name}`")
 
     # 同一 tool_id 双方法时，自动加说明
     if is_dual:
@@ -383,10 +372,11 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
             lines.append("> 📌 GET 版本，兼容历史调用，仅支持单标的查询。推荐使用 POST 版本进行批量查询。")
     lines.append("")
 
-    summary = detail.get("summary", "")
-    if desc and desc != summary:
-        clean_desc = desc.replace("\n", " ").strip()
-        lines.append(clean_desc)
+    summary = detail.get("summary", "").strip()
+    clean_desc = desc.replace("\n", " ").strip()
+    interface_desc = clean_desc or summary
+    if interface_desc:
+        lines.append(f"接口说明：{interface_desc}")
         lines.append("")
 
     lines.append("**输入参数**")
@@ -576,7 +566,7 @@ def main():
     parser.add_argument("--output", "-o", type=Path, default=DEFAULT_OUTPUT_DIR,
                         help=f"输出目录（默认: {DEFAULT_OUTPUT_DIR}）")
     parser.add_argument("--validate", action="store_true",
-                        help="验证 API Key 可用性（需要 .env 或环境变量 INVESTODAY_API_KEY）")
+                        help="验证 API Key 可用性（需要环境变量 INVESTODAY_API_KEY）")
     parser.add_argument("--api-key", dest="api_key", default=None,
                         help="直接传入 API Key（优先级最高）")
     parser.add_argument("--remote", action="store_true",
@@ -588,7 +578,7 @@ def main():
 
     if args.validate:
         if not api_key:
-            print("⚠️  未找到 API Key，跳过验证。请在 .env 中设置 INVESTODAY_API_KEY=xxx", file=sys.stderr)
+            print("⚠️  未找到 API Key，跳过验证。请先设置环境变量 INVESTODAY_API_KEY=xxx", file=sys.stderr)
         else:
             validate_api_key(api_key)
 

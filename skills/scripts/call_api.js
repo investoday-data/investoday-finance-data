@@ -1,69 +1,43 @@
 #!/usr/bin/env node
 /**
- * 今日投资数据市场 - 通用 API 调用脚本
+ * investoday-api 的底层调用脚本
  *
- * 大模型直接调用此脚本获取金融数据，无需编写任何代码。
+ * 统一通过 investoday-api 命令调用本脚本获取金融数据。
  *
  * 用法：
- *   node scripts/call_api.js <接口路径> [参数名=参数值 ...] [--method GET|POST]
+ *   investoday-api <接口路径> [参数名=参数值 ...] [--method GET|POST]
  *
  * 示例：
  *   # GET 接口（默认）
- *   node scripts/call_api.js stock/basic-info stockCode=600519
- *   node scripts/call_api.js stock/adjusted-quotes stockCode=600519 beginDate=2024-01-01 endDate=2024-12-31
- *   node scripts/call_api.js trade-calender/special-date
+ *   investoday-api stock/basic-info stockCode=600519
+ *   investoday-api stock/adjusted-quotes stockCode=600519 beginDate=2024-01-01 endDate=2024-12-31
+ *   investoday-api trade-calender/special-date
  *
  *   # POST 接口（参数以 JSON body 发送）
- *   node scripts/call_api.js fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01
- *   node scripts/call_api.js entity-recognition --method POST
+ *   investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01
+ *   investoday-api entity-recognition --method POST
  *
  *   # array 类型参数：同一 key 重复传入，自动合并为列表
- *   node scripts/call_api.js index-quote/realtime --method POST indexCodes=000001 indexCodes=399006
+ *   investoday-api index-quote/realtime --method POST indexCodes=000001 indexCodes=399006
  *
  * 凭证来源：
- *   1. 环境变量 INVESTODAY_API_KEY（优先）
- *   2. Skill 根目录 .env 中的 INVESTODAY_API_KEY
+ *   1. 环境变量 INVESTODAY_API_KEY
  *
  * 输出：
  *   JSON 格式的 data 字段内容，调用失败时输出错误信息并以非零退出码退出
  */
 
-const fs   = require("fs");
-const path = require("path");
-
 // ─── 配置 ──────────────────────────────────────────────────────────────────────
 
 const BASE_URL        = "https://data-api.investoday.net/data";
 const REQUEST_TIMEOUT = 30_000; // ms
-const SKILL_ENV_FILE  = path.resolve(__dirname, "..", ".env");
-
-// ─── API Key 加载 ──────────────────────────────────────────────────────────────
-
-function readEnvKey(envFile) {
-  if (!fs.existsSync(envFile)) return null;
-  const lines = fs.readFileSync(envFile, "utf-8").split(/\r?\n/);
-  for (const raw of lines) {
-    const line = raw.trim();
-    if (line.startsWith("#") || !line.includes("=")) continue;
-    const idx = line.indexOf("=");
-    const k   = line.slice(0, idx).trim();
-    const v   = line.slice(idx + 1).trim().replace(/^["']|["']$/g, "");
-    if (k === "INVESTODAY_API_KEY" && v) return v;
-  }
-  return null;
-}
 
 function loadApiKey() {
-  // 1. 环境变量
   const envKey = (process.env.INVESTODAY_API_KEY || "").trim();
   if (envKey) return envKey;
 
-  // 2. Skill 根目录下的固定 .env 文件
-  const fileKey = readEnvKey(SKILL_ENV_FILE);
-  if (fileKey) return fileKey;
-
   process.stderr.write(
-    "ERROR: 请先设置环境变量 INVESTODAY_API_KEY，或在 skill 根目录 .env 中配置同名键。"
+    "ERROR: 请先设置环境变量 INVESTODAY_API_KEY。"
   );
   process.exit(1);
 }
@@ -73,8 +47,8 @@ function loadApiKey() {
 function parseArgs(argv) {
   if (!argv.length) {
     process.stderr.write(
-      "用法: node call_api.js <接口路径> [key=value ...] [--method GET|POST]\n" +
-      "示例: node call_api.js stock/basic-info stockCode=600519\n"
+      "用法: investoday-api <接口路径> [key=value ...] [--method GET|POST]\n" +
+      "示例: investoday-api stock/basic-info stockCode=600519\n"
     );
     process.exit(1);
   }

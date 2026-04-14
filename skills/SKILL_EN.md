@@ -1,64 +1,60 @@
-# InvestToday Financial Data
+# InvestToday Financial Data Skill
 
-Fetch Chinese-market financial data via InvestToday API, covering A-shares, Hong Kong stocks, funds, indices, financials, announcements, research, and macro data. Use it when the user needs quotes, financial statements, announcements, rating data, code/name mapping, or structured JSON/raw data.
+This skill uses `investoday-api` to fetch Chinese financial-market data.
 
-> 中文版说明请见：[SKILL.md](SKILL.md)
+## Quick Start
 
-## API Key
+### 1. API Key
 
-- [Get an API Key](https://data-api.investoday.net/login)
-- Two configuration methods are supported. The environment variable takes precedence:
-- Environment variable (recommended, higher priority):
+Ask the user whether `INVESTODAY_API_KEY` is configured.
 
-```bash
-export INVESTODAY_API_KEY=<your_key>
-```
+If not:
 
-- `.env` file in the skill root (local use only; do not commit it):
-
-```dotenv
-INVESTODAY_API_KEY=<your_key>
-```
-
-- Call the script directly; there is no need to pre-check whether `INVESTODAY_API_KEY` is configured before each invocation
-- **Do not** expose the API Key in terminal output, logs, chat messages, command-line arguments, or error output
-- Detailed setup and safety rules: [API Key Setup](docs/api-key-setup.en.md)
-
-## Calling the API
+- open <https://data-api.investoday.net/login>
+- get an API key
+- set the environment variable:
 
 ```bash
-# GET (default)
-node scripts/call_api.js <endpoint> [key=value ...]
-
-# POST (parameters are sent as JSON body)
-node scripts/call_api.js <endpoint> --method POST [key=value ...]
-
-# Array parameters: repeat the same key
-node scripts/call_api.js <endpoint> --method POST codes=000001 codes=000002
+export INVESTODAY_API_KEY="<your_key>"
 ```
 
-Check the `references/` docs for the endpoint path, HTTP method, and parameters. Responses are returned as JSON. Failures are printed as error messages.
+### 2. Initialize
 
-**Examples**
+Run:
 
 ```bash
-node scripts/call_api.js search key=600519 type=11
-node scripts/call_api.js stock/basic-info stockCode=600519
-node scripts/call_api.js stock/adjusted-quotes stockCode=600519 beginDate=2024-01-01 endDate=2024-12-31
-node scripts/call_api.js fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
+node scripts/install_cli.js
 ```
 
-## Reference Index
+### 3. Request Data
 
-- If you already know the endpoint path, call the script directly
-- If you are unsure about the category or parameters, check [Reference Index](docs/references-index.en.md)
-- Then open the matching file under `references/` to confirm the endpoint path, method, and parameters
-- The reference docs are currently maintained in Chinese
+Only use `investoday-api`.
 
-## Trust & Data Handling
+Do not use:
 
-- See [Security &amp; Privacy](docs/security-privacy.en.md)
+- `curl`
+- `wget`
+- Python `requests`
+- Node `fetch`
+- handwritten HTTP requests
 
-## Related Links
+Command format:
 
-[API Docs](https://data-api.investoday.net/hub?url=%2Fapidocs%2Fai-native-financial-data) · [FAQ](https://data-api.investoday.net/hub?url=%2Fapidocs%2Ffaq) · [Contact](https://data-api.investoday.net/hub?url=%2Fapidocs%2Fcontact-me)
+```bash
+investoday-api <endpoint> [key=value ...]
+investoday-api <endpoint> --method POST [key=value ...]
+```
+
+Examples:
+
+```bash
+investoday-api search key=600519 type=11
+investoday-api stock/basic-info stockCode=600519
+investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
+```
+
+## Notes
+
+- Index: `docs/references-index.en.md`
+- Detailed params: `references/`
+- If the command fails, report the error and stop
