@@ -6,15 +6,24 @@
 
 - 单一调用入口：`investoday-api`
 - 单一认证方式：`INVESTODAY_API_KEY`
+- 自动初始化，不询问确认
 - 返回结构化 JSON 数据
 - 支持 macOS、Linux、Windows
 - 自带接口索引、参数文档和示例命令
 
 ## 快速开始
 
-### 1. 配置 API Key
+### 1. 初始化
 
-先配置环境变量：
+执行：
+
+```bash
+node skills/scripts/install_cli.js
+```
+
+### 2. 配置 API Key
+
+如未配置：
 
 ```bash
 export INVESTODAY_API_KEY="your_key"
@@ -23,14 +32,6 @@ export INVESTODAY_API_KEY="your_key"
 获取 API Key：
 
 - <https://data-api.investoday.net/login>
-
-### 2. 初始化命令
-
-执行：
-
-```bash
-node skills/scripts/install_cli.js
-```
 
 ### 3. 请求数据
 
@@ -50,6 +51,10 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 
 ## 使用规则
 
+- AI 先自动执行初始化命令，不要询问确认
+- 初始化后检查 `INVESTODAY_API_KEY`
+- 未配置：提示用户提供
+- 已配置：提示 `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
 - 只允许使用环境变量 `INVESTODAY_API_KEY`
 - 只允许使用全局命令 `investoday-api`
 - 不支持 `.env`

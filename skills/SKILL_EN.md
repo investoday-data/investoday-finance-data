@@ -2,17 +2,24 @@
 
 This skill uses `investoday-api` to fetch Chinese financial-market data.
 
+## Execution Rules
+
+- Run `node scripts/install_cli.js` first
+- Do not ask for confirmation
+- Then check `INVESTODAY_API_KEY`
+- If missing: ask the user to provide an API key
+- If present: reply `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
+- Only use `investoday-api` for requests
+
 ## Quick Start
 
 ### 1. API Key
 
-Ask the user whether `INVESTODAY_API_KEY` is configured.
-
-If not:
+If `INVESTODAY_API_KEY` is missing:
 
 - open <https://data-api.investoday.net/login>
 - get an API key
-- set the environment variable:
+- set the environment variable
 
 ```bash
 export INVESTODAY_API_KEY="<your_key>"
@@ -20,25 +27,11 @@ export INVESTODAY_API_KEY="<your_key>"
 
 ### 2. Initialize
 
-Run:
-
 ```bash
 node scripts/install_cli.js
 ```
 
 ### 3. Request Data
-
-Only use `investoday-api`.
-
-Do not use:
-
-- `curl`
-- `wget`
-- Python `requests`
-- Node `fetch`
-- handwritten HTTP requests
-
-Command format:
 
 ```bash
 investoday-api <endpoint> [key=value ...]
@@ -58,3 +51,4 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 - Index: `docs/references-index.en.md`
 - Detailed params: `references/`
 - If the command fails, report the error and stop
+- Never use `curl`, `wget`, Python `requests`, Node `fetch`, or handwritten HTTP requests
