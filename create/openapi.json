@@ -939,7 +939,7 @@
           "上市公司的公告"
         ],
         "summary": "上市公司的公告",
-        "description": "支持通过公告标识、日期范围、股票代码、标题关键词等条件组合查询上市公司公告，返回公告基础信息（标题、发布日期）、内容详情（全文、风险类型）、附件信息（URL、有无附件）等完整字段，适用于金融资讯展示、企业公告管理及数据分析等场景，实现精准高效的公告信息获取与处理。",
+        "description": "支持通过必填的股票代码，结合可选的公告发布时间范围（开始日期格式为yyyy-MM-dd，默认2020-01-01）、公告标题（支持模糊查询）、公告ID进行筛选，还支持分页设置，获取上市公司的公告信息，包括公告发布日期、公告ID、股票代码及名称、公告标题、风险类型、公告来源、公告内容类型、公告编号等核心数据，可用于投资者跟踪目标股票的信息披露、进行风险预警等投研相关任务。",
         "operationId": "list_announcements",
         "parameters": [
           {
@@ -1060,28 +1060,6 @@
                       "type": "string",
                       "description": "标题",
                       "example": "同享科技:董事会决议公告"
-                    },
-                    "hasAttachment": {
-                      "type": "integer",
-                      "description": "有无附件",
-                      "format": "int32",
-                      "example": 1,
-                      "allOf": [
-                        {
-                          "type": "integer",
-                          "description": "0代表无;\n1代表有",
-                          "format": "int32",
-                          "enum": [
-                            0,
-                            1
-                          ]
-                        }
-                      ]
-                    },
-                    "attachmentUrl": {
-                      "type": "string",
-                      "description": "附件URL",
-                      "example": "https://www.bse.cn/disclosure/2025/2025-01-15/f3973168ca8e4c87a5c434c4a858b9e4.pdf"
                     },
                     "riskType": {
                       "type": "integer",
@@ -12356,6 +12334,146 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2019-07-02 00:00:00"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000812"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "陕西金叶"
+                    },
+                    "tradeSide": {
+                      "type": "string",
+                      "description": "买卖方向",
+                      "example": "B1"
+                    },
+                    "salesDepartmentName": {
+                      "type": "string",
+                      "description": "营业部名称",
+                      "example": "东兴证券股份有限公司"
+                    },
+                    "buyAmount": {
+                      "type": "number",
+                      "description": "买入金额（元）",
+                      "example": 15078294
+                    },
+                    "sellAmount": {
+                      "type": "number",
+                      "description": "买入金额（元）",
+                      "example": 0
+                    },
+                    "totalAmount": {
+                      "type": "number",
+                      "description": "买卖总金额（元）",
+                      "example": 1234567.89
+                    },
+                    "abnormalType": {
+                      "type": "string",
+                      "description": "异动类型",
+                      "example": "日涨幅偏离值达7%的前三只证券"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "龙虎榜营业部交易明细"
+        ],
+        "summary": "龙虎榜营业部交易明细",
+        "description": "根据股票代码和日期范围查询龙虎榜营业部交易明细，返回指定股票在特定时间段内因异常波动上榜的营业部买卖方向、买入金额、卖出金额、总金额及异常类型等核心交易数据，支持分页查询。",
+        "operationId": "list_stk_dragon_tiger_broke_details",
+        "requestBody": {
+          "description": "根据股票代码和日期范围查询龙虎榜营业部交易明细，返回指定股票在特定时间段内因异常波动上榜的营业部买卖方向、买入金额、卖出金额、总金额及异常类型等核心交易数据，支持分页查询。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "成功响应",
@@ -37492,11 +37610,21 @@
           {
             "name": "stockCode",
             "in": "query",
-            "description": "股票代码",
-            "required": true,
+            "description": "股票代码【与industryCode组成多选一参数，必须且只能传递其中一个】",
+            "required": false,
             "schema": {
               "type": "string",
               "example": "002594"
+            }
+          },
+          {
+            "name": "industryCode",
+            "in": "query",
+            "description": "行业代码【与stockCode组成多选一参数，必须且只能传递其中一个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "640000"
             }
           },
           {
@@ -37743,12 +37871,12 @@
                 "properties": {
                   "stockCode": {
                     "type": "string",
-                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "description": "股票代码【与stockCodes、industryCode组成多选一参数，必须且只能传递其中一个】",
                     "example": "002594"
                   },
                   "stockCodes": {
                     "type": "array",
-                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "description": "股票代码列表【与stockCode、industryCode组成多选一参数，必须且只能传递其中一个】",
                     "example": [
                       "000001",
                       "600519"
@@ -37756,6 +37884,11 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码【与stockCode、stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "640000"
                   },
                   "beginDate": {
                     "type": "string",
@@ -41197,7 +41330,7 @@
           {
             "name": "stockCode",
             "in": "query",
-            "description": "股票代码【与industryCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "description": "股票代码【与industryCode、industryCodeLv1、categoryCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -41207,7 +41340,7 @@
           {
             "name": "industryCode",
             "in": "query",
-            "description": "行业代码（申万二级）【与stockCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "description": "行业代码（申万二级）【与stockCode、industryCodeLv1、categoryCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -41215,9 +41348,19 @@
             }
           },
           {
+            "name": "industryCodeLv1",
+            "in": "query",
+            "description": "行业代码（申万一级）【与stockCode、industryCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "640000"
+            }
+          },
+          {
             "name": "categoryCode",
             "in": "query",
-            "description": "栏目分类代码【与stockCode、industryCode组成多选多参数，必须传递其中一个至多个】",
+            "description": "栏目分类代码【与stockCode、industryCode、industryCodeLv1组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -41409,6 +41552,286 @@
                         {
                           "type": "string",
                           "description": "000111代表行业事件点评;\n000112代表行业专题研究;\n000113代表行业跟踪研究;\n000141代表行业一周报告;\n000142代表行业双周报告;\n000143代表行业月度报告;\n000144代表行业上半年报告;\n000145代表行业年度报告;\n000146代表行业其他定期报告;\n000147代表行业每日报告;\n000148代表行业一季度报告;\n000149代表行业二季度报告;\n00014A代表行业三季度报告;\n00014B代表行业四季度报告;\n00014C代表行业下半年报告;\n000211代表公司事件点评;\n000212代表公司深度报告;\n000213代表公司调研报告;\n000241代表新股报告;\n000300代表基金研究;\n000400代表债券研究;\n000511代表策略一周报告;\n000512代表策略双周报告;\n000513代表策略月度报告;\n000514代表策略上半年报告;\n000515代表策略年度报告;\n000516代表策略其他定期报告;\n000517代表策略一季度报告;\n000518代表策略二季度报告;\n000519代表策略三季度报告;\n00051A代表策略四季度报告;\n00051B代表策略下半年报告;\n000521代表其他投资策略三级;\n000522代表投资策略专题;\n000700代表经济研究;\n000800代表外汇市场;\n000900代表期货市场;\n000911代表股指期货;\n000912代表外汇期货;\n000913代表利率期货;\n000921代表金属期货;\n000922代表农产品期货;\n000923代表能源期货;\n001000代表货币市场;\n001100代表全球市场;\n001200代表资本市场;\n001210代表新三板;\n001300代表港股研究;\n001400代表其它;\n001500代表晨会资讯;\n001600代表权证研究;\n001700代表金融工程;\n001900代表非基金理财",
+                          "enum": [
+                            "000111",
+                            "000112",
+                            "000113",
+                            "000141",
+                            "000142",
+                            "000143",
+                            "000144",
+                            "000145",
+                            "000146",
+                            "000147",
+                            "000148",
+                            "000149",
+                            "00014A",
+                            "00014B",
+                            "00014C",
+                            "000211",
+                            "000212",
+                            "000213",
+                            "000241",
+                            "000300",
+                            "000400",
+                            "000511",
+                            "000512",
+                            "000513",
+                            "000514",
+                            "000515",
+                            "000516",
+                            "000517",
+                            "000518",
+                            "000519",
+                            "00051A",
+                            "00051B",
+                            "000521",
+                            "000522",
+                            "000700",
+                            "000800",
+                            "000900",
+                            "000911",
+                            "000912",
+                            "000913",
+                            "000921",
+                            "000922",
+                            "000923",
+                            "001000",
+                            "001100",
+                            "001200",
+                            "001210",
+                            "001300",
+                            "001400",
+                            "001500",
+                            "001600",
+                            "001700",
+                            "001900"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "研究报告"
+        ],
+        "summary": "研究报告",
+        "description": "支持通过股票代码、行业代码、栏目分类代码以及发布日期范围（格式为yyyy-MM-dd）等条件，灵活筛选并获取详细的证券研究报告列表，返回内容包括报告标题、作者、发布时间、发布机构、核心观点、投资要点、主要投资逻辑、报告类型及语言等关键信息，适用于投资研究、市场分析和信息检索等场景。",
+        "operationId": "list_report_research",
+        "requestBody": {
+          "description": "支持通过股票代码、行业代码、栏目分类代码以及发布日期范围（格式为yyyy-MM-dd）等条件，灵活筛选并获取详细的证券研究报告列表，返回内容包括报告标题、作者、发布时间、发布机构、核心观点、投资要点、主要投资逻辑、报告类型及语言等关键信息，适用于投资研究、市场分析和信息检索等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与industryCode、industryCodeLv1、categoryCode组成多选多参数，必须传递其中一个至多个】",
+                    "example": "600519"
+                  },
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码（申万二级）【与stockCode、industryCodeLv1、categoryCode组成多选多参数，必须传递其中一个至多个】",
+                    "example": "740100"
+                  },
+                  "industryCodeLv1": {
+                    "type": "string",
+                    "description": "行业代码（申万一级）【与stockCode、industryCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+                    "example": "640000"
+                  },
+                  "categoryCode": {
+                    "type": "string",
+                    "description": "栏目分类代码【与stockCode、industryCode、industryCodeLv1组成多选多参数，必须传递其中一个至多个】",
+                    "example": "000100",
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "description": "000100代表行业研究;\n000200代表公司研究;\n000300代表基金研究;\n000400代表债券研究;\n000500代表投资策略;\n000700代表经济研究;\n000800代表外汇市场;\n000900代表期货市场;\n001000代表货币市场;\n001100代表全球市场;\n001200代表资本市场;\n001210代表新三板;\n001300代表港股研究;\n001400代表其它;\n001500代表晨会资讯;\n001600代表权证研究;\n001700代表金融工程;\n001900代表非基金理财",
+                        "enum": [
+                          "000100",
+                          "000200",
+                          "000300",
+                          "000400",
+                          "000500",
+                          "000700",
+                          "000800",
+                          "000900",
+                          "001000",
+                          "001100",
+                          "001200",
+                          "001210",
+                          "001300",
+                          "001400",
+                          "001500",
+                          "001600",
+                          "001700",
+                          "001900"
+                        ]
+                      }
+                    ]
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2020-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "guid": {
+                      "type": "string",
+                      "description": "报告编号",
+                      "example": "B761EA4B-7146-436E-9C4E-03CE948A6DD4"
+                    },
+                    "reportId": {
+                      "type": "string",
+                      "description": "报告id",
+                      "example": "795857"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "标题",
+                      "example": "PICC Property and Casualty(02328.HK):PICC P&C to acquire 19.99% of Hua Xia Bank"
+                    },
+                    "author": {
+                      "type": "string",
+                      "description": "作者",
+                      "example": "孙梦曦,王欢"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布时间",
+                      "example": "2016-01-04 09:54:27"
+                    },
+                    "institutionName": {
+                      "type": "string",
+                      "description": "机构名称",
+                      "example": "Morgan Stanley"
+                    },
+                    "keyword": {
+                      "type": "string",
+                      "description": "关键字",
+                      "example": "岭南控股作为广州市属文"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "内容",
+                      "example": "    我们将未来12个月美"
+                    },
+                    "categoryCode": {
+                      "type": "string",
+                      "description": "栏目分类代码",
+                      "example": "000100",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "000100代表行业研究;000200代表公司研究;000300代表基金研究;000400代表债券研究;000500代表投资策略;000700代表经济研究;000800代表外汇市场;000900代表期货市场;001000代表货币市场;001100代表全球市场;001200代表资本市场;001210代表新三板;001300代表港股研究;001400代表其它;001500代表晨会资讯;001600代表权证研究;001700代表金融工程;001900代表非基金理财;",
+                          "enum": [
+                            "000100",
+                            "000200",
+                            "000300",
+                            "000400",
+                            "000500",
+                            "000700",
+                            "000800",
+                            "000900",
+                            "001000",
+                            "001100",
+                            "001200",
+                            "001210",
+                            "001300",
+                            "001400",
+                            "001500",
+                            "001600",
+                            "001700",
+                            "001900"
+                          ]
+                        }
+                      ]
+                    },
+                    "reportLanguage": {
+                      "type": "integer",
+                      "description": "报告语种",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "CN代表中文;\nCN-EN代表中英合并;\nEN代表英文;\nJP代表日文",
+                          "format": "int32",
+                          "enum": [
+                            "CN",
+                            "CN-EN",
+                            "EN",
+                            "JP"
+                          ]
+                        }
+                      ]
+                    },
+                    "categoryCodeLv2": {
+                      "type": "string",
+                      "description": "栏目二级分类代码",
+                      "example": "000111",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "000111代表行业事件点评; 000112代表行业专题研究; 000113代表行业跟踪研究; 000141代表行业一周报告; 000142代表行业双周报告; 000143代表行业月度报告; 000144代表行业上半年报告; 000145代表行业年度报告; 000146代表行业其他定期报告; 000147代表行业每日报告; 000148代表行业一季度报告; 000149代表行业二季度报告; 00014A代表行业三季度报告; 00014B代表行业四季度报告; 00014C代表行业下半年报告; 000211代表公司事件点评; 000212代表公司深度报告; 000213代表公司调研报告; 000241代表新股报告; 000300代表基金研究; 000400代表债券研究; 000511代表策略一周报告; 000512代表策略双周报告; 000513代表策略月度报告; 000514代表策略上半年报告; 000515代表策略年度报告; 000516代表策略其他定期报告; 000517代表策略一季度报告; 000518代表策略二季度报告; 000519代表策略三季度报告; 00051A代表策略四季度报告; 00051B代表策略下半年报告; 000521代表其他投资策略三级; 000522代表投资策略专题; 000700代表经济研究; 000800代表外汇市场; 000900代表期货市场; 000911代表股指期货; 000912代表外汇期货; 000913代表利率期货; 000921代表金属期货; 000922代表农产品期货; 000923代表能源期货; 001000代表货币市场; 001100代表全球市场; 001200代表资本市场; 001210代表新三板; 001300代表港股研究; 001400代表其它; 001500代表晨会资讯; 001600代表权证研究; 001700代表金融工程; 001900代表非基金理财;",
                           "enum": [
                             "000111",
                             "000112",
@@ -42609,7 +43032,7 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "1代表指数型;2代表优化指数型;0代表非指数型;",
+                          "description": "1代表指数型;\n2代表优化指数型;\n0代表非指数型",
                           "format": "int32",
                           "enum": [
                             1,
@@ -42627,7 +43050,7 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "0代表公司型封闭式;1代表契约型封闭式;2代表契约型开放式;3代表其他;4代表ETF;5代表LOFs;6代表外币基金;7代表创新型封闭 \n式;8代表创新型开放式;9代表ETF联接基金;",
+                          "description": "0代表公司型封闭式;\n1代表契约型封闭式;\n2代表契约型开放式;\n3代表其他;\n4代表ETF;\n5代表LOFs;\n6代表外币基金;\n7代表创新型封闭 式;\n8代表创新型开放式;\n9代表ETF联接基金",
                           "format": "int32",
                           "enum": [
                             0,
@@ -42652,7 +43075,7 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "1代表是;\n0代表否;",
+                          "description": "1代表是;\n0代表否",
                           "format": "int32",
                           "enum": [
                             1,
@@ -42669,7 +43092,7 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "1代表是;\n0代表否;",
+                          "description": "1代表是;\n0代表否",
                           "format": "int32",
                           "enum": [
                             1,
@@ -42687,15 +43110,15 @@
                     "exchangeCode": {
                       "type": "string",
                       "description": "证券市场编码",
-                      "example": "S",
+                      "example": "SH",
                       "allOf": [
                         {
                           "type": "string",
-                          "description": " S代表上交所;Z代表深交所;B代表北交所;没有值表示场外基金;",
+                          "description": "SH代表上交所;\nSZ代表深交所;\nBJ代表北交所;\n没有值表示场外基金",
                           "enum": [
-                            "S",
-                            "Z",
-                            "B",
+                            "SH",
+                            "SZ",
+                            "BJ",
                             "没有值表示场外基金"
                           ]
                         }
@@ -42708,7 +43131,7 @@
                       "allOf": [
                         {
                           "type": "string",
-                          "description": "0代表待发行/发行待上市;1代表上市（合同已生效而非已上市交易，取已上市交易请加上上市日期和退市日 \n期限定）;4代表暂停上市;5代表终止上市;9代表其他;",
+                          "description": "0代表待发行/发行待上市;\n1代表上市（合同已生效而非已上市交易，取已上市交易请加上上市日期和退市日 期限定）;\n4代表暂停上市;\n5代表终止上市;\n9代表其他",
                           "enum": [
                             "0",
                             "1",
@@ -43063,7 +43486,24 @@
                       "type": "integer",
                       "description": "基金一级类型代码",
                       "format": "int32",
-                      "example": 1
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表股票型;\n2代表债券型;\n3代表QDII;\n4代表商品型;\n5代表混合型;\n6代表货币型;\n7代表另类基金;\n8代表FOF",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8
+                          ]
+                        }
+                      ]
                     },
                     "fundTypeL1Name": {
                       "type": "string",
@@ -43074,7 +43514,42 @@
                       "type": "integer",
                       "description": "基金二级类型代码",
                       "format": "int32",
-                      "example": 1001
+                      "example": 1001,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1001代表股票型分级基金;\n1002代表港股通基金;\n1003代表行业或主题基金;\n1004代表指数型基金;\n1005代表主动管理型基金;\n2001代表债券型分级基金;\n2002代表可转债基金;\n2003代表进取型债券基金;\n2004代表短债型基金;\n2005代表纯债型基金;\n3001代表QDII债券型;\n3002代表QDII混合型;\n3003代表QDII地产型;\n3004代表QDII商品型;\n3005代表QDII股票型;\n4001代表贵金属基金;\n4002代表非贵金属商品期货基金;\n5001代表灵活配置型;\n5002代表激进混合型;\n5003代表保守混合型;\n5004代表平衡混合型;\n6001代表短期理财型;\n6002代表普通货币型;\n7001代表对冲管理;\n8001代表养老FOF;\n8002代表普通FOF",
+                          "format": "int32",
+                          "enum": [
+                            1001,
+                            1002,
+                            1003,
+                            1004,
+                            1005,
+                            2001,
+                            2002,
+                            2003,
+                            2004,
+                            2005,
+                            3001,
+                            3002,
+                            3003,
+                            3004,
+                            3005,
+                            4001,
+                            4002,
+                            5001,
+                            5002,
+                            5003,
+                            5004,
+                            6001,
+                            6002,
+                            7001,
+                            8001,
+                            8002
+                          ]
+                        }
+                      ]
                     },
                     "fundTypeL2Name": {
                       "type": "string",
@@ -43085,12 +43560,69 @@
                       "type": "integer",
                       "description": "基金三级类型代码",
                       "format": "int32",
-                      "example": 101
+                      "example": 101,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1001001代表股票型优先份额子基金;\n1001002代表股票型劣后份额子基金;\n1002001代表沪港深基金;\n1002002代表纯港股基金;\n1003001代表生物医药基金;\n1003002代表TMT基金;\n1003003代表一带一路基金;\n1003004代表其他行业或主题基金;\n1004001代表指数增强型基金;\n1004002代表smart-beta型基金;\n1004003代表普通股票指数;\n1005001代表量化主动型;\n1005002代表普通主动股票型;\n2001001代表债券型优先份额子基金;\n2001002代表债券型劣后份额子基金;\n2005001代表利率债基金;\n2005002代表普通纯债型基金;\n3001001代表新兴市场债;\n3001002代表亚太市场债;\n3001003代表全球市场债;\n3003001代表全球房地产;\n3003002代表美国房地产;\n3004001代表QDII油气;\n3004002代表QDII综合商品;\n3005001代表QDII欧洲股票;\n3005002代表QDII香港股票;\n3005003代表QDII亚太股票;\n3005004代表QDII新兴市场股票;\n3005005代表QDII美国股票;\n3005006代表QDII全球股票;\n8001001代表目标日期型养老FOF;\n8001002代表目标风险型养老FOF",
+                          "format": "int32",
+                          "enum": [
+                            1001001,
+                            1001002,
+                            1002001,
+                            1002002,
+                            1003001,
+                            1003002,
+                            1003003,
+                            1003004,
+                            1004001,
+                            1004002,
+                            1004003,
+                            1005001,
+                            1005002,
+                            2001001,
+                            2001002,
+                            2005001,
+                            2005002,
+                            3001001,
+                            3001002,
+                            3001003,
+                            3003001,
+                            3003002,
+                            3004001,
+                            3004002,
+                            3005001,
+                            3005002,
+                            3005003,
+                            3005004,
+                            3005005,
+                            3005006,
+                            8001001,
+                            8001002
+                          ]
+                        }
+                      ]
                     },
                     "fundTypeL3Name": {
                       "type": "string",
                       "description": "基金三级类型名称",
                       "example": "股票型"
+                    },
+                    "investmentType": {
+                      "type": "integer",
+                      "description": "投资类型",
+                      "format": "int32",
+                      "example": 92,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "91代表被动型；92代表主动型",
+                          "format": "int32",
+                          "enum": [
+                            91
+                          ]
+                        }
+                      ]
                     }
                   }
                 }
@@ -54516,6 +55048,175 @@
             "ApiKeyAuth": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "全市场股票列表"
+        ],
+        "summary": "全市场股票列表",
+        "description": "获取全市场A股和B股股票的基本信息列表，包含股票代码、名称、所属交易所、上市板块、上市状态、上市日期、退市日期、股票类型、公司内部ID及公司成长阶段等核心数据，支持分页查询，适用于需要批量获取股票基础信息进行筛选、分析或构建股票池的场景。",
+        "operationId": "list_stock_all",
+        "requestBody": {
+          "description": "获取全市场A股和B股股票的基本信息列表，包含股票代码、名称、所属交易所、上市板块、上市状态、上市日期、退市日期、股票类型、公司内部ID及公司成长阶段等核心数据，支持分页查询，适用于需要批量获取股票基础信息进行筛选、分析或构建股票池的场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "601881"
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "市场类型",
+                      "example": "SH",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "SH代表上海;\nSZ代表深圳;\nBJ代表北京",
+                          "enum": [
+                            "SH",
+                            "SZ",
+                            "BJ"
+                          ]
+                        }
+                      ]
+                    },
+                    "boardName": {
+                      "type": "string",
+                      "description": "上市板块",
+                      "example": "主板"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "中国银河"
+                    },
+                    "stockFullName": {
+                      "type": "string",
+                      "description": "证券全称",
+                      "example": "中国银河证券股份有限公司"
+                    },
+                    "listStatus": {
+                      "type": "integer",
+                      "description": "上市状态",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "0代表发行待流通;\n1代表首次流通;\n2代表转换后流通;\n3代表暂停后恢复流通;\n4代表暂停流通;\n5代表终止流通（包括到期或被转换的自然终止情况）;\n6代表特别处理;\n7代表撤销特别处理;\n8代表退市整理期;\n9代表其他",
+                          "format": "int32",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                          ]
+                        }
+                      ]
+                    },
+                    "listDate": {
+                      "type": "string",
+                      "description": "上市日期",
+                      "example": "2017-01-23 00:00:00"
+                    },
+                    "delistDate": {
+                      "type": "string",
+                      "description": "摘牌日期",
+                      "example": "2023-08-15"
+                    },
+                    "stockType": {
+                      "type": "string",
+                      "description": "股票类别",
+                      "example": "A股"
+                    },
+                    "companyId": {
+                      "type": "string",
+                      "description": "机构内部ID",
+                      "example": "BS123458"
+                    },
+                    "companyGrowthStage": {
+                      "type": "integer",
+                      "description": "公司成长阶段",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表初创期;\n2代表成长期;\n3代表成熟期;\n4代表衰退期/转型期",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
       }
     },
     "/fund/all": {
@@ -54550,6 +55251,314 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "000006JK"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "000006"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "西部利得量化成长混合A"
+                    },
+                    "tradeName": {
+                      "type": "string",
+                      "description": "交易简称",
+                      "example": "量化成长混合"
+                    },
+                    "indexFundType": {
+                      "type": "integer",
+                      "description": "指数型属性",
+                      "format": "int32",
+                      "example": 0,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表指数型;\n2代表优化指数型;\n0代表非指数型",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "fundType": {
+                      "type": "integer",
+                      "description": "基金类型",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "0代表公司型封闭式;\n1代表契约型封闭式;\n2代表契约型开放式;\n3代表其他;\n4代表ETF;\n5代表LOFs;\n6代表外币基金;\n7代表创新型封闭 式;\n8代表创新型开放式;\n9代表ETF联接基金",
+                          "format": "int32",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                          ]
+                        }
+                      ]
+                    },
+                    "isQdii": {
+                      "type": "integer",
+                      "description": "是否QDII",
+                      "format": "int32",
+                      "example": 0,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表是;\n0代表否",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "isFof": {
+                      "type": "integer",
+                      "description": "是否为FOF基金",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表是;\n0代表否",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "lockPeriod": {
+                      "type": "integer",
+                      "description": "锁定期(单位：月)",
+                      "format": "int32",
+                      "example": 36
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "证券市场编码",
+                      "example": "S",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "S代表上交所;\nZ代表深交所;\nB代表北交所;\n没有值表示场外基金",
+                          "enum": [
+                            "S",
+                            "Z",
+                            "B",
+                            "没有值表示场外基金"
+                          ]
+                        }
+                      ]
+                    },
+                    "listStatus": {
+                      "type": "string",
+                      "description": "上市状态",
+                      "example": "1",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "0代表待发行/发行待上市;\n1代表上市（合同已生效而非已上市交易，取已上市交易请加上上市日期和退市日 期限定）;\n4代表暂停上市;\n5代表终止上市;\n9代表其他",
+                          "enum": [
+                            "0",
+                            "1",
+                            "4",
+                            "5",
+                            "9"
+                          ]
+                        }
+                      ]
+                    },
+                    "establishDate": {
+                      "type": "string",
+                      "description": "成立日期",
+                      "example": "2019-03-19 00:00:00"
+                    },
+                    "listDate": {
+                      "type": "string",
+                      "description": "上市日期",
+                      "example": "2023-05-15"
+                    },
+                    "delistDate": {
+                      "type": "string",
+                      "description": "终止上市日期",
+                      "example": "2023-08-15"
+                    },
+                    "expireDate": {
+                      "type": "string",
+                      "description": "到期日",
+                      "example": "2025-12-31"
+                    },
+                    "custodianName": {
+                      "type": "string",
+                      "description": "托管人名称",
+                      "example": "中国农业银行股份有限公司"
+                    },
+                    "investmentField": {
+                      "type": "string",
+                      "description": "投资领域",
+                      "example": "人工智能"
+                    },
+                    "investmentObjective": {
+                      "type": "string",
+                      "description": "投资目标",
+                      "example": "    本基金主要通过量化投资策略进行股票投资，在严格控制风险和保持资产高流动性的前提下，努力实现基金资产的长期稳健增值。"
+                    },
+                    "benchmarkCode": {
+                      "type": "string",
+                      "description": "业绩比较基准",
+                      "example": "中证500指数收益率*75%+同期银行活期存款利率（税后）*25%"
+                    },
+                    "outstandingShares": {
+                      "type": "number",
+                      "description": "最新流通份额",
+                      "example": 1234567890.12
+                    },
+                    "managementCompanyName": {
+                      "type": "string",
+                      "description": "管理人简称",
+                      "example": "西部利得基金管理有限公司"
+                    },
+                    "fundNameFull": {
+                      "type": "string",
+                      "description": "基金全称",
+                      "example": "西部利得量化成长混合型发起式证券投资基金A类"
+                    },
+                    "fundMasterId": {
+                      "type": "string",
+                      "description": "基金主编码",
+                      "example": "000006JK"
+                    },
+                    "investmentStrategy": {
+                      "type": "string",
+                      "description": "投资策略",
+                      "example": "    本基金采取积极的大类资产配置策略，通过对宏观经济、微观经济运行态势、政策环境、利率走势、证券市场走。"
+                    },
+                    "investmentPhilosophy": {
+                      "type": "string",
+                      "description": "投资理念",
+                      "example": "价值投资，注重基本面分析，追求长期稳健回报"
+                    },
+                    "riskReturnProfile": {
+                      "type": "string",
+                      "description": "风险收益特征",
+                      "example": "本基金为混合型基金，在通常情况下其预期风险和预期收益高于债券型基金和货币市场基金，但低于股票型基金。"
+                    },
+                    "fundMasterCode": {
+                      "type": "string",
+                      "description": "基金主代码",
+                      "example": "000006"
+                    },
+                    "exchangeSubscriptionCode": {
+                      "type": "string",
+                      "description": "场内申赎代码",
+                      "example": "511010"
+                    },
+                    "exchangeName": {
+                      "type": "string",
+                      "description": "场内简称",
+                      "example": "沪深300ETF"
+                    },
+                    "backEndSubscriptionCode": {
+                      "type": "string",
+                      "description": "后端申购代码",
+                      "example": "501055"
+                    },
+                    "settlementDays": {
+                      "type": "integer",
+                      "description": "申赎确认天数",
+                      "format": "int32",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "全市场基金列表"
+        ],
+        "summary": "全市场基金列表",
+        "description": "获取全市场基金列表，支持分页查询，返回基金代码、名称、类型、管理人、托管人、投资目标、策略、理念、风险收益特征、上市状态、成立日期、上市日期、终止上市日期、到期日期、场内场外代码、业绩比较基准、流通份额等核心信息，用于基金筛选、市场概览和产品分析。",
+        "operationId": "list_fund_all",
+        "requestBody": {
+          "description": "获取全市场基金列表，支持分页查询，返回基金代码、名称、类型、管理人、托管人、投资目标、策略、理念、风险收益特征、上市状态、成立日期、上市日期、终止上市日期、到期日期、场内场外代码、业绩比较基准、流通份额等核心信息，用于基金筛选、市场概览和产品分析。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "成功响应",
@@ -56314,7 +57323,7 @@
         ],
         "summary": "行业信息(产业链）",
         "description": "通过行业代码或行业名称（支持模糊匹配）查询产业链行业分类信息，返回行业代码、名称、父级代码、所有祖先代码、分类体系（如CSF、CSRC等）及行业层级等核心数据，用于构建和分析产业链上下游关系及行业分类体系。",
-        "operationId": "c",
+        "operationId": "get_chain_industry_info",
         "requestBody": {
           "description": "通过行业代码或行业名称（支持模糊匹配）查询产业链行业分类信息，返回行业代码、名称、父级代码、所有祖先代码、分类体系（如CSF、CSRC等）及行业层级等核心数据，用于构建和分析产业链上下游关系及行业分类体系。",
           "content": {
@@ -61741,6 +62750,218 @@
                       "type": "string",
                       "description": "公告内容类别代码",
                       "example": "040301"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/fund/hold-industry": {
+      "post": {
+        "tags": [
+          "基金持仓的行业分布"
+        ],
+        "summary": "基金持仓的行业分布",
+        "description": "支持通过单个行业代码或批量行业代码数组查询持有对应行业股票的基金列表，可返回发布日期（格式为yyyy-MM-dd HH:mm:ss）、基金内部代码、基金代码、基金名称、基金类型，以及对应行业的体系、代码、名称、级别，还有基于最新报告、季报、年报的持仓权重和占比等核心数据，同时支持通过页码、页长进行分页查询，适用于分析基金行业配置及制定投资策略。",
+        "operationId": "list_fund_hold_industry",
+        "requestBody": {
+          "description": "支持通过单个行业代码或批量行业代码数组查询持有对应行业股票的基金列表，可返回发布日期（格式为yyyy-MM-dd HH:mm:ss）、基金内部代码、基金代码、基金名称、基金类型，以及对应行业的体系、代码、名称、级别，还有基于最新报告、季报、年报的持仓权重和占比等核心数据，同时支持通过页码、页长进行分页查询，适用于分析基金行业配置及制定投资策略。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000006"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "000006"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2024-03-28 00:00:00"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "001701JK"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "001701"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "国联产业升级灵活配置混合"
+                    },
+                    "fundType": {
+                      "type": "string",
+                      "description": "基金类型代码",
+                      "example": "2",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "0代表公司型封闭式;\n1代表契约型封闭式;\n2代表契约型开放式;\n3代表其他;\n4代表ETF;\n5代表LOFs;\n6代表外币基金;\n7代表创新型封闭式;\n8代表创新型开放式;\n9代表ETF联接基金",
+                          "enum": [
+                            "0",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                            "9"
+                          ]
+                        }
+                      ]
+                    },
+                    "industryStandard": {
+                      "type": "string",
+                      "description": "行业体系",
+                      "example": "INDUS4_CL",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "INDUS2_CL代表证监会行业体系;\nINDUS3_CL代表今日投资行业体系;\nINDUS4_CL代表申万行业体系;\nINDUS5_CL代表中信行业体系;\nINDUS6_CL代表通达信行业体系;\nINDUS8_CL代表中证行业体系",
+                          "enum": [
+                            "INDUS2_CL",
+                            "INDUS3_CL",
+                            "INDUS4_CL",
+                            "INDUS5_CL",
+                            "INDUS6_CL",
+                            "INDUS8_CL"
+                          ]
+                        }
+                      ]
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "C"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "制造业"
+                    },
+                    "industryLevel": {
+                      "type": "integer",
+                      "description": "行业级别",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表一级;\n2代表二级;\n3代表三级",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            2,
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    "holdingWeightLatest": {
+                      "type": "number",
+                      "description": "基于最新报告的持有比重（占基金资产总值）",
+                      "example": 43.0181
+                    },
+                    "holdingWeightQuarterly": {
+                      "type": "number",
+                      "description": "基于季报的持有比重（占基金资产总值）",
+                      "example": 43.0181
+                    },
+                    "holdingWeightAnnual": {
+                      "type": "number",
+                      "description": "基于年报的持有比重（占基金资产总值）",
+                      "example": 75.8681
+                    },
+                    "holdingRatioLatest": {
+                      "type": "number",
+                      "description": "基于最新报告的持有比重（占基金资产净值）",
+                      "example": 44.18
+                    },
+                    "holdingRatioQuarterly": {
+                      "type": "number",
+                      "description": "基于季报的持有比重（占基金资产净值）",
+                      "example": 44.18
+                    },
+                    "holdingRatioAnnual": {
+                      "type": "number",
+                      "description": "基于年报的持有比重（占基金资产净值）",
+                      "example": 76.84
+                    },
+                    "holdingRatioLatestPenetrated": {
+                      "type": "number",
+                      "description": "基于最新报告的持有比重",
+                      "example": 0.125
                     }
                   }
                 }

@@ -1,7 +1,8 @@
 ---
 name: investoday-finance-data
-version: 1.6.1
-description: 通过全局命令 investoday-api 获取中国市场金融数据，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 180+ 接口。触发后先自动执行初始化命令，不要询问确认；若缺少 INVESTODAY_API_KEY，则提示用户提供。请求时只能使用 investoday-api，禁止 curl、fetch、requests 等直连 API。
+title: 今日投资金融数据
+version: 1.7.0
+description: "获取中国市场金融数据与投研信息，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。Use when: 查询行情数据、财务数据、公告研报、基金指数数据、宏观经济数据。"
 homepage: https://github.com/investoday-data/investoday-api-skills.git
 tags:
   - stock
@@ -49,7 +50,6 @@ metadata:
   clawdbot:
     emoji: "📈"
     category: "finance"
-    files: ["scripts/*"]
 credentials:
   - name: INVESTODAY_API_KEY
     description: 今日投资数据市场 API Key，用于认证和授权访问金融数据接口。
@@ -68,8 +68,8 @@ requirements:
 
 ## 执行规则
 
-- 先执行 `node scripts/install_cli.js`
-- 不要询问用户确认
+- 先检查 `investoday-api` 是否可用
+- 如未安装：安装官方 npm 包 `@investoday/investoday-api`
 - 然后检查 `INVESTODAY_API_KEY`
 - 未配置：提示用户提供 API Key
 - 已配置：提示 `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
@@ -89,10 +89,10 @@ requirements:
 export INVESTODAY_API_KEY="<your_key>"
 ```
 
-### 2. 初始化命令
+### 2. CLI 安装
 
 ```bash
-node scripts/install_cli.js
+npm install -g @investoday/investoday-api
 ```
 
 ### 3. 请求数据
@@ -114,5 +114,6 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 
 - 接口索引：`docs/references-index.md`
 - 详细参数：`references/`
+- 安装后不要手动修改 shell 配置、PATH 或其他持久化系统设置
 - 命令失败时直接报错，不要绕过命令
 - 禁止 `curl`、`wget`、Python `requests`、Node `fetch` 和任何手写 HTTP 请求

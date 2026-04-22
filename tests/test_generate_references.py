@@ -11,6 +11,95 @@ SPEC.loader.exec_module(MODULE)
 
 
 class GenerateReferencesTests(unittest.TestCase):
+    def test_parse_openapi_paths_prefers_post_when_operation_id_is_duplicated(self):
+        openapi = {
+            "paths": {
+                "/stock/unadjusted-quotes": {
+                    "get": {
+                        "operationId": "stock_unadjusted_quotes",
+                        "summary": "GET version",
+                        "description": "单标的查询",
+                        "parameters": [
+                            {
+                                "name": "stockCode",
+                                "required": True,
+                                "description": "股票代码",
+                                "schema": {"type": "string", "example": "600519"},
+                            }
+                        ],
+                        "responses": {
+                            "200": {
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "close": {"description": "收盘价", "example": 123.45}
+                                                    },
+                                                }
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    }
+                },
+                "/stock/unadjusted-quotes-batch": {
+                    "post": {
+                        "operationId": "stock_unadjusted_quotes",
+                        "summary": "POST version",
+                        "description": "批量查询",
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "required": ["stockCodes"],
+                                        "properties": {
+                                            "stockCodes": {"type": "array", "example": ["600519", "000001"]},
+                                        },
+                                    }
+                                }
+                            }
+                        },
+                        "responses": {
+                            "200": {
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "close": {"description": "收盘价", "example": 123.45}
+                                                        }
+                                                    },
+                                                }
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    }
+                },
+            }
+        }
+
+        path_map = MODULE.parse_openapi_paths(openapi)
+        detail = path_map["stock_unadjusted_quotes"]
+
+        self.assertEqual(detail["method"], "POST")
+        self.assertEqual(detail["path"], "stock/unadjusted-quotes-batch")
+        self.assertEqual(detail["description"], "批量查询")
+        self.assertEqual(detail["parameters"][0]["name"], "stockCodes")
+
     def test_extract_response_fields_supports_top_level_properties(self):
         operation = {
             "responses": {

@@ -6,19 +6,19 @@
 
 - 单一调用入口：`investoday-api`
 - 单一认证方式：`INVESTODAY_API_KEY`
-- 自动初始化，不询问确认
+- 官方 npm CLI：`@investoday/investoday-api`
 - 返回结构化 JSON 数据
 - 支持 macOS、Linux、Windows
 - 自带接口索引、参数文档和示例命令
 
 ## 快速开始
 
-### 1. 初始化
+### 1. 安装 CLI
 
 执行：
 
 ```bash
-node skills/scripts/install_cli.js
+npm install -g @investoday/investoday-api
 ```
 
 ### 2. 配置 API Key
@@ -51,8 +51,11 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 
 ## 使用规则
 
-- AI 先自动执行初始化命令，不要询问确认
-- 初始化后检查 `INVESTODAY_API_KEY`
+- 先检查 `investoday-api` 是否可用
+- 如未安装：提示用户先确认，再安装官方 npm 包 `@investoday/investoday-api`
+- 不要自动安装，不要绕过用户确认
+- 不要修改 shell 配置、PATH 或其他系统持久化设置
+- 可用后检查 `INVESTODAY_API_KEY`
 - 未配置：提示用户提供
 - 已配置：提示 `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
 - 只允许使用环境变量 `INVESTODAY_API_KEY`
@@ -69,9 +72,10 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 ## 仓库结构
 
 ```text
-skills/   运行时内容：SKILL.md、脚本、docs、references
+skills/   Skill 定义与文档
+package/  官方 npm CLI 包
 create/   references 生成链：OpenAPI、菜单树、生成脚本
-tests/    测试
+tests/    生成链测试
 ```
 
 ## 维护
@@ -85,6 +89,5 @@ python3 create/generate_references.py
 运行测试：
 
 ```bash
-node --test tests/call_api.test.js tests/install_cli.test.js
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```

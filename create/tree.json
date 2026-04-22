@@ -273,6 +273,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110612,
+                      "apiName": "全市场股票列表",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1081,
+                      "remarks": null,
+                      "toolName": "list_stock_all",
+                      "toolId": "list_stock_all",
+                      "apiPath": "stock/all",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -806,6 +820,20 @@
                       "toolName": "list_stock_dt_details",
                       "toolId": "list_stock_dragon_tiger_details",
                       "apiPath": "stock/dt-details",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110614,
+                      "apiName": "龙虎榜营业部交易明细",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1086,
+                      "remarks": null,
+                      "toolName": "list_stock_dt_broker_det",
+                      "toolId": "list_stk_dragon_tiger_broke_details",
+                      "apiPath": "stcok/dt-broker-det",
                       "enabled": 1,
                       "apiAccessLevel": "L2",
                       "apiMethod": "POST"
@@ -3713,6 +3741,20 @@
                   "enabled": 1,
                   "apiAccessLevel": "L4",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110616,
+                  "apiName": "研究报告",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1036,
+                  "remarks": null,
+                  "toolName": "list_report_research",
+                  "toolId": "list_report_research",
+                  "apiPath": "report/research",
+                  "enabled": 1,
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4872,6 +4914,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110613,
+                      "apiName": "全市场基金列表",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11117,
+                      "remarks": null,
+                      "toolName": "list_fund_all",
+                      "toolId": "list_fund_all",
+                      "apiPath": "fund/all",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -5460,6 +5516,20 @@
                   "enabled": 1,
                   "apiAccessLevel": "L2",
                   "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110615,
+                  "apiName": "基金持仓的行业分布",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11129,
+                  "remarks": null,
+                  "toolName": "list_fund_hold_industry",
+                  "toolId": "list_fund_hold_industry",
+                  "apiPath": "fund/hold-industry",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -5725,7 +5795,7 @@
                   "groupId": 11155,
                   "remarks": null,
                   "toolName": "get_chain_industry_info",
-                  "toolId": "c",
+                  "toolId": "get_chain_industry_info",
                   "apiPath": "chain/industry-info",
                   "enabled": 1,
                   "apiAccessLevel": "L2",

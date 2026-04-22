@@ -130,9 +130,9 @@ def parse_openapi_paths(openapi: dict) -> dict[str, dict]:
     """
     解析 OpenAPI paths，返回 lookup key -> 接口详情 的映射。
 
-    同一 operationId 可能同时存在 GET 和 POST（path 略有不同），
-    因此使用 (operationId, method) 作为复合 key，同时保留纯 operationId
-    作为 fallback（后出现的覆盖前面的）。
+    以 operationId 作为唯一 key。
+    当同一 operationId 同时存在 GET 和 POST 时，优先保留 POST 版本，
+    让 POST 覆盖 GET。
     """
     path_map: dict[str, dict] = {}
     for path, methods in openapi.get("paths", {}).items():
@@ -183,10 +183,9 @@ def parse_openapi_paths(openapi: dict) -> dict[str, dict]:
                 "response_fields": _extract_response_fields(operation),
             }
 
-            # 复合 key：operationId::METHOD，精确匹配
-            path_map[f"{op_id}::{http_method}"] = detail
-            # 纯 operationId 作为 fallback（后出现的覆盖前面的）
-            path_map[op_id] = detail
+            existing = path_map.get(op_id)
+            if existing is None or existing.get("method") != "POST" or http_method == "POST":
+                path_map[op_id] = detail
 
     return path_map
 
@@ -345,16 +344,14 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
     """渲染单个接口的 Markdown 块"""
     lines = []
     api_path = api.get("api_path") or detail.get("path", "")
-    # 优先用 tree 中的 apiMethod（精确），fallback 到 OpenAPI detail
-    method   = api.get("apiMethod", "").upper() or detail.get("method", "GET")
+    # path_map 已按 operationId 唯一化，渲染时应以 detail 中的方法为准
+    method   = detail.get("method", "").upper() or api.get("apiMethod", "").upper() or "GET"
     desc     = detail.get("description", "")
     params   = detail.get("parameters", [])
 
-    # 同一 tool_id 同时有 GET/POST 时，标题加方法后缀区分
     tool_id   = api.get('tool_id', '')
     is_dual   = dual_method_ids and tool_id in dual_method_ids
-    title_suffix = f"（{method}）" if is_dual else ""
-    lines.append(f"## {api['api_name']}{title_suffix}")
+    lines.append(f"## {api['api_name']}")
     lines.append("")
     method_badge = "**`POST`**" if method == "POST" else "`GET`"
     tool_name = api.get('tool_name') or tool_id
@@ -362,14 +359,6 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
     lines.append(f"请求方式：{method_badge}")
     lines.append(f"tool_id：`{tool_id or tool_name}`")
 
-    # 同一 tool_id 双方法时，自动加说明
-    if is_dual:
-        if method == "POST":
-            lines.append("")
-            lines.append("> 📌 POST 版本，支持批量查询（可传多个标的）。")
-        else:
-            lines.append("")
-            lines.append("> 📌 GET 版本，兼容历史调用，仅支持单标的查询。推荐使用 POST 版本进行批量查询。")
     lines.append("")
 
     summary = detail.get("summary", "").strip()
@@ -407,31 +396,19 @@ def _is_flat_group(top_group: str, sub_groups: dict) -> bool:
 def _lookup_api_detail(api: dict, path_map: dict) -> dict:
     """
     根据 tree 中的 api 条目查找 OpenAPI 详情。
-    优先用 tool_id::METHOD 精确匹配，再 fallback 到纯 tool_id / tool_name。
+    由于 path_map 已按 operationId 唯一化，这里只按 tool_id / tool_name 查找。
+    当同一 operationId 同时存在 GET 和 POST 时，path_map 中保留 POST 版本。
     """
     tool_id   = api.get("tool_id", "")
     tool_name = api.get("tool_name", "")
-    method    = api.get("apiMethod", "").upper()
 
-    # 1. 精确匹配：tool_id::METHOD
-    if tool_id and method:
-        detail = path_map.get(f"{tool_id}::{method}")
-        if detail:
-            return detail
-
-    # 2. fallback: 纯 tool_id
+    # 1. operationId / tool_id
     if tool_id:
         detail = path_map.get(tool_id)
         if detail:
             return detail
 
-    # 3. fallback: tool_name::METHOD
-    if tool_name and method:
-        detail = path_map.get(f"{tool_name}::{method}")
-        if detail:
-            return detail
-
-    # 4. fallback: 纯 tool_name
+    # 2. fallback: tool_name
     if tool_name:
         detail = path_map.get(tool_name)
         if detail:
