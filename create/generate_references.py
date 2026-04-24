@@ -37,6 +37,7 @@ import json
 import argparse
 import sys
 import os
+import shutil
 from pathlib import Path
 from typing import Any
 from urllib import request, error
@@ -52,6 +53,7 @@ VALIDATE_ENDPOINT = "/trade-calender/special-date"
 DEFAULT_OUTPUT_DIR  = Path(__file__).parent.parent / "skills" / "references"
 LOCAL_OPENAPI_FILE  = Path(__file__).parent / "openapi.json"
 LOCAL_TREE_FILE     = Path(__file__).parent / "tree.json"
+PACKAGE_DATA_DIR    = Path(__file__).parent.parent / "package" / "investoday-api" / "data"
 REQUEST_TIMEOUT     = 30
 
 # ─── 环境变量加载 ─────────────────────────────────────────────────────────────
@@ -102,6 +104,28 @@ def fetch_tree(force_remote: bool = False) -> list:
     if isinstance(result, dict) and "data" in result:
         return result["data"]
     return result
+
+
+def sync_package_metadata(
+    package_data_dir: Path = PACKAGE_DATA_DIR,
+    openapi_file: Path = LOCAL_OPENAPI_FILE,
+    tree_file: Path = LOCAL_TREE_FILE,
+) -> None:
+    """同步本地缓存到 npm 包 data 目录。"""
+    if not openapi_file.exists() or not tree_file.exists():
+        return
+
+    package_data_dir.mkdir(parents=True, exist_ok=True)
+
+    openapi_target = package_data_dir / openapi_file.name
+    tree_target = package_data_dir / tree_file.name
+
+    shutil.copy2(openapi_file, openapi_target)
+    shutil.copy2(tree_file, tree_target)
+
+    print(f"同步 npm 包元数据...")
+    print(f"  ✓ {openapi_target.relative_to(package_data_dir.parent.parent)}")
+    print(f"  ✓ {tree_target.relative_to(package_data_dir.parent.parent)}")
 
 
 def validate_api_key(api_key: str) -> bool:
@@ -255,16 +279,14 @@ def flatten_tree(nodes: list, parent_path: list | None = None) -> list[dict]:
     return results
 
 
-def build_group_tree(flat_apis: list[dict]) -> dict[str, dict[str, list]]:
-    """将扁平 API 列表重建为两级分组字典: {顶级: {子级: [api, ...]}}"""
-    tree: dict[str, dict[str, list]] = {}
+def build_group_tree(flat_apis: list[dict]) -> dict[tuple[str, ...], list[dict]]:
+    """将扁平 API 列表按最低级菜单路径重建: {(顶级,...,叶子): [api, ...]}"""
+    tree: dict[tuple[str, ...], list[dict]] = {}
     for api in flat_apis:
-        path = [p for p in api["group_path"] if p != "分组"]
+        path = tuple(p for p in api["group_path"] if p != "分组")
         if not path:
             continue
-        top = path[0]
-        sub = path[1] if len(path) > 1 else top
-        tree.setdefault(top, {}).setdefault(sub, []).append(api)
+        tree.setdefault(path, []).append(api)
     return tree
 
 # ─── Markdown 生成 ─────────────────────────────────────────────────────────────
@@ -388,11 +410,6 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
     return lines
 
 
-def _is_flat_group(top_group: str, sub_groups: dict) -> bool:
-    """判断是否为单层分组（无子分组，直接输出为 references/{top}.md）"""
-    return len(sub_groups) == 1 and list(sub_groups.keys())[0] == top_group
-
-
 def _lookup_api_detail(api: dict, path_map: dict) -> dict:
     """
     根据 tree 中的 api 条目查找 OpenAPI 详情。
@@ -417,10 +434,10 @@ def _lookup_api_detail(api: dict, path_map: dict) -> dict:
     return {}
 
 
-def generate_subgroup_md(top_group: str, sub_group: str, apis: list, path_map: dict,
-                         dual_method_ids: set[str] | None = None) -> str:
-    """为一个子分组生成 .md 内容"""
-    title = top_group if sub_group == top_group else f"{top_group} / {sub_group}"
+def generate_group_md(group_path: tuple[str, ...], apis: list, path_map: dict,
+                      dual_method_ids: set[str] | None = None) -> str:
+    """为一个最低级菜单分组生成 .md 内容"""
+    title = " / ".join(group_path)
     lines = [
         f"# {title}",
         "",
@@ -436,62 +453,44 @@ def generate_subgroup_md(top_group: str, sub_group: str, apis: list, path_map: d
 def write_references(group_tree: dict, path_map: dict, output_dir: Path,
                      dual_method_ids: set[str] | None = None) -> list[dict]:
     """
-    按子分组写出 .md 文件，返回文件信息列表供 SKILL.md 索引使用。
-
-    规则：
-    - 有子分组的顶级分组 → references/{top}/{sub}.md
-    - 无子分组（flat）   → references/{top}.md
+    按最低级菜单写出 .md 文件，返回文件信息列表供索引使用。
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    records = []  # [{top, sub, count, rel_path}]
+    records = []  # [{group_path, group_path_en, count, rel_path}]
 
-    for top_group, sub_groups in group_tree.items():
-        flat = _is_flat_group(top_group, sub_groups)
+    for group_path, apis in group_tree.items():
+        content = generate_group_md(group_path, apis, path_map, dual_method_ids)
+        first_api = apis[0] if apis else {}
+        localized_path = tuple(
+            en_name or zh_name
+            for zh_name, en_name in zip(first_api.get("group_path", []), first_api.get("group_path_en", []))
+            if zh_name != "分组"
+        )
 
-        for sub_group, apis in sub_groups.items():
-            content = generate_subgroup_md(top_group, sub_group, apis, path_map, dual_method_ids)
-            first_api = apis[0] if apis else {}
-            localized_path = [
-                en_name or zh_name
-                for zh_name, en_name in zip(first_api.get("group_path", []), first_api.get("group_path_en", []))
-                if zh_name != "分组"
-            ]
-            top_group_en = localized_path[0] if localized_path else top_group
-            sub_group_en = top_group_en if flat else (localized_path[1] if len(localized_path) > 1 else sub_group)
+        if len(group_path) == 1:
+            out_file = output_dir / f"{group_path[0]}.md"
+        else:
+            out_file = output_dir.joinpath(*group_path[:-1], f"{group_path[-1]}.md")
+            out_file.parent.mkdir(parents=True, exist_ok=True)
 
-            if flat:
-                out_file = output_dir / f"{top_group}.md"
-            else:
-                sub_dir = output_dir / top_group
-                sub_dir.mkdir(exist_ok=True)
-                out_file = sub_dir / f"{sub_group}.md"
+        rel_path = out_file.relative_to(output_dir.parent).as_posix()
 
-            rel_path = out_file.relative_to(output_dir.parent).as_posix()
-
-            out_file.write_text(content, encoding="utf-8")
-            records.append({
-                "top":      top_group,
-                "sub":      sub_group if not flat else "",
-                "top_en":   top_group_en,
-                "sub_en":   sub_group_en if not flat else "",
-                "count":    len(apis),
-                "rel_path": rel_path,
-                "flat":     flat,
-            })
-            print(f"  ✓ {rel_path} ({len(apis)} 个接口)")
+        out_file.write_text(content, encoding="utf-8")
+        records.append({
+            "group_path": group_path,
+            "group_path_en": localized_path or group_path,
+            "count": len(apis),
+            "rel_path": rel_path,
+        })
+        print(f"  ✓ {rel_path} ({len(apis)} 个接口)")
 
     return records
 
 
-def _resolve_index_labels(record: dict, language: str) -> tuple[str, str]:
+def _resolve_index_path(record: dict, language: str) -> tuple[str, ...]:
     if language != "en":
-        top_label = record["top"]
-        sub_label = record["top"] if record["flat"] else record["sub"]
-        return top_label, sub_label
-
-    top_label = record.get("top_en") or record["top"]
-    sub_label = top_label if record["flat"] else (record.get("sub_en") or record["sub"])
-    return top_label, sub_label
+        return tuple(record["group_path"])
+    return tuple(record.get("group_path_en") or record["group_path"])
 
 
 def generate_references_index_md(records: list[dict], language: str = "zh") -> str:
@@ -511,20 +510,35 @@ def generate_references_index_md(records: list[dict], language: str = "zh") -> s
             "",
         ]
 
-    prev_top = None
-    for record in records:
-        top_group = record["top"]
-        if top_group != prev_top:
-            if prev_top is not None:
-                lines.append("")
-            heading, _ = _resolve_index_labels(record, language)
-            lines.append(f"## {heading}")
-            lines.append("")
+    previous_top = None
+    previous_parent = None
 
-        _, title = _resolve_index_labels(record, language)
+    for record in records:
+        label_path = _resolve_index_path(record, language)
+        if not label_path:
+            continue
+
+        top = label_path[0]
+        parent = label_path[1:-1]
+        leaf = label_path[-1]
         rel_path = f"../{record['rel_path']}"
-        lines.append(f"- [{title}]({rel_path})")
-        prev_top = top_group
+
+        if top != previous_top:
+            if previous_top is not None:
+                lines.append("")
+            lines.append(f"## {top}")
+            lines.append("")
+            previous_top = top
+            previous_parent = None
+
+        if parent and parent != previous_parent:
+            lines.append(f"### {' / '.join(parent)}")
+            lines.append("")
+            previous_parent = parent
+        elif not parent:
+            previous_parent = None
+
+        lines.append(f"- [{leaf}]({rel_path})")
 
     lines.append("")
     return "\n".join(lines)
@@ -562,6 +576,7 @@ def main():
     # 获取数据（默认读本地缓存，--remote 强制拉远程）
     openapi    = fetch_openapi(force_remote=args.remote)
     tree_data  = fetch_tree(force_remote=args.remote)
+    sync_package_metadata()
 
     print("解析数据...")
     path_map   = parse_openapi_paths(openapi)

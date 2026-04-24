@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -11,6 +12,116 @@ SPEC.loader.exec_module(MODULE)
 
 
 class GenerateReferencesTests(unittest.TestCase):
+    def test_build_group_tree_groups_by_leaf_path(self):
+        flat_apis = [
+            {
+                "group_path": ["沪深京数据", "公司行为", "基本信息"],
+                "group_path_en": ["A-share", "Corporate Actions", "Basic Info"],
+                "api_name": "上市公司违规处罚",
+                "tool_name": "list_stock_violation_penalt",
+                "tool_id": "list_stock_violation_penalt",
+                "api_path": "stock/violation-penalties",
+                "apiMethod": "POST",
+            },
+            {
+                "group_path": ["沪深京数据", "公司行为", "并购重组"],
+                "group_path_en": ["A-share", "Corporate Actions", "M&A"],
+                "api_name": "公司吸收合并",
+                "tool_name": "list_stock_absorption_mergers",
+                "tool_id": "list_stock_absorption_mergers",
+                "api_path": "stock/absorp-mergers",
+                "apiMethod": "POST",
+            },
+        ]
+
+        group_tree = MODULE.build_group_tree(flat_apis)
+
+        self.assertIn(("沪深京数据", "公司行为", "基本信息"), group_tree)
+        self.assertIn(("沪深京数据", "公司行为", "并购重组"), group_tree)
+        self.assertEqual(len(group_tree[("沪深京数据", "公司行为", "基本信息")]), 1)
+        self.assertEqual(len(group_tree[("沪深京数据", "公司行为", "并购重组")]), 1)
+
+    def test_write_references_writes_nested_leaf_paths(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir) / "skills" / "references"
+            group_tree = {
+                ("沪深京数据", "公司行为", "基本信息"): [
+                    {
+                        "group_path": ["沪深京数据", "公司行为", "基本信息"],
+                        "group_path_en": ["A-share", "Corporate Actions", "Basic Info"],
+                        "api_name": "上市公司违规处罚",
+                        "tool_name": "list_stock_violation_penalt",
+                        "tool_id": "list_stock_violation_penalt",
+                        "api_path": "stock/violation-penalties",
+                        "apiMethod": "POST",
+                    }
+                ]
+            }
+            path_map = {
+                "list_stock_violation_penalt": {
+                    "path": "stock/violation-penalties",
+                    "method": "POST",
+                    "summary": "上市公司违规处罚",
+                    "description": "查询上市公司违规处罚",
+                    "parameters": [],
+                    "response_fields": [],
+                }
+            }
+
+            records = MODULE.write_references(group_tree, path_map, output_dir)
+
+            target = output_dir / "沪深京数据" / "公司行为" / "基本信息.md"
+            self.assertTrue(target.exists())
+            self.assertEqual(records[0]["rel_path"], "references/沪深京数据/公司行为/基本信息.md")
+
+    def test_generate_references_index_md_uses_hierarchical_headings(self):
+        records = [
+            {
+                "group_path": ("沪深京数据", "公司行为", "基本信息"),
+                "group_path_en": ("A-share", "Corporate Actions", "Basic Info"),
+                "count": 12,
+                "rel_path": "references/沪深京数据/公司行为/基本信息.md",
+            },
+            {
+                "group_path": ("沪深京数据", "公司行为", "股本股东"),
+                "group_path_en": ("A-share", "Corporate Actions", "Capital & Shareholders"),
+                "count": 12,
+                "rel_path": "references/沪深京数据/公司行为/股本股东.md",
+            },
+        ]
+
+        content = MODULE.generate_references_index_md(records)
+
+        self.assertIn("## 沪深京数据", content)
+        self.assertIn("### 公司行为", content)
+        self.assertIn("- [基本信息](../references/沪深京数据/公司行为/基本信息.md)", content)
+        self.assertIn("- [股本股东](../references/沪深京数据/公司行为/股本股东.md)", content)
+
+    def test_sync_package_metadata_copies_openapi_and_tree_into_package_data_dir(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            openapi_file = tmp_path / "openapi.json"
+            tree_file = tmp_path / "tree.json"
+            package_data_dir = tmp_path / "package" / "investoday-api" / "data"
+
+            openapi_file.write_text('{"openapi":"3.0.0"}', encoding="utf-8")
+            tree_file.write_text('{"data":[]}', encoding="utf-8")
+
+            MODULE.sync_package_metadata(
+                package_data_dir=package_data_dir,
+                openapi_file=openapi_file,
+                tree_file=tree_file,
+            )
+
+            self.assertEqual(
+                (package_data_dir / "openapi.json").read_text(encoding="utf-8"),
+                '{"openapi":"3.0.0"}',
+            )
+            self.assertEqual(
+                (package_data_dir / "tree.json").read_text(encoding="utf-8"),
+                '{"data":[]}',
+            )
+
     def test_parse_openapi_paths_prefers_post_when_operation_id_is_duplicated(self):
         openapi = {
             "paths": {

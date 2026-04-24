@@ -1,55 +1,64 @@
 # InvestToday Financial Data Skill
 
-This skill uses `investoday-api` to fetch Chinese financial-market data.
+Fetch Chinese financial-market data with coverage across A-shares, Hong Kong stocks, indices, market data, research reports, news, real-time quotes, macroeconomics, and related datasets.
 
-## Execution Rules
-
-- Check whether `investoday-api` is already available
-- If it is missing: ask for confirmation first, then install the official npm package `@investoday/investoday-api`
-- Then check `INVESTODAY_API_KEY`
-- If missing: ask the user to provide an API key
-- If present: reply `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
-- Only use `investoday-api` for requests
-
-## Quick Start
-
-### 1. API Key
-
-If `INVESTODAY_API_KEY` is missing:
-
-- open <https://data-api.investoday.net/login>
-- get an API key
-- set the environment variable
+## Installation & Usage
 
 ```bash
-export INVESTODAY_API_KEY="<your_key>"
+# Install CLI
+npm uninstall -g @investoday/investoday-api
+npm install -g @investoday/investoday-api@latest
 ```
 
-### 2. Install CLI
+For the base runtime setup, see [runtime setup](./docs/api-key-setup.en.md).
+
+## CLI Command Reference
 
 ```bash
-npm install -g @investoday/investoday-api
-```
+# Initialize local API-key configuration if it is missing
+investoday-api init
 
-### 3. Request Data
+# Browse multi-level groups and leaf categories
+investoday-api list <group/subgroup/leaf>
 
-```bash
+# Search APIs by keyword or tool id.
+# query and tool_ids can contain multiple values separated by English commas.
+investoday-api search-api query=<query> tool_ids=<tool_ids>
+
+# Fetch data
 investoday-api <endpoint> [key=value ...]
-investoday-api <endpoint> --method POST [key=value ...]
 ```
 
 Examples:
 
 ```bash
-investoday-api search key=600519 type=11
+# Runtime setup
+investoday-api init
+investoday-api config status
+
+# List categories
+investoday-api list
+investoday-api list 沪深京数据
+investoday-api list 沪深京数据/公司行为/基本信息
+
+# Keyword search
+investoday-api search-api query=股票,基本面分析
+
+# Tool-id search
+investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
+
+# Fetch data
+investoday-api search key=贵州茅台 type=11
 investoday-api stock/basic-info stockCode=600519
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
 ```
 
-## Notes
+## Usage Strategy
 
-- Index: `docs/references-index.en.md`
-- Detailed params: `references/`
-- Do not modify shell profiles, PATH, or other persistent system settings
-- If the command fails, report the error and stop
-- Never use `curl`, `wget`, Python `requests`, Node `fetch`, or handwritten HTTP requests
+- If the endpoint is unclear, use `search-api` or `list` to find it.
+- If the endpoint is clear but the usage is unclear, use `search-api` to get the usage details.
+- If both the endpoint and usage are clear, call it directly.
+
+## Supporting Docs
+
+- API reference index: `docs/references-index.en.md`

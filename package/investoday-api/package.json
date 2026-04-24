@@ -1,6 +1,6 @@
 {
   "name": "@investoday/investoday-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CLI for accessing InvestToday China market financial data via investoday-api.",
   "license": "MIT",
   "homepage": "https://github.com/investoday-data/investoday-api-skills",
@@ -14,11 +14,15 @@
   },
   "type": "commonjs",
   "main": "lib/call-api.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
   "bin": {
     "investoday-api": "bin/investoday-api.js"
   },
   "files": [
     "bin",
+    "data",
     "lib",
     "README.md"
   ],

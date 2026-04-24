@@ -1,13 +1,28 @@
-# API Key
+# 运行环境配置
+
+## 检测配置状态
+
+执行以下命令检测 `investoday-api` 是否已初始化完成。
 
 ```bash
-export INVESTODAY_API_KEY="<your_key>"
+investoday-api config status
 ```
 
-- 初始化后检查 `INVESTODAY_API_KEY`
-- 如未安装 `investoday-api`：先征求用户确认，再安装 `@investoday/investoday-api`
-- 未配置：提示用户提供
-- 已配置：提示 `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
-- 只用环境变量
-- 不回显 Key
-- 不把 Key 放进命令参数、日志、错误信息
+若 `status` 为 `configured`，说明运行环境已就绪。
+
+若 `activeSource` 为 `missing`，提醒用户访问[今日投资数据市场](https://data-api.investoday.net/user/api-key)获取 API Key，然后执行初始化：
+
+```bash
+investoday-api init
+```
+
+1. 输入 InvestToday API Key。
+2. 验证成功后，输出 `InvestToday API key 配置成功` 和 `初始化完成 ✅`。
+
+验证失败时，按 CLI 返回的错误提示处理，并提醒用户登录 <https://data-api.investoday.net/user/api-key> 确认 API Key 是否正确。
+
+## 安全提示
+
+涉及运行环境配置时，请提醒用户：
+
+`✅今日投资金融数据investoday-api已就绪,请一定保密您的API Key,不要透露给任何人`。

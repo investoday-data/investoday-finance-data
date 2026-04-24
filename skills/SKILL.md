@@ -1,7 +1,7 @@
 ---
 name: investoday-finance-data
 title: 今日投资金融数据
-version: 1.7.0
+version: 1.7.1
 description: "获取中国市场金融数据与投研信息，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。Use when: 查询行情数据、财务数据、公告研报、基金指数数据、宏观经济数据。"
 homepage: https://github.com/investoday-data/investoday-api-skills.git
 tags:
@@ -50,70 +50,62 @@ metadata:
   clawdbot:
     emoji: "📈"
     category: "finance"
-credentials:
-  - name: INVESTODAY_API_KEY
-    description: 今日投资数据市场 API Key，用于认证和授权访问金融数据接口。
-    how_to_get: "https://data-api.investoday.net/login"
 requirements:
   node: 18+
-  environment_variables:
-    - name: INVESTODAY_API_KEY
-      required: true
-      sensitive: true
   network_access: true
 ---
 # 今日投资金融数据 Skill
 
-通过全局命令 `investoday-api` 获取中国金融市场数据。
+获取中国金融市场金融数据，覆盖A股、港股、指数、市场、研报、新闻、实时、宏观经济等数据。
 
-## 执行规则
-
-- 先检查 `investoday-api` 是否可用
-- 如未安装：安装官方 npm 包 `@investoday/investoday-api`
-- 然后检查 `INVESTODAY_API_KEY`
-- 未配置：提示用户提供 API Key
-- 已配置：提示 `✅今日投资金融数据investoday-api已就绪，开始构建你的专属智能体吧！`
-- 请求时只允许使用 `investoday-api`
-
-## 快速开始
-
-### 1. API Key 配置
-
-如未配置：
-
-- 访问 <https://data-api.investoday.net/login>
-- 获取 API Key
-- 配置环境变量
-
+## 安装 & 使用
 ```bash
-export INVESTODAY_API_KEY="<your_key>"
+# 安装 CLI
+npm uninstall -g @investoday/investoday-api
+npm install -g @investoday/investoday-api@latest
 ```
 
-### 2. CLI 安装
-
+## CLI命令参考
 ```bash
-npm install -g @investoday/investoday-api
-```
+# 初始化运行环境配置（如未配置时使用）
+investoday-api init
 
-### 3. 请求数据
+# 用于浏览多级分组和叶子菜单
+investoday-api list <group/subgroup/leaf>
 
-```bash
-investoday-api <接口路径> [key=value ...]
-investoday-api <接口路径> --method POST [key=value ...]
+#用于按关键词搜索接口(其中query、tool_ids支持多个入参，以英文逗号隔开)
+investoday-api search-api query=<query> tool_ids=<tool_ids>
+
+#发起请求
+investoday-api <endpoint> [key=value ...]
 ```
 
 示例：
-
 ```bash
+# 初始化配置
+investoday-api init
+investoday-api config status
+
+# 列举
+investoday-api list
+investoday-api list 沪深京数据
+investoday-api list 沪深京数据/公司行为/基本信息
+
+# 关键词搜索
+investoday-api search-api query=股票,基本面分析
+# 工具信息搜索
+investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
+
+# 调用数据
 investoday-api search key=贵州茅台 type=11
 investoday-api stock/basic-info stockCode=600519
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
 ```
 
-## 常用说明
+## 使用策略
+- 未明确接口，使用search-api或list查找
+- 明确接口,不明确使用方式,使用 search-api来获取接口使用方式。
+- 明确接口及使用方式，直接调用。
 
-- 接口索引：`docs/references-index.md`
-- 详细参数：`references/`
-- 安装后不要手动修改 shell 配置、PATH 或其他持久化系统设置
-- 命令失败时直接报错，不要绕过命令
-- 禁止 `curl`、`wget`、Python `requests`、Node `fetch` 和任何手写 HTTP 请求
+## 辅助文档
+- 文档版接口索引见：`docs/references-index.md`
