@@ -1,6 +1,6 @@
 {
   "name": "@investoday/investoday-api",
-  "version": "1.2.0",
+  "version": "1.8.0",
   "description": "CLI for accessing InvestToday China market financial data via investoday-api.",
   "license": "MIT",
   "homepage": "https://github.com/investoday-data/investoday-api-skills",
