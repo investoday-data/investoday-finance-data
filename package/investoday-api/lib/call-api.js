@@ -26,7 +26,7 @@ function loadApiKey() {
   }
 
   exitWithError(
-    "ERROR: API key is not configured. Run 'investoday-api init'."
+    "ERROR: 运行环境配置失败，请使用终端Bash运行`investoday-api init`配置。"
   );
 }
 

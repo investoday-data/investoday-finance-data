@@ -1,32 +1,21 @@
 # investoday-finance-data
 
-`investoday-finance-data` 是今日投资金融数据 skill 仓库。它面向两类使用场景：
+`investoday-finance-data` 是今日投资金融数据 skill 仓库，包含两部分：
 
-- agent 通过 `skills/SKILL.md` 调用官方 CLI `investoday-api`
-- 维护者通过 `create/` 生成 references，并同步元数据到 `package/investoday-api`
+- `skills/`：提供给 agent 使用的 skill 入口、接口索引和 references
+- `package/investoday-api/`：官方 npm CLI，命令名为 `investoday-api`
 
-当前能力覆盖中国市场金融数据与投研信息，包括 A 股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。
+仓库当前覆盖中国市场金融数据与投研信息，包括 A 股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。
 
-## 核心组成
+## 快速开始
 
-- `skills/`
-  skill 定义、中英文入口文档、references 索引和接口说明。
-- `package/investoday-api/`
-  官方 npm CLI 包，命令名为 `investoday-api`。
-- `create/`
-  OpenAPI、菜单树和 references 生成链。
-- `tests/`
-  references 生成链测试。
-
-## 官方 CLI
-
-安装：
+安装 CLI：
 
 ```bash
 npm install -g @investoday/investoday-api
 ```
 
-配置 API Key：
+初始化 API Key：
 
 ```bash
 investoday-api init
@@ -34,7 +23,7 @@ investoday-api init
 
 获取 API Key：
 
-- <https://data-api.investoday.net/login>
+- <https://data-api.investoday.net/user/api-key>
 
 常用命令：
 
@@ -43,36 +32,44 @@ investoday-api --help
 investoday-api init
 investoday-api config status
 investoday-api list
-investoday-api list 沪深京数据/股票行情
-investoday-api search-api query=违规处罚
+investoday-api list 沪深京数据/公司行为/基本信息
+investoday-api search-api query=股票,基本面分析
+investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
 investoday-api stock/basic-info stockCode=600519
+investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
 ```
 
 命令定位：
 
-- `list`
-  浏览多级分组和叶子菜单。
-- `search-api`
-  按关键词搜索接口，默认返回 JSON，并包含请求方式、输入参数、响应字段和 `exampleCommand`；需要人类可读摘要时可加 `--text`。
-- `init`
-  一次性初始化 API Key，本机加密保存。
-- 直接调用
-  在确认接口后执行真实请求。
+- `init`：初始化本机加密配置
+- `config status|path|remove`：检查、定位或清理本机配置
+- `list`：浏览多级分组和叶子菜单
+- `search-api`：按关键词或 `tool_id` 搜索接口，默认返回 JSON
+- 直接调用：在确认接口后发起真实请求
 
-说明：
+## Skill 与文档
 
-- CLI 使用 `investoday-api init` 写入的本机加密配置
-- CLI 只请求 `https://data-api.investoday.net/data`
-- 对同一路径的 GET/POST 双版本，CLI 当前 canonical 版本默认优先 POST
+- Skill 入口：
+  [skills/SKILL.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/SKILL.md)
+- 英文入口：
+  [skills/SKILL_EN.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/SKILL_EN.md)
+- 运行环境说明：
+  [skills/docs/api-key-setup.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/docs/api-key-setup.md)
+- 接口索引：
+  [skills/docs/references-index.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/docs/references-index.md)
+- 详细接口文档：
+  [skills/references](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/references)
+- npm 包目录：
+  [package/investoday-api](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/package/investoday-api)
 
-## Skill 使用规则
+## Agent 约束
 
 对于 agent：
 
 - 先检查 `investoday-api` 是否可用
-- 如未安装：先征求用户确认，再安装 `@investoday/investoday-api`
-- 不要自动安装，不要修改 shell 配置、PATH 或其他持久化系统设置
-- 检查 `investoday-api config status`
+- 如未安装，先征求用户确认，再安装 `@investoday/investoday-api`
+- 不要自动修改 shell 配置、PATH 或其他持久化系统设置
+- 先看 `investoday-api config status`
 - 仅使用 `investoday-api`
 - 不要使用 `curl`、`wget`、`requests`、`fetch` 或其他手写 HTTP 请求
 
@@ -83,24 +80,18 @@ investoday-api stock/basic-info stockCode=600519
 3. 真实接口调用
 4. 如需深读，再看 references
 
-## 文档位置
+## 仓库结构
 
-- Skill 入口：
-  [skills/SKILL.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/SKILL.md)
-- 英文入口：
-  [skills/SKILL_EN.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/SKILL_EN.md)
-- 接口索引：
-  [skills/docs/references-index.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/docs/references-index.md)
-- 英文索引：
-  [skills/docs/references-index.en.md](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/docs/references-index.en.md)
-- 详细接口文档：
-  [skills/references](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/skills/references)
-- npm 包目录：
-  [package/investoday-api](/Users/kenneth/My/Codes/External/3-Python/LLMs/skills/业务/investoday-finance-data/package/investoday-api)
+```text
+skills/                  skill 定义、中英文入口、references 与辅助文档
+package/investoday-api/  官方 npm CLI
+create/                  OpenAPI、菜单树、references 生成链与发布脚本
+tests/                   references 生成链测试
+```
 
 ## 生成与同步
 
-生成 references：
+本地元数据生成：
 
 ```bash
 python3 create/generate_references.py
@@ -143,14 +134,14 @@ npm test
 ./create/publish.sh
 ```
 
-常见用法：
+常用示例：
 
 ```bash
 ./create/publish.sh --remote
 ./create/publish.sh --remote --changelog "Update CLI capabilities and references"
 ```
 
-脚本会按顺序执行：
+发布脚本会按顺序执行：
 
 - 生成并同步 references 与 package metadata
 - 运行 Python 测试和 CLI 测试
@@ -159,5 +150,5 @@ npm test
 
 认证说明：
 
-- ClawHub 默认读取环境变量 `CLAWHUB_TOKEN`
-- npm 需要当前机器已 `npm login`，或提前设置 `NPM_TOKEN`
+- ClawHub 读取环境变量 `CLAWHUB_TOKEN`
+- npm 依赖当前机器的 `npm login` 或 `NPM_TOKEN`
