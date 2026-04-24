@@ -1,7 +1,7 @@
 ---
 name: investoday-finance-data
 title: 今日投资金融数据
-version: 1.7.1
+version: 1.7.2
 description: "获取中国市场金融数据与投研信息，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。Use when: 查询行情数据、财务数据、公告研报、基金指数数据、宏观经济数据。"
 homepage: https://github.com/investoday-data/investoday-api-skills.git
 tags:
