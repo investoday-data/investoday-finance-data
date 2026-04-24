@@ -4,18 +4,14 @@ Fetch Chinese financial-market data with coverage across A-shares, Hong Kong sto
 
 ## Installation & Usage
 
-```bash
-# Install CLI
-npm uninstall -g @investoday/investoday-api
-npm install -g @investoday/investoday-api@latest
-```
+Requires Node.js 18+ and the Node package `@investoday/investoday-api`.
 
-For the base runtime setup, see [runtime setup](./docs/api-key-setup.en.md).
+`investoday-api init` initializes the CLI's local runtime configuration and may create or update local config files used by the CLI.
 
 ## CLI Command Reference
 
 ```bash
-# Initialize local API-key configuration if it is missing
+# Initialize runtime
 investoday-api init
 
 # Browse multi-level groups and leaf categories
@@ -32,9 +28,8 @@ investoday-api <endpoint> [key=value ...]
 Examples:
 
 ```bash
-# Runtime setup
+# Initialize runtime
 investoday-api init
-investoday-api config status
 
 # List categories
 investoday-api list

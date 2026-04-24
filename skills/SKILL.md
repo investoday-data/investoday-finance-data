@@ -1,9 +1,8 @@
 ---
 name: investoday-finance-data
 title: 今日投资金融数据
-version: 1.8.0
+version: 1.8.3
 description: "获取中国市场金融数据与投研信息，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。Use when: 查询行情数据、财务数据、公告研报、基金指数数据、宏观经济数据。"
-homepage: https://github.com/investoday-data/investoday-api-skills.git
 tags:
   - stock
   - fund
@@ -52,6 +51,8 @@ metadata:
     category: "finance"
 requirements:
   node: 18+
+  packages:
+    - name: "@investoday/investoday-api"
   network_access: true
 ---
 # 今日投资金融数据 Skill
@@ -59,15 +60,14 @@ requirements:
 获取中国金融市场金融数据，覆盖A股、港股、指数、市场、研报、新闻、实时、宏观经济等数据。
 
 ## 安装 & 使用
-```bash
-# 安装 CLI
-npm uninstall -g @investoday/investoday-api
-npm install -g @investoday/investoday-api@latest
-```
+
+需要 Node.js 18+ 和 Node 包 `@investoday/investoday-api`。
+
+`investoday-api init` 用于初始化 CLI 的本地运行环境配置，可能会创建或更新 CLI 使用的本地配置文件。
 
 ## CLI命令参考
 ```bash
-# 初始化运行环境配置（如未配置时使用）
+# 初始化运行环境
 investoday-api init
 
 # 用于浏览多级分组和叶子菜单
@@ -82,9 +82,8 @@ investoday-api <endpoint> [key=value ...]
 
 示例：
 ```bash
-# 初始化配置
+# 初始化运行环境
 investoday-api init
-investoday-api config status
 
 # 列举
 investoday-api list
