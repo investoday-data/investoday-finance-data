@@ -9,6 +9,12 @@
 
 ## 快速开始
 
+复制skills目录
+```text
+- 复制skills目录到对应软件的skills文件夹中，并重命名为 `investoday-finance-data`
+- 检查 `investoday-finance-data` 目录文件完整
+```
+
 安装 CLI：
 
 ```bash
@@ -99,6 +105,8 @@ investoday-api <endpoint> --method POST [key=value ...]
 ## 仓库结构
 
 ```text
-skills/                  skill 定义、中英文入口、接口索引与 references
-package/investoday-api/  investoday-api CLI
+skills/   skill主文件夹
+create/   工程化文件，AI无需读取
+package/  底层包命令工程化文件，AI无需读取
+tests/    测试文件夹，AI无需读取
 ```
