@@ -255,25 +255,18 @@ def parse_openapi_paths(openapi: dict) -> dict[str, dict]:
 
 
 def _extract_response_fields(operation: dict) -> list[dict]:
-    """从 200 响应中提取 data 字段列表"""
+    """从 200 响应中提取顶层业务字段列表"""
     try:
         schema = operation["responses"]["200"]["content"]["application/json"]["schema"]
         properties = schema.get("properties", {})
-        data_prop = properties.get("data", {})
+        if schema.get("type") == "array":
+            properties = schema.get("items", {}).get("properties", {})
 
-        if data_prop:
-            if data_prop.get("type") == "array":
-                source = data_prop.get("items", {}).get("properties", {})
-            else:
-                source = data_prop.get("properties", {})
-        elif schema.get("type") == "array":
-            source = schema.get("items", {}).get("properties", {})
-        else:
-            source = {
-                key: value
-                for key, value in properties.items()
-                if key not in {"code", "message"}
-            }
+        source = {
+            key: value
+            for key, value in properties.items()
+            if key not in {"code", "message"}
+        }
 
         return [
             {"name": k, "desc": v.get("description", ""), "example": v.get("example", "")}
@@ -590,6 +583,13 @@ def write_references_index(records: list[dict], output_file: Path, language: str
     print(f"  ✓ {output_file.relative_to(output_file.parent.parent)}")
 
 
+def clean_output_dir(output_dir: Path) -> None:
+    """清理旧版生成文件，避免菜单结构变化后残留过期 reference。"""
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+
 # ─── 入口 ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -626,6 +626,8 @@ def main():
 
     # 生成子分组级 .md 文件
     output_dir: Path = args.output
+
+    clean_output_dir(output_dir)
 
     print("生成分组文档...")
     records = write_references(group_tree, path_map, output_dir, dual_method_ids)

@@ -236,6 +236,7 @@ async function main() {
       version,
       changelog,
       tags,
+      acceptLicenseTerms: true,
     }),
   );
 

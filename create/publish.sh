@@ -299,6 +299,7 @@ commit_and_push_release() {
     cd "${REPO_ROOT}"
     git add \
       create/clawhub_publish_with_timeout.js \
+      create/generate_references.py \
       create/openapi.json \
       create/publish.sh \
       create/tree.json \
@@ -308,7 +309,8 @@ commit_and_push_release() {
       skills/SKILL.md \
       skills/docs/references-index.md \
       skills/docs/references-index.en.md \
-      skills/references
+      skills/references \
+      tests/test_generate_references.py
 
     if git diff --cached --quiet; then
       log "No generated docs or version metadata changes to commit"

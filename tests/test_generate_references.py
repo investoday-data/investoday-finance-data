@@ -122,6 +122,18 @@ class GenerateReferencesTests(unittest.TestCase):
                 '{"data":[]}',
             )
 
+    def test_clean_output_dir_removes_stale_reference_files(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir) / "skills" / "references"
+            stale_file = output_dir / "旧分类.md"
+            stale_file.parent.mkdir(parents=True)
+            stale_file.write_text("# 旧分类\n", encoding="utf-8")
+
+            MODULE.clean_output_dir(output_dir)
+
+            self.assertTrue(output_dir.exists())
+            self.assertFalse(stale_file.exists())
+
     def test_parse_openapi_paths_prefers_post_when_operation_id_is_duplicated(self):
         openapi = {
             "paths": {
@@ -239,6 +251,37 @@ class GenerateReferencesTests(unittest.TestCase):
             [
                 {"name": "announcementId", "desc": "公告ID", "example": 9128035},
                 {"name": "title", "desc": "公告标题", "example": "董事会决议公告"},
+            ],
+        )
+
+    def test_extract_response_fields_keeps_top_level_data_field(self):
+        operation = {
+            "responses": {
+                "200": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {"description": "响应状态码", "example": 0},
+                                    "message": {"description": "响应消息", "example": "success"},
+                                    "stockCode": {"description": "股票代码", "example": "000001"},
+                                    "data": {"type": "number", "description": "指标当前值", "example": 12.34},
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        fields = MODULE._extract_response_fields(operation)
+
+        self.assertEqual(
+            fields,
+            [
+                {"name": "stockCode", "desc": "股票代码", "example": "000001"},
+                {"name": "data", "desc": "指标当前值", "example": 12.34},
             ],
         )
 
