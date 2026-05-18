@@ -91,6 +91,11 @@ EOF
     return
   fi
 
+  if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
+    log "Using npm trusted publishing from GitHub Actions OIDC"
+    return
+  fi
+
   fail "npm authentication is missing for ${NPM_REGISTRY}. Run 'npm login --registry ${NPM_REGISTRY}' first or export NPM_TOKEN."
 }
 

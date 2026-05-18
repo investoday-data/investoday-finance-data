@@ -3,14 +3,14 @@
   "version": "1.8.1",
   "description": "CLI for accessing InvestToday China market financial data via investoday-api.",
   "license": "MIT",
-  "homepage": "https://github.com/investoday-data/investoday-api-skills",
+  "homepage": "https://github.com/investoday-data/investoday-finance-data",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/investoday-data/investoday-api-skills.git",
+    "url": "git+https://github.com/investoday-data/investoday-finance-data.git",
     "directory": "package/investoday-api"
   },
   "bugs": {
-    "url": "https://github.com/investoday-data/investoday-api-skills/issues"
+    "url": "https://github.com/investoday-data/investoday-finance-data/issues"
   },
   "type": "commonjs",
   "main": "lib/call-api.js",

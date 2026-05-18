@@ -1,7 +1,6 @@
 name: Update API References
 
 on:
-  # 允许手动触发（GitHub UI / API / Jenkins 调用）
   workflow_dispatch:
     inputs:
       triggered_by:
@@ -17,7 +16,8 @@ jobs:
   update-references:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 允许 push 回 repo
+      contents: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -31,7 +31,7 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
@@ -39,78 +39,25 @@ jobs:
             echo "No requirements.txt found, using Python standard library only."
           fi
 
-      - name: Generate references (fetch remote API spec)
-        run: python create/generate_references.py --remote
+      - name: Set up Node.js for npm trusted publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Check for OpenAPI changes
-        id: changes
-        run: |
-          git diff --quiet -- create/openapi.json && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+      - name: Upgrade npm for OIDC publishing support
+        run: npm install -g npm@latest
 
-      - name: Bump patch versions
-        if: steps.changes.outputs.changed == 'true'
-        id: bump
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          import re
-          from pathlib import Path
+      - name: Install clawhub CLI
+        run: npm install -g clawhub
 
-          def bump_patch(version: str) -> str:
-              match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", version.strip())
-              if not match:
-                  raise SystemExit(f"Unsupported version format: {version}")
-              major, minor, patch = match.groups()
-              return f"{major}.{minor}.{int(patch) + 1}"
-
-          skill_path = Path("skills/SKILL.md")
-          package_path = Path("package/investoday-api/package.json")
-
-          skill_text = skill_path.read_text(encoding="utf-8")
-          version_pattern = re.compile(r"(?m)^version:\s*([0-9]+\.[0-9]+\.[0-9]+)\s*$")
-          match = version_pattern.search(skill_text)
-          if not match:
-              raise SystemExit("version field not found in skills/SKILL.md")
-          old_skill = match.group(1)
-          new_skill = bump_patch(old_skill)
-          skill_path.write_text(version_pattern.sub(f"version: {new_skill}", skill_text, count=1), encoding="utf-8")
-
-          package_json = json.loads(package_path.read_text(encoding="utf-8"))
-          old_package = package_json["version"]
-          new_package = bump_patch(old_package)
-          package_json["version"] = new_package
-          package_path.write_text(json.dumps(package_json, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"old_skill={old_skill}\n")
-              output.write(f"new_skill={new_skill}\n")
-              output.write(f"old_package={old_package}\n")
-              output.write(f"new_package={new_package}\n")
-
-          print(f"Skill version: {old_skill} -> {new_skill}")
-          print(f"npm package version: {old_package} -> {new_package}")
-          PY
-
-      - name: Commit and push updated references
-        if: steps.changes.outputs.changed == 'true'
+      - name: Configure git author
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add \
-            create/openapi.json \
-            create/tree.json \
-            package/investoday-api/data/openapi.json \
-            package/investoday-api/data/tree.json \
-            package/investoday-api/package.json \
-            skills/SKILL.md \
-            skills/docs/references-index.md \
-            skills/docs/references-index.en.md \
-            skills/references/
-          git commit -m "release: docs ${{ steps.bump.outputs.new_skill }}"
-          git pull --rebase origin main
-          git push
 
-      - name: No changes detected
-        if: steps.changes.outputs.changed == 'false'
-        run: echo "✅ OpenAPI already up-to-date, nothing to commit."
+      - name: Publish docs release
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+          CLAWHUB_PUBLISH_TIMEOUT_SECONDS: '300'
+        run: ./create/publish.sh --changelog "Automated scheduled docs release"
