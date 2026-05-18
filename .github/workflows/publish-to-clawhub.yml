@@ -39,9 +39,11 @@ jobs:
         run: npm install -g clawhub
 
       - name: Configure clawhub auth
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
         run: |
           mkdir -p "$HOME/.config/clawhub"
-          echo '{"registry":"https://clawhub.ai","token":"${{ secrets.CLAWHUB_TOKEN }}"}' > "$HOME/.config/clawhub/config.json"
+          printf '{"registry":"https://clawhub.ai","token":"%s"}\n' "$CLAWHUB_TOKEN" > "$HOME/.config/clawhub/config.json"
 
       - name: Verify auth
         run: clawhub whoami
@@ -74,11 +76,13 @@ jobs:
 
       - name: Publish to ClawHub
         if: steps.check.outputs.skip == 'false'
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+          CLAWHUB_PUBLISH_TIMEOUT_SECONDS: '300'
         run: |
-          clawhub publish "${{ github.workspace }}/skills" \
+          node create/clawhub_publish_with_timeout.js "${{ github.workspace }}/skills" \
             --slug investoday-finance-data \
             --name "InvestToday Finance Data" \
             --version ${{ steps.skill.outputs.version }} \
             --tags "stock,fund,etf,index,a-share,hk-stock,finance,financial-data,market-data,quote,macro-economics,quantitative,investment-research" \
-            --changelog "${{ github.event.inputs.changelog || 'Automated release from GitHub Actions' }}" \
-            --no-input
+            --changelog "${{ github.event.inputs.changelog || 'Automated release from GitHub Actions' }}"

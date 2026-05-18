@@ -9,9 +9,9 @@ on:
         required: false
         default: 'manual'
 
-  # 也可以设置定时自动触发（可选，与 Jenkins 触发二选一或并存）
-  # schedule:
-  #   - cron: '0 2 * * 1'  # 每周一凌晨 2 点（UTC）
+  # 北京时间每天 19:00 执行；GitHub Actions cron 使用 UTC，即 11:00 UTC。
+  schedule:
+    - cron: '0 11 * * *'
 
 jobs:
   update-references:
@@ -32,40 +32,85 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "No requirements.txt found, using Python standard library only."
+          fi
 
       - name: Generate references (fetch remote API spec)
         run: python create/generate_references.py --remote
 
-      - name: Check for changes
+      - name: Check for OpenAPI changes
         id: changes
         run: |
-          git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --quiet -- create/openapi.json && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Bump patch version in SKILL.md
+      - name: Bump patch versions
         if: steps.changes.outputs.changed == 'true'
         id: bump
         run: |
-          CURRENT=$(grep '^version:' skills/SKILL.md | head -1 | awk '{print $2}')
-          MAJOR=$(echo $CURRENT | cut -d. -f1)
-          MINOR=$(echo $CURRENT | cut -d. -f2)
-          PATCH=$(echo $CURRENT | cut -d. -f3)
-          NEW="${MAJOR}.${MINOR}.$((PATCH + 1))"
-          sed -i "s/^version: .*/version: ${NEW}/" skills/SKILL.md
-          echo "old=$CURRENT" >> $GITHUB_OUTPUT
-          echo "new=$NEW" >> $GITHUB_OUTPUT
-          echo "Bumped version: $CURRENT → $NEW"
+          python - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          def bump_patch(version: str) -> str:
+              match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", version.strip())
+              if not match:
+                  raise SystemExit(f"Unsupported version format: {version}")
+              major, minor, patch = match.groups()
+              return f"{major}.{minor}.{int(patch) + 1}"
+
+          skill_path = Path("skills/SKILL.md")
+          package_path = Path("package/investoday-api/package.json")
+
+          skill_text = skill_path.read_text(encoding="utf-8")
+          version_pattern = re.compile(r"(?m)^version:\s*([0-9]+\.[0-9]+\.[0-9]+)\s*$")
+          match = version_pattern.search(skill_text)
+          if not match:
+              raise SystemExit("version field not found in skills/SKILL.md")
+          old_skill = match.group(1)
+          new_skill = bump_patch(old_skill)
+          skill_path.write_text(version_pattern.sub(f"version: {new_skill}", skill_text, count=1), encoding="utf-8")
+
+          package_json = json.loads(package_path.read_text(encoding="utf-8"))
+          old_package = package_json["version"]
+          new_package = bump_patch(old_package)
+          package_json["version"] = new_package
+          package_path.write_text(json.dumps(package_json, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"old_skill={old_skill}\n")
+              output.write(f"new_skill={new_skill}\n")
+              output.write(f"old_package={old_package}\n")
+              output.write(f"new_package={new_package}\n")
+
+          print(f"Skill version: {old_skill} -> {new_skill}")
+          print(f"npm package version: {old_package} -> {new_package}")
+          PY
 
       - name: Commit and push updated references
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add skills/references/ skills/SKILL.md create/openapi.json create/tree.json
-          git commit -m "chore: auto-update API references, bump version ${{ steps.bump.outputs.old }} → ${{ steps.bump.outputs.new }}"
+          git add \
+            create/openapi.json \
+            create/tree.json \
+            package/investoday-api/data/openapi.json \
+            package/investoday-api/data/tree.json \
+            package/investoday-api/package.json \
+            skills/SKILL.md \
+            skills/docs/references-index.md \
+            skills/docs/references-index.en.md \
+            skills/references/
+          git commit -m "release: docs ${{ steps.bump.outputs.new_skill }}"
           git pull --rebase origin main
           git push
 
       - name: No changes detected
         if: steps.changes.outputs.changed == 'false'
-        run: echo "✅ References already up-to-date, nothing to commit."
+        run: echo "✅ OpenAPI already up-to-date, nothing to commit."
