@@ -931,6 +931,151 @@
             "ApiKeyAuth": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "指数历史日行情"
+        ],
+        "summary": "指数历史日行情",
+        "description": "支持通过单个指数代码或多个指数代码列表，结合可选的日期范围（开始日期、结束日期，格式为yyyy-MM-dd）、页码、页大小，查询指数的历史日行情数据，包括日期（yyyy-MM-dd HH:mm:ss）、指数代码、指数名称、昨收盘价、开盘价、最高价、最低价、收盘价、成交量、成交金额等核心指标，可用于市场分析和指数表现追踪。",
+        "operationId": "list_index_quote_barch",
+        "requestBody": {
+          "description": "支持通过单个指数代码或多个指数代码列表，结合可选的日期范围（开始日期、结束日期，格式为yyyy-MM-dd）、页码、页大小，查询指数的历史日行情数据，包括日期（yyyy-MM-dd HH:mm:ss）、指数代码、指数名称、昨收盘价、开盘价、最高价、最低价、收盘价、成交量、成交金额等核心指标，可用于市场分析和指数表现追踪。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string",
+                    "description": "指数代码【与indexCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000300"
+                  },
+                  "indexCodes": {
+                    "type": "array",
+                    "description": "指数代码列表【与indexCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "399300",
+                      "399301"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2025-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2015-05-26 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000300"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数名称",
+                      "example": "沪深300"
+                    },
+                    "previousClosePrice": {
+                      "type": "number",
+                      "description": "昨收盘价",
+                      "example": 3850.25
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 3860.15
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 3880.45
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 3845.3
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 3875.6
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 125000000.0
+                    },
+                    "tradingAmountCny": {
+                      "type": "number",
+                      "description": "成交金额（元）",
+                      "example": 4850000000.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
       }
     },
     "/announcements": {
@@ -37836,6 +37981,12 @@
                       "description": "研发费用占比个股排名",
                       "format": "int32",
                       "example": 150
+                    },
+                    "netProfitAdjRank": {
+                      "type": "integer",
+                      "description": "扣非净利润排名",
+                      "format": "int32",
+                      "example": 100
                     }
                   }
                 }
@@ -37955,7 +38106,7 @@
                       "allOf": [
                         {
                           "type": "integer",
-                          "description": "1代表一级行业;\n2代表二级行业;\n3代表三级行业;",
+                          "description": "1代表一级行业;\n2代表二级行业;\n3代表三级行业",
                           "format": "int32",
                           "enum": [
                             1,
@@ -37987,7 +38138,7 @@
                       "allOf": [
                         {
                           "type": "string",
-                          "description": "Q1代表第一季度;\nQ2代表第二季度;\nQ3代表第三季度;\nQ4代表第四季度;",
+                          "description": "Q1代表第一季度;\nQ2代表第二季度;\nQ3代表第三季度;\nQ4代表第四季度",
                           "enum": [
                             "Q1",
                             "Q2",
@@ -38084,6 +38235,12 @@
                       "description": "研发费用占比个股排名",
                       "format": "int32",
                       "example": 150
+                    },
+                    "netProfitAdjRank": {
+                      "type": "integer",
+                      "description": "扣非净利润排名",
+                      "format": "int32",
+                      "example": 100
                     }
                   }
                 }
@@ -42810,6 +42967,11 @@
                       "description": "响应消息",
                       "example": "success"
                     },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-10-20"
+                    },
                     "fundCode": {
                       "type": "string",
                       "description": "基金代码",
@@ -42852,7 +43014,7 @@
                       "allOf": [
                         {
                           "type": "string",
-                          "description": "1代表股票型;\n2代表债券型;\n3代表QDII;\n4代表商品型;\n5代表混合型;\n6代表货币型;\n7代表另类基金;\n8代表FOF;\n9代表其他;",
+                          "description": "1代表股票型;\n2代表债券型;\n3代表QDII;\n4代表商品型;\n5代表混合型;\n6代表货币型;\n7代表另类基金;\n8代表FOF;\n9代表其他",
                           "enum": [
                             "1",
                             "2",
@@ -42901,7 +43063,7 @@
                       "allOf": [
                         {
                           "type": "string",
-                          "description": "1代表偏股型;\n2代表偏债型;\n3代表商品型;\n4代表货币型;\n5代表其他;",
+                          "description": "1代表偏股型;\n2代表偏债型;\n3代表商品型;\n4代表货币型;\n5代表其他",
                           "enum": [
                             "1",
                             "2",
@@ -44048,7 +44210,7 @@
                       "type": "string"
                     }
                   },
-                  "isIncumbent ": {
+                  "isIncumbent": {
                     "type": "integer",
                     "description": "是否在职",
                     "format": "int32",
@@ -45211,6 +45373,11 @@
                       "type": "string",
                       "description": "响应消息",
                       "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-01-01"
                     },
                     "fundCode": {
                       "type": "string",
@@ -54851,6 +55018,16 @@
                       "description": "市净率",
                       "example": 1.376
                     },
+                    "peRank5y": {
+                      "type": "number",
+                      "description": "近五年PE百分位",
+                      "example": 0.8399
+                    },
+                    "pbRank5y": {
+                      "type": "number",
+                      "description": "近五年PB百分位",
+                      "example": 0.6399
+                    },
                     "turnoverRate": {
                       "type": "number",
                       "description": "换手率",
@@ -62962,6 +63139,563 @@
                       "type": "number",
                       "description": "基于最新报告的持有比重",
                       "example": 0.125
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/fund-manager/hist-performance": {
+      "post": {
+        "tags": [
+          "基金经理历史管理基金业绩"
+        ],
+        "summary": "基金经理历史管理基金业绩",
+        "description": "支持通过基金经理名称（支持模糊查询）查询其历史管理的基金及任期业绩数据，返回基金代码、基金ID、基金名称、基金经理代码、基金经理名称、是否在职、任职开始日期、任职结束日期（格式均为yyyy-MM-dd）、任期回报等核心信息，可用于评估基金经理的历史任职表现与管理业绩。",
+        "operationId": "list_fund_mgr_hist_per",
+        "requestBody": {
+          "description": "支持通过基金经理名称（支持模糊查询）查询其历史管理的基金及任期业绩数据，返回基金代码、基金ID、基金名称、基金经理代码、基金经理名称、是否在职、任职开始日期、任职结束日期（格式均为yyyy-MM-dd）、任期回报等核心信息，可用于评估基金经理的历史任职表现与管理业绩。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundManagerName": {
+                    "type": "string",
+                    "description": "基金经理",
+                    "example": "张三"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-01-01"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": " 基金代码",
+                      "example": "159355"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "J000DVGB"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "800红利低波ETF华宝"
+                    },
+                    "fundManagerCode": {
+                      "type": "string",
+                      "description": "基金经理代码",
+                      "example": "001O57M2"
+                    },
+                    "fundManagerName": {
+                      "type": "string",
+                      "description": "基金经理姓名",
+                      "example": "胡一江"
+                    },
+                    "isIncumbent": {
+                      "type": "integer",
+                      "description": "是否在任",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "0代表历任;\n1代表在任",
+                          "format": "int32",
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    "tenureEndDate": {
+                      "type": "string",
+                      "description": "任职开始日期",
+                      "example": "2025-01-18"
+                    },
+                    "tenureStartDate": {
+                      "type": "string",
+                      "description": "任职结束日期",
+                      "example": "2025-01-18"
+                    },
+                    "returnTenure": {
+                      "type": "number",
+                      "description": "任期回报",
+                      "example": 0.1053
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/stock/up-down-list": {
+      "post": {
+        "tags": [
+          "每日股票涨跌停列表"
+        ],
+        "summary": "每日股票涨跌停列表",
+        "description": "支持通过指定涨跌停标识（必填，1为涨停、-1为跌停、0为未涨跌停）、日期范围（格式yyyy-MM-dd）、页码和页长，查询沪深京A股、B股在指定交易日的涨跌停状态、连续涨跌停天数、昨日收盘价及昨日前复权收盘价等核心数据，可用于分析股票的极端价格行为和短期市场情绪。",
+        "operationId": "list_stock_up_down_list",
+        "requestBody": {
+          "description": "支持通过指定涨跌停标识（必填，1为涨停、-1为跌停、0为未涨跌停）、日期范围（格式yyyy-MM-dd）、页码和页长，查询沪深京A股、B股在指定交易日的涨跌停状态、连续涨跌停天数、昨日收盘价及昨日前复权收盘价等核心数据，可用于分析股票的极端价格行为和短期市场情绪。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "limitFlag"
+                ],
+                "type": "object",
+                "properties": {
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "limitFlag": {
+                    "type": "integer",
+                    "description": "涨跌停标识",
+                    "format": "int32",
+                    "example": 1,
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "description": "1代表涨停;\n-1代表跌停;\n0代表未涨跌停",
+                        "format": "int32",
+                        "enum": [
+                          1,
+                          -1,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "1990-12-21 00:00:00"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "600652"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "游久"
+                    },
+                    "keepLimitUpDays": {
+                      "type": "integer",
+                      "description": "连续涨停天数",
+                      "format": "int32",
+                      "example": 5
+                    },
+                    "keepLimitDownDays": {
+                      "type": "integer",
+                      "description": "连续跌停天数",
+                      "format": "int32",
+                      "example": 5
+                    },
+                    "limitFlag": {
+                      "type": "integer",
+                      "description": "涨跌停",
+                      "format": "int32",
+                      "example": 1,
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "description": "1代表涨停;\n-1代表跌停;\n0代表未涨跌停",
+                          "format": "int32",
+                          "enum": [
+                            1,
+                            -1,
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    "prevClosePriceAdj": {
+                      "type": "number",
+                      "description": "昨日收盘价",
+                      "example": 0.1591
+                    },
+                    "prevClosePrice": {
+                      "type": "number",
+                      "description": "昨日前复权收盘价",
+                      "example": 193
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/stock-quote/realtime-ext": {
+      "post": {
+        "tags": [
+          "沪深京最新实时扩展日行情"
+        ],
+        "summary": "沪深京最新实时扩展日行情",
+        "description": "获取沪深京股票的最新实时扩展行情数据，支持按股票代码列表查询或全市场排序筛选（如涨跌幅、涨跌停时间），返回包含最新价、开盘价、最高最低价、成交量额、多周期涨跌幅、总市值、流通市值、换手率、所属行业及涨跌停价格与时间（格式yyyy-MM-dd HH:mm:ss）等核心指标，适用于实时市场监测、异动股票发现及多维度的量化分析任务。",
+        "operationId": "get_stock_quote_rt_ext",
+        "parameters": [
+          {
+            "name": "order",
+            "in": "query",
+            "description": "排序方式(asc、desc)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "asc"
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "description": "排序字段",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "changeRatio",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "changeRatio代表涨跌幅;\nlimitUpTime代表涨停时间;\nlimitDownTime代表跌停时间",
+                  "enum": [
+                    "changeRatio",
+                    "limitUpTime",
+                    "limitDownTime"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "获取沪深京股票的最新实时扩展行情数据，支持按股票代码列表查询或全市场排序筛选（如涨跌幅、涨跌停时间），返回包含最新价、开盘价、最高最低价、成交量额、多周期涨跌幅、总市值、流通市值、换手率、所属行业及涨跌停价格与时间（格式yyyy-MM-dd HH:mm:ss）等核心指标，适用于实时市场监测、异动股票发现及多维度的量化分析任务。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码(单股票示例:[\"000001\"]，多股票示例: [\"600839\",\"000002\"])",
+                    "example": [
+                      "000001"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "响应状态码",
+                      "format": "int32",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "响应消息",
+                      "example": "success"
+                    },
+                    "bix": {
+                      "type": "integer",
+                      "description": "开始序号",
+                      "format": "int32"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "changeRatio": {
+                            "type": "number",
+                            "description": "涨跌幅"
+                          },
+                          "changeRatio1W": {
+                            "type": "number",
+                            "description": "股票近一周涨跌幅"
+                          },
+                          "changeRatioB10D": {
+                            "type": "number",
+                            "description": "股票近10日涨跌幅"
+                          },
+                          "circulationValue": {
+                            "type": "number",
+                            "description": "流通市值(T-1日)"
+                          },
+                          "closePriceYDay": {
+                            "type": "number",
+                            "description": "昨收价"
+                          },
+                          "currentPrice": {
+                            "type": "number",
+                            "description": "最新价"
+                          },
+                          "dataTime": {
+                            "type": "string",
+                            "description": "数据时间"
+                          },
+                          "dealMoney": {
+                            "type": "number",
+                            "description": "成交金额（单位：元）"
+                          },
+                          "dealMoney1W": {
+                            "type": "number",
+                            "description": "近一周成交额（单位：元）"
+                          },
+                          "dealStockAmount": {
+                            "type": "number",
+                            "description": "成交股票数（单位：A-手、港-股）"
+                          },
+                          "dealStockAmount1W": {
+                            "type": "number",
+                            "description": "近一周成交股票数（单位：股）"
+                          },
+                          "highPrice": {
+                            "type": "number",
+                            "description": "最高价"
+                          },
+                          "industryCode": {
+                            "type": "string",
+                            "description": "行业代码(申万二级)"
+                          },
+                          "industryLV1Code": {
+                            "type": "string",
+                            "description": "行业代码(申万一级)"
+                          },
+                          "industryLV1Name": {
+                            "type": "string",
+                            "description": "行业名称(申万一级)"
+                          },
+                          "industryName": {
+                            "type": "string",
+                            "description": "行业名称(申万二级)"
+                          },
+                          "limitDownPrice": {
+                            "type": "number",
+                            "description": "跌停价"
+                          },
+                          "limitDownTime": {
+                            "type": "string",
+                            "description": "跌停时间(Last)"
+                          },
+                          "limitUpPrice": {
+                            "type": "number",
+                            "description": "涨停价"
+                          },
+                          "limitUpTime": {
+                            "type": "string",
+                            "description": "涨停时间(Last)"
+                          },
+                          "lowPrice": {
+                            "type": "number",
+                            "description": "最低价"
+                          },
+                          "marketType": {
+                            "type": "string",
+                            "description": "市场类型"
+                          },
+                          "openPrice": {
+                            "type": "number",
+                            "description": "开盘价"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "状态"
+                          },
+                          "stockCode": {
+                            "type": "string",
+                            "description": "股票代码"
+                          },
+                          "stockName": {
+                            "type": "string",
+                            "description": "股票名称"
+                          },
+                          "sysTime": {
+                            "type": "object",
+                            "description": "系统时间"
+                          },
+                          "totalValue": {
+                            "type": "number",
+                            "description": "总市值(T日)"
+                          },
+                          "turnOverRate": {
+                            "type": "number",
+                            "description": "换手率"
+                          }
+                        },
+                        "description": "结果"
+                      }
+                    },
+                    "eix": {
+                      "type": "integer",
+                      "description": "结束序号",
+                      "format": "int32"
+                    },
+                    "lastPage": {
+                      "type": "boolean",
+                      "description": "是否最后一页"
+                    },
+                    "page": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "format": "int32"
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总条数",
+                      "format": "int32"
                     }
                   }
                 }

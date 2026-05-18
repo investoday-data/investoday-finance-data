@@ -764,6 +764,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L2",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110621,
+                      "apiName": "每日股票涨跌停列表",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1085,
+                      "remarks": null,
+                      "toolName": "list_stk_up_down_list",
+                      "toolId": "list_stock_up_down_list",
+                      "apiPath": "stock/up-down-list",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -896,6 +910,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L3",
                       "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110622,
+                      "apiName": "沪深京最新实时扩展日行情",
+                      "apiType": "PROXY",
+                      "apiStatus": "release",
+                      "groupId": 1096,
+                      "remarks": null,
+                      "toolName": "get_stock_quote_rt_ext",
+                      "toolId": "get_stock_quote_rt_ext",
+                      "apiPath": "stock-quote/realtime-ext",
+                      "enabled": 1,
+                      "apiAccessLevel": "L3",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
@@ -3522,6 +3550,20 @@
                   "enabled": 1,
                   "apiAccessLevel": "L3",
                   "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110623,
+                  "apiName": "指数历史日行情",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1033,
+                  "remarks": null,
+                  "toolName": "list_index_quote_barch",
+                  "toolId": "list_index_quote_barch",
+                  "apiPath": "index/quotes",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -5305,6 +5347,20 @@
                       "toolName": "list_fund_mgr_returns",
                       "toolId": "list_fund_mgr_returns",
                       "apiPath": "fund-manager/interval-returns",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110617,
+                      "apiName": "基金经理历史管理基金业绩",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11125,
+                      "remarks": null,
+                      "toolName": "list_fund_mgr_hist_per",
+                      "toolId": "list_fund_mgr_hist_per",
+                      "apiPath": "fund-manager/hist-performance",
                       "enabled": 1,
                       "apiAccessLevel": "L2",
                       "apiMethod": "POST"
