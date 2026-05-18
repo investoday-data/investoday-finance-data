@@ -17,6 +17,7 @@ SKILL_TAGS="stock,fund,etf,index,a-share,hk-stock,finance,financial-data,market-
 RUN_REMOTE_SYNC=true
 CHANGELOG="Manual release"
 RUN_TESTS=true
+RUN_NPM_PUBLISH=true
 RUN_GIT_PUSH=true
 TEMP_NPMRC="${REPO_ROOT}/.npmrc.publish"
 
@@ -29,16 +30,18 @@ Options:
   --remote            Fetch remote OpenAPI/tree and regenerate references before publishing (default)
   --local             Use local cached openapi.json/tree.json instead of fetching remote metadata
   --skip-tests        Skip Python and npm test steps
+  --skip-npm          Skip npm publish and only publish the skill
   --skip-git          Skip git commit and push after publishing
   --changelog TEXT    Changelog used for ClawHub publish
   -h, --help          Show this help
 
 When remote openapi.json changes, npm package and skill patch versions are bumped automatically.
-After a successful publish, generated docs and version metadata are committed and pushed.
+After a successful publish, generated docs, version metadata, and release scripts are committed and pushed.
 
 Examples:
   ./create/publish.sh
   ./create/publish.sh --local
+  ./create/publish.sh --skip-npm
   ./create/publish.sh --skip-git
   ./create/publish.sh --remote --changelog "Update CLI capabilities and references"
 EOF
@@ -64,12 +67,9 @@ require_bin() {
 }
 
 ensure_clawhub_auth() {
-  if [[ -n "${CLAWHUB_TOKEN:-}" ]]; then
-    log "Configuring ClawHub auth from CLAWHUB_TOKEN"
-    mkdir -p "${HOME}/.config/clawhub"
-    cat > "${HOME}/.config/clawhub/config.json" <<EOF
-{"registry":"https://clawhub.ai","token":"${CLAWHUB_TOKEN}"}
-EOF
+  if [[ -n "${CLAWHUB_TOKEN:-}${CLAWDHUB_TOKEN:-}" ]]; then
+    log "Using ClawHub auth from token environment"
+    return
   fi
 
   clawhub whoami >/dev/null
@@ -215,6 +215,11 @@ run_verification() {
 }
 
 publish_npm() {
+  if [[ "${RUN_NPM_PUBLISH}" != "true" ]]; then
+    log "Skipping npm publish"
+    return
+  fi
+
   local local_version published_version
   local_version="$(trim "$(read_package_version)")"
   published_version="$(
@@ -267,13 +272,12 @@ publish_clawhub() {
   ensure_clawhub_auth
 
   log "Publishing ${SKILL_SLUG}@${local_version} to ClawHub"
-  clawhub publish "${SKILL_DIR}" \
+  node "${REPO_ROOT}/create/clawhub_publish_with_timeout.js" "${SKILL_DIR}" \
     --slug "${SKILL_SLUG}" \
     --name "${SKILL_NAME}" \
     --version "${local_version}" \
     --tags "${SKILL_TAGS}" \
-    --changelog "${CHANGELOG}" \
-    --no-input
+    --changelog "${CHANGELOG}"
 }
 
 commit_and_push_release() {
@@ -289,7 +293,9 @@ commit_and_push_release() {
   (
     cd "${REPO_ROOT}"
     git add \
+      create/clawhub_publish_with_timeout.js \
       create/openapi.json \
+      create/publish.sh \
       create/tree.json \
       package/investoday-api/data/openapi.json \
       package/investoday-api/data/tree.json \
@@ -328,6 +334,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --skip-tests)
       RUN_TESTS=false
+      shift
+      ;;
+    --skip-npm)
+      RUN_NPM_PUBLISH=false
       shift
       ;;
     --skip-git)

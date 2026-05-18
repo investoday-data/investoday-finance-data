@@ -38,6 +38,7 @@ import argparse
 import sys
 import os
 import shutil
+import subprocess
 from pathlib import Path
 from typing import Any
 from urllib import request, error
@@ -77,7 +78,46 @@ def fetch_json(url: str, headers: dict | None = None) -> Any:
         with request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
             return json.load(resp)
     except (error.URLError, error.HTTPError) as e:
-        print(f"请求失败 {url}: {e}", file=sys.stderr)
+        print(f"Python 请求失败 {url}: {e}", file=sys.stderr)
+        print("尝试使用 curl 重新请求...", file=sys.stderr)
+        return fetch_json_via_curl(url, headers=headers, previous_error=e)
+
+
+def fetch_json_via_curl(
+    url: str,
+    headers: dict | None = None,
+    previous_error: Exception | None = None,
+) -> Any:
+    """urllib 在本机证书链异常时，使用系统 curl 作为兜底。"""
+    curl = shutil.which("curl")
+    if not curl:
+        if previous_error:
+            print(f"请求失败 {url}: {previous_error}", file=sys.stderr)
+        else:
+            print(f"请求失败 {url}: curl 不可用", file=sys.stderr)
+        sys.exit(1)
+
+    cmd = [
+        curl,
+        "--fail",
+        "--silent",
+        "--show-error",
+        "--location",
+        "--max-time",
+        str(REQUEST_TIMEOUT),
+    ]
+    for key, value in (headers or {}).items():
+        cmd.extend(["-H", f"{key}: {value}"])
+    cmd.append(url)
+
+    result = subprocess.run(cmd, text=True, capture_output=True, check=False)
+    if result.returncode != 0:
+        print(f"请求失败 {url}: {result.stderr.strip() or result.stdout.strip()}", file=sys.stderr)
+        sys.exit(1)
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError as e:
+        print(f"解析 JSON 失败 {url}: {e}", file=sys.stderr)
         sys.exit(1)
 
 
