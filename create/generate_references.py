@@ -343,8 +343,6 @@ def _field_table(fields: list[dict]) -> str:
     for f in fields[:30]:
         ex = f"`{f['example']}`" if f["example"] != "" else "—"
         rows.append(f"| `{f['name']}` | {str(f['desc']).replace(chr(10), ' ')} | {ex} |")
-    if len(fields) > 30:
-        rows.append(f"| ... | _共 {len(fields)} 个字段_ | |")
     return "\n".join(rows) + "\n"
 
 

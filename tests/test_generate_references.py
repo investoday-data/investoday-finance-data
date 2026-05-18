@@ -285,6 +285,19 @@ class GenerateReferencesTests(unittest.TestCase):
             ],
         )
 
+    def test_field_table_does_not_render_total_count_summary(self):
+        fields = [
+            {"name": f"field{i}", "desc": f"字段{i}", "example": i}
+            for i in range(44)
+        ]
+
+        table = MODULE._field_table(fields)
+
+        self.assertIn("| `field29` | 字段29 | `29` |", table)
+        self.assertNotIn("| `field30` | 字段30 | `30` |", table)
+        self.assertNotIn("_共 44 个字段_", table)
+        self.assertNotIn("| ... |", table)
+
     def test_render_api_block_uses_consistent_labels(self):
         api = {
             "api_name": "上市公司的公告",

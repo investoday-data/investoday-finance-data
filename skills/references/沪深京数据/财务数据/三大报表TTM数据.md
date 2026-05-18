@@ -55,7 +55,6 @@ tool_id：`list_stock_income_statement_ttm`
 | `operatingProfit` | 营业利润（元） | `125000.0` |
 | `nonOperatingIncome` | 营业外收入（元） | `125000.0` |
 | `nonOperatingExpense` | 营业外支出（元） | `125000.0` |
-| ... | _共 42 个字段_ | |
 
 **接口示例**
 
@@ -119,7 +118,6 @@ tool_id：`list_stock_cash_flows_ttm`
 | `cashPaidTax` | 税费现金流出（元） | `12500.0` |
 | `cashPaidOtherOperating` | 其他经营活动现金流出（元） | `1234567` |
 | `cashOutflowOperating` | 经营活动现金流出小计（元） | `1234567.89` |
-| ... | _共 60 个字段_ | |
 
 **接口示例**
 
@@ -183,7 +181,6 @@ tool_id：`list_stk_balance_sht_ttm`
 | `afsFinancialAssets` | 可供出售金融资产（元） | `500.0` |
 | `heldToMaturityInvestments` | 持有至到期投资（元） | `500.0` |
 | `longTermReceivable` | 长期应收款（元） | `500.0` |
-| ... | _共 79 个字段_ | |
 
 **接口示例**
 
