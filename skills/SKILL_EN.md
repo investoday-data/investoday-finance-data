@@ -2,7 +2,7 @@
 
 Fetch Chinese financial-market data with coverage across A-shares, Hong Kong stocks, indices, market data, research reports, news, real-time quotes, macroeconomics, and related datasets.
 
-Use when: the user asks for stock trends, fund NAV, ETF performance, index quotes, financial statements, valuation metrics, announcements, research reports, analyst ratings, macro data, sectors, themes, industry chains, market statistics, or structured financial data export and comparison.
+Use when: the user asks for stock trends, fund NAV, ETF performance, index quotes, financial statements, valuation metrics, announcements, research reports, institutional views, macro data, sectors, themes, industry chains, market statistics, or structured financial data export and comparison.
 
 Do not use when: the user asks for direct buy/sell advice, automated trading, order execution, non-financial data, system operations troubleshooting, or conclusions that would require inventing missing data.
 
@@ -12,7 +12,7 @@ Common tasks for this skill:
 
 - Review recent price action for stocks, Hong Kong stocks, indices, funds, and ETFs
 - Check company profile, financial trends, valuation, and operating performance
-- Gather announcements, research reports, news, and analyst ratings
+- Gather announcements, research reports, news, and institutional views
 - Inspect sectors, themes, industry chains, and market heat
 - Read macroeconomic and market datasets
 - Export structured datasets for later analysis, comparison, or backtesting
@@ -25,7 +25,7 @@ Prefer this skill when the user's intent matches one of these:
 
 - Price action / trend: recent moves, relative strength, turnover, market activity
 - Financials / valuation: reports, profit trends, valuation, cash flow, dividends, metrics
-- Announcements / research / news: recent filings, catalysts, analyst views, report summaries
+- Announcements / research / news: recent filings, catalysts, institutional views, report summaries
 - Funds / ETFs / indices: NAV, quotes, constituents, fund profile, performance
 - Sectors / themes / industry chains: strongest sectors, theme heat, industry relationships
 - Macro / market: CPI, PPI, PMI, rates, market statistics, macro indicators
@@ -36,7 +36,7 @@ Typical user phrasing:
 - Check how this stock has been doing recently
 - Show me fund NAV or ETF performance
 - I want to export financial data
-- Find recent announcements, research reports, or analyst ratings
+- Find recent announcements, research reports, or institutional views
 - Compare financial metrics for several companies
 - Which sector has been stronger recently
 - Pull macroeconomic or market statistics

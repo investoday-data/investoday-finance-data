@@ -77,7 +77,7 @@ The reference documents themselves are currently maintained in Chinese.
 
 - [基础数据](../references/研报/基础数据.md)
 - [特色数据](../references/研报/特色数据.md)
-- [投资评级](../references/研报/投资评级.md)
+- [Research Forecast Data](../references/研报/投资评级.md)
 
 ## 公告
 
