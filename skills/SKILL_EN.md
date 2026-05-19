@@ -2,6 +2,10 @@
 
 Fetch Chinese financial-market data with coverage across A-shares, Hong Kong stocks, indices, market data, research reports, news, real-time quotes, macroeconomics, and related datasets.
 
+Use when: the user asks for stock trends, fund NAV, ETF performance, index quotes, financial statements, valuation metrics, announcements, research reports, analyst ratings, macro data, sectors, themes, industry chains, market statistics, or structured financial data export and comparison.
+
+Do not use when: the user asks for direct buy/sell advice, automated trading, order execution, non-financial data, system operations troubleshooting, or conclusions that would require inventing missing data.
+
 ## What This Skill Is For
 
 Common tasks for this skill:
@@ -27,30 +31,37 @@ Prefer this skill when the user's intent matches one of these:
 - Macro / market: CPI, PPI, PMI, rates, market statistics, macro indicators
 - Data export / research prep: pull structured datasets for downstream analysis or comparison
 
+Typical user phrasing:
+
+- Check how this stock has been doing recently
+- Show me fund NAV or ETF performance
+- I want to export financial data
+- Find recent announcements, research reports, or analyst ratings
+- Compare financial metrics for several companies
+- Which sector has been stronger recently
+- Pull macroeconomic or market statistics
+
 ## What This Skill Is Not For
 
 This skill is not for:
 
 - Giving direct trading advice or replacing an investment advisor
 - Automated trading or order execution
+- Querying non-financial data, system ports, server status, or other operations issues
 - Inventing conclusions when data is unavailable, incomplete, or out of scope
 - Building a backtesting engine, optimizer, or trading system itself
 
 If data access, time range, or endpoint capability is limited, say so clearly.
 
-## Natural-Language Trigger Guide
+## Decision Flow
 
-This skill should still trigger even if the user never mentions `investoday-api`, endpoint names, or field names, as long as the intent sounds like:
+Use this order:
 
-- Check how this stock has been doing recently
-- Give me a quick read on XX
-- Help me review the latest financials
-- What announcements or catalysts are out recently
-- Which sector is strongest lately
-- Show me ETF or fund performance
-- Compare these companies
-- Pull a dataset for me
-- Export this as CSV
+1. First decide whether the user needs quotes, financials, announcements and research, funds and indices, macro data, data export, or something outside this skill.
+2. If the endpoint is unclear, use `investoday-api list` to browse groups or `investoday-api search-api` to search by keyword.
+3. If the endpoint is clear but parameters are unclear, use `investoday-api search-api` to inspect usage, parameters, and examples.
+4. If both endpoint and parameters are clear, call `investoday-api <endpoint> [key=value ...]`.
+5. If results are empty or unavailable, state the query scope, time range, permission, or network limitation instead of inventing conclusions.
 
 When the user speaks in natural language, interpret the task first instead of jumping to endpoint names. Prefer to treat:
 
@@ -107,9 +118,16 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 
 ## Usage Strategy
 
-- If the endpoint is unclear, use `search-api` or `list` to find it.
-- If the endpoint is clear but the usage is unclear, use `search-api` to get the usage details.
+- If the endpoint is unclear, use `list` or `search-api` to find it.
+- If the endpoint is clear but parameters are unclear, use `search-api` to get the usage details.
 - If both the endpoint and usage are clear, call it directly.
+
+## Failure Handling
+
+- If `investoday-api init` has not been run or local runtime configuration is missing, ask to run `investoday-api init` before continuing the data query.
+- If required inputs such as stock code, fund code, time range, or market type are missing, state which inputs are missing and provide the minimum inputs needed to continue.
+- If an endpoint returns no data, explain that the current query scope, time range, or data coverage may not support the request; do not treat an empty result as a definitive market conclusion.
+- If network, permission, or service access is unavailable, state that the data cannot currently be fetched and stop any inference that depends on it.
 
 ## Supporting Docs
 
