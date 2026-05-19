@@ -4504,7 +4504,7 @@
               "toolId": "prompt_diagnosis_fund",
               "apiPath": "api/prompt/diagnosis-fund",
               "enabled": 1,
-              "apiAccessLevel": "L5",
+              "apiAccessLevel": null,
               "apiMethod": "POST"
             },
             {
@@ -4518,7 +4518,7 @@
               "toolId": "prompt_diagnosis_stock",
               "apiPath": "api/prompt/diagnosis-stock",
               "enabled": 1,
-              "apiAccessLevel": "L5",
+              "apiAccessLevel": null,
               "apiMethod": "POST"
             }
           ]
