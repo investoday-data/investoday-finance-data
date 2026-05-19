@@ -3797,6 +3797,20 @@
                   "enabled": 1,
                   "apiAccessLevel": "L4",
                   "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110624,
+                  "apiName": "研究机构列表",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1036,
+                  "remarks": null,
+                  "toolName": "list_report_institutions",
+                  "toolId": "list_report_institutions",
+                  "apiPath": "report/institutions",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -3923,6 +3937,56 @@
               "apiMethod": "GET"
             }
           ]
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 1038,
+          "groupName": "内部",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11150,
+              "groupName": "股票",
+              "groupDesc": null,
+              "parentId": 1038,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 0,
+              "children": [
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11153,
+                  "groupName": "风险预警",
+                  "groupDesc": null,
+                  "parentId": 11150,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": []
+                }
+              ],
+              "apis": []
+            }
+          ],
+          "apis": []
         },
         {
           "createBy": null,
@@ -4413,6 +4477,51 @@
             }
           ],
           "apis": []
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 1078,
+          "groupName": "提示词",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 10286,
+              "apiName": "闪电诊基",
+              "apiType": "LLM-Base",
+              "apiStatus": "release",
+              "groupId": 1078,
+              "remarks": null,
+              "toolName": "prompt_diagnosis_fund",
+              "toolId": "prompt_diagnosis_fund",
+              "apiPath": "api/prompt/diagnosis-fund",
+              "enabled": 1,
+              "apiAccessLevel": "L5",
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 10287,
+              "apiName": "闪电诊股",
+              "apiType": "LLM-Base",
+              "apiStatus": "release",
+              "groupId": 1078,
+              "remarks": null,
+              "toolName": "prompt_diagnosis_stock",
+              "toolId": "prompt_diagnosis_stock",
+              "apiPath": "api/prompt/diagnosis-stock",
+              "enabled": 1,
+              "apiAccessLevel": "L5",
+              "apiMethod": "POST"
+            }
+          ]
         },
         {
           "createBy": null,
@@ -5951,6 +6060,79 @@
             }
           ],
           "apis": []
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 11158,
+          "groupName": "一致预期",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 110527,
+              "apiName": "个股一致预期综合指标",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11158,
+              "remarks": null,
+              "toolName": "list_consensus_stk_metric",
+              "toolId": "list_consensus_stk_metric",
+              "apiPath": "consensus/stk-metric",
+              "enabled": 1,
+              "apiAccessLevel": "L4",
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110528,
+              "apiName": "一致预期分析师动能",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11158,
+              "remarks": null,
+              "toolName": "list_cons_stk_anlst_mom",
+              "toolId": "list_cons_stk_anlst_mom",
+              "apiPath": "consensus/stk-anlst-mom",
+              "enabled": 1,
+              "apiAccessLevel": "L4",
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110529,
+              "apiName": "个股一致预期数据",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11158,
+              "remarks": null,
+              "toolName": "list_con_stk_estimate",
+              "toolId": "list_con_stk_estimate",
+              "apiPath": "consensus/stk-estimate",
+              "enabled": 1,
+              "apiAccessLevel": "L4",
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110530,
+              "apiName": "证券投资评级",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11158,
+              "remarks": null,
+              "toolName": "list_consensus_stk_rating",
+              "toolId": "list_consensus_stk_rating",
+              "apiPath": "consensus/stk_rating",
+              "enabled": 1,
+              "apiAccessLevel": "L4",
+              "apiMethod": "POST"
+            }
+          ]
         }
       ],
       "apis": []

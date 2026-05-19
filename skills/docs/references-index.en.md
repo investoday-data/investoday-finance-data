@@ -98,6 +98,10 @@ The reference documents themselves are currently maintained in Chinese.
 - [融资分红](../references/港股/公司行为/融资分红.md)
 - [股本与股东](../references/港股/公司行为/股本与股东.md)
 
+## 提示词
+
+- [提示词](../references/提示词.md)
+
 ## 工具
 
 - [图标](../references/工具/图标.md)
@@ -148,3 +152,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [基础信息](../references/产业链/基础信息.md)
 - [关系图谱](../references/产业链/关系图谱.md)
 - [经营分析](../references/产业链/经营分析.md)
+
+## 一致预期
+
+- [一致预期](../references/一致预期.md)
