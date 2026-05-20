@@ -36,30 +36,30 @@ jobs:
       - name: Package skills folder
         run: |
           cd skills
-          zip -r ../investoday-finance-data-skills.zip .
+          zip -r ../investoday-finance-data.zip .
           cd ..
 
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet investoday-finance-data-skills.zip 2>/dev/null && \
-            git ls-files --error-unmatch investoday-finance-data-skills.zip 2>/dev/null && \
+          git diff --quiet investoday-finance-data.zip 2>/dev/null && \
+            git ls-files --error-unmatch investoday-finance-data.zip 2>/dev/null && \
             echo "changed=false" >> $GITHUB_OUTPUT || \
             echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit and push investoday-finance-data-skills.zip
+      - name: Commit and push investoday-finance-data.zip
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add investoday-finance-data-skills.zip
-          git commit -m "chore: update investoday-finance-data-skills.zip [skip ci]"
+          git add investoday-finance-data.zip
+          git commit -m "chore: update investoday-finance-data.zip [skip ci]"
           git pull --rebase origin main
           git push
 
       - name: No changes detected
         if: steps.changes.outputs.changed == 'false'
-        run: echo "✅ investoday-finance-data-skills.zip already up-to-date, nothing to commit."
+        run: echo "investoday-finance-data.zip already up-to-date, nothing to commit."
 
       - name: Upload to Tencent Cloud COS and purge CDN
         env:
@@ -70,7 +70,7 @@ jobs:
         run: |
           pip install coscmd
           coscmd config -a "$COS_SECRET_ID" -s "$COS_SECRET_KEY" -b "$COS_BUCKET" -r "$COS_REGION"
-          coscmd upload investoday-finance-data-skills.zip application/skill-store/packages/investoday-finance-data/investoday-finance-data-skills.zip
+          coscmd upload investoday-finance-data.zip application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip
 
           # 刷新 CDN 缓存
           pip install tencentcloud-sdk-python
@@ -81,7 +81,7 @@ jobs:
           cred = credential.Credential(os.environ["COS_SECRET_ID"], os.environ["COS_SECRET_KEY"])
           client = cdn_client.CdnClient(cred, "")
           req = models.PurgeUrlsCacheRequest()
-          req.Urls = ["https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data-skills.zip"]
+          req.Urls = ["https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip"]
           resp = client.PurgeUrlsCache(req)
           print(f"CDN purge submitted: {resp.TaskId}")
           EOF
