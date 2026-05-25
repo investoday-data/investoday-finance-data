@@ -5714,7 +5714,7 @@
           "股票盈利能力的最新指标"
         ],
         "summary": "股票盈利能力的最新指标",
-        "description": "通过股票代码获取公司盈利能力的最新指标，包括毛利率、营业利润率、净利率、股本回报率(ROE)、资产回报率(ROA)、资本回报率、杜邦分析指标等核心财务数据，并提供各项指标的当前排名和历史排名（0-100），便于大模型进行财务分析和投资决策。",
+        "description": "使用股票代码获取指定股票的盈利能力最新指标数据，包括毛利率、营业利润率、净利率、净资产收益率ROE、资产收益率ROA、资本回报率、杜邦分析资本回报率、已动用资本回报率等多项盈利指标的TTM值、行业当前排名、历史排名，以及盈利能力综合得分，同时返回股票代码和名称，可用于股票财务分析、盈利水平对比、企业盈利能力评估等投研场景。",
         "operationId": "get_stock_finance_profit_ability",
         "parameters": [
           {
@@ -5737,111 +5737,138 @@
                   "properties": {
                     "f2030": {
                       "type": "string",
-                      "description": "毛利率%"
+                      "description": "毛利率%(TTM)",
+                      "example": ""
                     },
                     "f2030Rk": {
                       "type": "string",
-                      "description": "毛利率排名【0-100】"
+                      "description": "毛利率排名【0-100】",
+                      "example": ""
                     },
                     "f2030RkHist": {
                       "type": "string",
-                      "description": "毛利率历史排名【0-100】"
+                      "description": "毛利率历史排名【0-100】",
+                      "example": ""
                     },
                     "f2040": {
                       "type": "string",
-                      "description": "营业利润率%"
+                      "description": "营业利润率%(TTM)",
+                      "example": ""
                     },
                     "f2040Rk": {
                       "type": "string",
-                      "description": "营业利润率排名【0-100】"
+                      "description": "营业利润率排名【0-100】",
+                      "example": ""
                     },
                     "f2040RkHist": {
                       "type": "string",
-                      "description": "营业利润率历史排名【0-100】"
+                      "description": "营业利润率历史排名【0-100】",
+                      "example": ""
                     },
                     "f2050": {
                       "type": "string",
-                      "description": "净利率%"
+                      "description": "净利率%(TTM)",
+                      "example": ""
                     },
                     "f2050Rk": {
                       "type": "string",
-                      "description": "净利率排名【0-100】"
+                      "description": "净利率排名【0-100】",
+                      "example": ""
                     },
                     "f2050RkHist": {
                       "type": "string",
-                      "description": "净利率历史排名【0-100】"
+                      "description": "净利率历史排名【0-100】",
+                      "example": ""
                     },
                     "f2060": {
                       "type": "string",
-                      "description": "股本回报率ROE%"
+                      "description": "股本回报率ROE%(TTM)",
+                      "example": ""
                     },
                     "f2060Rk": {
                       "type": "string",
-                      "description": "股本回报率ROE排名【0-100】"
+                      "description": "股本回报率ROE排名【0-100】",
+                      "example": ""
                     },
                     "f2060RkHist": {
                       "type": "string",
-                      "description": "股本回报率ROE历史排名【0-100】"
+                      "description": "股本回报率ROE历史排名【0-100】",
+                      "example": ""
                     },
                     "f2070": {
                       "type": "string",
-                      "description": "资产收益率ROA%"
+                      "description": "资产收益率ROA%(TTM)",
+                      "example": ""
                     },
                     "f2070Rk": {
                       "type": "string",
-                      "description": "资产收益率ROA排名 【0-100】"
+                      "description": "资产收益率ROA排名 【0-100】",
+                      "example": ""
                     },
                     "f2070RkHist": {
                       "type": "string",
-                      "description": "资产收益率ROA历史排名【0-100】"
+                      "description": "资产收益率ROA历史排名【0-100】",
+                      "example": ""
                     },
                     "f2080": {
                       "type": "string",
-                      "description": "资本回报率%"
+                      "description": "资本回报率%(TTM)",
+                      "example": ""
                     },
                     "f2080Rk": {
                       "type": "string",
-                      "description": "资本回报率排名【0-100】"
+                      "description": "资本回报率排名【0-100】",
+                      "example": ""
                     },
                     "f2080RkHist": {
                       "type": "string",
-                      "description": "资本回报率历史排名【0-100】"
+                      "description": "资本回报率历史排名【0-100】",
+                      "example": ""
                     },
                     "f2090": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特资本回报当前值"
+                      "description": "乔尔.格林布拉特资本回报当前值(TTM)",
+                      "example": ""
                     },
                     "f2090Rk": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特资本回报行业排名"
+                      "description": "乔尔.格林布拉特资本回报行业排名",
+                      "example": ""
                     },
                     "f2090RkHist": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特资本回报历史行业排名"
+                      "description": "乔尔.格林布拉特资本回报历史行业排名",
+                      "example": ""
                     },
                     "f2100": {
                       "type": "string",
-                      "description": "已动用资本回报率当前值"
+                      "description": "已动用资本回报率当前值(TTM)",
+                      "example": ""
                     },
                     "f2100Rk": {
                       "type": "string",
-                      "description": "已动用资本回报率行业排名"
+                      "description": "已动用资本回报率行业排名",
+                      "example": ""
                     },
                     "f2100RkHist": {
                       "type": "string",
-                      "description": "已动用资本回报率历史行业排名"
+                      "description": "已动用资本回报率历史行业排名",
+                      "example": ""
                     },
                     "f2500": {
                       "type": "string",
-                      "description": "盈利能力综合得分"
+                      "description": "盈利能力综合得分",
+                      "example": ""
                     },
                     "stockCode": {
                       "type": "string",
-                      "description": "股票代码"
+                      "description": "股票代码",
+                      "example": ""
                     },
                     "stockName": {
                       "type": "string",
-                      "description": "股票名称"
+                      "description": "股票名称",
+                      "example": ""
                     }
                   }
                 }
@@ -6012,7 +6039,7 @@
           "股票成长能力的最新指标"
         ],
         "summary": "股票成长能力的最新指标",
-        "description": "通过股票代码获取指定股票的最新成长能力指标数据，包括3年每股收入增长率、每股收益增长率、总收入增长率、每股股息折旧及摊销增长率、扣非每股收益增长率、每股自由现金流增长率、每股账面价值增长率等核心指标及其行业排名和历史排名，同时提供成长能力综合得分，便于大模型进行股票成长性分析和评估。",
+        "description": "通过股票代码获取指定股票的成长能力最新指标数据，包括3年每股收入增长率(TTM)、每股收益增长率(TTM)、总收入增长率(TTM)、3年每股资本公积及未分配利润增长率(TTM)、3年扣非每股收益增长率(TTM)、3年每股自由现金流增长率(TTM)、3年每股账面价值增长率(TTM)等多项成长类指标的当前值，以及各指标的行业排名、历史行业排名，还有成长能力综合得分，同时返回股票代码和名称，可用于股票基本面分析、成长能力评估及投资决策参考。",
         "operationId": "get_stock_finance_growth_ability",
         "parameters": [
           {
@@ -6035,99 +6062,123 @@
                   "properties": {
                     "f2120": {
                       "type": "string",
-                      "description": "3年每股收入增长率"
+                      "description": "3年每股收入增长率(TTM)",
+                      "example": ""
                     },
                     "f2120Rk": {
                       "type": "string",
-                      "description": "3年每股收入增长率行业排名【0-100】"
+                      "description": "3年每股收入增长率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2120RkHist": {
                       "type": "string",
-                      "description": "3年每股收入增长率历史行业排名【0-100】"
+                      "description": "3年每股收入增长率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2130": {
                       "type": "string",
-                      "description": "每股收益增长率当前值"
+                      "description": "每股收益增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2130Rk": {
                       "type": "string",
-                      "description": "每股收益增长率行业排名【0-100】"
+                      "description": "每股收益增长率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2130RkHist": {
                       "type": "string",
-                      "description": "每股收益增长率历史行业排名【0-100】"
+                      "description": "每股收益增长率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2140": {
                       "type": "string",
-                      "description": "总收入增长率当前值"
+                      "description": "总收入增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2140Rk": {
                       "type": "string",
-                      "description": "总收入增长率行业排名【0-100】"
+                      "description": "总收入增长率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2140RkHist": {
                       "type": "string",
-                      "description": "总收入增长率历史行业排名【0-100】"
+                      "description": "总收入增长率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2150": {
                       "type": "string",
-                      "description": "3年每股股息折旧及摊销增长率当前值"
+                      "description": "3年每股股息折旧及摊销增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2150Rk": {
                       "type": "string",
-                      "description": "3年每股股息折旧及摊销增长率行业排名"
+                      "description": "3年每股股息折旧及摊销增长率行业排名",
+                      "example": ""
                     },
                     "f2150RkHist": {
                       "type": "string",
-                      "description": "3年每股股息折旧及摊销增长率历史行业排名"
+                      "description": "3年每股股息折旧及摊销增长率历史行业排名",
+                      "example": ""
                     },
                     "f2160": {
                       "type": "string",
-                      "description": "3年扣非每股收益增长率当前值"
+                      "description": "3年扣非每股收益增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2160Rk": {
                       "type": "string",
-                      "description": "3年扣非每股收益增长率行业排名"
+                      "description": "3年扣非每股收益增长率行业排名",
+                      "example": ""
                     },
                     "f2160RkHist": {
                       "type": "string",
-                      "description": "3年扣非每股收益增长率历史行业排名"
+                      "description": "3年扣非每股收益增长率历史行业排名",
+                      "example": ""
                     },
                     "f2170": {
                       "type": "string",
-                      "description": "3年每股自由现金流增长率当前值"
+                      "description": "3年每股自由现金流增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2170Rk": {
                       "type": "string",
-                      "description": "3年每股自由现金流增长率行业排名"
+                      "description": "3年每股自由现金流增长率行业排名",
+                      "example": ""
                     },
                     "f2170RkHist": {
                       "type": "string",
-                      "description": "3年每股自由现金流增长率历史行业排名"
+                      "description": "3年每股自由现金流增长率历史行业排名",
+                      "example": ""
                     },
                     "f2180": {
                       "type": "string",
-                      "description": "3年每股账面价值增长率当前值"
+                      "description": "3年每股账面价值增长率当前值(TTM)",
+                      "example": ""
                     },
                     "f2180Rk": {
                       "type": "string",
-                      "description": "3年每股账面价值增长率行业排名"
+                      "description": "3年每股账面价值增长率行业排名",
+                      "example": ""
                     },
                     "f2180RkHist": {
                       "type": "string",
-                      "description": "3年每股账面价值增长率历史行业排名"
+                      "description": "3年每股账面价值增长率历史行业排名",
+                      "example": ""
                     },
                     "f2510": {
                       "type": "string",
-                      "description": "成长能力综合得分"
+                      "description": "成长能力综合得分",
+                      "example": ""
                     },
                     "stockCode": {
                       "type": "string",
-                      "description": "股票代码"
+                      "description": "股票代码",
+                      "example": ""
                     },
                     "stockName": {
                       "type": "string",
-                      "description": "股票名称"
+                      "description": "股票名称",
+                      "example": ""
                     }
                   }
                 }
@@ -6255,112 +6306,6 @@
                           ]
                         }
                       ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      }
-    },
-    "/stock/finance/financial-strength": {
-      "get": {
-        "tags": [
-          "股票财务实力的最新指标"
-        ],
-        "summary": "股票财务实力的最新指标",
-        "description": "通过股票代码获取公司财务实力的最新指标，包括现金负债率、股东权益比率、利息保障倍数等关键财务指标及其行业和历史排名，以及基本面趋势、破产风险和财务造假嫌疑等综合评分，适用于财务分析和风险评估。",
-        "operationId": "get_stock_finance_strength",
-        "parameters": [
-          {
-            "name": "stockCode",
-            "in": "query",
-            "description": "股票代码",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "f2190": {
-                      "type": "string",
-                      "description": "现金负债率当前值"
-                    },
-                    "f2190Rk": {
-                      "type": "string",
-                      "description": "现金负债率行业排名"
-                    },
-                    "f2190RkHist": {
-                      "type": "string",
-                      "description": "现金负债率历史行业排名"
-                    },
-                    "f2200": {
-                      "type": "string",
-                      "description": "股东权益比率当前值"
-                    },
-                    "f2200Rk": {
-                      "type": "string",
-                      "description": "股东权益比率行业排名"
-                    },
-                    "f2200RkHist": {
-                      "type": "string",
-                      "description": "股东权益比率历史行业排名"
-                    },
-                    "f2210": {
-                      "type": "string",
-                      "description": "利息保障倍数当前值"
-                    },
-                    "f2210Rk": {
-                      "type": "string",
-                      "description": "利息保障倍数行业排名【0-100】"
-                    },
-                    "f2210RkHist": {
-                      "type": "string",
-                      "description": "利息保障倍数历史行业排名【0-100】"
-                    },
-                    "f2220": {
-                      "type": "string",
-                      "description": "基本面趋势（F分数）当前值"
-                    },
-                    "f2230": {
-                      "type": "string",
-                      "description": "两年破产风险（Z分数）当前值"
-                    },
-                    "f2240": {
-                      "type": "string",
-                      "description": "财务造假嫌疑（M分数）当前值"
-                    },
-                    "f2520": {
-                      "type": "string",
-                      "description": "财务实力综合得分"
-                    },
-                    "stockCode": {
-                      "type": "string",
-                      "description": "股票代码"
-                    },
-                    "stockName": {
-                      "type": "string",
-                      "description": "股票名称"
                     }
                   }
                 }
@@ -6611,7 +6556,7 @@
           "股票估值的最新指标"
         ],
         "summary": "股票估值的最新指标",
-        "description": "使用股票代码获取指定股票的最新估值指标数据，包含市盈率、市净率、市销率、企业价值倍数等核心估值指标及其行业排名和历史排名，帮助分析股票估值水平和相对市场位置。",
+        "description": "通过股票代码查询指定股票的最新估值指标数据，包含市盈率、市净率、市销率、市现率、企业价值倍数等多种估值指标的当前值（TTM）、行业排名、历史行业排名，以及大师估值综合得分、股票代码和名称，可用于股票估值分析、投资价值判断等场景。",
         "operationId": "get_stock_finance_valuation",
         "parameters": [
           {
@@ -6634,195 +6579,243 @@
                   "properties": {
                     "f2250": {
                       "type": "string",
-                      "description": "市盈率当前值"
+                      "description": "市盈率当前值(TTM)",
+                      "example": ""
                     },
                     "f2250Rk": {
                       "type": "string",
-                      "description": "市盈率行业排名【0-100】"
+                      "description": "市盈率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2250RkHist": {
                       "type": "string",
-                      "description": "市盈率历史行业排名【0-100】"
+                      "description": "市盈率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2260": {
                       "type": "string",
-                      "description": "预估市盈率当前值"
+                      "description": "预估市盈率当前值(TTM)",
+                      "example": ""
                     },
                     "f2260Rk": {
                       "type": "string",
-                      "description": "预估市盈率行业排名【0-100】"
+                      "description": "预估市盈率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2260RkHist": {
                       "type": "string",
-                      "description": "预估市盈率历史行业排名【0-100】"
+                      "description": "预估市盈率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2270": {
                       "type": "string",
-                      "description": "市盈增长比当前值"
+                      "description": "市盈增长比当前值(TTM)",
+                      "example": ""
                     },
                     "f2270Rk": {
                       "type": "string",
-                      "description": "市盈增长比行业排名【0-100】"
+                      "description": "市盈增长比行业排名【0-100】",
+                      "example": ""
                     },
                     "f2270RkHist": {
                       "type": "string",
-                      "description": "市盈增长比历史行业排名【0-100】"
+                      "description": "市盈增长比历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2280": {
                       "type": "string",
-                      "description": "市销率当前值"
+                      "description": "市销率当前值(TTM)",
+                      "example": ""
                     },
                     "f2280Rk": {
                       "type": "string",
-                      "description": "市销率行业排名【0-100】"
+                      "description": "市销率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2280RkHist": {
                       "type": "string",
-                      "description": "市销率历史排名【0-100】"
+                      "description": "市销率历史排名【0-100】",
+                      "example": ""
                     },
                     "f2290": {
                       "type": "string",
-                      "description": "市净率当前值"
+                      "description": "市净率当前值(TTM)",
+                      "example": ""
                     },
                     "f2290Rk": {
                       "type": "string",
-                      "description": "市净率行业排名【0-100】"
+                      "description": "市净率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2290RkHist": {
                       "type": "string",
-                      "description": "市净率历史行业排名【0-100】"
+                      "description": "市净率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2300": {
                       "type": "string",
-                      "description": "股价/每股经营现金流当前值"
+                      "description": "股价/每股经营现金流当前值(TTM)",
+                      "example": ""
                     },
                     "f2300Rk": {
                       "type": "string",
-                      "description": "股价/每股经营现金流行业排名【0-100】"
+                      "description": "股价/每股经营现金流行业排名【0-100】",
+                      "example": ""
                     },
                     "f2300RkHist": {
                       "type": "string",
-                      "description": "股价/每股经营现金流历史行业排名【0-100】"
+                      "description": "股价/每股经营现金流历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2310": {
                       "type": "string",
-                      "description": "企业价值倍数当前值"
+                      "description": "企业价值倍数当前值(TTM)",
+                      "example": ""
                     },
                     "f2310Rk": {
                       "type": "string",
-                      "description": "企业价值倍数行业排名【0-100】"
+                      "description": "企业价值倍数行业排名【0-100】",
+                      "example": ""
                     },
                     "f2310RkHist": {
                       "type": "string",
-                      "description": "企业价值倍数历史行业排名【0-100】"
+                      "description": "企业价值倍数历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2320": {
                       "type": "string",
-                      "description": "企业价值/收入当前值"
+                      "description": "企业价值/收入当前值(TTM)",
+                      "example": ""
                     },
                     "f2320Rk": {
                       "type": "string",
-                      "description": "企业价值/收入行业排名【0-100】"
+                      "description": "企业价值/收入行业排名【0-100】",
+                      "example": ""
                     },
                     "f2320RkHist": {
                       "type": "string",
-                      "description": "企业价值/收入历史行业排名【0-100】"
+                      "description": "企业价值/收入历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2330": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特收益率当前值"
+                      "description": "乔尔.格林布拉特收益率当前值(TTM)",
+                      "example": ""
                     },
                     "f2330Rk": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特收益率行业排名【0-100】"
+                      "description": "乔尔.格林布拉特收益率行业排名【0-100】",
+                      "example": ""
                     },
                     "f2330RkHist": {
                       "type": "string",
-                      "description": "乔尔.格林布拉特收益率历史行业排名【0-100】"
+                      "description": "乔尔.格林布拉特收益率历史行业排名【0-100】",
+                      "example": ""
                     },
                     "f2340": {
                       "type": "string",
-                      "description": "扣非市盈率当前值"
+                      "description": "扣非市盈率当前值(TTM)",
+                      "example": ""
                     },
                     "f2340Rk": {
                       "type": "string",
-                      "description": "扣非市盈率行业排名"
+                      "description": "扣非市盈率行业排名",
+                      "example": ""
                     },
                     "f2340RkHist": {
                       "type": "string",
-                      "description": "扣非市盈率历史行业排名"
+                      "description": "扣非市盈率历史行业排名",
+                      "example": ""
                     },
                     "f2350": {
                       "type": "string",
-                      "description": "周期调整市盈率当前值"
+                      "description": "周期调整市盈率当前值(TTM)",
+                      "example": ""
                     },
                     "f2350Rk": {
                       "type": "string",
-                      "description": "周期调整市盈率行业排名"
+                      "description": "周期调整市盈率行业排名",
+                      "example": ""
                     },
                     "f2350RkHist": {
                       "type": "string",
-                      "description": "周期调整市盈率历史行业排名"
+                      "description": "周期调整市盈率历史行业排名",
+                      "example": ""
                     },
                     "f2370": {
                       "type": "string",
-                      "description": "股价/每股有形账面价值当前值"
+                      "description": "股价/每股有形账面价值当前值(TTM)",
+                      "example": ""
                     },
                     "f2370Rk": {
                       "type": "string",
-                      "description": "股价/每股有形账面价值行业排名"
+                      "description": "股价/每股有形账面价值行业排名",
+                      "example": ""
                     },
                     "f2370RkHist": {
                       "type": "string",
-                      "description": "股价/每股有形账面价值历史行业排名"
+                      "description": "股价/每股有形账面价值历史行业排名",
+                      "example": ""
                     },
                     "f2380": {
                       "type": "string",
-                      "description": "股价/自由现金流当前值"
+                      "description": "股价/自由现金流当前值(TTM)",
+                      "example": ""
                     },
                     "f2380Rk": {
                       "type": "string",
-                      "description": "股价/自由现金流行业排名"
+                      "description": "股价/自由现金流行业排名",
+                      "example": ""
                     },
                     "f2380RkHist": {
                       "type": "string",
-                      "description": "股价/自由现金流历史行业排名"
+                      "description": "股价/自由现金流历史行业排名",
+                      "example": ""
                     },
                     "f2390": {
                       "type": "string",
-                      "description": "企业价值/EBIT当前值"
+                      "description": "企业价值/EBIT当前值(TTM)",
+                      "example": ""
                     },
                     "f2390Rk": {
                       "type": "string",
-                      "description": "企业价值/EBIT行业排名"
+                      "description": "企业价值/EBIT行业排名",
+                      "example": ""
                     },
                     "f2390RkHist": {
                       "type": "string",
-                      "description": "企业价值/EBIT历史行业排名"
+                      "description": "企业价值/EBIT历史行业排名",
+                      "example": ""
                     },
                     "f2470": {
                       "type": "string",
-                      "description": "股价/净流动资产价值得分当前值"
+                      "description": "股价/净流动资产价值得分当前值(TTM)",
+                      "example": ""
                     },
                     "f2470Rk": {
                       "type": "string",
-                      "description": "股价/净流动资产价值得分行业排名"
+                      "description": "股价/净流动资产价值得分行业排名",
+                      "example": ""
                     },
                     "f2470RkHist": {
                       "type": "string",
-                      "description": "股价/净流动资产价值得分历史行业排名"
+                      "description": "股价/净流动资产价值得分历史行业排名",
+                      "example": ""
                     },
                     "f2530": {
                       "type": "string",
-                      "description": "大师估值综合得分"
+                      "description": "大师估值综合得分",
+                      "example": ""
                     },
                     "stockCode": {
                       "type": "string",
-                      "description": "股票代码"
+                      "description": "股票代码",
+                      "example": ""
                     },
                     "stockName": {
                       "type": "string",
-                      "description": "股票名称"
+                      "description": "股票名称",
+                      "example": ""
                     }
                   }
                 }
