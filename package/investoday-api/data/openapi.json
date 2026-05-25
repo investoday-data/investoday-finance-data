@@ -28519,7 +28519,7 @@
           "财务指标（盈利能力）"
         ],
         "summary": "财务指标（盈利能力）",
-        "description": "通过股票代码和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日期，用于分析公司的盈利能力和资本回报效率。",
+        "description": "通过股票代码（必填），可结合报告发布的开始日期（格式yyyy-MM-dd）、结束日期（格式yyyy-MM-dd）、页码、页大小，查询A股、B股的盈利能力相关财务指标数据，返回股票代码、股票名称、报告发布日期、报告期截止日、毛利率、净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC、总资产报酬率（EBIT/资产）等核心指标，适用于股票基本面分析、公司盈利能力评估等场景。",
         "operationId": "list_fin_ind_profit",
         "parameters": [
           {
@@ -28605,12 +28605,12 @@
                     },
                     "grossMargin": {
                       "type": "number",
-                      "description": "销售毛利率",
+                      "description": "毛利率(%)",
                       "example": 0.356
                     },
                     "netMargin": {
                       "type": "number",
-                      "description": "销售净利率",
+                      "description": "净利率(%)",
                       "example": 0.156
                     },
                     "roeDiluted": {
@@ -28636,7 +28636,7 @@
                     "roaEbit": {
                       "type": "number",
                       "description": "总资产报酬率(EBIT/资产)",
-                      "example": 0.0632704647
+                      "example": 0.06327046
                     }
                   }
                 }
@@ -28661,10 +28661,10 @@
           "财务指标（盈利能力）"
         ],
         "summary": "财务指标（盈利能力）",
-        "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日期，用于分析公司的盈利能力和资本回报效率。",
+        "description": "支持通过单个股票代码、批量股票代码（数组形式），结合报告发布时间范围（格式yyyy-MM-dd）及分页参数，查询A股、B股的盈利能力财务指标数据，返回股票代码、名称、报告发布日期、报告期截止日，以及毛利率、净利率、摊薄ROE、扣非摊薄ROE、ROA、ROIC、总资产报酬率等核心盈利能力指标，可用于股票财务分析、投研评估等场景。",
         "operationId": "list_fin_ind_profit",
         "requestBody": {
-          "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日期，用于分析公司的盈利能力和资本回报效率。",
+          "description": "支持通过单个股票代码、批量股票代码（数组形式），结合报告发布时间范围（格式yyyy-MM-dd）及分页参数，查询A股、B股的盈利能力财务指标数据，返回股票代码、名称、报告发布日期、报告期截止日，以及毛利率、净利率、摊薄ROE、扣非摊薄ROE、ROA、ROIC、总资产报酬率等核心盈利能力指标，可用于股票财务分析、投研评估等场景。",
           "content": {
             "application/json": {
               "schema": {
@@ -28762,12 +28762,12 @@
                       "description": "ROE(扣非摊薄)",
                       "example": 12.75
                     },
-                    "roaAvg": {
+                    "roa": {
                       "type": "number",
                       "description": "ROA",
                       "example": 0.156
                     },
-                    "roicAvg": {
+                    "roic": {
                       "type": "number",
                       "description": "ROIC",
                       "example": 0.154
@@ -51568,10 +51568,10 @@
           "财务指标（单季度盈利能力）"
         ],
         "summary": "财务指标（单季度盈利能力）",
-        "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的季度财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
+        "description": "获取沪深京股票单季度盈利能力财务指标，支持通过股票代码、代码列表及发布日期范围（yyyy-MM-dd）筛选，返回包含毛利率、净利率、ROE（摊薄/扣非）、ROA、ROIC及总资产报酬率等核心数据，适用于大模型进行企业单季度盈利表现分析与横向对比。",
         "operationId": "list_fin_ind_profit_q",
         "requestBody": {
-          "description": "通过股票代码（单只或批量）和可选的报告期时间范围（格式为yyyy-MM-dd），查询指定沪深京股票的季度财务盈利能力核心指标，包括销售毛利率、销售净利率、摊薄ROE、扣非摊薄ROE、平均ROA、平均ROIC以及总资产报酬率(EBIT/资产)，同时提供报告披露日期和报告期截止日，用于分析公司的盈利能力和资本回报效率。",
+          "description": "获取沪深京股票单季度盈利能力财务指标，支持通过股票代码、代码列表及发布日期范围（yyyy-MM-dd）筛选，返回包含毛利率、净利率、ROE（摊薄/扣非）、ROA、ROIC及总资产报酬率等核心数据，适用于大模型进行企业单季度盈利表现分析与横向对比。",
           "content": {
             "application/json": {
               "schema": {
@@ -51651,12 +51651,12 @@
                     },
                     "grossMargin": {
                       "type": "number",
-                      "description": "销售毛利率",
+                      "description": "毛利率(%)",
                       "example": 0.356
                     },
                     "netMargin": {
                       "type": "number",
-                      "description": "销售净利率",
+                      "description": "净利率(%)",
                       "example": 0.156
                     },
                     "roeDiluted": {
@@ -51669,12 +51669,12 @@
                       "description": "ROE(扣非摊薄)",
                       "example": 12.75
                     },
-                    "roaAvg": {
+                    "roa": {
                       "type": "number",
                       "description": "ROA",
                       "example": 0.156
                     },
-                    "roicAvg": {
+                    "roic": {
                       "type": "number",
                       "description": "ROIC",
                       "example": 0.154
