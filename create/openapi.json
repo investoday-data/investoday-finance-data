@@ -28623,12 +28623,12 @@
                       "description": "ROE(扣非摊薄)",
                       "example": 12.75
                     },
-                    "roaAvg": {
+                    "roa": {
                       "type": "number",
                       "description": "ROA",
                       "example": 0.156
                     },
-                    "roicAvg": {
+                    "roic": {
                       "type": "number",
                       "description": "ROIC",
                       "example": 0.154
@@ -28636,7 +28636,7 @@
                     "roaEbit": {
                       "type": "number",
                       "description": "总资产报酬率(EBIT/资产)",
-                      "example": 0.06327046
+                      "example": 0.0632704647
                     }
                   }
                 }
