@@ -6326,6 +6326,127 @@
         ]
       }
     },
+    "/stock/finance/financial-strength": {
+      "get": {
+        "tags": [
+          "股票财务实力的最新指标"
+        ],
+        "summary": "股票财务实力的最新指标",
+        "description": "通过股票代码获取指定股票的财务实力最新指标，包括现金负债比率、股东权益比率、利息保障倍数等核心财务指标的当前值（TTM）及对应行业排名、历史行业排名，还有基本面趋势F分数、两年破产风险Z分数、财务造假嫌疑M分数、财务实力综合得分，以及股票代码和名称，可用于评估公司财务健康状况、开展个股财务分析等场景。",
+        "operationId": "get_stock_finance_strength",
+        "parameters": [
+          {
+            "name": "stockCode",
+            "in": "query",
+            "description": "股票代码",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "f2190": {
+                      "type": "string",
+                      "description": "现金负债率当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2190Rk": {
+                      "type": "string",
+                      "description": "现金负债率行业排名",
+                      "example": ""
+                    },
+                    "f2190RkHist": {
+                      "type": "string",
+                      "description": "现金负债率历史行业排名",
+                      "example": ""
+                    },
+                    "f2200": {
+                      "type": "string",
+                      "description": "股东权益比率当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2200Rk": {
+                      "type": "string",
+                      "description": "股东权益比率行业排名",
+                      "example": ""
+                    },
+                    "f2200RkHist": {
+                      "type": "string",
+                      "description": "股东权益比率历史行业排名",
+                      "example": ""
+                    },
+                    "f2210": {
+                      "type": "string",
+                      "description": "利息保障倍数当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2210Rk": {
+                      "type": "string",
+                      "description": "利息保障倍数行业排名【0-100】",
+                      "example": ""
+                    },
+                    "f2210RkHist": {
+                      "type": "string",
+                      "description": "利息保障倍数历史行业排名【0-100】",
+                      "example": ""
+                    },
+                    "f2220": {
+                      "type": "string",
+                      "description": "基本面趋势（F分数）当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2230": {
+                      "type": "string",
+                      "description": "两年破产风险（Z分数）当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2240": {
+                      "type": "string",
+                      "description": "财务造假嫌疑（M分数）当前值(TTM)",
+                      "example": ""
+                    },
+                    "f2520": {
+                      "type": "string",
+                      "description": "财务实力综合得分",
+                      "example": ""
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": ""
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/stock/finance/financial-strength-ht": {
       "get": {
         "tags": [

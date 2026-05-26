@@ -1843,6 +1843,20 @@
                           "apiMethod": "GET"
                         },
                         {
+                          "apiId": 10250,
+                          "apiName": "股票财务实力的最新指标",
+                          "apiType": "PROXY",
+                          "apiStatus": "release",
+                          "groupId": 1072,
+                          "remarks": null,
+                          "toolName": "get_stk_fin_strength",
+                          "toolId": "get_stock_finance_strength",
+                          "apiPath": "stock/finance/financial-strength",
+                          "enabled": 1,
+                          "apiAccessLevel": "L2",
+                          "apiMethod": "GET"
+                        },
+                        {
                           "apiId": 10251,
                           "apiName": "股票财务实力的历史指标",
                           "apiType": "PROXY",
