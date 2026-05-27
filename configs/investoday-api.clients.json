@@ -1,0 +1,44 @@
+[
+  {
+    "id": "codex",
+    "name": "Codex",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.codex/skills"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "openclaw",
+    "name": "OpenClaw",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.openclaw/skills"
+        ]
+      },
+      {
+        "type": "discovery",
+        "paths": [
+          "$HOME/.openclaw/workspace*/skills"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "workbuddy",
+    "name": "WorkBuddy",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.workbuddy/skills"
+        ]
+      }
+    ]
+  }
+]

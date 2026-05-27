@@ -59,6 +59,7 @@
 - 第一版 `skills` 数组可以只包含 `investoday-finance-data`；使用数组是为了后续支持多个 skill 共享同一套自动更新机制。
 - 全局 skill 安装策略为 `existing-only`，不在 client 级别重复配置。
 - manifest 不包含密钥、不包含用户本地私有数据。
+- manifest 中的 `clients` 由仓库内 `configs/investoday-api.clients.json` 单独维护，workflow 生成 manifest 时读取并校验该文件。
 - 本地拉取 manifest 后必须校验必要字段。
 - manifest 远程不可用时，`update run` 立即停止，不执行 node 包或 skill 更新。
 - manifest 缓存只用于诊断和 `update status` 展示，不作为实际更新来源。
@@ -133,6 +134,65 @@
 }
 ```
 
+`clients` 维护文件示例：
+
+```json
+[
+  {
+    "id": "codex",
+    "name": "Codex",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.codex/skills"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "openclaw",
+    "name": "OpenClaw",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.openclaw/skills"
+        ]
+      },
+      {
+        "type": "discovery",
+        "paths": [
+          "$HOME/.openclaw/workspace*/skills"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "workbuddy",
+    "name": "WorkBuddy",
+    "targets": [
+      {
+        "type": "fixed",
+        "paths": [
+          "$HOME/.workbuddy/skills"
+        ]
+      }
+    ]
+  }
+]
+```
+
+`clients` 维护规则：
+
+- `configs/investoday-api.clients.json` 是客户端路径规则的唯一维护入口。
+- workflow 只负责读取、校验并写入 manifest，不在 workflow 脚本中硬编码客户端路径。
+- 新增或调整客户端时，只修改 `configs/investoday-api.clients.json`。
+- `clients` 配置变更必须触发 `Package Skills` workflow，重新生成并上传远程 manifest。
+- `clients[].id` 必须唯一。
+- `clients[].targets` 不能为空。
+- `targets[].paths[]` 必须以 `$HOME/` 开头，避免把系统目录或绝对私有路径写入远程 manifest。
+
 客户端发现规则：
 
 - `clients[].targets[]` 表示某个客户端可能存在的一组 skills 根目录。
@@ -173,6 +233,8 @@ CI 侧约束：
 - CI 必须发布新版 `@investoday/investoday-api`。
 - CI 必须发布新版 `investoday-finance-data` skill zip。
 - CI 必须生成或更新远程 manifest，使 `nodePackage.version`、`skills[].version`、`skills[].zipUrl`、`skills[].sha256` 与实际发布产物一致。
+- CI 只把 skill zip 和 manifest 上传到 COS，不把生成后的 zip 回写提交到仓库。
+- workflow 只做编排；manifest 生成逻辑放在 `scripts/generate-update-manifest.py`，manifest 校验逻辑放在 `scripts/validate-update-manifest.py`。
 
 ### 2. 初始化
 
