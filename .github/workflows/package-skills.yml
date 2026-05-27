@@ -19,6 +19,7 @@ on:
       - 'package/investoday-api/data/**'
       - 'configs/investoday-api.clients.json'
       - 'scripts/generate-update-manifest.py'
+      - 'scripts/purge-cdn.py'
       - 'scripts/validate-update-manifest.py'
       - '.github/workflows/package-skills.yml'
 
@@ -51,7 +52,7 @@ jobs:
       - name: Validate update manifest
         run: python3 scripts/validate-update-manifest.py
 
-      - name: Upload to Tencent Cloud COS and purge CDN
+      - name: Upload to Tencent Cloud COS
         env:
           COS_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           COS_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
@@ -76,25 +77,10 @@ jobs:
             echo "- manifest object: \`application/skill-store/configs/investoday-api.manifest.json\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
-          # 刷新 CDN 缓存
+      - name: Purge CDN
+        env:
+          COS_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          COS_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        run: |
           pip install tencentcloud-sdk-python
-          python3 - <<'EOF'
-          import json, os
-          from tencentcloud.common import credential
-          from tencentcloud.cdn.v20180606 import cdn_client, models
-          cred = credential.Credential(os.environ["COS_SECRET_ID"], os.environ["COS_SECRET_KEY"])
-          client = cdn_client.CdnClient(cred, "")
-          req = models.PurgeUrlsCacheRequest()
-          req.Urls = [
-            "https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip",
-            "https://storage.txyun.investoday.net/application/skill-store/configs/investoday-api.manifest.json",
-          ]
-          resp = client.PurgeUrlsCache(req)
-          print(f"CDN purge submitted: {resp.TaskId}")
-          summary = os.environ.get("GITHUB_STEP_SUMMARY")
-          if summary:
-            with open(summary, "a") as fh:
-              fh.write(f"\\n## CDN purge\\n\\n- taskId: `{resp.TaskId}`\\n")
-              for url in req.Urls:
-                fh.write(f"- `{url}`\\n")
-          EOF
+          python3 scripts/purge-cdn.py

@@ -37,7 +37,7 @@ function printHelp() {
     "Usage:\n" +
     "  investoday-api init\n" +
     "  investoday-api config status|path|remove\n" +
-    "  investoday-api update run|status|enable|disable|register\n" +
+    "  investoday-api update run|status|enable|disable|register|unregister\n" +
     "  investoday-api <endpoint> [key=value ...] [--method GET|POST]\n" +
     "  investoday-api list [group-or-subgroup]\n" +
     "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
@@ -77,7 +77,8 @@ function printInitHelp() {
     "Usage:\n" +
     "  investoday-api init\n\n" +
     "Default flow:\n" +
-    "  Prompt for InvestToday API Key, verify it, then save it to local JSON config.\n\n" +
+    "  Prompt for InvestToday API Key, verify it, then save it to local JSON config.\n" +
+    `  Get your API Key from: ${API_KEY_MANAGE_URL}\n\n` +
     "Options:\n" +
     "  --skip-verify     Save without validating the API key first\n" +
     "  --auto-update     Enable background auto update without prompting\n" +
@@ -106,6 +107,7 @@ async function resolveInitApiKey(args) {
     exitWithError("ERROR: Interactive input is unavailable. Run 'investoday-api init' in an interactive terminal.");
   }
 
+  process.stderr.write(`请访问 ${API_KEY_MANAGE_URL} 获取 API Key。\n`);
   const apiKey = await askInput("InvestToday API Key: ");
   if (!String(apiKey || "").trim()) {
     exitWithError("ERROR: API key cannot be empty.");

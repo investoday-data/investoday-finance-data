@@ -203,6 +203,7 @@
 - 所有路径必须支持 `$HOME` 展开；实现时按当前操作系统解析用户主目录。
 - macOS / Linux 的 `$HOME` 通常是 `/Users/<name>` 或 `/home/<name>`；Windows 可解析为用户 profile 目录。
 - 所有命中的实际更新目标必须是已存在目录，且目录内存在 `SKILL.md`。
+- 如果命中的 skill 目录是符号链接，更新时必须解析到链接目标目录并替换目标目录内容，不得删除、重建或改变 client 侧的符号链接。
 - 不存在的 skills 根目录或 skill 目录一律跳过。
 - `type` 只允许 `fixed` 和 `discovery`；未知类型必须跳过并记录日志。
 
@@ -234,7 +235,7 @@ CI 侧约束：
 - CI 必须发布新版 `investoday-finance-data` skill zip。
 - CI 必须生成或更新远程 manifest，使 `nodePackage.version`、`skills[].version`、`skills[].zipUrl`、`skills[].sha256` 与实际发布产物一致。
 - CI 只把 skill zip 和 manifest 上传到 COS，不把生成后的 zip 回写提交到仓库。
-- workflow 只做编排；manifest 生成逻辑放在 `scripts/generate-update-manifest.py`，manifest 校验逻辑放在 `scripts/validate-update-manifest.py`。
+- workflow 只做编排；manifest 生成逻辑放在 `scripts/generate-update-manifest.py`，manifest 校验逻辑放在 `scripts/validate-update-manifest.py`，CDN 刷新逻辑放在 `scripts/purge-cdn.py`。
 
 ### 2. 初始化
 
@@ -372,6 +373,7 @@ API Key 验证错误分类：
 - `investoday-api update enable`：开启自动更新并安装定时任务。
 - `investoday-api update disable`：关闭自动更新并卸载定时任务。
 - `investoday-api update register`：按当前本地配置重新注册或修复定时任务。
+- `investoday-api update unregister`：仅卸载本地定时任务，不修改自动更新授权开关。
 
 `update register` 行为：
 
@@ -384,6 +386,14 @@ API Key 验证错误分类：
 - 如果已有定时任务但执行命令、cron 或日志路径不一致，则覆盖为当前标准配置。
 - 如果 `autoUpdate.enabled=false`，允许注册任务，但任务状态仍应显示为“已注册但未开启”；定时任务执行 `update run` 时必须因 disabled 跳过。
 - 注册失败时写入 `autoUpdate.lastError`，并输出失败原因。
+
+`update unregister` 行为：
+
+- 不修改 `autoUpdate.enabled`。
+- 不修改 `INVESTODAY_API_KEY`。
+- 不执行 node 包或 skill 更新。
+- 只卸载当前用户级定时任务。
+- 卸载失败时写入 `autoUpdate.lastError`，并输出失败原因。
 
 `update status` 必须包含：
 
@@ -588,6 +598,6 @@ package/investoday-api/data/tree.json
 - 实现远程 manifest 读取与缓存。
 - 实现 node 包版本检查与更新。
 - 实现 `existing-only` skill 更新。
-- 实现 `update run/status/enable/disable/register`。
+- 实现 `update run/status/enable/disable/register/unregister`。
 - 实现 macOS `launchd`、Linux 用户级 cron、Windows Task Scheduler 定时任务。
 - 保持 `list` / `search-api` 读取 node 包内置 metadata。

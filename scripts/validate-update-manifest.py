@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -8,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "investoday-api.manifest.json"
 PACKAGE_JSON_PATH = ROOT / "package" / "investoday-api" / "package.json"
 SKILL_MD_PATH = ROOT / "skills" / "SKILL.md"
+ZIP_PATH = ROOT / "investoday-finance-data.zip"
 
 
 def read_skill_version():
@@ -82,6 +84,9 @@ def main():
         fail("invalid skill zipUrl")
     if not re.fullmatch(r"[0-9a-f]{64}", skill.get("sha256", "")):
         fail("invalid skill zip sha256")
+    actual_sha256 = hashlib.sha256(ZIP_PATH.read_bytes()).hexdigest()
+    if skill["sha256"].lower() != actual_sha256:
+        fail(f"skill zip sha256 mismatch: manifest={skill['sha256']} actual={actual_sha256}")
 
     validate_clients(manifest.get("clients"))
     print("manifest validation ok")

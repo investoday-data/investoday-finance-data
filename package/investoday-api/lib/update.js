@@ -293,8 +293,9 @@ function discoverSkillTargets(manifest) {
           const displayPath = path.join(root, skill.name);
           const skillMd = path.join(displayPath, "SKILL.md");
           if (!fs.existsSync(skillMd)) continue;
+          const isSymlink = fs.lstatSync(displayPath).isSymbolicLink();
           const actualPath = fs.realpathSync(displayPath);
-          targets.push({ clientId: client.id, skillName: skill.name, displayPath, actualPath, remote: skill });
+          targets.push({ clientId: client.id, skillName: skill.name, displayPath, actualPath, isSymlink, remote: skill });
         }
       }
     }
@@ -489,6 +490,11 @@ function disableUpdate(env = process.env) {
   return { ok: true };
 }
 
+function unregisterUpdate() {
+  const result = unregisterTask();
+  return { ok: true, result };
+}
+
 async function registerUpdate(env = process.env) {
   let cron = getAutoUpdateConfig(env).local_task_cron;
   if (!cron) {
@@ -569,7 +575,7 @@ async function runUpdateCommand(args, streams = {}) {
   const stderr = streams.stderr || process.stderr;
   const action = args[0] || "status";
   if (["--help", "-h", "help"].includes(action)) {
-    stdout.write("Usage:\n  investoday-api update run\n  investoday-api update status\n  investoday-api update enable\n  investoday-api update disable\n  investoday-api update register\n");
+    stdout.write("Usage:\n  investoday-api update run\n  investoday-api update status\n  investoday-api update enable\n  investoday-api update disable\n  investoday-api update register\n  investoday-api update unregister\n");
     return { ok: true };
   }
   if (action === "run") {
@@ -593,6 +599,18 @@ async function runUpdateCommand(args, streams = {}) {
     stdout.write("Auto update disabled.\n");
     return result;
   }
+  if (action === "unregister") {
+    try {
+      const result = unregisterUpdate();
+      stdout.write("Auto update task unregistered.\n");
+      return result;
+    } catch (error) {
+      const message = sanitizeMessage(error.message || error);
+      setLastError(message);
+      stderr.write(`Unregister failed: ${message}\n`);
+      return { ok: false, error: message };
+    }
+  }
   if (action === "register") {
     try {
       const result = await registerUpdate();
@@ -610,7 +628,7 @@ async function runUpdateCommand(args, streams = {}) {
     printStatus(status, stdout);
     return { ok: true, status };
   }
-  throw new Error(`Unknown update action '${action}'. Use run, status, enable, disable, or register.`);
+  throw new Error(`Unknown update action '${action}'. Use run, status, enable, disable, register, or unregister.`);
 }
 
 module.exports = {
@@ -628,5 +646,6 @@ module.exports = {
   runUpdate,
   runUpdateCommand,
   syncCronFromManifest,
+  unregisterUpdate,
   updateNodePackage,
 };

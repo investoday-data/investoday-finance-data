@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -92,6 +93,14 @@ async function withTempConfigDirAsync(fn) {
   }
 }
 
+function writeConfigFile(dir, config) {
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(
+    getCredentialsPath({ [CONFIG_DIR_ENV]: dir }),
+    `${JSON.stringify(config, null, 2)}\n`
+  );
+}
+
 test("--help prints usage", () => {
   const result = runCli(["--help"]);
 
@@ -99,7 +108,7 @@ test("--help prints usage", () => {
   assert.match(result.stdout, /Usage:/);
   assert.match(result.stdout, /investoday-api init/);
   assert.match(result.stdout, /investoday-api config status/);
-  assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register/);
+  assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register\|unregister/);
   assert.match(result.stdout, /investoday-api list/);
   assert.match(result.stdout, /investoday-api list 沪深京数据\/公司行为\/基本信息/);
   assert.match(result.stdout, /investoday-api search-api query=股票,基本面分析/);
@@ -494,6 +503,122 @@ test("update status does not mark missing config as enabled", async () => {
       assert.equal(status.remoteAvailable, false);
     } finally {
       global.fetch = originalFetch;
+    }
+  });
+});
+
+test("update run replaces symlink target directory and preserves client symlink", { skip: process.platform === "win32" }, async () => {
+  await withTempConfigDirAsync(async (configDir) => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-symlink-test-"));
+    const previousHome = process.env.HOME;
+    const originalFetch = global.fetch;
+    try {
+      const homeDir = path.join(tempDir, "home");
+      const realSkillDir = path.join(tempDir, "skills-manager", "skills", "investoday-finance-data");
+      const clientSkillsRoot = path.join(homeDir, ".workbuddy", "skills");
+      const clientSkillLink = path.join(clientSkillsRoot, "investoday-finance-data");
+      const zipSourceRoot = path.join(tempDir, "zip-source");
+      const zipSkillDir = path.join(zipSourceRoot, "investoday-finance-data");
+      const zipPath = path.join(tempDir, "investoday-finance-data.zip");
+
+      fs.mkdirSync(realSkillDir, { recursive: true });
+      fs.mkdirSync(clientSkillsRoot, { recursive: true });
+      fs.mkdirSync(zipSkillDir, { recursive: true });
+      fs.writeFileSync(path.join(realSkillDir, "SKILL.md"), "---\nname: investoday-finance-data\nversion: 1.0.0\n---\nold\n");
+      fs.symlinkSync(realSkillDir, clientSkillLink, "dir");
+      fs.writeFileSync(path.join(zipSkillDir, "SKILL.md"), "---\nname: investoday-finance-data\nversion: 2.0.0\n---\nupdated\n");
+
+      const zipResult = spawnSync("zip", ["-qr", zipPath, "investoday-finance-data"], {
+        cwd: zipSourceRoot,
+        encoding: "utf8",
+      });
+      assert.equal(zipResult.status, 0, zipResult.stderr || zipResult.stdout);
+      const zipBuffer = fs.readFileSync(zipPath);
+      const zipSha256 = crypto.createHash("sha256").update(zipBuffer).digest("hex");
+      const manifest = {
+        schemaVersion: 1,
+        generatedAt: "2026-05-27T00:00:00Z",
+        updatePolicy: {
+          skillInstallPolicy: "existing-only",
+          local_task_cron: "0 3 * * *",
+        },
+        nodePackage: {
+          name: "@investoday/investoday-api",
+          version: "0.0.0",
+          packageManager: "npm",
+        },
+        skills: [
+          {
+            name: "investoday-finance-data",
+            version: "2.0.0",
+            zipUrl: "https://example.com/investoday-finance-data.zip",
+            sha256: zipSha256,
+          },
+        ],
+        clients: [
+          {
+            id: "workbuddy",
+            name: "WorkBuddy",
+            targets: [
+              {
+                type: "fixed",
+                paths: ["$HOME/.workbuddy/skills"],
+              },
+            ],
+          },
+        ],
+      };
+
+      writeConfigFile(configDir, {
+        INVESTODAY_API_KEY: "test-key",
+        autoUpdate: {
+          enabled: true,
+          local_task_cron: "0 3 * * *",
+          lastRunAt: null,
+          lastSuccessAt: null,
+          lastError: null,
+        },
+      });
+
+      process.env.HOME = homeDir;
+      global.fetch = async (url) => {
+        if (String(url).endsWith("manifest.json")) {
+          return {
+            ok: true,
+            json: async () => manifest,
+          };
+        }
+        if (String(url).endsWith("investoday-finance-data.zip")) {
+          return {
+            ok: true,
+            arrayBuffer: async () => zipBuffer.buffer.slice(zipBuffer.byteOffset, zipBuffer.byteOffset + zipBuffer.byteLength),
+          };
+        }
+        throw new Error(`unexpected fetch URL: ${url}`);
+      };
+
+      const result = await runUpdate({
+        [CONFIG_DIR_ENV]: configDir,
+        [UPDATE_MANIFEST_URL_ENV]: "https://example.com/manifest.json",
+      });
+      const resolvedRealSkillDir = fs.realpathSync(realSkillDir);
+
+      assert.equal(result.ok, true);
+      assert.equal(fs.lstatSync(clientSkillLink).isSymbolicLink(), true);
+      assert.equal(fs.realpathSync(clientSkillLink), resolvedRealSkillDir);
+      assert.match(fs.readFileSync(path.join(realSkillDir, "SKILL.md"), "utf8"), /version: 2\.0\.0/);
+      assert.match(fs.readFileSync(path.join(clientSkillLink, "SKILL.md"), "utf8"), /updated/);
+      assert.equal(result.state.skills[0].displayPath, clientSkillLink);
+      assert.equal(result.state.skills[0].actualPath, resolvedRealSkillDir);
+      assert.equal(result.state.skills[0].isSymlink, true);
+    } finally {
+      global.fetch = originalFetch;
+      if (previousHome === undefined) {
+        delete process.env.HOME;
+      } else {
+        process.env.HOME = previousHome;
+      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
     }
   });
 });
