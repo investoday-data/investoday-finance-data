@@ -15,6 +15,9 @@ on:
       - main
     paths:
       - 'skills/**'
+      - 'package/investoday-api/package.json'
+      - 'package/investoday-api/data/**'
+      - '.github/workflows/package-skills.yml'
 
   # 支持手动触发
   workflow_dispatch:
@@ -38,6 +41,117 @@ jobs:
           cd skills
           zip -r ../investoday-finance-data.zip .
           cd ..
+
+      - name: Generate update manifest
+        run: |
+          python3 - <<'EOF'
+          import hashlib
+          import json
+          import os
+          import re
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          package = json.loads(Path("package/investoday-api/package.json").read_text())
+          skill_text = Path("skills/SKILL.md").read_text()
+          version_match = re.search(r"^version:\s*['\"]?([^'\"\n]+)['\"]?\s*$", skill_text, re.MULTILINE)
+          if not version_match:
+            raise SystemExit("ERROR: version field not found in skills/SKILL.md")
+
+          zip_path = Path("investoday-finance-data.zip")
+          sha256 = hashlib.sha256(zip_path.read_bytes()).hexdigest()
+          manifest = {
+            "schemaVersion": 1,
+            "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "updatePolicy": {
+              "skillInstallPolicy": "existing-only",
+              "local_task_cron": "0 3 * * *"
+            },
+            "nodePackage": {
+              "name": "@investoday/investoday-api",
+              "version": package["version"],
+              "packageManager": "npm"
+            },
+            "skills": [
+              {
+                "name": "investoday-finance-data",
+                "version": version_match.group(1).strip(),
+                "zipUrl": "https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip",
+                "sha256": sha256
+              }
+            ],
+            "clients": [
+              {
+                "id": "codex",
+                "name": "Codex",
+                "targets": [
+                  {
+                    "type": "fixed",
+                    "paths": ["$HOME/.codex/skills"]
+                  }
+                ]
+              },
+              {
+                "id": "openclaw",
+                "name": "OpenClaw",
+                "targets": [
+                  {
+                    "type": "fixed",
+                    "paths": ["$HOME/.openclaw/skills"]
+                  },
+                  {
+                    "type": "discovery",
+                    "paths": ["$HOME/.openclaw/workspace*/skills"]
+                  }
+                ]
+              },
+              {
+                "id": "workbuddy",
+                "name": "WorkBuddy",
+                "targets": [
+                  {
+                    "type": "fixed",
+                    "paths": ["$HOME/.workbuddy/skills"]
+                  }
+                ]
+              }
+            ]
+          }
+          if not re.fullmatch(r"[0-9a-f]{64}", sha256):
+            raise SystemExit("ERROR: invalid skill zip sha256")
+          if manifest["schemaVersion"] != 1:
+            raise SystemExit("ERROR: invalid schemaVersion")
+          if manifest["updatePolicy"]["skillInstallPolicy"] != "existing-only":
+            raise SystemExit("ERROR: invalid skillInstallPolicy")
+          if manifest["updatePolicy"]["local_task_cron"] != "0 3 * * *":
+            raise SystemExit("ERROR: invalid local_task_cron")
+          if manifest["nodePackage"]["name"] != "@investoday/investoday-api":
+            raise SystemExit("ERROR: invalid nodePackage.name")
+          if manifest["nodePackage"]["packageManager"] != "npm":
+            raise SystemExit("ERROR: invalid nodePackage.packageManager")
+          if manifest["nodePackage"]["version"] != package["version"]:
+            raise SystemExit("ERROR: node package version mismatch")
+          if manifest["skills"][0]["version"] != version_match.group(1).strip():
+            raise SystemExit("ERROR: skill version mismatch")
+          if not manifest["skills"][0]["zipUrl"].startswith("https://storage.txyun.investoday.net/application/skill-store/packages/"):
+            raise SystemExit("ERROR: invalid skill zipUrl")
+          for client in manifest["clients"]:
+            for target in client.get("targets", []):
+              if target.get("type") not in {"fixed", "discovery"}:
+                raise SystemExit(f"ERROR: invalid target type: {target.get('type')}")
+              if not target.get("paths"):
+                raise SystemExit("ERROR: target paths cannot be empty")
+          Path("investoday-api.manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+          manifest_sha256 = hashlib.sha256(Path("investoday-api.manifest.json").read_bytes()).hexdigest()
+          summary = Path(os.environ.get("GITHUB_STEP_SUMMARY", "/dev/null"))
+          with summary.open("a") as fh:
+            fh.write("## Investoday update manifest\n\n")
+            fh.write(f"- nodePackage.version: `{manifest['nodePackage']['version']}`\n")
+            fh.write(f"- skill.version: `{manifest['skills'][0]['version']}`\n")
+            fh.write(f"- skill.zip.sha256: `{sha256}`\n")
+            fh.write(f"- manifest.sha256: `{manifest_sha256}`\n")
+            fh.write(f"- manifest.path: `investoday-api.manifest.json`\n")
+          EOF
 
       - name: Check for changes
         id: changes
@@ -68,9 +182,23 @@ jobs:
           COS_BUCKET: ${{ secrets.COS_BUCKET }}
           COS_REGION: ${{ secrets.COS_REGION }}
         run: |
+          if [ "$COS_BUCKET" != "files-1255879464" ]; then
+            echo "ERROR: COS_BUCKET must be files-1255879464, got '$COS_BUCKET'" >&2
+            exit 1
+          fi
+
           pip install coscmd
           coscmd config -a "$COS_SECRET_ID" -s "$COS_SECRET_KEY" -b "$COS_BUCKET" -r "$COS_REGION"
           coscmd upload investoday-finance-data.zip application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip
+          coscmd upload investoday-api.manifest.json application/skill-store/configs/investoday-api.manifest.json
+
+          {
+            echo "## COS upload"
+            echo
+            echo "- bucket: \`$COS_BUCKET\`"
+            echo "- zip object: \`application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip\`"
+            echo "- manifest object: \`application/skill-store/configs/investoday-api.manifest.json\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
           # 刷新 CDN 缓存
           pip install tencentcloud-sdk-python
@@ -81,7 +209,16 @@ jobs:
           cred = credential.Credential(os.environ["COS_SECRET_ID"], os.environ["COS_SECRET_KEY"])
           client = cdn_client.CdnClient(cred, "")
           req = models.PurgeUrlsCacheRequest()
-          req.Urls = ["https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip"]
+          req.Urls = [
+            "https://storage.txyun.investoday.net/application/skill-store/packages/investoday-finance-data/investoday-finance-data.zip",
+            "https://storage.txyun.investoday.net/application/skill-store/configs/investoday-api.manifest.json",
+          ]
           resp = client.PurgeUrlsCache(req)
           print(f"CDN purge submitted: {resp.TaskId}")
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+            with open(summary, "a") as fh:
+              fh.write(f"\\n## CDN purge\\n\\n- taskId: `{resp.TaskId}`\\n")
+              for url in req.Urls:
+                fh.write(f"- `{url}`\\n")
           EOF

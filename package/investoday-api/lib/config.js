@@ -1,13 +1,12 @@
-const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 
 const CONFIG_DIR_ENV = "INVESTODAY_API_CONFIG_DIR";
 const API_KEY_ENV = "INVESTODAY_API_KEY";
-const CREDENTIALS_FILE = "credentials.enc";
-const KEY_FILE = ".encryption_key";
-const CIPHER_ALGORITHM = "aes-256-gcm";
+const CONFIG_FILE = "investoday-api.config.json";
+const LEGACY_CREDENTIALS_FILE = "credentials.enc";
+const LEGACY_KEY_FILE = ".encryption_key";
 
 function getConfigDir(env = process.env) {
   if (env[CONFIG_DIR_ENV]) {
@@ -18,11 +17,15 @@ function getConfigDir(env = process.env) {
 }
 
 function getCredentialsPath(env = process.env) {
-  return path.join(getConfigDir(env), CREDENTIALS_FILE);
+  return path.join(getConfigDir(env), CONFIG_FILE);
 }
 
-function getEncryptionKeyPath(env = process.env) {
-  return path.join(getConfigDir(env), KEY_FILE);
+function getLegacyCredentialsPath(env = process.env) {
+  return path.join(getConfigDir(env), LEGACY_CREDENTIALS_FILE);
+}
+
+function getLegacyKeyPath(env = process.env) {
+  return path.join(getConfigDir(env), LEGACY_KEY_FILE);
 }
 
 function ensureConfigDir(env = process.env) {
@@ -44,69 +47,16 @@ function atomicWriteFile(filePath, contents, mode = 0o600) {
   fs.renameSync(tempPath, filePath);
 }
 
-function loadOrCreateEncryptionKey(env = process.env) {
-  ensureConfigDir(env);
-  const keyPath = getEncryptionKeyPath(env);
-  if (fs.existsSync(keyPath)) {
-    const encoded = fs.readFileSync(keyPath, "utf8").trim();
-    const key = Buffer.from(encoded, "base64");
-    if (key.length !== 32) {
-      throw new Error(`Invalid encryption key at ${keyPath}`);
+function saveConfig(config, env = process.env) {
+  atomicWriteFile(getCredentialsPath(env), `${JSON.stringify(config || {}, null, 2)}\n`);
+}
+
+function removeLegacyCredentials(env = process.env) {
+  for (const filePath of [getLegacyCredentialsPath(env), getLegacyKeyPath(env)]) {
+    if (fs.existsSync(filePath)) {
+      fs.rmSync(filePath, { force: true });
     }
-    return key;
   }
-
-  const key = crypto.randomBytes(32);
-  atomicWriteFile(keyPath, key.toString("base64"));
-  return key;
-}
-
-function loadEncryptionKey(env = process.env) {
-  const keyPath = getEncryptionKeyPath(env);
-  if (!fs.existsSync(keyPath)) {
-    return null;
-  }
-
-  const encoded = fs.readFileSync(keyPath, "utf8").trim();
-  const key = Buffer.from(encoded, "base64");
-  if (key.length !== 32) {
-    return null;
-  }
-  return key;
-}
-
-function encryptJson(value, key) {
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv(CIPHER_ALGORITHM, key, iv);
-  const plaintext = Buffer.from(JSON.stringify(value), "utf8");
-  const encrypted = Buffer.concat([cipher.update(plaintext), cipher.final()]);
-  const tag = cipher.getAuthTag();
-
-  return {
-    version: 1,
-    algorithm: CIPHER_ALGORITHM,
-    iv: iv.toString("base64"),
-    tag: tag.toString("base64"),
-    data: encrypted.toString("base64"),
-  };
-}
-
-function decryptJson(payload, key) {
-  if (!payload || payload.algorithm !== CIPHER_ALGORITHM) {
-    throw new Error("Unsupported credentials format");
-  }
-
-  const decipher = crypto.createDecipheriv(
-    CIPHER_ALGORITHM,
-    key,
-    Buffer.from(payload.iv, "base64")
-  );
-  decipher.setAuthTag(Buffer.from(payload.tag, "base64"));
-  const decrypted = Buffer.concat([
-    decipher.update(Buffer.from(payload.data, "base64")),
-    decipher.final(),
-  ]);
-  return JSON.parse(decrypted.toString("utf8"));
 }
 
 function saveCredentials(apiKey, env = process.env) {
@@ -115,35 +65,48 @@ function saveCredentials(apiKey, env = process.env) {
     throw new Error("API key cannot be empty");
   }
 
-  const key = loadOrCreateEncryptionKey(env);
-  const payload = encryptJson({
-    apiKey: trimmedKey,
-    createdAt: new Date().toISOString(),
-  }, key);
-  atomicWriteFile(getCredentialsPath(env), `${JSON.stringify(payload, null, 2)}\n`);
+  const existing = readConfig(env);
+  const payload = {
+    ...(existing || {}),
+    [API_KEY_ENV]: trimmedKey,
+  };
+  saveConfig(payload, env);
+  removeLegacyCredentials(env);
 }
 
-function readCredentials(env = process.env) {
-  const credentialsPath = getCredentialsPath(env);
-  const key = loadEncryptionKey(env);
-  if (!key || !fs.existsSync(credentialsPath)) {
+function readConfig(env = process.env) {
+  const configPath = getCredentialsPath(env);
+  if (!fs.existsSync(configPath)) {
     return null;
   }
 
   try {
-    const payload = JSON.parse(fs.readFileSync(credentialsPath, "utf8"));
-    return decryptJson(payload, key);
+    return JSON.parse(fs.readFileSync(configPath, "utf8"));
   } catch {
     return null;
   }
 }
 
-function removeCredentials(env = process.env) {
-  for (const filePath of [getCredentialsPath(env), getEncryptionKeyPath(env)]) {
-    if (fs.existsSync(filePath)) {
-      fs.rmSync(filePath, { force: true });
-    }
+function readCredentials(env = process.env) {
+  const config = readConfig(env);
+  if (!config) {
+    return null;
   }
+
+  const apiKey = String(config[API_KEY_ENV] || "").trim();
+  if (!apiKey) {
+    return null;
+  }
+
+  return { apiKey };
+}
+
+function removeCredentials(env = process.env) {
+  const configPath = getCredentialsPath(env);
+  if (fs.existsSync(configPath)) {
+    fs.rmSync(configPath, { force: true });
+  }
+  removeLegacyCredentials(env);
 }
 
 function resolveApiKey(env = process.env) {
@@ -162,14 +125,20 @@ function resolveApiKey(env = process.env) {
 
 module.exports = {
   API_KEY_ENV,
+  CONFIG_FILE,
   CONFIG_DIR_ENV,
-  CREDENTIALS_FILE,
-  KEY_FILE,
+  CREDENTIALS_FILE: CONFIG_FILE,
+  LEGACY_CREDENTIALS_FILE,
+  LEGACY_KEY_FILE,
   getConfigDir,
   getCredentialsPath,
-  getEncryptionKeyPath,
+  getLegacyCredentialsPath,
+  getLegacyKeyPath,
+  removeLegacyCredentials,
+  readConfig,
   readCredentials,
   removeCredentials,
   resolveApiKey,
+  saveConfig,
   saveCredentials,
 };

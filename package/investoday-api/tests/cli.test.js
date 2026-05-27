@@ -5,10 +5,21 @@ const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const { selectRequestMethod, verifyApiKey } = require("../lib/call-api");
+const { parseDailyCron } = require("../lib/scheduler");
+const {
+  DEFAULT_MANIFEST_URL,
+  UPDATE_MANIFEST_URL_ENV,
+  compareVersions,
+  getManifestUrl,
+  getStatus,
+  runUpdate,
+} = require("../lib/update");
 const {
   API_KEY_ENV,
   CONFIG_DIR_ENV,
   getCredentialsPath,
+  getLegacyCredentialsPath,
+  getLegacyKeyPath,
   readCredentials,
   removeCredentials,
   resolveApiKey,
@@ -55,6 +66,32 @@ function withTempConfigDir(fn) {
   }
 }
 
+async function withTempConfigDirAsync(fn) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-test-"));
+  const previousConfigDir = process.env[CONFIG_DIR_ENV];
+  const previousApiKey = process.env[API_KEY_ENV];
+
+  process.env[CONFIG_DIR_ENV] = dir;
+  delete process.env[API_KEY_ENV];
+
+  try {
+    return await fn(dir);
+  } finally {
+    if (previousConfigDir === undefined) {
+      delete process.env[CONFIG_DIR_ENV];
+    } else {
+      process.env[CONFIG_DIR_ENV] = previousConfigDir;
+    }
+
+    if (previousApiKey === undefined) {
+      delete process.env[API_KEY_ENV];
+    } else {
+      process.env[API_KEY_ENV] = previousApiKey;
+    }
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 test("--help prints usage", () => {
   const result = runCli(["--help"]);
 
@@ -62,6 +99,7 @@ test("--help prints usage", () => {
   assert.match(result.stdout, /Usage:/);
   assert.match(result.stdout, /investoday-api init/);
   assert.match(result.stdout, /investoday-api config status/);
+  assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register/);
   assert.match(result.stdout, /investoday-api list/);
   assert.match(result.stdout, /investoday-api list 沪深京数据\/公司行为\/基本信息/);
   assert.match(result.stdout, /investoday-api search-api query=股票,基本面分析/);
@@ -82,16 +120,31 @@ test("--version prints package version", () => {
   assert.equal(shortResult.stdout.trim(), version);
 });
 
-test("credentials are saved encrypted in local config", () => {
+test("credentials are saved in local JSON config", () => {
   withTempConfigDir((dir) => {
     saveCredentials("test-api-key", { [CONFIG_DIR_ENV]: dir });
 
     const credentialsPath = getCredentialsPath({ [CONFIG_DIR_ENV]: dir });
     assert.ok(fs.existsSync(credentialsPath));
-    assert.doesNotMatch(fs.readFileSync(credentialsPath, "utf8"), /test-api-key/);
+    assert.match(credentialsPath, /investoday-api\.config\.json$/);
+    assert.match(fs.readFileSync(credentialsPath, "utf8"), /test-api-key/);
 
     const credentials = readCredentials({ [CONFIG_DIR_ENV]: dir });
     assert.equal(credentials.apiKey, "test-api-key");
+  });
+});
+
+test("saving credentials removes legacy encrypted credential files", () => {
+  withTempConfigDir((dir) => {
+    const legacyCredentialsPath = getLegacyCredentialsPath({ [CONFIG_DIR_ENV]: dir });
+    const legacyKeyPath = getLegacyKeyPath({ [CONFIG_DIR_ENV]: dir });
+    fs.writeFileSync(legacyCredentialsPath, "legacy");
+    fs.writeFileSync(legacyKeyPath, "legacy-key");
+
+    saveCredentials("test-api-key", { [CONFIG_DIR_ENV]: dir });
+
+    assert.equal(fs.existsSync(legacyCredentialsPath), false);
+    assert.equal(fs.existsSync(legacyKeyPath), false);
   });
 });
 
@@ -128,6 +181,7 @@ test("config status, path, and remove are available", () => {
     assert.equal(payload.status, "configured");
     assert.equal(payload.localConfig, "configured");
     assert.equal(payload.activeSource, "config");
+    assert.match(payload.configFile, /investoday-api\.config\.json$/);
 
     const pathResult = runCli(["config", "path"], {
       env: { [CONFIG_DIR_ENV]: dir },
@@ -156,7 +210,8 @@ test("init verification uses the trade calendar API without exposing the key", a
   };
 
   try {
-    await verifyApiKey("secret-key");
+    const result = await verifyApiKey("secret-key");
+    assert.equal(result.ok, true);
   } finally {
     global.fetch = originalFetch;
   }
@@ -168,7 +223,7 @@ test("init verification uses the trade calendar API without exposing the key", a
   assert.equal(calls[0].options.body, undefined);
 });
 
-test("verifyApiKey propagates the API error message", async () => {
+test("verifyApiKey returns structured API error message", async () => {
   await withTempConfigDir(async (dir) => {
     const originalFetch = global.fetch;
     global.fetch = async () => ({
@@ -177,7 +232,13 @@ test("verifyApiKey propagates the API error message", async () => {
     });
 
     try {
-      await assert.rejects(() => verifyApiKey("bad-key"), /invalid api key/);
+      const result = await verifyApiKey("bad-key");
+      assert.deepEqual(result, {
+        ok: false,
+        errorType: "invalid_api_key",
+        serverConnected: true,
+        message: "invalid api key",
+      });
     } finally {
       global.fetch = originalFetch;
     }
@@ -375,4 +436,64 @@ test("deprecated schema and example commands return a migration hint", () => {
 test("direct execution defaults to the canonical POST method for duplicated paths", () => {
   assert.equal(selectRequestMethod("stock/str-trend-ind", "GET", false), "POST");
   assert.equal(selectRequestMethod("stock/str-trend-ind", "GET", true), "GET");
+});
+
+test("update manifest URL uses default and environment override", () => {
+  assert.equal(
+    getManifestUrl({}),
+    "https://storage.txyun.investoday.net/application/skill-store/configs/investoday-api.manifest.json"
+  );
+  assert.equal(DEFAULT_MANIFEST_URL, getManifestUrl({}));
+  assert.equal(
+    getManifestUrl({ [UPDATE_MANIFEST_URL_ENV]: "https://example.com/manifest.json" }),
+    "https://example.com/manifest.json"
+  );
+});
+
+test("update version comparison supports semantic version ordering", () => {
+  assert.equal(compareVersions("1.8.15", "1.8.14"), 1);
+  assert.equal(compareVersions("1.8.14", "1.8.15"), -1);
+  assert.equal(compareVersions("1.8.15", "1.8.15"), 0);
+});
+
+test("scheduler parses the default daily cron", () => {
+  assert.deepEqual(parseDailyCron("0 3 * * *"), {
+    minute: 0,
+    hour: 3,
+    expression: "0 3 * * *",
+  });
+  assert.throws(() => parseDailyCron("@daily"), /5-field/);
+});
+
+test("update run requires explicit auto update authorization", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const originalFetch = global.fetch;
+    global.fetch = async () => {
+      throw new Error("fetch should not be called without authorization");
+    };
+    try {
+      const result = await runUpdate({ [CONFIG_DIR_ENV]: dir });
+      assert.equal(result.ok, true);
+      assert.equal(result.skipped, true);
+      assert.equal(result.reason, "auto update disabled");
+    } finally {
+      global.fetch = originalFetch;
+    }
+  });
+});
+
+test("update status does not mark missing config as enabled", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const originalFetch = global.fetch;
+    global.fetch = async () => {
+      throw new Error("manifest unavailable");
+    };
+    try {
+      const status = await getStatus({ [CONFIG_DIR_ENV]: dir });
+      assert.equal(status.enabled, false);
+      assert.equal(status.remoteAvailable, false);
+    } finally {
+      global.fetch = originalFetch;
+    }
+  });
 });

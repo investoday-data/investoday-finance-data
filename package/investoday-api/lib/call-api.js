@@ -9,6 +9,7 @@ const {
   saveCredentials,
 } = require("./config");
 const { version: PACKAGE_VERSION } = require("../package.json");
+const { runUpdateCommand } = require("./update");
 
 const BASE_URL = "https://data-api.investoday.net/data";
 const REQUEST_TIMEOUT = 30_000;
@@ -36,6 +37,7 @@ function printHelp() {
     "Usage:\n" +
     "  investoday-api init\n" +
     "  investoday-api config status|path|remove\n" +
+    "  investoday-api update run|status|enable|disable|register\n" +
     "  investoday-api <endpoint> [key=value ...] [--method GET|POST]\n" +
     "  investoday-api list [group-or-subgroup]\n" +
     "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
@@ -43,7 +45,8 @@ function printHelp() {
     "  investoday-api --help\n\n" +
     "Commands:\n" +
     "  init     Initialize local InvestToday API key configuration\n" +
-    "  config   Show, locate, or remove the local encrypted credentials\n" +
+    "  config   Show, locate, or remove the local configuration\n" +
+    "  update   Manage background updates for investoday-api and installed skills\n" +
     "  list     List available groups, subgroups, or endpoints from bundled metadata\n" +
     "  search-api Search endpoints and return method, params, response fields, and example command\n\n" +
     "Examples:\n" +
@@ -74,9 +77,11 @@ function printInitHelp() {
     "Usage:\n" +
     "  investoday-api init\n\n" +
     "Default flow:\n" +
-    "  Prompt for InvestToday API Key, verify it, then save it to local encrypted config.\n\n" +
+    "  Prompt for InvestToday API Key, verify it, then save it to local JSON config.\n\n" +
     "Options:\n" +
-    "  --skip-verify  Save without validating the API key first\n\n" +
+    "  --skip-verify     Save without validating the API key first\n" +
+    "  --auto-update     Enable background auto update without prompting\n" +
+    "  --no-auto-update  Disable background auto update without prompting\n\n" +
     `Local config: ${getCredentialsPath()}\n`
   );
 }
@@ -122,18 +127,86 @@ async function verifyApiKey(apiKey) {
     if (apiKey && message.includes(apiKey)) {
       message = message.replaceAll(apiKey, "***");
     }
-    throw new Error(`verification request failed: ${message}`);
+    const errorName = String(error.name || "");
+    const errorCode = String(error.code || error.cause && error.cause.code || "");
+    const errorType = errorName === "TimeoutError" || errorName === "AbortError" || errorCode.includes("TIMEOUT")
+      ? "network_timeout"
+      : "network_unreachable";
+    return {
+      ok: false,
+      errorType,
+      serverConnected: false,
+      message: errorType === "network_timeout"
+        ? "连接今日投资数据服务超时，请检查网络或代理后重试。"
+        : `无法连接今日投资数据服务，请检查网络、DNS、TLS 或代理后重试。${message ? ` ${message}` : ""}`.slice(0, 500),
+    };
   }
 
   if (!response.ok) {
     const body = await response.text().catch(() => "");
-    throw new Error(`HTTP ${response.status}${body ? `: ${body.slice(0, 500)}` : ""}`);
+    let serverMessage = body.slice(0, 500);
+    try {
+      const payload = JSON.parse(body);
+      serverMessage = payload.message || payload.error || serverMessage;
+    } catch {
+      // keep plain text body
+    }
+    if (apiKey && serverMessage.includes(apiKey)) {
+      serverMessage = serverMessage.replaceAll(apiKey, "***");
+    }
+    return {
+      ok: false,
+      errorType: response.status >= 500 ? "server_error" : "invalid_api_key",
+      serverConnected: true,
+      message: serverMessage || `HTTP ${response.status}`,
+    };
   }
 
   const result = await response.json().catch(() => null);
-  if (!result || result.code !== 0) {
-    throw new Error(result && result.message ? result.message : "invalid response");
+  if (!result) {
+    return {
+      ok: false,
+      errorType: "unexpected_response",
+      serverConnected: true,
+      message: "服务返回异常：响应不是合法 JSON。",
+    };
   }
+  if (!result || result.code !== 0) {
+    let message = result && result.message ? result.message : "API Key 无效或无接口权限。";
+    if (apiKey && message.includes(apiKey)) {
+      message = message.replaceAll(apiKey, "***");
+    }
+    return {
+      ok: false,
+      errorType: "invalid_api_key",
+      serverConnected: true,
+      message,
+    };
+  }
+  return { ok: true, errorType: null, serverConnected: true, message: result.message || "success" };
+}
+
+async function resolveAutoUpdateChoice(args) {
+  const enableArg = hasArg(args, "--auto-update");
+  const disableArg = hasArg(args, "--no-auto-update");
+  if (enableArg && disableArg) {
+    exitWithError("ERROR: --auto-update and --no-auto-update cannot be used together.");
+  }
+  if (enableArg) {
+    return true;
+  }
+  if (disableArg) {
+    return false;
+  }
+
+  const answer = await askInput(
+    "\n是否启用自动更新？\n" +
+    "启用后将后台定时更新 investoday-api 及 skill，以保障您能及时获取到我们最新的 API。\n" +
+    "默认：是\n" +
+    "[Y/n]: "
+  );
+  const normalized = String(answer || "").trim().toLowerCase();
+  return normalized !== "n" && normalized !== "no";
 }
 
 async function runInitCommand(args) {
@@ -142,7 +215,7 @@ async function runInitCommand(args) {
     return;
   }
 
-  const allowed = new Set(["--skip-verify"]);
+  const allowed = new Set(["--skip-verify", "--auto-update", "--no-auto-update"]);
   for (const arg of args) {
     if (!allowed.has(arg)) {
       exitWithError(`ERROR: Unknown init option '${arg}'`);
@@ -152,12 +225,12 @@ async function runInitCommand(args) {
   const apiKey = await resolveInitApiKey(args);
   if (!hasArg(args, "--skip-verify")) {
     process.stderr.write("Verifying InvestToday API key...\n");
-    try {
-      await verifyApiKey(apiKey);
-    } catch (error) {
+    const verification = await verifyApiKey(apiKey);
+    if (!verification.ok) {
       exitWithError(
         `InvestToday API Key verification failed.\n` +
-        `Error: ${error.message}\n` +
+        `Error type: ${verification.errorType}\n` +
+        `Error: ${verification.message}\n` +
         `请登录 ${API_KEY_MANAGE_URL} 确认您的apiKey正确。`
       );
     }
@@ -169,10 +242,22 @@ async function runInitCommand(args) {
     exitWithError(`ERROR: Failed to save credentials: ${error.message}`);
   }
 
-  process.stdout.write(
-    "InvestToday API key 配置成功\n\n" +
-    "初始化完成 ✅\n"
-  );
+  process.stdout.write("InvestToday API key 配置成功\n");
+
+  const autoUpdateEnabled = await resolveAutoUpdateChoice(args);
+  if (autoUpdateEnabled) {
+    const enableResult = await runUpdateCommand(["enable"], { stdout: process.stdout, stderr: process.stderr });
+    if (enableResult && enableResult.ok) {
+      const runResult = await runUpdateCommand(["run"], { stdout: process.stdout, stderr: process.stderr });
+      if (runResult && runResult.ok === false) {
+        process.stderr.write("自动更新首次执行失败，可稍后运行 `investoday-api update status` 查看详情。\n");
+      }
+    }
+  } else {
+    await runUpdateCommand(["disable"], { stdout: process.stdout, stderr: process.stderr });
+  }
+
+  process.stdout.write("\n初始化完成 ✅\n");
 }
 
 function runConfigCommand(args) {
@@ -195,7 +280,7 @@ function runConfigCommand(args) {
 
   if (action === "remove") {
     removeCredentials();
-    process.stdout.write("InvestToday local credentials removed.\n");
+    process.stdout.write("InvestToday local configuration removed.\n");
     return;
   }
 
@@ -208,7 +293,7 @@ function runConfigCommand(args) {
         localConfig: localConfigured ? "configured" : "missing",
         activeSource,
         configDir: getConfigDir(),
-        credentialsFile: getCredentialsPath(),
+        configFile: getCredentialsPath(),
       }, null, 2) + "\n"
     );
     return;
@@ -752,6 +837,14 @@ async function main(argv = process.argv.slice(2)) {
 
   if (argv[0] === "config") {
     runConfigCommand(argv.slice(1));
+    return;
+  }
+
+  if (argv[0] === "update") {
+    const result = await runUpdateCommand(argv.slice(1), { stdout: process.stdout, stderr: process.stderr });
+    if (result && result.ok === false) {
+      process.exitCode = 1;
+    }
     return;
   }
 

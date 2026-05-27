@@ -50,7 +50,7 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 
 ## Notes
 
-- Uses the local encrypted config created by `investoday-api init`
+- Uses the local JSON config created by `investoday-api init`
 - Only calls `https://data-api.investoday.net/data`
 - Bundles endpoint metadata for `list` and `search-api`
 - `search-api` defaults to JSON output and includes params, response fields, and `exampleCommand`; use `--text` for a human-readable summary
