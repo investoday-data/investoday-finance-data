@@ -282,6 +282,7 @@ function expandDiscoveryPath(pattern) {
 
 function discoverSkillTargets(manifest) {
   const targets = [];
+  const seenActualPaths = new Set();
   for (const client of manifest.clients || []) {
     for (const target of client.targets || []) {
       if (!Array.isArray(target.paths)) continue;
@@ -295,6 +296,9 @@ function discoverSkillTargets(manifest) {
           if (!fs.existsSync(skillMd)) continue;
           const isSymlink = fs.lstatSync(displayPath).isSymbolicLink();
           const actualPath = fs.realpathSync(displayPath);
+          const dedupeKey = `${skill.name}:${actualPath}`;
+          if (seenActualPaths.has(dedupeKey)) continue;
+          seenActualPaths.add(dedupeKey);
           targets.push({ clientId: client.id, skillName: skill.name, displayPath, actualPath, isSymlink, remote: skill });
         }
       }

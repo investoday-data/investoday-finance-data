@@ -1,42 +1,74 @@
 [
   {
-    "id": "codex",
-    "name": "Codex",
+    "id": "skills-manager",
+    "name": "Skills Manager",
     "targets": [
       {
         "type": "fixed",
         "paths": [
+          "$HOME/.skills-manager/skills",
+          "$HOME/.cursor/skills",
+          "$HOME/.claude/skills",
+          "$HOME/.agents/skills",
+          "$HOME/.config/opencode/skills",
+          "$HOME/.gemini/antigravity/skills",
+          "$HOME/.config/agents/skills",
+          "$HOME/.kilocode/skills",
+          "$HOME/.roo/skills",
+          "$HOME/.config/goose/skills",
+          "$HOME/.gemini/skills",
+          "$HOME/.copilot/skills",
+          "$HOME/.openclaw/skills",
+          "$HOME/.factory/skills",
+          "$HOME/.codeium/windsurf/skills",
+          "$HOME/.trae/skills",
+          "$HOME/.deepagents/agent/skills",
+          "$HOME/.firebender/skills",
+          "$HOME/.augment/skills",
+          "$HOME/.bob/skills",
+          "$HOME/.codebuddy/skills",
+          "$HOME/.commandcode/skills",
+          "$HOME/.continue/skills",
+          "$HOME/.snowflake/cortex/skills",
+          "$HOME/.config/crush/skills",
+          "$HOME/.iflow/skills",
+          "$HOME/.junie/skills",
+          "$HOME/.kiro/skills",
+          "$HOME/.kode/skills",
+          "$HOME/.mcpjam/skills",
+          "$HOME/.vibe/skills",
+          "$HOME/.mux/skills",
+          "$HOME/.neovate/skills",
+          "$HOME/.openhands/skills",
+          "$HOME/.pi/agent/skills",
+          "$HOME/.pochi/skills",
+          "$HOME/.qoder/skills",
+          "$HOME/.qwen/skills",
+          "$HOME/.trae-cn/skills",
+          "$HOME/.zencoder/skills",
+          "$HOME/.adal/skills",
+          "$HOME/.hermes/skills",
+          "$HOME/.qclaw/skills",
+          "$HOME/.easyclaw/skills",
+          "$HOME/.openclaw-autoclaw/skills",
+          "$HOME/.workbuddy/skills",
+          "$HOME/.workbuddy/skills-marketplace/skills",
           "$HOME/.codex/skills"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "openclaw",
-    "name": "OpenClaw",
-    "targets": [
-      {
-        "type": "fixed",
-        "paths": [
-          "$HOME/.openclaw/skills"
         ]
       },
       {
         "type": "discovery",
         "paths": [
-          "$HOME/.openclaw/workspace*/skills"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "workbuddy",
-    "name": "WorkBuddy",
-    "targets": [
-      {
-        "type": "fixed",
-        "paths": [
-          "$HOME/.workbuddy/skills"
+          "$HOME/.openclaw/workspace*/skills",
+          "$HOME/.openclaw/workspace*/.agents/skills",
+          "$HOME/.qclaw/workspace*/skills",
+          "$HOME/.qclaw/workspace*/.agents/skills",
+          "$HOME/.easyclaw/workspace*/skills",
+          "$HOME/.easyclaw/workspace*/.agents/skills",
+          "$HOME/.openclaw-autoclaw/workspace*/skills",
+          "$HOME/.openclaw-autoclaw/workspace*/.agents/skills",
+          "$HOME/.hermes/workspace*/skills",
+          "$HOME/.hermes/workspace*/.agents/skills"
         ]
       }
     ]

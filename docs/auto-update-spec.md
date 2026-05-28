@@ -192,12 +192,13 @@
 - `clients[].id` 必须唯一。
 - `clients[].targets` 不能为空。
 - `targets[].paths[]` 必须以 `$HOME/` 开头，避免把系统目录或绝对私有路径写入远程 manifest。
+- `skills-manager` client 用于统一覆盖 `xingkongliang/skills-manager` 内置的默认中央技能库、默认 agent skills root，以及本项目额外兼容的 WorkBuddy legacy 路径和 OpenClaw workspace discovery；如多个路径指向同一个真实目录，CLI 必须按 `realpath` 去重，避免重复更新同一 skill。
 
 客户端发现规则：
 
 - `clients[].targets[]` 表示某个客户端可能存在的一组 skills 根目录。
 - `targets[].type=fixed`：`paths` 是固定 skills 根目录，直接检查目录是否存在。
-- `targets[].type=discovery`：`paths` 是带通配符的 skills 根目录表达式，需要展开后检查。
+- `targets[].type=discovery`：`paths` 是带通配符的 skills 根目录表达式，只展开 manifest 明确声明的 glob 后检查；不得做全盘扫描、不得递归搜索任意 `SKILL.md`。
 - `paths` 指向 skills 根目录，不直接指向 skill 目录。
 - 对 `skills[]` 中的每个 skill，实际更新目标为：`<skills-root>/<skill.name>`。
 - 所有路径必须支持 `$HOME` 展开；实现时按当前操作系统解析用户主目录。
@@ -206,6 +207,7 @@
 - 如果命中的 skill 目录是符号链接，更新时必须解析到链接目标目录并替换目标目录内容，不得删除、重建或改变 client 侧的符号链接。
 - 不存在的 skills 根目录或 skill 目录一律跳过。
 - `type` 只允许 `fixed` 和 `discovery`；未知类型必须跳过并记录日志。
+- `discovery` 的 glob 必须是有限、显式且已确认的 skills root 模式，例如 `$HOME/.qclaw/workspace*/skills`；不允许 `$HOME/**/skills`、`/**/SKILL.md` 或未确认的 plural workspace 结构如 `$HOME/.qclaw/workspaces/*/skills`。
 
 `local_task_cron` 字段说明：
 
