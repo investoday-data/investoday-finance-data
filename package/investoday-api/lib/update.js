@@ -26,7 +26,15 @@ const STATE_FILE = "state.json";
 const NODE_PACKAGE_NAME = "@investoday/investoday-api";
 
 function nowIso() {
-  return new Date().toISOString();
+  const shanghaiOffsetMs = 8 * 60 * 60 * 1000;
+  return new Date(Date.now() + shanghaiOffsetMs).toISOString().replace("Z", "+08:00");
+}
+
+function formatShanghaiDateTime(date) {
+  return date.toLocaleString("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    hour12: false,
+  });
 }
 
 function ensureDir(dir) {
@@ -543,7 +551,7 @@ async function getStatus(env = process.env) {
     lastRunAt: autoUpdate.lastRunAt || state.lastRunAt || null,
     lastSuccessAt: autoUpdate.lastSuccessAt || state.lastSuccessAt || null,
     lastError: autoUpdate.lastError || state.lastError || null,
-    nextRunAt: autoUpdate.enabled === true ? getNextRunAt(cron).toLocaleString() : null,
+    nextRunAt: autoUpdate.enabled === true ? formatShanghaiDateTime(getNextRunAt(cron)) : null,
     cron,
     remoteAvailable,
     remoteError,

@@ -3,11 +3,12 @@ import hashlib
 import json
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SHANGHAI_TZ = timezone(timedelta(hours=8))
 ZIP_PATH = ROOT / "investoday-finance-data.zip"
 MANIFEST_PATH = ROOT / "investoday-api.manifest.json"
 CLIENTS_PATH = ROOT / "configs" / "investoday-api.clients.json"
@@ -31,7 +32,7 @@ def main():
 
     manifest = {
         "schemaVersion": 1,
-        "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generatedAt": datetime.now(SHANGHAI_TZ).isoformat(),
         "updatePolicy": {
             "skillInstallPolicy": "existing-only",
             "local_task_cron": "0 3 * * *",

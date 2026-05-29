@@ -537,7 +537,7 @@ test("update run replaces symlink target directory and preserves client symlink"
       const zipSha256 = crypto.createHash("sha256").update(zipBuffer).digest("hex");
       const manifest = {
         schemaVersion: 1,
-        generatedAt: "2026-05-27T00:00:00Z",
+        generatedAt: "2026-05-27T08:00:00+08:00",
         updatePolicy: {
           skillInstallPolicy: "existing-only",
           local_task_cron: "0 3 * * *",

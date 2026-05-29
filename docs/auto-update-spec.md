@@ -69,7 +69,7 @@
 ```json
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-27T03:00:00Z",
+  "generatedAt": "2026-05-27T11:00:00+08:00",
   "updatePolicy": {
     "skillInstallPolicy": "existing-only",
     "local_task_cron": "0 3 * * *"
@@ -319,8 +319,8 @@ API Key 验证错误分类：
   "autoUpdate": {
     "enabled": true,
     "local_task_cron": "0 3 * * *",
-    "lastRunAt": "2026-05-27T03:05:00Z",
-    "lastSuccessAt": "2026-05-27T03:05:20Z",
+    "lastRunAt": "2026-05-27T11:05:00+08:00",
+    "lastSuccessAt": "2026-05-27T11:05:20+08:00",
     "lastError": null
   }
 }
@@ -513,11 +513,11 @@ macOS launchd plist 示例：
 
 ```json
 {
-  "lastRunAt": "2026-05-27T03:05:00Z",
-  "lastSuccessAt": "2026-05-27T03:05:20Z",
+  "lastRunAt": "2026-05-27T11:05:00+08:00",
+  "lastSuccessAt": "2026-05-27T11:05:20+08:00",
   "lastError": null,
   "remote": {
-    "manifestGeneratedAt": "2026-05-27T03:00:00Z",
+    "manifestGeneratedAt": "2026-05-27T11:00:00+08:00",
     "nodePackageVersion": "1.8.15",
     "skills": [
       {
