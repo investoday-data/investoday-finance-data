@@ -41,10 +41,22 @@ function extractResponseFields(operation) {
   }
 }
 
+function normalizeApiKeySupported(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+}
+
 function parseOpenapiPaths(openapi) {
   const pathMap = {};
 
   for (const [apiPath, methods] of Object.entries(openapi.paths || {})) {
+    const pathItemApiKeySupported = normalizeApiKeySupported(methods?.["x-apikey-supported"]);
+
     for (const [method, operation] of Object.entries(methods || {})) {
       if (!operation || typeof operation !== "object") {
         continue;
@@ -83,11 +95,15 @@ function parseOpenapiPaths(openapi) {
         }
       }
 
+      const operationApiKeySupported = normalizeApiKeySupported(operation["x-apikey-supported"]);
       const detail = {
         path: apiPath.replace(/^\/+/, ""),
         method: httpMethod,
         summary: operation.summary || "",
         description: operation.description || "",
+        apiKeySupported: operationApiKeySupported.length
+          ? operationApiKeySupported
+          : pathItemApiKeySupported,
         parameters,
         responseFields: extractResponseFields(operation),
       };
@@ -96,6 +112,12 @@ function parseOpenapiPaths(openapi) {
       if (!existing || existing.method !== "POST" || httpMethod === "POST") {
         pathMap[operationId] = detail;
       }
+
+      const existingPathDetail = pathMap[detail.path];
+      if (!existingPathDetail || existingPathDetail.method !== "POST" || httpMethod === "POST") {
+        pathMap[detail.path] = detail;
+      }
+      pathMap[`${detail.path}#${httpMethod}`] = detail;
     }
   }
 
@@ -209,7 +231,7 @@ function buildMetadata() {
 
   const dedupe = new Map();
   for (const record of treeRecords) {
-    const detail = pathMap[record.toolId] || pathMap[record.toolName] || {};
+    const detail = pathMap[record.toolId] || pathMap[record.toolName] || pathMap[record.apiPath] || {};
     const normalizedRecord = {
       ...record,
       method: (detail.method || record.apiMethod || "GET").toUpperCase(),
@@ -219,6 +241,7 @@ function buildMetadata() {
       description: detail.description || "",
       parameters: detail.parameters || [],
       responseFields: detail.responseFields || [],
+      apiKeySupported: detail.apiKeySupported || [],
     };
     const dedupeKey = [
       normalizedRecord.path,

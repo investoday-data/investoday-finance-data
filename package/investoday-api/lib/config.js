@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const CONFIG_DIR_ENV = "INVESTODAY_API_CONFIG_DIR";
 const API_KEY_ENV = "INVESTODAY_API_KEY";
+const SUB_API_KEY_ENV = "SUB_INVESTODAY_API_KEY";
 const CONFIG_FILE = "investoday-api.config.json";
 const LEGACY_CREDENTIALS_FILE = "credentials.enc";
 const LEGACY_KEY_FILE = ".encryption_key";
@@ -59,7 +60,7 @@ function removeLegacyCredentials(env = process.env) {
   }
 }
 
-function saveCredentials(apiKey, env = process.env) {
+function saveCredentials(apiKey, env = process.env, subscriptionApiKey = undefined) {
   const trimmedKey = String(apiKey || "").trim();
   if (!trimmedKey) {
     throw new Error("API key cannot be empty");
@@ -70,6 +71,10 @@ function saveCredentials(apiKey, env = process.env) {
     ...(existing || {}),
     [API_KEY_ENV]: trimmedKey,
   };
+  const trimmedSubscriptionKey = String(subscriptionApiKey || "").trim();
+  if (trimmedSubscriptionKey) {
+    payload[SUB_API_KEY_ENV] = trimmedSubscriptionKey;
+  }
   saveConfig(payload, env);
   removeLegacyCredentials(env);
 }
@@ -98,7 +103,8 @@ function readCredentials(env = process.env) {
     return null;
   }
 
-  return { apiKey };
+  const subscriptionApiKey = String(config[SUB_API_KEY_ENV] || "").trim();
+  return subscriptionApiKey ? { apiKey, subscriptionApiKey } : { apiKey };
 }
 
 function removeCredentials(env = process.env) {
@@ -123,8 +129,23 @@ function resolveApiKey(env = process.env) {
   return { apiKey: "", source: "missing" };
 }
 
+function resolveSubscriptionApiKey(env = process.env) {
+  const envKey = String(env[SUB_API_KEY_ENV] || "").trim();
+  if (envKey) {
+    return { apiKey: envKey, source: "compat" };
+  }
+
+  const credentials = readCredentials(env);
+  if (credentials && credentials.subscriptionApiKey) {
+    return { apiKey: String(credentials.subscriptionApiKey).trim(), source: "config" };
+  }
+
+  return { apiKey: "", source: "missing" };
+}
+
 module.exports = {
   API_KEY_ENV,
+  SUB_API_KEY_ENV,
   CONFIG_FILE,
   CONFIG_DIR_ENV,
   CREDENTIALS_FILE: CONFIG_FILE,
@@ -139,6 +160,7 @@ module.exports = {
   readCredentials,
   removeCredentials,
   resolveApiKey,
+  resolveSubscriptionApiKey,
   saveConfig,
   saveCredentials,
 };

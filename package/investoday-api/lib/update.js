@@ -112,16 +112,16 @@ async function fetchJson(url) {
   try {
     response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
   } catch (error) {
-    throw new Error(`manifest request failed: ${sanitizeMessage(error.message || error)}`);
+    throw new Error(`manifest 请求失败: ${sanitizeMessage(error.message || error)}`);
   }
   if (!response.ok) {
     const body = await response.text().catch(() => "");
-    throw new Error(`manifest request failed: HTTP ${response.status}${body ? ` ${body.slice(0, 300)}` : ""}`);
+    throw new Error(`manifest 请求失败: HTTP ${response.status}${body ? ` ${body.slice(0, 300)}` : ""}`);
   }
   try {
     return await response.json();
   } catch (error) {
-    throw new Error(`manifest is not valid JSON: ${sanitizeMessage(error.message || error)}`);
+    throw new Error(`manifest 不是合法 JSON: ${sanitizeMessage(error.message || error)}`);
   }
 }
 
@@ -234,7 +234,7 @@ function updateNodePackage(manifest) {
       localVersion,
       remoteVersion,
       status: "failed",
-      error: sanitizeMessage(result.stderr || result.stdout || "npm install failed"),
+      error: sanitizeMessage(result.stderr || result.stdout || "npm install 失败"),
     };
   }
 
@@ -330,7 +330,7 @@ async function downloadFile(url, destPath) {
   const response = await fetch(url, { signal: AbortSignal.timeout(60_000) });
   if (!response.ok) {
     const body = await response.text().catch(() => "");
-    throw new Error(`download failed: HTTP ${response.status}${body ? ` ${body.slice(0, 300)}` : ""}`);
+    throw new Error(`下载失败: HTTP ${response.status}${body ? ` ${body.slice(0, 300)}` : ""}`);
   }
   const buffer = Buffer.from(await response.arrayBuffer());
   fs.writeFileSync(destPath, buffer, { mode: 0o600 });
@@ -350,7 +350,7 @@ function extractZip(zipPath, destDir) {
     result = spawnSync("unzip", ["-q", zipPath, "-d", destDir], { encoding: "utf8" });
   }
   if (result.status !== 0) {
-    throw new Error(sanitizeMessage(result.stderr || result.stdout || "failed to extract skill zip"));
+    throw new Error(sanitizeMessage(result.stderr || result.stdout || "解压 skill zip 失败"));
   }
 }
 
@@ -365,7 +365,7 @@ function findExtractedSkillDir(extractDir) {
       return candidate;
     }
   }
-  throw new Error("extracted skill zip does not contain SKILL.md at the expected location");
+  throw new Error("解压后的 skill zip 未在预期位置包含 SKILL.md");
 }
 
 async function updateSkillTarget(target) {
@@ -587,51 +587,51 @@ async function runUpdateCommand(args, streams = {}) {
   const stderr = streams.stderr || process.stderr;
   const action = args[0] || "status";
   if (["--help", "-h", "help"].includes(action)) {
-    stdout.write("Usage:\n  investoday-api update run\n  investoday-api update status\n  investoday-api update enable\n  investoday-api update disable\n  investoday-api update register\n  investoday-api update unregister\n");
+    stdout.write("用法:\n  investoday-api update run\n  investoday-api update status\n  investoday-api update enable\n  investoday-api update disable\n  investoday-api update register\n  investoday-api update unregister\n");
     return { ok: true };
   }
   if (action === "run") {
     const result = await runUpdate();
-    if (result.skipped) stdout.write(`Update skipped: ${result.reason}\n`);
+    if (result.skipped) stdout.write(`更新已跳过：${result.reason}\n`);
     else if (result.ok) {
       stdout.write(result.warnings && result.warnings.length
-        ? `Update completed with warnings: ${result.warnings.join("; ")}\n`
-        : "Update completed successfully.\n");
+        ? `更新完成，但存在警告: ${result.warnings.join("; ")}\n`
+        : "更新成功。\n");
     }
-    else stderr.write(`Update failed: ${result.error || "see status for details"}\n`);
+    else stderr.write(`更新失败： ${result.error || "请运行 status 查看详情"}\n`);
     return result;
   }
   if (action === "enable") {
     const result = await enableUpdate();
-    stdout.write(`Auto update enabled. cron=${result.cron}\n`);
+    stdout.write(`自动更新已开启。cron=${result.cron}\n`);
     return result;
   }
   if (action === "disable") {
     const result = disableUpdate();
-    stdout.write("Auto update disabled.\n");
+    stdout.write("自动更新已关闭。\n");
     return result;
   }
   if (action === "unregister") {
     try {
       const result = unregisterUpdate();
-      stdout.write("Auto update task unregistered.\n");
+      stdout.write("自动更新定时任务已卸载。\n");
       return result;
     } catch (error) {
       const message = sanitizeMessage(error.message || error);
       setLastError(message);
-      stderr.write(`Unregister failed: ${message}\n`);
+      stderr.write(`卸载定时任务失败：${message}\n`);
       return { ok: false, error: message };
     }
   }
   if (action === "register") {
     try {
       const result = await registerUpdate();
-      stdout.write(`Auto update task registered. cron=${result.cron}\n`);
+      stdout.write(`自动更新定时任务已注册。cron=${result.cron}\n`);
       return result;
     } catch (error) {
       const message = sanitizeMessage(error.message || error);
       setLastError(message);
-      stderr.write(`Register failed: ${message}\n`);
+      stderr.write(`注册定时任务失败： ${message}\n`);
       return { ok: false, error: message };
     }
   }
@@ -640,7 +640,7 @@ async function runUpdateCommand(args, streams = {}) {
     printStatus(status, stdout);
     return { ok: true, status };
   }
-  throw new Error(`Unknown update action '${action}'. Use run, status, enable, disable, register, or unregister.`);
+  throw new Error(`未知 update 操作 '${action}'，可用操作：run、status、enable、disable、register、unregister。`);
 }
 
 module.exports = {

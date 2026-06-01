@@ -5,7 +5,14 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
-const { selectRequestMethod, verifyApiKey } = require("../lib/call-api");
+const {
+  main,
+  resolveEndpointApiKey,
+  selectRequestMethod,
+  shouldUseSubscriptionApiKey,
+  verifyApiKey,
+} = require("../lib/call-api");
+const { getMetadata } = require("../lib/metadata");
 const { parseDailyCron } = require("../lib/scheduler");
 const {
   DEFAULT_MANIFEST_URL,
@@ -17,6 +24,7 @@ const {
 } = require("../lib/update");
 const {
   API_KEY_ENV,
+  SUB_API_KEY_ENV,
   CONFIG_DIR_ENV,
   getCredentialsPath,
   getLegacyCredentialsPath,
@@ -24,6 +32,7 @@ const {
   readCredentials,
   removeCredentials,
   resolveApiKey,
+  resolveSubscriptionApiKey,
   saveCredentials,
 } = require("../lib/config");
 const { version } = require("../package.json");
@@ -45,9 +54,11 @@ function withTempConfigDir(fn) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-test-"));
   const previousConfigDir = process.env[CONFIG_DIR_ENV];
   const previousApiKey = process.env[API_KEY_ENV];
+  const previousSubApiKey = process.env[SUB_API_KEY_ENV];
 
   process.env[CONFIG_DIR_ENV] = dir;
   delete process.env[API_KEY_ENV];
+  delete process.env[SUB_API_KEY_ENV];
 
   try {
     return fn(dir);
@@ -63,6 +74,11 @@ function withTempConfigDir(fn) {
     } else {
       process.env[API_KEY_ENV] = previousApiKey;
     }
+    if (previousSubApiKey === undefined) {
+      delete process.env[SUB_API_KEY_ENV];
+    } else {
+      process.env[SUB_API_KEY_ENV] = previousSubApiKey;
+    }
     fs.rmSync(dir, { recursive: true, force: true });
   }
 }
@@ -71,9 +87,11 @@ async function withTempConfigDirAsync(fn) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-test-"));
   const previousConfigDir = process.env[CONFIG_DIR_ENV];
   const previousApiKey = process.env[API_KEY_ENV];
+  const previousSubApiKey = process.env[SUB_API_KEY_ENV];
 
   process.env[CONFIG_DIR_ENV] = dir;
   delete process.env[API_KEY_ENV];
+  delete process.env[SUB_API_KEY_ENV];
 
   try {
     return await fn(dir);
@@ -88,6 +106,11 @@ async function withTempConfigDirAsync(fn) {
       delete process.env[API_KEY_ENV];
     } else {
       process.env[API_KEY_ENV] = previousApiKey;
+    }
+    if (previousSubApiKey === undefined) {
+      delete process.env[SUB_API_KEY_ENV];
+    } else {
+      process.env[SUB_API_KEY_ENV] = previousSubApiKey;
     }
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -105,7 +128,7 @@ test("--help prints usage", () => {
   const result = runCli(["--help"]);
 
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /Usage:/);
+  assert.match(result.stdout, /用法:/);
   assert.match(result.stdout, /investoday-api init/);
   assert.match(result.stdout, /investoday-api config status/);
   assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register\|unregister/);
@@ -131,15 +154,50 @@ test("--version prints package version", () => {
 
 test("credentials are saved in local JSON config", () => {
   withTempConfigDir((dir) => {
-    saveCredentials("test-api-key", { [CONFIG_DIR_ENV]: dir });
+    saveCredentials("test-api-key", { [CONFIG_DIR_ENV]: dir }, "test-sub-api-key");
 
     const credentialsPath = getCredentialsPath({ [CONFIG_DIR_ENV]: dir });
     assert.ok(fs.existsSync(credentialsPath));
     assert.match(credentialsPath, /investoday-api\.config\.json$/);
-    assert.match(fs.readFileSync(credentialsPath, "utf8"), /test-api-key/);
+    const rawConfig = fs.readFileSync(credentialsPath, "utf8");
+    assert.match(rawConfig, /test-api-key/);
+    assert.match(rawConfig, /test-sub-api-key/);
 
     const credentials = readCredentials({ [CONFIG_DIR_ENV]: dir });
     assert.equal(credentials.apiKey, "test-api-key");
+    assert.equal(credentials.subscriptionApiKey, "test-sub-api-key");
+  });
+});
+
+test("subscription credentials can be skipped", () => {
+  withTempConfigDir((dir) => {
+    saveCredentials("test-api-key", { [CONFIG_DIR_ENV]: dir }, "");
+
+    const credentials = readCredentials({ [CONFIG_DIR_ENV]: dir });
+    assert.equal(credentials.apiKey, "test-api-key");
+    assert.equal(credentials.subscriptionApiKey, undefined);
+  });
+});
+
+test("skipping subscription credentials preserves an existing subscription key", () => {
+  withTempConfigDir((dir) => {
+    saveCredentials("old-resource-key", { [CONFIG_DIR_ENV]: dir }, "existing-sub-key");
+    saveCredentials("new-resource-key", { [CONFIG_DIR_ENV]: dir }, "");
+
+    const credentials = readCredentials({ [CONFIG_DIR_ENV]: dir });
+    assert.equal(credentials.apiKey, "new-resource-key");
+    assert.equal(credentials.subscriptionApiKey, "existing-sub-key");
+  });
+});
+
+test("saving only resource credentials preserves existing subscription key for compatibility", () => {
+  withTempConfigDir((dir) => {
+    saveCredentials("old-resource-key", { [CONFIG_DIR_ENV]: dir }, "existing-sub-key");
+    saveCredentials("new-resource-key", { [CONFIG_DIR_ENV]: dir });
+
+    const credentials = readCredentials({ [CONFIG_DIR_ENV]: dir });
+    assert.equal(credentials.apiKey, "new-resource-key");
+    assert.equal(credentials.subscriptionApiKey, "existing-sub-key");
   });
 });
 
@@ -159,7 +217,7 @@ test("saving credentials removes legacy encrypted credential files", () => {
 
 test("local config is used as fallback after environment variable", () => {
   withTempConfigDir((dir) => {
-    saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir });
+    saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir }, "local-sub-key");
 
     assert.deepEqual(resolveApiKey({ [CONFIG_DIR_ENV]: dir }), {
       apiKey: "local-key",
@@ -172,17 +230,29 @@ test("local config is used as fallback after environment variable", () => {
       apiKey: "env-key",
       source: "compat",
     });
+    assert.deepEqual(resolveSubscriptionApiKey({ [CONFIG_DIR_ENV]: dir }), {
+      apiKey: "local-sub-key",
+      source: "config",
+    });
+    assert.deepEqual(resolveSubscriptionApiKey({
+      [CONFIG_DIR_ENV]: dir,
+      [SUB_API_KEY_ENV]: "env-sub-key",
+    }), {
+      apiKey: "env-sub-key",
+      source: "compat",
+    });
   });
 });
 
 test("config status, path, and remove are available", () => {
   withTempConfigDir((dir) => {
-    saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir });
+    saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir }, "local-sub-key");
 
     const statusResult = runCli(["config", "status"], {
       env: {
         [CONFIG_DIR_ENV]: dir,
         [API_KEY_ENV]: "",
+        [SUB_API_KEY_ENV]: "",
       },
     });
     assert.equal(statusResult.status, 0);
@@ -190,6 +260,18 @@ test("config status, path, and remove are available", () => {
     assert.equal(payload.status, "configured");
     assert.equal(payload.localConfig, "configured");
     assert.equal(payload.activeSource, "config");
+    assert.deepEqual(payload.apiKeys.resource, {
+      configured: true,
+      source: "config",
+      localConfig: "configured",
+    });
+    assert.deepEqual(payload.apiKeys.subscription, {
+      configured: true,
+      source: "config",
+      localConfig: "configured",
+    });
+    assert.doesNotMatch(statusResult.stdout, /local-key/);
+    assert.doesNotMatch(statusResult.stdout, /local-sub-key/);
     assert.match(payload.configFile, /investoday-api\.config\.json$/);
 
     const pathResult = runCli(["config", "path"], {
@@ -204,6 +286,35 @@ test("config status, path, and remove are available", () => {
     assert.equal(removeResult.status, 0);
     assert.equal(readCredentials({ [CONFIG_DIR_ENV]: dir }), null);
     removeCredentials({ [CONFIG_DIR_ENV]: dir });
+  });
+});
+
+test("config status shows subscription environment variable without leaking keys", () => {
+  withTempConfigDir((dir) => {
+    saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir });
+
+    const statusResult = runCli(["config", "status"], {
+      env: {
+        [CONFIG_DIR_ENV]: dir,
+        [API_KEY_ENV]: "",
+        [SUB_API_KEY_ENV]: "env-sub-key",
+      },
+    });
+
+    assert.equal(statusResult.status, 0);
+    const payload = JSON.parse(statusResult.stdout);
+    assert.deepEqual(payload.apiKeys.resource, {
+      configured: true,
+      source: "config",
+      localConfig: "configured",
+    });
+    assert.deepEqual(payload.apiKeys.subscription, {
+      configured: true,
+      source: "compat",
+      localConfig: "missing",
+    });
+    assert.doesNotMatch(statusResult.stdout, /local-key/);
+    assert.doesNotMatch(statusResult.stdout, /env-sub-key/);
   });
 });
 
@@ -266,7 +377,7 @@ test("init requires an interactive terminal", () => {
     });
 
     assert.equal(result.status, 1);
-    assert.match(result.stderr, /Interactive input is unavailable/);
+    assert.match(result.stderr, /当前环境不支持交互式输入/);
     assert.equal(readCredentials({ [CONFIG_DIR_ENV]: dir }), null);
   });
 });
@@ -327,6 +438,7 @@ test("search-api finds endpoints and includes request and response summaries", (
   assert.equal(payload.matches[0].groupPath, undefined);
   assert.ok(Array.isArray(payload.matches[0].requestParams));
   assert.ok(Array.isArray(payload.matches[0].responseFields));
+  assert.ok(Array.isArray(payload.matches[0].apiKeySupported));
   assert.match(payload.matches[0].exampleCommand, /investoday-api stock\/violation-penalties --method POST stockCode=/);
 });
 
@@ -410,7 +522,7 @@ test("search-api rejects repeated query arguments", () => {
   ]);
 
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /only accepts one query=/);
+  assert.match(result.stderr, /只允许一个 query=/);
 });
 
 test("search-api --text prints a human-readable summary", () => {
@@ -428,7 +540,7 @@ test("search-api rejects positional query input", () => {
   const result = runCli(["search-api", "违规处罚"]);
 
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /only accepts structured inputs/);
+  assert.match(result.stderr, /只接受结构化入参/);
 });
 
 test("deprecated schema and example commands return a migration hint", () => {
@@ -436,15 +548,114 @@ test("deprecated schema and example commands return a migration hint", () => {
   const exampleResult = runCli(["example", "stock/basic-info"]);
 
   assert.equal(schemaResult.status, 1);
-  assert.match(schemaResult.stderr, /were removed/);
+  assert.match(schemaResult.stderr, /已移除/);
   assert.match(schemaResult.stderr, /search-api/);
   assert.equal(exampleResult.status, 1);
-  assert.match(exampleResult.stderr, /were removed/);
+  assert.match(exampleResult.stderr, /已移除/);
 });
 
 test("direct execution defaults to the canonical POST method for duplicated paths", () => {
   assert.equal(selectRequestMethod("stock/str-trend-ind", "GET", false), "POST");
   assert.equal(selectRequestMethod("stock/str-trend-ind", "GET", true), "GET");
+});
+
+test("metadata exposes x-apikey-supported from OpenAPI path items", () => {
+  const openapi = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "..", "data", "openapi.json"), "utf8")
+  );
+  const [openapiPath, pathItem] = Object.entries(openapi.paths || {}).find(([, value]) =>
+    Array.isArray(value?.["x-apikey-supported"])
+  ) || [];
+  assert.ok(openapiPath);
+
+  const normalizedPath = openapiPath.replace(/^\/+/, "");
+  const { pathMap, records } = getMetadata();
+  const detail = pathMap[normalizedPath];
+  const record = records.find((item) => item.path === normalizedPath);
+
+  assert.ok(detail);
+  assert.deepEqual(detail.apiKeySupported, pathItem["x-apikey-supported"]);
+  if (record) {
+    assert.deepEqual(record.apiKeySupported, pathItem["x-apikey-supported"]);
+  }
+});
+
+test("endpoint API key routing only uses subscription key for subscription-only APIs", () => {
+  const previousResourceKey = process.env[API_KEY_ENV];
+  const previousSubscriptionKey = process.env[SUB_API_KEY_ENV];
+
+  process.env[API_KEY_ENV] = "resource-key";
+  process.env[SUB_API_KEY_ENV] = "subscription-key";
+
+  try {
+    assert.equal(shouldUseSubscriptionApiKey(["subscription"]), true);
+    assert.equal(shouldUseSubscriptionApiKey(["subscription", "resource"]), false);
+    assert.equal(shouldUseSubscriptionApiKey(["resource"]), false);
+    assert.equal(shouldUseSubscriptionApiKey([]), false);
+    assert.equal(resolveEndpointApiKey({ apiKeySupported: ["subscription"] }), "subscription-key");
+    assert.equal(resolveEndpointApiKey({ apiKeySupported: ["subscription", "resource"] }), "resource-key");
+    assert.equal(resolveEndpointApiKey({}), "resource-key");
+  } finally {
+    if (previousResourceKey === undefined) {
+      delete process.env[API_KEY_ENV];
+    } else {
+      process.env[API_KEY_ENV] = previousResourceKey;
+    }
+    if (previousSubscriptionKey === undefined) {
+      delete process.env[SUB_API_KEY_ENV];
+    } else {
+      process.env[SUB_API_KEY_ENV] = previousSubscriptionKey;
+    }
+  }
+});
+
+test("direct endpoint calls select subscription key from endpoint metadata", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const { records } = getMetadata();
+    const subscriptionOnlyEndpoint = records.find((record) =>
+      shouldUseSubscriptionApiKey(record.apiKeySupported)
+    );
+    assert.ok(subscriptionOnlyEndpoint);
+
+    const previousResourceKey = process.env[API_KEY_ENV];
+    const previousSubscriptionKey = process.env[SUB_API_KEY_ENV];
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+
+    process.env[API_KEY_ENV] = "resource-key";
+    process.env[SUB_API_KEY_ENV] = "subscription-key";
+    process.stdout.write = () => true;
+    global.fetch = async (url, options) => {
+      calls.push({ url, options });
+      return {
+        ok: true,
+        json: async () => ({ code: 0, data: { ok: true } }),
+      };
+    };
+
+    try {
+      await main([subscriptionOnlyEndpoint.path]);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      if (previousResourceKey === undefined) {
+        delete process.env[API_KEY_ENV];
+      } else {
+        process.env[API_KEY_ENV] = previousResourceKey;
+      }
+      if (previousSubscriptionKey === undefined) {
+        delete process.env[SUB_API_KEY_ENV];
+      } else {
+        process.env[SUB_API_KEY_ENV] = previousSubscriptionKey;
+      }
+    }
+
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].options.headers.apiKey, "subscription-key");
+    assert.match(calls[0].url, new RegExp(`/${subscriptionOnlyEndpoint.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    assert.equal(readCredentials({ [CONFIG_DIR_ENV]: dir }), null);
+  });
 });
 
 test("update manifest URL uses default and environment override", () => {
