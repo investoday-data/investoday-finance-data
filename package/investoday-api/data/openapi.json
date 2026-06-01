@@ -38183,6 +38183,329 @@
         ]
       }
     },
+    "/stock/unwind-signal-details": {
+      "get": {
+        "tags": [
+          "股票解套信号明细"
+        ],
+        "summary": "股票解套信号明细",
+        "description": "根据股票代码和信号生成日期范围，查询股票解套信号的详细信息，包括信号生成与失效日期、买入卖出日期与价格、参考买入价、止盈止损价、信号收益率和股票仓位等关键交易数据，适用于分析特定股票在特定时间段内的解套策略和信号表现。",
+        "operationId": "list_stk_unwind_signal_de",
+        "parameters": [
+          {
+            "name": "stockCode",
+            "in": "query",
+            "description": "股票代码",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "002594"
+            }
+          },
+          {
+            "name": "beginDate",
+            "in": "query",
+            "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2020-01-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期（格式yyyy-MM-dd）",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2025-01-01"
+            }
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "页码。\n最小值:1;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-01-17 00:00:00"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "generationDate": {
+                      "type": "string",
+                      "description": "信号生成日期",
+                      "example": "2025-01-17 00:00:00"
+                    },
+                    "expireDate": {
+                      "type": "string",
+                      "description": "信号失效日期",
+                      "example": "2025-01-27 00:00:00"
+                    },
+                    "buyDate": {
+                      "type": "string",
+                      "description": "买入日期(买入信号生成后一天)",
+                      "example": "2025-01-20 00:00:00"
+                    },
+                    "sellDate": {
+                      "type": "string",
+                      "description": "卖出日期(卖出信号生成后一天)",
+                      "example": "2025-02-05 00:00:00"
+                    },
+                    "buyPrice": {
+                      "type": "number",
+                      "description": "买入价(买入信号生成后一天)",
+                      "example": 10.9213
+                    },
+                    "sellPrice": {
+                      "type": "number",
+                      "description": "卖出价(卖出信号生成后一天)",
+                      "example": 10.9213
+                    },
+                    "returnSignal": {
+                      "type": "number",
+                      "description": "信号收益率",
+                      "example": 0
+                    },
+                    "buyPriceReference": {
+                      "type": "number",
+                      "description": "参考买入价格",
+                      "example": 10.8738
+                    },
+                    "takeProfitPrice": {
+                      "type": "number",
+                      "description": "止盈价",
+                      "example": 11.472
+                    },
+                    "stopLossPrice": {
+                      "type": "number",
+                      "description": "止损价",
+                      "example": 10.2756
+                    },
+                    "stockPosition": {
+                      "type": "number",
+                      "description": "股票仓位",
+                      "example": 0.2
+                    },
+                    "stopReason": {
+                      "type": "string",
+                      "description": "止损原因 ",
+                      "example": "该股票"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "股票解套信号明细"
+        ],
+        "summary": "股票解套信号明细",
+        "description": "根据股票代码和信号生成日期范围，查询股票解套信号的详细信息，包括信号生成与失效日期、买入卖出日期与价格、参考买入价、止盈止损价、信号收益率和股票仓位等关键交易数据，适用于分析特定股票在特定时间段内的解套策略和信号表现。",
+        "operationId": "list_stk_unwind_signal_de",
+        "requestBody": {
+          "description": "根据股票代码和信号生成日期范围，查询股票解套信号的详细信息，包括信号生成与失效日期、买入卖出日期与价格、参考买入价、止盈止损价、信号收益率和股票仓位等关键交易数据，适用于分析特定股票在特定时间段内的解套策略和信号表现。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "description": "页码。\n最小值:1;",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-01-17 00:00:00"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "generationDate": {
+                      "type": "string",
+                      "description": "信号生成日期",
+                      "example": "2025-01-17 00:00:00"
+                    },
+                    "expireDate": {
+                      "type": "string",
+                      "description": "信号失效日期",
+                      "example": "2025-01-27 00:00:00"
+                    },
+                    "buyDate": {
+                      "type": "string",
+                      "description": "买入日期(买入信号生成后一天)",
+                      "example": "2025-01-20 00:00:00"
+                    },
+                    "sellDate": {
+                      "type": "string",
+                      "description": "卖出日期(卖出信号生成后一天)",
+                      "example": "2025-02-05 00:00:00"
+                    },
+                    "buyPrice": {
+                      "type": "number",
+                      "description": "买入价(买入信号生成后一天)",
+                      "example": 10.9213
+                    },
+                    "sellPrice": {
+                      "type": "number",
+                      "description": "卖出价(卖出信号生成后一天)",
+                      "example": 10.9213
+                    },
+                    "returnSignal": {
+                      "type": "number",
+                      "description": "信号收益率",
+                      "example": 0
+                    },
+                    "buyPriceReference": {
+                      "type": "number",
+                      "description": "参考买入价格",
+                      "example": 10.8738
+                    },
+                    "takeProfitPrice": {
+                      "type": "number",
+                      "description": "止盈价",
+                      "example": 11.472
+                    },
+                    "stopLossPrice": {
+                      "type": "number",
+                      "description": "止损价",
+                      "example": 10.2756
+                    },
+                    "stockPosition": {
+                      "type": "number",
+                      "description": "股票仓位",
+                      "example": 0.2
+                    },
+                    "stopReason": {
+                      "type": "string",
+                      "description": "止损原因 ",
+                      "example": "该股票"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/stock/unwind-signal-stat": {
       "get": {
         "tags": [
@@ -57170,167 +57493,6 @@
                       "type": "number",
                       "description": "目标价涨升空间",
                       "example": 0.3175
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      }
-    },
-    "/stock/unwind-signal-details": {
-      "post": {
-        "tags": [
-          "股票解套信号明细"
-        ],
-        "summary": "股票解套信号明细",
-        "description": "根据股票代码和信号生成日期范围，查询股票解套信号的详细信息，包括信号生成与失效日期、买入卖出日期与价格、参考买入价、止盈止损价、信号收益率和股票仓位等关键交易数据，适用于分析特定股票在特定时间段内的解套策略和信号表现。",
-        "operationId": "list_stk_unwind_signal_de",
-        "requestBody": {
-          "description": "根据股票代码和信号生成日期范围，查询股票解套信号的详细信息，包括信号生成与失效日期、买入卖出日期与价格、参考买入价、止盈止损价、信号收益率和股票仓位等关键交易数据，适用于分析特定股票在特定时间段内的解套策略和信号表现。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "stockCode": {
-                    "type": "string",
-                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
-                    "example": "002594"
-                  },
-                  "stockCodes": {
-                    "type": "array",
-                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
-                    "example": [
-                      "000001",
-                      "600519"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "beginDate": {
-                    "type": "string",
-                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
-                    "example": "2020-01-01"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "description": "结束日期（格式yyyy-MM-dd）",
-                    "example": "2025-01-01"
-                  },
-                  "pageNum": {
-                    "type": "integer",
-                    "description": "页码。\n最小值:1;",
-                    "format": "int32",
-                    "example": 1
-                  },
-                  "pageSize": {
-                    "type": "integer",
-                    "description": "页长。\n最小值:1;\n最大值:500;",
-                    "format": "int32",
-                    "example": 10
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "publishDate": {
-                      "type": "string",
-                      "description": "发布日期",
-                      "example": "2025-01-17 00:00:00"
-                    },
-                    "stockCode": {
-                      "type": "string",
-                      "description": "股票代码",
-                      "example": "000001"
-                    },
-                    "stockName": {
-                      "type": "string",
-                      "description": "股票名称",
-                      "example": "平安银行"
-                    },
-                    "generationDate": {
-                      "type": "string",
-                      "description": "信号生成日期",
-                      "example": "2025-01-17 00:00:00"
-                    },
-                    "expireDate": {
-                      "type": "string",
-                      "description": "信号失效日期",
-                      "example": "2025-01-27 00:00:00"
-                    },
-                    "buyDate": {
-                      "type": "string",
-                      "description": "买入日期(买入信号生成后一天)",
-                      "example": "2025-01-20 00:00:00"
-                    },
-                    "sellDate": {
-                      "type": "string",
-                      "description": "卖出日期(卖出信号生成后一天)",
-                      "example": "2025-02-05 00:00:00"
-                    },
-                    "buyPrice": {
-                      "type": "number",
-                      "description": "买入价(买入信号生成后一天)",
-                      "example": 10.9213
-                    },
-                    "sellPrice": {
-                      "type": "number",
-                      "description": "卖出价(卖出信号生成后一天)",
-                      "example": 10.9213
-                    },
-                    "returnSignal": {
-                      "type": "number",
-                      "description": "信号收益率",
-                      "example": 0
-                    },
-                    "buyPriceReference": {
-                      "type": "number",
-                      "description": "参考买入价格",
-                      "example": 10.8738
-                    },
-                    "takeProfitPrice": {
-                      "type": "number",
-                      "description": "止盈价",
-                      "example": 11.472
-                    },
-                    "stopLossPrice": {
-                      "type": "number",
-                      "description": "止损价",
-                      "example": 10.2756
-                    },
-                    "stockPosition": {
-                      "type": "number",
-                      "description": "股票仓位",
-                      "example": 0.2
-                    },
-                    "stopReason": {
-                      "type": "string",
-                      "description": "止损原因 ",
-                      "example": "该股票"
                     }
                   }
                 }
