@@ -2193,6 +2193,65 @@
                   "isShow": 1,
                   "children": [],
                   "apis": []
+                },
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11161,
+                  "groupName": "解套信号",
+                  "groupDesc": null,
+                  "parentId": 1044,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": [
+                    {
+                      "apiId": 10400,
+                      "apiName": "股票解套信号统计",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11161,
+                      "remarks": null,
+                      "toolName": "get_stk_unwind_sig_stat",
+                      "toolId": "get_stk_unwind_sig_stat",
+                      "apiPath": "stock/unwind-signal-stat",
+                      "enabled": 1,
+                      "apiAccessLevel": null,
+                      "apiMethod": "GET"
+                    },
+                    {
+                      "apiId": 110572,
+                      "apiName": "股票解套信号明细",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11161,
+                      "remarks": null,
+                      "toolName": "list_stk_unwind_signal_de",
+                      "toolId": "list_stk_unwind_signal_de",
+                      "apiPath": "stock/unwind-signal-details",
+                      "enabled": 1,
+                      "apiAccessLevel": null,
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110573,
+                      "apiName": "股票解套信号统计",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11161,
+                      "remarks": null,
+                      "toolName": "get_stk_unwind_sig_stat",
+                      "toolId": "get_stk_unwind_sig_stat",
+                      "apiPath": "stock/unwind-signal-stat",
+                      "enabled": 1,
+                      "apiAccessLevel": null,
+                      "apiMethod": "POST"
+                    }
+                  ]
                 }
               ],
               "apis": []
@@ -5756,7 +5815,24 @@
               "userId": null,
               "apiCount": 0,
               "isShow": 1,
-              "children": [],
+              "children": [
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11162,
+                  "groupName": "ETF策略",
+                  "groupDesc": null,
+                  "parentId": 11131,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": []
+                }
+              ],
               "apis": [
                 {
                   "apiId": 110284,

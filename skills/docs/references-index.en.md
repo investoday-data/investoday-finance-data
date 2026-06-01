@@ -42,6 +42,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [个股诊断V4](../references/沪深京数据/特色数据/个股诊断V4.md)
 - [公司分析](../references/沪深京数据/特色数据/公司分析.md)
 - [择时信号](../references/沪深京数据/特色数据/择时信号.md)
+- [解套信号](../references/沪深京数据/特色数据/解套信号.md)
 ### 公司行为
 
 - [基本信息](../references/沪深京数据/公司行为/基本信息.md)
