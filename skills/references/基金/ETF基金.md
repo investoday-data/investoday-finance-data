@@ -36,7 +36,7 @@ tool_id：`list_etf_sub_red_lists`
 | `nav` | 基金份额净值(元) | `7.253` |
 | `estimatedCashComponent` | 预估现金部分(元) | `-320.43` |
 | `cashSubstitutionRatioLimit` | 现金替代比例上限 | `0.2` |
-| `creationUnit` | 最小申赎单位(份) | `300000.0` |
+| `creationUnit` | 最小申赎单位(份) | `300000` |
 | `dividendPerCreationUnit` | 最小申赎单位分红金额(元) | `0.85` |
 | `iopvPublishDesc` | 是否需要公布IOPV描述 | `1` |
 | `subscribeAllowedDesc` | 是否允许申购描述 | `1` |
@@ -44,14 +44,14 @@ tool_id：`list_etf_sub_red_lists`
 | `isIopvPublished` | 是否需要公布IOPV | `1` |
 | `isSubscribeAllowed` | 是否允许申购 | `1` |
 | `isRedeemAllowed` | 是否允许赎回 | `1` |
-| `subscribeShareLimit` | 申购份额上限(份) | `1000000.0` |
-| `redeemShareLimit` | 赎回份额上限(份) | `1000000.0` |
-| `dailySubscribeLimitPerAccount` | 单个账户当日累计申购上限(份) | `1000000.0` |
-| `dailyRedeemLimitPerAccount` | 单个账户当日累计赎回上限(份) | `1000000.0` |
-| `netSubscribeShareLimit` | 净申购份额上限(份) | `1000000.0` |
-| `netRedeemShareLimit` | 净赎回份额上限(份) | `1000000.0` |
-| `dailyNetSubscribeLimitPerAccount` | 单个账户当日净申购上限(份) | `1000000.0` |
-| `dailyNetRedeemLimitPerAccount` | 单个账户当日净赎回上限(份) | `1000000.0` |
+| `subscribeShareLimit` | 申购份额上限(份) | `1000000` |
+| `redeemShareLimit` | 赎回份额上限(份) | `1000000` |
+| `dailySubscribeLimitPerAccount` | 单个账户当日累计申购上限(份) | `1000000` |
+| `dailyRedeemLimitPerAccount` | 单个账户当日累计赎回上限(份) | `1000000` |
+| `netSubscribeShareLimit` | 净申购份额上限(份) | `1000000` |
+| `netRedeemShareLimit` | 净赎回份额上限(份) | `1000000` |
+| `dailyNetSubscribeLimitPerAccount` | 单个账户当日净申购上限(份) | `1000000` |
+| `dailyNetRedeemLimitPerAccount` | 单个账户当日净赎回上限(份) | `1000000` |
 | `iopvClosePrice` | IOPV收盘价 | `1.2345` |
 
 **接口示例**
