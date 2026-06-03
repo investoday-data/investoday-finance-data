@@ -48,6 +48,7 @@ investoday-api search-api query=股票,基本面分析
 investoday-api search-api query=股票 --text
 investoday-api <endpoint> [key=value ...]
 investoday-api <endpoint> --method POST [key=value ...]
+investoday-api <endpoint> --method POST [queryKey=value ...] --body-json '{"bodyKey":[]}'
 ```
 
 Examples:
@@ -61,6 +62,7 @@ investoday-api search-api query=股票 --text
 investoday-api stock/basic-info stockCode=600519
 investoday-api search key=贵州茅台 type=11
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
+investoday-api industry-quote/realtime-v2 --method POST industryLevel=1 industryType=SW sortColumn=changeRatio order=desc pageSize=10 --body-json '{"industryCodes":[]}'
 ```
 
 ## Background updates
@@ -119,5 +121,6 @@ investoday-api config remove
 - Bundles endpoint metadata for `list` and `search-api`
 - `search-api` defaults to JSON output and includes params, response fields, and `exampleCommand`; use `--text` for a human-readable summary
 - `search-api` only accepts structured inputs such as `query=` and `tool_ids=`; `query=` accepts one value and supports comma-separated keywords
+- For POST endpoints with JSON body parameters, pass query parameters as `key=value` and pass body parameters with `--body-json`
 - Background update settings are stored in the local JSON config and can be inspected with `investoday-api update status`
 - Prints the API response `data` field as formatted JSON

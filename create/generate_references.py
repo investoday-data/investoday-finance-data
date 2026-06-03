@@ -336,6 +336,12 @@ def _param_table(params: list[dict]) -> str:
     return "\n".join(rows) + "\n"
 
 
+def _split_params(params: list[dict]) -> tuple[list[dict], list[dict]]:
+    query_params = [p for p in params if p.get("in") != "body"]
+    body_params = [p for p in params if p.get("in") == "body"]
+    return query_params, body_params
+
+
 def _field_table(fields: list[dict]) -> str:
     if not fields:
         return ""
@@ -349,17 +355,18 @@ def _field_table(fields: list[dict]) -> str:
 def _code_example(api_path: str, method: str, params: list[dict]) -> str:
     """
     生成 investoday-api 调用命令示例。
-    只展示必填参数，可选参数由 LLM 按需查表传入。
-    无必填参数时展示完整命令（不带参数）。
+    Query 参数用 key=value 传入。
+    Body JSON 参数用 --body-json 传入，避免数组/对象被误传成字符串。
     """
-    required = [p for p in params if p.get("required")]
-    show     = required if required else []
+    query_params, body_params = _split_params(params)
+    required_query = [p for p in query_params if p.get("required")]
+    show_query = required_query if required_query else []
 
     parts = [f"investoday-api {api_path}"]
     if method == "POST":
         parts.append("--method POST")
 
-    for p in show:
+    for p in show_query:
         ex  = p["example"]
         typ = p.get("type", "string")
         if typ == "array":
@@ -371,14 +378,46 @@ def _code_example(api_path: str, method: str, params: list[dict]) -> str:
             val = ex if (ex != "" and ex is not None) else f"<{p['name']}>"
             parts.append(f"{p['name']}={val}")
 
+    if method == "POST" and body_params:
+        body = {}
+        required_body = [p for p in body_params if p.get("required")]
+        show_body = required_body if required_body else body_params[:3]
+        for p in show_body:
+            body[p["name"]] = _example_value(p)
+        parts.extend(["--body-json", _shell_quote(json.dumps(body, ensure_ascii=False, separators=(",", ":")))])
+
     cmd = " ".join(parts)
 
     # 在命令下方加一行说明可选参数的提示
-    optional_names = [p["name"] for p in params if not p.get("required")]
-    if optional_names:
-        optional_hint = f"# 可选参数: {', '.join(optional_names)}"
+    optional_query_names = [p["name"] for p in query_params if not p.get("required")]
+    optional_body_names = [p["name"] for p in body_params if not p.get("required")]
+    optional_parts = []
+    if optional_query_names:
+        optional_parts.append(f"Query 可选参数: {', '.join(optional_query_names)}")
+    if optional_body_names:
+        optional_parts.append(f"Body JSON 可选参数: {', '.join(optional_body_names)}")
+    optional_hint = "\n".join(f"# {item}" for item in optional_parts)
+    if optional_hint:
         return f"```bash\n{optional_hint}\n{cmd}\n```"
     return f"```bash\n{cmd}\n```"
+
+
+def _example_value(param: dict) -> Any:
+    example = param.get("example", "")
+    if example != "" and example is not None:
+        return example
+    typ = param.get("type", "string")
+    if typ == "array":
+        return []
+    if typ in {"integer", "number"}:
+        return 0
+    if typ == "boolean":
+        return False
+    return f"<{param['name']}>"
+
+
+def _shell_quote(value: str) -> str:
+    return "'" + value.replace("'", "'\\''") + "'"
 
 
 def _detect_dual_method_ids(flat_apis: list[dict]) -> set[str]:
@@ -421,17 +460,26 @@ def _render_api_block(api: dict, detail: dict, dual_method_ids: set[str] | None 
         lines.append(f"接口说明：{interface_desc}")
         lines.append("")
 
-    lines.append("**输入参数**")
+    query_params, body_params = _split_params(params)
+
+    lines.append("### 输入参数")
     lines.append("")
-    lines.append(_param_table(params))
+    lines.append("**Query 参数**")
+    lines.append("")
+    lines.append(_param_table(query_params))
+
+    if method == "POST":
+        lines.append("**Body JSON 参数**")
+        lines.append("")
+        lines.append(_param_table(body_params))
 
     fields = detail.get("response_fields", [])
     if fields:
-        lines.append("**输出参数**")
+        lines.append("### 输出参数")
         lines.append("")
         lines.append(_field_table(fields))
 
-    lines.append("**接口示例**")
+    lines.append("### 接口示例")
     lines.append("")
     lines.append(_code_example(api_path, method, params))
     lines.append("")

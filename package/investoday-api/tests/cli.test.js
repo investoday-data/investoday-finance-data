@@ -7,9 +7,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const {
   main,
+  parseArgs,
   resolveEndpointApiKey,
   selectRequestMethod,
   shouldUseSubscriptionApiKey,
+  splitPostParams,
   verifyApiKey,
 } = require("../lib/call-api");
 const { getMetadata } = require("../lib/metadata");
@@ -439,7 +441,8 @@ test("search-api finds endpoints and includes request and response summaries", (
   assert.ok(Array.isArray(payload.matches[0].requestParams));
   assert.ok(Array.isArray(payload.matches[0].responseFields));
   assert.ok(Array.isArray(payload.matches[0].apiKeySupported));
-  assert.match(payload.matches[0].exampleCommand, /investoday-api stock\/violation-penalties --method POST stockCode=/);
+  assert.match(payload.matches[0].exampleCommand, /investoday-api stock\/violation-penalties --method POST/);
+  assert.match(payload.matches[0].exampleCommand, /--body-json/);
 });
 
 test("search-api supports tool_ids filtering with repeated values", () => {
@@ -533,7 +536,8 @@ test("search-api --text prints a human-readable summary", () => {
   assert.match(result.stdout, /desc:/);
   assert.match(result.stdout, /request params:/);
   assert.match(result.stdout, /response fields:/);
-  assert.match(result.stdout, /example: investoday-api stock\/violation-penalties --method POST stockCode=/);
+  assert.match(result.stdout, /example: investoday-api stock\/violation-penalties --method POST/);
+  assert.match(result.stdout, /--body-json/);
 });
 
 test("search-api rejects positional query input", () => {
@@ -552,6 +556,52 @@ test("deprecated schema and example commands return a migration hint", () => {
   assert.match(schemaResult.stderr, /search-api/);
   assert.equal(exampleResult.status, 1);
   assert.match(exampleResult.stderr, /已移除/);
+});
+
+test("parseArgs supports explicit JSON body for POST requests", () => {
+  const parsed = parseArgs([
+    "industry-quote/realtime-v2",
+    "--method",
+    "POST",
+    "industryLevel=1",
+    "sortColumn=changeRatio",
+    "--body-json",
+    '{"industryCodes":[]}',
+  ]);
+
+  assert.equal(parsed.apiPath, "industry-quote/realtime-v2");
+  assert.equal(parsed.method, "POST");
+  assert.deepEqual(parsed.params, {
+    industryLevel: "1",
+    sortColumn: "changeRatio",
+  });
+  assert.deepEqual(parsed.bodyJson, {
+    industryCodes: [],
+  });
+});
+
+test("splitPostParams separates OpenAPI query params from JSON body params", () => {
+  const endpoint = {
+    parameters: [
+      { name: "industryLevel", in: "query", type: "integer" },
+      { name: "sortColumn", in: "query", type: "string" },
+      { name: "industryCodes", in: "body", type: "array" },
+    ],
+  };
+
+  const result = splitPostParams({
+    industryLevel: "1",
+    sortColumn: "changeRatio",
+    industryCodes: "[]",
+  }, endpoint);
+
+  assert.deepEqual(result.queryParams, {
+    industryLevel: "1",
+    sortColumn: "changeRatio",
+  });
+  assert.deepEqual(result.bodyParams, {
+    industryCodes: [],
+  });
 });
 
 test("direct execution defaults to the canonical POST method for duplicated paths", () => {

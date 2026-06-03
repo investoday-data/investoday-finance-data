@@ -86,7 +86,7 @@ function printHelp() {
     "  investoday-api init\n" +
     "  investoday-api config status|path|remove\n" +
     "  investoday-api update run|status|enable|disable|register|unregister\n" +
-    "  investoday-api <endpoint> [key=value ...] [--method GET|POST]\n" +
+    "  investoday-api <endpoint> [key=value ...] [--method GET|POST] [--body-json '<json>']\n" +
     "  investoday-api list [group-or-subgroup]\n" +
     "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
     "  investoday-api --version\n" +
@@ -108,7 +108,8 @@ function printHelp() {
     "  investoday-api search-api query=股票 --text\n" +
     "  investoday-api search key=贵州茅台 type=11\n" +
     "  investoday-api stock/basic-info stockCode=600519\n" +
-    "  investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31\n"
+    "  investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31\n" +
+    "  investoday-api industry-quote/realtime-v2 --method POST industryLevel=1 industryType=SW sortColumn=changeRatio order=desc pageSize=10 --body-json '{\"industryCodes\":[]}'\n"
   );
 }
 
@@ -421,13 +422,16 @@ function selectExampleParameters(parameters) {
 }
 
 function formatExample(pathValue, method, parameters) {
-  const exampleParams = selectExampleParameters(parameters);
+  const queryParameters = (parameters || []).filter((parameter) => parameter.in !== "body");
+  const bodyParameters = (parameters || []).filter((parameter) => parameter.in === "body");
+  const exampleQueryParams = selectExampleParameters(queryParameters);
+  const exampleBodyParams = selectExampleParameters(bodyParameters);
   const parts = [`investoday-api ${pathValue}`];
   if (method === "POST") {
     parts.push("--method POST");
   }
 
-  for (const parameter of exampleParams) {
+  for (const parameter of exampleQueryParams) {
     const example = parameter.example;
     if (parameter.type === "array") {
       const items = Array.isArray(example)
@@ -441,7 +445,37 @@ function formatExample(pathValue, method, parameters) {
     }
   }
 
+  if (method === "POST" && bodyParameters.length) {
+    const body = {};
+    const bodyParams = exampleBodyParams.length ? exampleBodyParams : bodyParameters.slice(0, 3);
+    for (const parameter of bodyParams) {
+      body[parameter.name] = exampleValueForParameter(parameter);
+    }
+    parts.push("--body-json", shellQuote(JSON.stringify(body)));
+  }
+
   return parts.join(" ");
+}
+
+function exampleValueForParameter(parameter) {
+  const example = parameter.example;
+  if (example !== "" && example !== undefined && example !== null) {
+    return example;
+  }
+  if (parameter.type === "array") {
+    return [];
+  }
+  if (parameter.type === "integer" || parameter.type === "number") {
+    return 0;
+  }
+  if (parameter.type === "boolean") {
+    return false;
+  }
+  return `<${parameter.name}>`;
+}
+
+function shellQuote(value) {
+  return `'${String(value).replace(/'/g, "'\\''")}'`;
 }
 
 function compactText(value, maxLength = 140) {
@@ -777,6 +811,7 @@ function parseArgs(argv) {
   let method = "GET";
   let methodSpecified = false;
   const params = {};
+  let bodyJson = null;
 
   let index = 1;
   while (index < argv.length) {
@@ -791,6 +826,26 @@ function parseArgs(argv) {
       methodSpecified = true;
       if (method !== "GET" && method !== "POST") {
         exitWithError(`错误：不支持的 HTTP 方法 '${method}'，目前只支持 GET 和 POST`);
+      }
+    } else if (arg === "--body-json" || arg.startsWith("--body-json=")) {
+      let rawBody = "";
+      if (arg === "--body-json") {
+        index += 1;
+        if (index >= argv.length) {
+          exitWithError("错误：--body-json 需要提供 JSON 对象字符串。");
+        }
+        rawBody = argv[index];
+      } else {
+        rawBody = arg.slice("--body-json=".length);
+      }
+
+      try {
+        bodyJson = JSON.parse(rawBody);
+      } catch {
+        exitWithError("错误：--body-json 不是合法 JSON。");
+      }
+      if (!bodyJson || typeof bodyJson !== "object" || Array.isArray(bodyJson)) {
+        exitWithError("错误：--body-json 只支持 JSON 对象。");
       }
     } else if (!arg.includes("=")) {
       exitWithError(`错误：参数 '${arg}' 格式无效，应使用 key=value`);
@@ -814,7 +869,7 @@ function parseArgs(argv) {
     index += 1;
   }
 
-  return { apiPath, method, methodSpecified, params };
+  return { apiPath, method, methodSpecified, params, bodyJson };
 }
 
 function selectRequestMethod(apiPath, method, methodSpecified) {
@@ -866,7 +921,50 @@ function buildUrl(apiPath, params) {
   return `${url}?${searchParams.toString()}`;
 }
 
-async function callApi(apiPath, method, params, apiKey) {
+function coerceBodyValue(value, parameter) {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  const rawValue = String(value);
+  const type = parameter?.type || "";
+  if ((type === "array" || type === "object") && /^[\[{]/.test(rawValue.trim())) {
+    try {
+      return JSON.parse(rawValue);
+    } catch {
+      return value;
+    }
+  }
+  return value;
+}
+
+function splitPostParams(params, endpoint, bodyJson = null) {
+  const queryParams = {};
+  const bodyParams = bodyJson ? { ...bodyJson } : {};
+  const parameters = endpoint?.parameters || [];
+  const bodyNames = new Set(parameters.filter((parameter) => parameter.in === "body").map((parameter) => parameter.name));
+  const queryNames = new Set(parameters.filter((parameter) => parameter.in !== "body").map((parameter) => parameter.name));
+  const parameterByName = new Map(parameters.map((parameter) => [parameter.name, parameter]));
+
+  if (!bodyNames.size && !queryNames.size) {
+    return {
+      queryParams,
+      bodyParams: bodyJson ? { ...bodyJson, ...params } : params,
+    };
+  }
+
+  for (const [key, value] of Object.entries(params || {})) {
+    if (bodyNames.has(key) && !queryNames.has(key)) {
+      bodyParams[key] = coerceBodyValue(value, parameterByName.get(key));
+    } else {
+      queryParams[key] = value;
+    }
+  }
+
+  return { queryParams, bodyParams };
+}
+
+async function callApi(apiPath, method, params, apiKey, options = {}) {
   const headers = { apiKey };
   const requestOptions = {
     method,
@@ -876,9 +974,14 @@ async function callApi(apiPath, method, params, apiKey) {
 
   let url = `${BASE_URL}/${apiPath}`;
   if (method === "POST") {
+    const { queryParams, bodyParams } = splitPostParams(params, options.endpoint, options.bodyJson);
+    url = buildUrl(apiPath, queryParams);
     headers["Content-Type"] = "application/json";
-    requestOptions.body = JSON.stringify(params);
+    requestOptions.body = JSON.stringify(bodyParams);
   } else {
+    if (options.bodyJson) {
+      exitWithError("错误：--body-json 只能用于 POST 请求。");
+    }
     url = buildUrl(apiPath, params);
   }
 
@@ -962,11 +1065,11 @@ async function main(argv = process.argv.slice(2)) {
     return;
   }
 
-  const { apiPath, method, methodSpecified, params } = parseArgs(argv);
+  const { apiPath, method, methodSpecified, params, bodyJson } = parseArgs(argv);
   const endpoint = resolveRequestEndpoint(apiPath, methodSpecified ? method : "");
   const resolvedMethod = methodSpecified ? method : (endpoint?.method || method);
   const apiKey = resolveEndpointApiKey(endpoint);
-  await callApi(apiPath, resolvedMethod, params, apiKey);
+  await callApi(apiPath, resolvedMethod, params, apiKey, { endpoint, bodyJson });
 }
 
 module.exports = {
@@ -982,6 +1085,7 @@ module.exports = {
   parseArgs,
   printHelp,
   printVersion,
+  splitPostParams,
   resolveEndpointApiKey,
   resolveRequestEndpoint,
   runConfigCommand,

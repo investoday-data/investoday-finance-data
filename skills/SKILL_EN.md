@@ -91,6 +91,10 @@ investoday-api search-api query=<query> tool_ids=<tool_ids>
 
 # Fetch data
 investoday-api <endpoint> [key=value ...]
+
+# For POST endpoints where references separate Query parameters and Body JSON parameters:
+# pass Query parameters as key=value and Body JSON parameters with --body-json.
+investoday-api <endpoint> --method POST [queryKey=value ...] --body-json '{"bodyKey":[]}'
 ```
 
 Examples:
@@ -114,6 +118,7 @@ investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report
 investoday-api search key=贵州茅台 type=11
 investoday-api stock/basic-info stockCode=600519
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
+investoday-api industry-quote/realtime-v2 --method POST industryLevel=1 industryType=SW sortColumn=changeRatio order=desc pageSize=10 --body-json '{"industryCodes":[]}'
 ```
 
 ## Usage Strategy
@@ -121,6 +126,7 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 - If the endpoint is unclear, use `list` or `search-api` to find it.
 - If the endpoint is clear but parameters are unclear, use `search-api` to get the usage details.
 - If both the endpoint and usage are clear, call it directly.
+- For POST endpoints where references separate `Query parameters` and `Body JSON parameters`, pass Query as `key=value` and Body as `--body-json`; do not pass array or object Body values as plain string parameters.
 
 ## Failure Handling
 

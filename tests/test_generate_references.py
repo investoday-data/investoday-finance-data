@@ -321,7 +321,37 @@ class GenerateReferencesTests(unittest.TestCase):
         self.assertIn("请求方式：`GET`", text)
         self.assertIn("tool_id：`list_announcements`", text)
         self.assertIn("接口说明：查询上市公司公告", text)
-        self.assertIn("**输出参数**", text)
+        self.assertIn("### 输出参数", text)
+
+    def test_render_api_block_separates_query_and_body_params_for_post(self):
+        api = {
+            "api_name": "行业的最新实时日行情V2",
+            "api_path": "industry-quote/realtime-v2",
+            "apiMethod": "POST",
+            "tool_id": "list_ind_real_quote_v2",
+            "tool_name": "list_ind_real_quote_v2",
+        }
+        detail = {
+            "path": "industry-quote/realtime-v2",
+            "method": "POST",
+            "description": "查询行业实时行情",
+            "parameters": [
+                {"name": "industryLevel", "in": "query", "required": False, "type": "integer", "desc": "行业等级", "example": 1},
+                {"name": "sortColumn", "in": "query", "required": True, "type": "string", "desc": "排序字段", "example": "changeRatio"},
+                {"name": "industryCodes", "in": "body", "required": False, "type": "array", "desc": "行业代码", "example": ""},
+            ],
+            "response_fields": [],
+        }
+
+        lines = MODULE._render_api_block(api, detail)
+        text = "\n".join(lines)
+
+        self.assertIn("### 输入参数", text)
+        self.assertIn("**Query 参数**", text)
+        self.assertIn("**Body JSON 参数**", text)
+        self.assertIn("| `sortColumn` | ✅ | string | 排序字段 | `changeRatio` |", text)
+        self.assertIn("| `industryCodes` | — | array | 行业代码 | — |", text)
+        self.assertIn("investoday-api industry-quote/realtime-v2 --method POST sortColumn=changeRatio --body-json '{\"industryCodes\":[]}'", text)
 
 
 if __name__ == "__main__":

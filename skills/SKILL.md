@@ -1,7 +1,7 @@
 ---
 name: investoday-finance-data
 title: 今日投资金融数据
-version: 1.8.21
+version: 1.8.22
 description: "获取中国市场金融数据与投研信息，覆盖 A股、港股、基金、指数、财务、公告、研报和宏观经济等 200+ 接口。Use when: 用户要查股票走势、基金净值、指数行情、财务报表、估值指标、公告研报、机构观点、宏观数据、板块主题、产业链、市场统计，或要拉取、导出、对比结构化金融数据。Do not use when: 用户要直接买卖建议、自动下单、交易执行、非金融数据查询、系统运维排查，或在无数据时要求编造结论。"
 tags:
   - stock
@@ -141,6 +141,10 @@ investoday-api search-api query=<query> tool_ids=<tool_ids>
 
 #发起请求
 investoday-api <endpoint> [key=value ...]
+
+#POST 接口如 references 区分 Query 参数与 Body JSON 参数：
+#Query 参数使用 key=value；Body JSON 参数使用 --body-json，数组/对象不要写成普通 key=value 字符串。
+investoday-api <endpoint> --method POST [queryKey=value ...] --body-json '{"bodyKey":[]}'
 ```
 
 示例：
@@ -162,12 +166,14 @@ investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report
 investoday-api search key=贵州茅台 type=11
 investoday-api stock/basic-info stockCode=600519
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31
+investoday-api industry-quote/realtime-v2 --method POST industryLevel=1 industryType=SW sortColumn=changeRatio order=desc pageSize=10 --body-json '{"industryCodes":[]}'
 ```
 
 ## 使用策略
 - 未明确接口：使用 `list` 或 `search-api` 查找。
 - 明确接口但不明确参数：使用 `search-api` 获取接口使用方式。
 - 明确接口和参数：直接调用目标接口。
+- POST 接口如 references 区分 `Query 参数` 和 `Body JSON 参数`，Query 使用 `key=value`，Body 使用 `--body-json`；不要把数组或对象 Body 写成普通字符串参数。
 
 ## 失败处理
 
