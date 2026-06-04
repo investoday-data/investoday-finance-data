@@ -1,13 +1,11 @@
 const { getMetadata, resolveApi, searchApis } = require("./metadata");
 const {
   CONFIG_DIR_ENV,
-  SUB_API_KEY_ENV,
   getConfigDir,
   getCredentialsPath,
   readCredentials,
   removeCredentials,
   resolveApiKey,
-  resolveSubscriptionApiKey,
   saveCredentials,
 } = require("./config");
 const { version: PACKAGE_VERSION } = require("../package.json");
@@ -27,7 +25,6 @@ function redactSecrets(text, extraSecrets = []) {
   const secrets = [
     ...extraSecrets,
     resolveApiKey().apiKey,
-    resolveSubscriptionApiKey().apiKey,
   ]
     .map((secret) => String(secret || "").trim())
     .filter(Boolean);
@@ -50,32 +47,7 @@ function loadApiKey() {
   );
 }
 
-function loadSubscriptionApiKey() {
-  const { apiKey } = resolveSubscriptionApiKey();
-  if (apiKey) {
-    return apiKey;
-  }
-
-  exitWithError(
-    "错误：运行环境配置失败，请配置订阅包 API Key（SUB_INVESTODAY_API_KEY）后重试。"
-  );
-}
-
-function shouldUseSubscriptionApiKey(apiKeySupported) {
-  const supported = new Set(
-    (Array.isArray(apiKeySupported) ? apiKeySupported : [])
-      .map((item) => String(item || "").trim().toLowerCase())
-      .filter(Boolean)
-  );
-
-  return supported.has("subscription") && !supported.has("resource");
-}
-
-function resolveEndpointApiKey(endpoint) {
-  if (shouldUseSubscriptionApiKey(endpoint?.apiKeySupported)) {
-    return loadSubscriptionApiKey();
-  }
-
+function resolveEndpointApiKey() {
   return loadApiKey();
 }
 
@@ -126,7 +98,7 @@ function printInitHelp() {
     "用法:\n" +
     "  investoday-api init\n\n" +
     "默认流程:\n" +
-    "  先配置资源包 API Key，再按需配置订阅包 API Key。\n" +
+    "  配置今日投资 API Key。\n" +
     `  请访问 ${API_KEY_MANAGE_URL} 获取 API Key。\n\n` +
     "选项:\n" +
     "  --skip-verify     跳过 API Key 校验，直接保存\n" +
@@ -164,22 +136,17 @@ async function resolveInitApiKeys(args) {
     "│\n"
   );
   const apiKey = await askInput(
-    "◆ 资源包 API Key\n" +
+    "◆ 今日投资 API Key\n" +
     (existingResourceApiKey
-      ? "已检测到本地资源包 API Key，直接回车将保留现有配置。\n请输入新的资源包 API Key（可选）: "
-      : "请输入资源包 API Key（必填）: ")
+      ? "已检测到本地 API Key，直接回车将保留现有配置。\n请输入新的 API Key（可选）: "
+      : "请输入 API Key（必填）: ")
   );
   const normalizedApiKey = String(apiKey || "").trim();
   if (!normalizedApiKey && !existingResourceApiKey) {
-    exitWithError("错误：资源包 API Key 不能为空。");
+    exitWithError("错误：API Key 不能为空。");
   }
-  const subscriptionApiKey = await askInput(
-    "\n◆ 订阅包 API Key\n" +
-    "请输入订阅包 API Key（可选，回车跳过）: "
-  );
   return {
     apiKey: normalizedApiKey || existingResourceApiKey,
-    subscriptionApiKey: String(subscriptionApiKey || "").trim(),
   };
 }
 
@@ -292,9 +259,9 @@ async function runInitCommand(args) {
     }
   }
 
-  const { apiKey, subscriptionApiKey } = await resolveInitApiKeys(args);
+  const { apiKey } = await resolveInitApiKeys(args);
   if (!hasArg(args, "--skip-verify")) {
-    process.stderr.write("\n正在验证资源包 API Key...\n");
+    process.stderr.write("\n正在验证 API Key...\n");
     const verification = await verifyApiKey(apiKey);
     if (!verification.ok) {
       exitWithError(
@@ -307,7 +274,7 @@ async function runInitCommand(args) {
   }
 
   try {
-    saveCredentials(apiKey, process.env, subscriptionApiKey);
+    saveCredentials(apiKey, process.env);
   } catch (error) {
     exitWithError(`错误：保存 API Key 配置失败：${error.message}`);
   }
@@ -357,24 +324,16 @@ function runConfigCommand(args) {
   if (action === "status") {
     const localCredentials = readCredentials();
     const resourceApiKey = resolveApiKey();
-    const subscriptionApiKey = resolveSubscriptionApiKey();
     const localConfigured = Boolean(localCredentials);
     process.stdout.write(
       JSON.stringify({
         status: resourceApiKey.source === "missing" ? "missing" : "configured",
         localConfig: localConfigured ? "configured" : "missing",
         activeSource: resourceApiKey.source,
-        apiKeys: {
-          resource: {
-            configured: resourceApiKey.source !== "missing",
-            source: resourceApiKey.source,
-            localConfig: localCredentials && localCredentials.apiKey ? "configured" : "missing",
-          },
-          subscription: {
-            configured: subscriptionApiKey.source !== "missing",
-            source: subscriptionApiKey.source,
-            localConfig: localCredentials && localCredentials.subscriptionApiKey ? "configured" : "missing",
-          },
+        apiKey: {
+          configured: resourceApiKey.source !== "missing",
+          source: resourceApiKey.source,
+          localConfig: localCredentials && localCredentials.apiKey ? "configured" : "missing",
         },
         configDir: getConfigDir(),
         configFile: getCredentialsPath(),
@@ -777,7 +736,6 @@ function runSearchApiCommand(args) {
         description: match.description,
         requestParams: match.parameters,
         responseFields: match.responseFields,
-        apiKeySupported: match.apiKeySupported,
         exampleCommand: formatExample(match.path, match.method, match.parameters),
       })),
     };
@@ -1075,12 +1033,10 @@ async function main(argv = process.argv.slice(2)) {
 module.exports = {
   BASE_URL,
   REQUEST_TIMEOUT,
-  SUB_API_KEY_ENV,
   buildUrl,
   callApi,
   formatExample,
   loadApiKey,
-  loadSubscriptionApiKey,
   main,
   parseArgs,
   printHelp,
@@ -1093,7 +1049,6 @@ module.exports = {
   runSearchApiCommand,
   runListCommand,
   selectRequestMethod,
-  shouldUseSubscriptionApiKey,
   verifyApiKey,
 };
 

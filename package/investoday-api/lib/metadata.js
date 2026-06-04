@@ -41,22 +41,10 @@ function extractResponseFields(operation) {
   }
 }
 
-function normalizeApiKeySupported(value) {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value
-    .map((item) => String(item || "").trim())
-    .filter(Boolean);
-}
-
 function parseOpenapiPaths(openapi) {
   const pathMap = {};
 
   for (const [apiPath, methods] of Object.entries(openapi.paths || {})) {
-    const pathItemApiKeySupported = normalizeApiKeySupported(methods?.["x-apikey-supported"]);
-
     for (const [method, operation] of Object.entries(methods || {})) {
       if (!operation || typeof operation !== "object") {
         continue;
@@ -95,15 +83,11 @@ function parseOpenapiPaths(openapi) {
         }
       }
 
-      const operationApiKeySupported = normalizeApiKeySupported(operation["x-apikey-supported"]);
       const detail = {
         path: apiPath.replace(/^\/+/, ""),
         method: httpMethod,
         summary: operation.summary || "",
         description: operation.description || "",
-        apiKeySupported: operationApiKeySupported.length
-          ? operationApiKeySupported
-          : pathItemApiKeySupported,
         parameters,
         responseFields: extractResponseFields(operation),
       };
@@ -241,7 +225,6 @@ function buildMetadata() {
       description: detail.description || "",
       parameters: detail.parameters || [],
       responseFields: detail.responseFields || [],
-      apiKeySupported: detail.apiKeySupported || [],
     };
     const dedupeKey = [
       normalizedRecord.path,
