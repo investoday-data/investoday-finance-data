@@ -16,6 +16,12 @@ Configure the API key once:
 investoday-api init
 ```
 
+Non-interactive one-shot initialization:
+
+```bash
+investoday-api init --api-key "<API_KEY>" --auto-update --skip-verify
+```
+
 Enable or disable background auto update during initialization:
 
 ```bash

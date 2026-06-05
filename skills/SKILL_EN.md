@@ -82,6 +82,9 @@ Requires Node.js 18+ and the Node package `@investoday/investoday-api`.
 # Initialize runtime
 investoday-api init
 
+# Non-interactive one-shot initialization
+investoday-api init --api-key "<API_KEY>" --auto-update --skip-verify
+
 # Browse multi-level groups and leaf categories
 investoday-api list <group/subgroup/leaf>
 
@@ -102,6 +105,9 @@ Examples:
 ```bash
 # Initialize runtime
 investoday-api init
+
+# Non-interactive one-shot initialization
+investoday-api init --api-key "<API_KEY>" --auto-update --skip-verify
 
 # List categories
 investoday-api list

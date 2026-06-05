@@ -27,6 +27,12 @@ npm install -g @investoday/investoday-api
 investoday-api init
 ```
 
+非交互式一次性初始化：
+
+```bash
+investoday-api init --api-key "<API_KEY>" --auto-update --skip-verify
+```
+
 查看帮助：
 
 ```bash

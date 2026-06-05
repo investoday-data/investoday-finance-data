@@ -93,14 +93,33 @@ function hasArg(args, name) {
   return args.includes(name);
 }
 
+function getOptionValue(args, name) {
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === name) {
+      const value = args[index + 1];
+      if (value === undefined || String(value).startsWith("--")) {
+        exitWithError(`错误：${name} 需要提供值。`);
+      }
+      return { present: true, value };
+    }
+    if (arg.startsWith(`${name}=`)) {
+      return { present: true, value: arg.slice(name.length + 1) };
+    }
+  }
+  return { present: false, value: "" };
+}
+
 function printInitHelp() {
   process.stdout.write(
     "用法:\n" +
-    "  investoday-api init\n\n" +
+    "  investoday-api init\n" +
+    "  investoday-api init --api-key <API_KEY> --auto-update --skip-verify\n\n" +
     "默认流程:\n" +
     "  配置今日投资 API Key。\n" +
     `  请访问 ${API_KEY_MANAGE_URL} 获取 API Key。\n\n` +
     "选项:\n" +
+    "  --api-key <key>   非交互式传入 API Key，适合一次性初始化\n" +
     "  --skip-verify     跳过 API Key 校验，直接保存\n" +
     "  --auto-update     不询问，直接启用后台自动更新\n" +
     "  --no-auto-update  不询问，直接关闭后台自动更新\n\n" +
@@ -124,6 +143,15 @@ function askInput(query) {
 }
 
 async function resolveInitApiKeys(args) {
+  const apiKeyArg = getOptionValue(args, "--api-key");
+  if (apiKeyArg.present) {
+    const normalizedApiKey = String(apiKeyArg.value || "").trim();
+    if (!normalizedApiKey) {
+      exitWithError("错误：API Key 不能为空。");
+    }
+    return { apiKey: normalizedApiKey };
+  }
+
   if (!process.stdin.isTTY || !process.stderr.isTTY) {
     exitWithError("错误：当前环境不支持交互式输入，请在终端中运行 `investoday-api init`。");
   }
@@ -253,10 +281,25 @@ async function runInitCommand(args) {
   }
 
   const allowed = new Set(["--skip-verify", "--auto-update", "--no-auto-update"]);
-  for (const arg of args) {
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
     if (!allowed.has(arg)) {
+      if (arg === "--api-key") {
+        const value = args[index + 1];
+        if (value === undefined || String(value).startsWith("--")) {
+          exitWithError("错误：--api-key 需要提供值。");
+        }
+        index += 1;
+        continue;
+      }
+      if (arg.startsWith("--api-key=")) {
+        continue;
+      }
       exitWithError(`错误：未知 init 参数 '${arg}'。`);
     }
+  }
+  if (hasArg(args, "--auto-update") && hasArg(args, "--no-auto-update")) {
+    exitWithError("错误：--auto-update 和 --no-auto-update 不能同时使用。");
   }
 
   const { apiKey } = await resolveInitApiKeys(args);

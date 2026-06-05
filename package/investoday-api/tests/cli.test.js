@@ -307,6 +307,48 @@ test("init requires an interactive terminal", () => {
   });
 });
 
+test("init supports non-interactive api key setup", () => {
+  withTempConfigDir((dir) => {
+    const result = runCli(["init", "--api-key", "direct-api-key", "--skip-verify", "--no-auto-update"], {
+      env: {
+        [CONFIG_DIR_ENV]: dir,
+        [API_KEY_ENV]: "",
+      },
+    });
+
+    assert.equal(result.status, 0);
+    assert.match(result.stdout, /今日投资 API Key 配置成功/);
+    assert.match(result.stdout, /初始化完成/);
+    assert.doesNotMatch(result.stdout, /direct-api-key/);
+    assert.doesNotMatch(result.stderr, /direct-api-key/);
+    assert.deepEqual(readCredentials({ [CONFIG_DIR_ENV]: dir }), {
+      apiKey: "direct-api-key",
+    });
+  });
+});
+
+test("init rejects conflicting auto update flags before saving api key", () => {
+  withTempConfigDir((dir) => {
+    const result = runCli([
+      "init",
+      "--api-key",
+      "direct-api-key",
+      "--skip-verify",
+      "--auto-update",
+      "--no-auto-update",
+    ], {
+      env: {
+        [CONFIG_DIR_ENV]: dir,
+        [API_KEY_ENV]: "",
+      },
+    });
+
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /--auto-update 和 --no-auto-update 不能同时使用/);
+    assert.equal(readCredentials({ [CONFIG_DIR_ENV]: dir }), null);
+  });
+});
+
 test("list prints top-level groups", () => {
   const result = runCli(["list"]);
 
