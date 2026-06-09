@@ -61950,6 +61950,552 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/stock/audit_opinion": {
+      "post": {
+        "tags": [
+          "上市公司审计意见"
+        ],
+        "summary": "上市公司审计意见",
+        "description": "支持通过单个股票代码或批量股票代码，结合报告发布时间范围（格式yyyy-MM-dd）、分页参数，查询上市公司的审计意见相关信息，包括报告截止日期、股票代码及名称、审计报告类型、境内外审计机构及服务年限、境内外审计意见（含代码及内容）、注册会计师、审计费用明细及合计、财报净利润与净资产差异金额等核心数据，可用于上市公司财务合规分析、投研中的公司财务质量评估等场景。",
+        "operationId": "list_stock_audit_opinion",
+        "requestBody": {
+          "description": "支持通过单个股票代码或批量股票代码，结合报告发布时间范围（格式yyyy-MM-dd）、分页参数，查询上市公司的审计意见相关信息，包括报告截止日期、股票代码及名称、审计报告类型、境内外审计机构及服务年限、境内外审计意见（含代码及内容）、注册会计师、审计费用明细及合计、财报净利润与净资产差异金额等核心数据，可用于上市公司财务合规分析、投研中的公司财务质量评估等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2020-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报表截止日期",
+                      "example": ""
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "A股代码",
+                      "example": ""
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "A股简称",
+                      "example": ""
+                    },
+                    "auditReportType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表财务报表审计报告;\n2代表内部控制审计报告;",
+                          "enum": [
+                            1,
+                            2
+                          ]
+                        }
+                      ],
+                      "description": "审计报告类型"
+                    },
+                    "reportSource": {
+                      "type": "string",
+                      "description": "报表来源",
+                      "example": ""
+                    },
+                    "auditReportDate": {
+                      "type": "string",
+                      "description": "审计报表日期",
+                      "example": ""
+                    },
+                    "auditFirmDomestic": {
+                      "type": "string",
+                      "description": "会计师事务所(境内)",
+                      "example": ""
+                    },
+                    "auditFirmDomesticCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "事务所代码(境内)"
+                    },
+                    "auditFirmOverseas": {
+                      "type": "string",
+                      "description": "会计师事务所(境外)",
+                      "example": ""
+                    },
+                    "auditFirmOverseasCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "事务所代码(境外)"
+                    },
+                    "domesticAuditServiceYears": {
+                      "type": "number",
+                      "description": "境内审计机构服务时间(年)"
+                    },
+                    "overseasAuditServiceYears": {
+                      "type": "number",
+                      "description": "境外审计机构服务时间(年)"
+                    },
+                    "domesticAuditOpinionCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "审计意见类型(境内)代码"
+                    },
+                    "domesticAuditOpinion": {
+                      "type": "string",
+                      "description": "审计意见类型(境内)",
+                      "example": ""
+                    },
+                    "overseasAuditOpinionCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "审计意见类型(境外)代码"
+                    },
+                    "overseasAuditOpinion": {
+                      "type": "string",
+                      "description": "审计意见类型(境外)",
+                      "example": ""
+                    },
+                    "domesticCpa": {
+                      "type": "string",
+                      "description": "注册会计师(境内)",
+                      "example": ""
+                    },
+                    "overseasCpa": {
+                      "type": "string",
+                      "description": "注册会计师(境外)",
+                      "example": ""
+                    },
+                    "domesticUnqualOpinionNote": {
+                      "type": "string",
+                      "description": "无保留意见解释段(境内)",
+                      "example": ""
+                    },
+                    "overseasUnqualOpinionNote": {
+                      "type": "string",
+                      "description": "无保留意见解释段(境外)",
+                      "example": ""
+                    },
+                    "domesticModOpinionNote": {
+                      "type": "string",
+                      "description": "保留、否定、无法表示意见说明段(境内)",
+                      "example": ""
+                    },
+                    "overseasModOpinionNote": {
+                      "type": "string",
+                      "description": "保留、否定、无法表示意见说明段(境外)",
+                      "example": ""
+                    },
+                    "profitDiffAmt10k": {
+                      "type": "number",
+                      "description": "境内外报表净利润差异金额(万元)"
+                    },
+                    "netAssetDiffAmt10k": {
+                      "type": "number",
+                      "description": "境内外报表净资产差异金额(万元)"
+                    },
+                    "domesticAuditFee10k": {
+                      "type": "number",
+                      "description": "审计费用(境内)(万元)"
+                    },
+                    "overseasAuditFee10k": {
+                      "type": "number",
+                      "description": "审计费用(境外)(万元)"
+                    },
+                    "overseasCurrency": {
+                      "type": "string",
+                      "description": "境外计量货币",
+                      "example": ""
+                    },
+                    "totalAuditFee10k": {
+                      "type": "number",
+                      "description": "审计费用合计(万元)"
+                    },
+                    "accountingCurrency": {
+                      "type": "string",
+                      "description": "会计数计量货币",
+                      "example": ""
+                    },
+                    "auditFeeRange": {
+                      "type": "string",
+                      "description": "审计费用区间",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/major-sup-cust": {
+      "post": {
+        "tags": [
+          "主要供应商及客户情况"
+        ],
+        "summary": "主要供应商及客户情况",
+        "description": "支持通过单个股票代码、批量股票代码列表，结合可选的报告截止日期范围（格式yyyy-MM-dd）、页码、页大小，查询A股、B股等指定股票的主要供应商与客户相关数据，包括发布日期、报告截止日期、股票代码及名称、前五大供应商采购占比、前五大客户销售占比、前五大供应商采购总金额、前五大客户销售总金额，可用于分析上市公司供应链依赖度、客户集中度等，辅助投研决策。",
+        "operationId": "list_stock_major_sup_cust",
+        "requestBody": {
+          "description": "支持通过单个股票代码、批量股票代码列表，结合可选的报告截止日期范围（格式yyyy-MM-dd）、页码、页大小，查询A股、B股等指定股票的主要供应商与客户相关数据，包括发布日期、报告截止日期、股票代码及名称、前五大供应商采购占比、前五大客户销售占比、前五大供应商采购总金额、前五大客户销售总金额，可用于分析上市公司供应链依赖度、客户集中度等，辅助投研决策。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2020-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": ""
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": ""
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称"
+                    },
+                    "supplierPurchaseRatio": {
+                      "type": "number",
+                      "description": "前五大供应商共占年度采购金额的比例(%)"
+                    },
+                    "customerSalesRatio": {
+                      "type": "number",
+                      "description": "前五大客户共占销售总额的比例(%)"
+                    },
+                    "totalSupplierPurchase": {
+                      "type": "number",
+                      "description": "前五大供应商采购金额合计(万)"
+                    },
+                    "totalCustomerSales": {
+                      "type": "number",
+                      "description": "前五大客户销售金额合计(万)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/esg_rating": {
+      "post": {
+        "tags": [
+          "股票ESG综合评级"
+        ],
+        "summary": "股票ESG综合评级",
+        "description": "支持通过单个股票代码、批量股票代码列表、指定数据来源机构（如中证、MSCI）、发布日期范围（格式yyyy-MM-dd），并可配合分页参数，查询沪深京市场股票的ESG综合评级数据，包括评级发布日期、数据来源、股票代码及名称、市场代码，以及ESG总分与等级、环境维度得分与等级、社会维度得分与等级、公司治理维度得分与等级，可用于ESG投资分析、企业社会责任评估等场景",
+        "operationId": "list_stock_esg_rating",
+        "requestBody": {
+          "description": "支持通过单个股票代码、批量股票代码列表、指定数据来源机构（如中证、MSCI）、发布日期范围（格式yyyy-MM-dd），并可配合分页参数，查询沪深京市场股票的ESG综合评级数据，包括评级发布日期、数据来源、股票代码及名称、市场代码，以及ESG总分与等级、环境维度得分与等级、社会维度得分与等级、公司治理维度得分与等级，可用于ESG投资分析、企业社会责任评估等场景",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "dataSource": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表华证;\n2代表MSCI;",
+                        "enum": [
+                          1,
+                          2
+                        ]
+                      }
+                    ],
+                    "description": "数据来源机构",
+                    "example": 1
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2020-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "dataSource"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "评级发布日期",
+                      "example": ""
+                    },
+                    "dataSource": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表华证;\n2代表MSCI;",
+                          "enum": [
+                            1,
+                            2
+                          ]
+                        }
+                      ],
+                      "description": "数据来源机构"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": ""
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称"
+                    },
+                    "marketCode": {
+                      "type": "string",
+                      "description": "市场代码",
+                      "example": ""
+                    },
+                    "esgScore": {
+                      "type": "number",
+                      "description": "ESG评分"
+                    },
+                    "esgLevel": {
+                      "type": "string",
+                      "description": "ESG等级",
+                      "example": ""
+                    },
+                    "environmentScore": {
+                      "type": "number",
+                      "description": "环境得分"
+                    },
+                    "environmentLevel": {
+                      "type": "string",
+                      "description": "环境等级",
+                      "example": ""
+                    },
+                    "socialScore": {
+                      "type": "number",
+                      "description": "社会得分"
+                    },
+                    "socialLevel": {
+                      "type": "string",
+                      "description": "社会等级",
+                      "example": ""
+                    },
+                    "governanceScore": {
+                      "type": "number",
+                      "description": "公司治理得分"
+                    },
+                    "governanceLevel": {
+                      "type": "string",
+                      "description": "公司治理等级",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
