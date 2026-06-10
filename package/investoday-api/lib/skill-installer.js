@@ -44,7 +44,7 @@ function resolveSkillsRoot(options = {}) {
     return path.resolve(String(options.targetRoot));
   }
 
-  throw new Error("必须通过 --target <skills-dir> 指定 skill 安装目录；该目录应由当前 Agent 识别后传入。");
+  throw new Error("未能确定 skill 安装目录：请通过 --target <skills-dir> 指定，或通过 --target-code <agent> 匹配 manifest。");
 }
 
 async function downloadFile(url, destPath) {

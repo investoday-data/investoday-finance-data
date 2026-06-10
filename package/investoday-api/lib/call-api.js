@@ -14,7 +14,14 @@ const {
   saveCredentials,
 } = require("./config");
 const { version: PACKAGE_VERSION } = require("../package.json");
-const { runUpdateCommand } = require("./update");
+const {
+  fetchManifest,
+  getManifestUrl,
+  inferManifestTargetPath,
+  listManifestTargetPaths,
+  resolveManifestTargetPath,
+  runUpdateCommand,
+} = require("./update");
 
 const BASE_URL = "https://data-api.investoday.net/data";
 const REQUEST_TIMEOUT = 30_000;
@@ -65,7 +72,8 @@ function printHelp() {
     "  investoday-api update run|status|enable|disable|register|unregister\n" +
     "  investoday-api skill list [--page <n>] [--page-size <n>] [--json]\n" +
     "  investoday-api skill search <keyword> [--page <n>] [--page-size <n>] [--json]\n" +
-    "  investoday-api skill install <skill-name> --target <skills-dir> [--force] [--json]\n" +
+    "  investoday-api skill target list [--json]\n" +
+    "  investoday-api skill install <skill-name> [--target <skills-dir>] [--target-code <agent>] [--force] [--json]\n" +
     "  investoday-api <endpoint> [key=value ...] [--method GET|POST] [--body-json '<json>']\n" +
     "  investoday-api list [group-or-subgroup]\n" +
     "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
@@ -83,7 +91,8 @@ function printHelp() {
     "  investoday-api config status\n" +
     "  investoday-api skill list\n" +
     "  investoday-api skill search 股票\n" +
-    "  investoday-api skill install investoday-finance-data\n" +
+    "  investoday-api skill target list\n" +
+    "  investoday-api skill install investoday-finance-data --target \"<skills-dir>\"\n" +
     "  investoday-api list\n" +
     "  investoday-api list 沪深京数据\n" +
     "  investoday-api list 沪深京数据/公司行为/基本信息\n" +
@@ -982,7 +991,8 @@ function printSkillHelp() {
     "用法:\n" +
     "  investoday-api skill list [--page <n>] [--page-size <n>] [--json]\n" +
     "  investoday-api skill search <keyword> [--page <n>] [--page-size <n>] [--json]\n" +
-    "  investoday-api skill install <skill-name> --target <skills-dir> [--force] [--json]\n\n" +
+    "  investoday-api skill target list [--json]\n" +
+    "  investoday-api skill install <skill-name> [--target <skills-dir>] [--target-code <agent>] [--force] [--json]\n\n" +
     "选项:\n" +
     "  --page <n>          页码，默认 1\n" +
     "  --page-size <n>     每页条数，默认 20\n" +
@@ -990,7 +1000,8 @@ function printSkillHelp() {
     "  --skill-type <n>    Skill 类型，默认 1\n" +
     "  --category <slug>   分类 slug 过滤\n" +
     "  --tag <tag>         标签过滤\n" +
-    "  --target <dir>      必填，由当前 Agent 识别后传入的 skills 根目录\n" +
+    "  --target <dir>      用户指定的 skills 根目录，优先级最高\n" +
+    "  --target-code <code>未指定 --target 时，从 manifest 按 agent code 解析 skills 根目录\n" +
     "  --force             已存在时备份并覆盖\n" +
     "  --base-url <url>    指定 skill zip 包基础地址\n" +
     "  --version <value>   指定安装版本，默认 latest\n" +
@@ -998,7 +1009,9 @@ function printSkillHelp() {
     "示例:\n" +
     "  investoday-api skill list\n" +
     "  investoday-api skill search 股票\n" +
-    "  investoday-api skill install investoday-finance-data --target \"C:\\Users\\me\\.codex\\skills\"\n"
+    "  investoday-api skill target list\n" +
+    "  investoday-api skill install investoday-finance-data --target \"C:\\Users\\me\\.codex\\skills\"\n" +
+    "  investoday-api skill install investoday-finance-data --target-code <agent-code>\n"
   );
 }
 
@@ -1232,6 +1245,8 @@ function parseSkillInstallArgs(args) {
       const { value, nextIndex } = readInlineOrNextValue(args, index, `--${optionName}`);
       if (optionName === "target") {
         options.targetRoot = value;
+      } else if (optionName === "target-code") {
+        options.targetCode = value;
       } else if (optionName === "base-url") {
         options.baseUrl = value;
       } else if (optionName === "version") {
@@ -1246,6 +1261,146 @@ function parseSkillInstallArgs(args) {
   }
 
   return { skillName: positional[0] || "", extra: positional.slice(1), options, help };
+}
+
+function parseSkillTargetListArgs(args) {
+  let json = false;
+  let help = false;
+  const extra = [];
+  for (const arg of args) {
+    if (arg === "--json") {
+      json = true;
+    } else if (arg === "--help" || arg === "-h" || arg === "help") {
+      help = true;
+    } else {
+      extra.push(arg);
+    }
+  }
+  return { json, help, extra };
+}
+
+function buildSkillTargetListPayload(manifest) {
+  const rows = listManifestTargetPaths(manifest);
+  const clients = [];
+  const clientById = new Map();
+  for (const row of rows) {
+    const key = row.clientId || row.clientName;
+    if (!clientById.has(key)) {
+      const client = {
+        id: row.clientId,
+        name: row.clientName,
+        targets: [],
+      };
+      clientById.set(key, client);
+      clients.push(client);
+    }
+    const client = clientById.get(key);
+    let target = client.targets.find((item) => item.type === row.targetType);
+    if (!target) {
+      target = row.targetType === "fixed"
+        ? { type: row.targetType, paths: {}, resolvedPaths: {} }
+        : { type: row.targetType, paths: [], resolvedPaths: [] };
+      client.targets.push(target);
+    }
+    if (row.targetType === "fixed") {
+      target.paths[row.targetCode] = row.path;
+      target.resolvedPaths[row.targetCode] = row.resolvedPath;
+    } else {
+      target.paths.push(row.path);
+      target.resolvedPaths.push(row.resolvedPath);
+    }
+  }
+
+  return {
+    manifestUrl: getManifestUrl(),
+    clients,
+    targets: rows,
+  };
+}
+
+function printSkillTargetListText(payload) {
+  process.stdout.write(`Skill targets (${payload.targets.length}) from ${payload.manifestUrl}:\n`);
+  if (!payload.targets.length) {
+    process.stdout.write("  No target paths found.\n");
+    return;
+  }
+
+  for (const client of payload.clients) {
+    process.stdout.write(`- ${client.name}${client.id && client.id !== client.name ? ` (${client.id})` : ""}\n`);
+    for (const target of client.targets) {
+      if (target.type === "fixed") {
+        for (const [targetCode, targetPath] of Object.entries(target.paths)) {
+          process.stdout.write(`  ${targetCode}: ${target.resolvedPaths[targetCode]} (${targetPath})\n`);
+        }
+      } else {
+        target.paths.forEach((targetPath, index) => {
+          process.stdout.write(`  discovery[${index}]: ${target.resolvedPaths[index]} (${targetPath})\n`);
+        });
+      }
+    }
+  }
+}
+
+async function runSkillTargetCommand(args) {
+  const action = args[0] || "list";
+  if (action === "--help" || action === "-h" || action === "help") {
+    printSkillHelp();
+    return;
+  }
+  if (action !== "list") {
+    exitWithError(`错误：未知 skill target 命令 '${action}'。可运行 investoday-api skill --help 查看用法。`);
+  }
+
+  const { json, help, extra } = parseSkillTargetListArgs(args.slice(1));
+  if (help) {
+    printSkillHelp();
+    return;
+  }
+  if (extra.length) {
+    exitWithError(`错误：skill target list 无法识别: ${extra.join(" ")}`);
+  }
+
+  const manifest = await fetchManifest();
+  const payload = buildSkillTargetListPayload(manifest);
+  if (json) {
+    process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+  } else {
+    printSkillTargetListText(payload);
+  }
+}
+
+async function resolveSkillInstallOptions(options) {
+  if (options.targetRoot) {
+    return options;
+  }
+
+  let manifest = null;
+  try {
+    manifest = await fetchManifest();
+    if (options.targetCode) {
+      const target = resolveManifestTargetPath(manifest, options.targetCode);
+      if (target) {
+        return {
+          ...options,
+          targetRoot: target.resolvedPath,
+          resolvedTarget: target,
+        };
+      }
+    }
+
+    const inferredTarget = inferManifestTargetPath(manifest);
+    if (inferredTarget) {
+      return {
+        ...options,
+        targetRoot: inferredTarget.resolvedPath,
+        resolvedTarget: inferredTarget,
+      };
+    }
+  } catch (error) {
+    throw error;
+  }
+
+  return options;
 }
 
 function formatSkillInstallStatus(status) {
@@ -1285,7 +1440,7 @@ function printSkillInstallText(result) {
 }
 
 async function runSkillInstallCommand(args) {
-  const { skillName, extra, options, help } = parseSkillInstallArgs(args);
+  const { skillName, extra, options: parsedOptions, help } = parseSkillInstallArgs(args);
   if (help) {
     printSkillHelp();
     return;
@@ -1302,8 +1457,10 @@ async function runSkillInstallCommand(args) {
     targetSkill: null,
     blockedReason: "",
   };
+  let options = parsedOptions;
 
   try {
+    options = await resolveSkillInstallOptions(parsedOptions);
     if (skillName === BASE_SKILL_NAME) {
       result.targetSkill = await installSkillPackage(skillName, options);
     } else {
@@ -1371,6 +1528,11 @@ async function runSkillCommand(args) {
 
   if (action === "install") {
     await runSkillInstallCommand(args.slice(1));
+    return;
+  }
+
+  if (action === "target") {
+    await runSkillTargetCommand(args.slice(1));
     return;
   }
 

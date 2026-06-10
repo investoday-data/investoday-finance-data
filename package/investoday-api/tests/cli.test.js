@@ -147,6 +147,7 @@ test("--help prints usage", () => {
   assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register\|unregister/);
   assert.match(result.stdout, /investoday-api skill list/);
   assert.match(result.stdout, /investoday-api skill search 股票/);
+  assert.match(result.stdout, /investoday-api skill target list/);
   assert.match(result.stdout, /investoday-api skill install investoday-finance-data/);
   assert.match(result.stdout, /investoday-api list/);
   assert.match(result.stdout, /investoday-api list 沪深京数据\/公司行为\/基本信息/);
@@ -808,6 +809,68 @@ test("skill search passes keyword and pagination options", async () => {
   });
 });
 
+test("skill target list returns manifest clients target paths", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async () => {
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    let output = "";
+    const manifest = {
+      schemaVersion: 1,
+      updatePolicy: {
+        skillInstallPolicy: "existing-only",
+      },
+      nodePackage: {
+        name: "@investoday/investoday-api",
+        version: "1.0.0",
+      },
+      skills: [
+        {
+          name: "investoday-finance-data",
+          version: "1.0.0",
+          zipUrl: "https://example.com/investoday-finance-data.zip",
+          sha256: "placeholder",
+        },
+      ],
+      clients: [
+        {
+          id: "skills-manager",
+          name: "Skills Manager",
+          targets: [
+            {
+              type: "fixed",
+              paths: {
+                codex: "$HOME/.codex/skills",
+                cursor: "$HOME/.cursor/skills",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    process.stdout.write = (chunk) => {
+      output += String(chunk);
+      return true;
+    };
+    global.fetch = async () => ({
+      ok: true,
+      json: async () => manifest,
+    });
+
+    try {
+      await main(["skill", "target", "list", "--json"]);
+      const payload = JSON.parse(output);
+      assert.equal(payload.clients[0].id, "skills-manager");
+      assert.equal(payload.clients[0].targets[0].paths.codex, "$HOME/.codex/skills");
+      assert.match(payload.clients[0].targets[0].resolvedPaths.codex, /[\\/]\.codex[\\/]skills$/);
+      assert.equal(payload.targets.find((item) => item.targetCode === "cursor").path, "$HOME/.cursor/skills");
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+    }
+  });
+});
+
 test("skill install prepares finance data before installing target skill", { concurrency: false }, async () => {
   await withTempConfigDirAsync(async (configDir) => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-install-test-"));
@@ -860,17 +923,298 @@ test("skill install prepares finance data before installing target skill", { con
 
 test("skill install requires an explicit target directory from the agent", { concurrency: false }, async () => {
   await withTempConfigDirAsync(async (configDir) => {
+    const isolatedHome = path.join(configDir, "home");
     const result = runCli(["skill", "install", "investoday-java-service"], {
       env: {
         [CONFIG_DIR_ENV]: configDir,
         INVESTODAY_API_KEY: "",
+        CODEX_HOME: "",
+        CODEX_THREAD_ID: "",
+        CODEX_INTERNAL_ORIGINATOR_OVERRIDE: "",
+        HOME: isolatedHome,
+        USERPROFILE: isolatedHome,
       },
     });
 
     assert.equal(result.status, 1);
     assert.match(result.stdout, /目标 skill:/);
     assert.match(result.stdout, /investoday-java-service: 未执行/);
-    assert.match(result.stdout, /必须通过 --target <skills-dir> 指定 skill 安装目录/);
+    assert.match(result.stdout, /未能确定 skill 安装目录/);
+  });
+});
+
+test("skill install uses explicit target before target code", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-target-code-"));
+    const previousHome = process.env.HOME;
+    const previousUserProfile = process.env.USERPROFILE;
+    const homeDir = path.join(tempDir, "home");
+    const fallbackRoot = path.join(tempDir, "fallback-skills");
+    const manifestRoot = path.join(homeDir, "agent-skills");
+    const financeZip = createSkillZip(tempDir, "investoday-finance-data");
+    const javaZip = createSkillZip(tempDir, "investoday-java-service");
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const manifest = {
+      schemaVersion: 1,
+      updatePolicy: {
+        skillInstallPolicy: "existing-only",
+      },
+      nodePackage: {
+        name: "@investoday/investoday-api",
+        version: "1.0.0",
+      },
+      skills: [
+        {
+          name: "investoday-finance-data",
+          version: "1.0.0",
+          zipUrl: "https://example.com/investoday-finance-data.zip",
+          sha256: "placeholder",
+        },
+      ],
+      clients: [
+        {
+          id: "skills-manager",
+          name: "Skills Manager",
+          targets: [
+            {
+              type: "fixed",
+              paths: {
+                codex: "$HOME/agent-skills",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    process.env.HOME = homeDir;
+    process.env.USERPROFILE = homeDir;
+    process.stdout.write = () => true;
+    global.fetch = async (url) => {
+      const urlText = String(url);
+      if (urlText.endsWith("investoday-api.manifest.json")) {
+        return {
+          ok: true,
+          json: async () => manifest,
+        };
+      }
+      const fileName = urlText.split("/").pop();
+      const buffer = fileName === "investoday-finance-data.zip" ? financeZip : javaZip;
+      return {
+        ok: true,
+        arrayBuffer: async () => buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
+      };
+    };
+
+    try {
+      await main([
+        "skill",
+        "install",
+        "investoday-java-service",
+        "--target-code",
+        "codex",
+        "--target",
+        fallbackRoot,
+        "--json",
+      ]);
+
+      assert.equal(fs.existsSync(path.join(fallbackRoot, "investoday-finance-data", "SKILL.md")), true);
+      assert.equal(fs.existsSync(path.join(fallbackRoot, "investoday-java-service", "SKILL.md")), true);
+      assert.equal(fs.existsSync(path.join(manifestRoot, "investoday-java-service", "SKILL.md")), false);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      if (previousHome === undefined) {
+        delete process.env.HOME;
+      } else {
+        process.env.HOME = previousHome;
+      }
+      if (previousUserProfile === undefined) {
+        delete process.env.USERPROFILE;
+      } else {
+        process.env.USERPROFILE = previousUserProfile;
+      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+});
+
+test("skill install infers target from agent environment when target is omitted", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-target-infer-"));
+    const previousHome = process.env.HOME;
+    const previousUserProfile = process.env.USERPROFILE;
+    const previousCodexThreadId = process.env.CODEX_THREAD_ID;
+    const homeDir = path.join(tempDir, "home");
+    const inferredRoot = path.join(homeDir, ".codex", "skills");
+    const financeZip = createSkillZip(tempDir, "investoday-finance-data");
+    const javaZip = createSkillZip(tempDir, "investoday-java-service");
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const manifest = {
+      schemaVersion: 1,
+      updatePolicy: {
+        skillInstallPolicy: "existing-only",
+      },
+      nodePackage: {
+        name: "@investoday/investoday-api",
+        version: "1.0.0",
+      },
+      skills: [
+        {
+          name: "investoday-finance-data",
+          version: "1.0.0",
+          zipUrl: "https://example.com/investoday-finance-data.zip",
+          sha256: "placeholder",
+        },
+      ],
+      clients: [
+        {
+          id: "skills-manager",
+          name: "Skills Manager",
+          targets: [
+            {
+              type: "fixed",
+              paths: {
+                codex: "$HOME/.codex/skills",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    process.env.HOME = homeDir;
+    process.env.USERPROFILE = homeDir;
+    process.env.CODEX_THREAD_ID = "test-thread";
+    process.stdout.write = () => true;
+    global.fetch = async (url) => {
+      const urlText = String(url);
+      if (urlText.endsWith("investoday-api.manifest.json")) {
+        return {
+          ok: true,
+          json: async () => manifest,
+        };
+      }
+      const fileName = urlText.split("/").pop();
+      const buffer = fileName === "investoday-finance-data.zip" ? financeZip : javaZip;
+      return {
+        ok: true,
+        arrayBuffer: async () => buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
+      };
+    };
+
+    try {
+      await main([
+        "skill",
+        "install",
+        "investoday-java-service",
+        "--json",
+      ]);
+
+      assert.equal(fs.existsSync(path.join(inferredRoot, "investoday-finance-data", "SKILL.md")), true);
+      assert.equal(fs.existsSync(path.join(inferredRoot, "investoday-java-service", "SKILL.md")), true);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      if (previousHome === undefined) {
+        delete process.env.HOME;
+      } else {
+        process.env.HOME = previousHome;
+      }
+      if (previousUserProfile === undefined) {
+        delete process.env.USERPROFILE;
+      } else {
+        process.env.USERPROFILE = previousUserProfile;
+      }
+      if (previousCodexThreadId === undefined) {
+        delete process.env.CODEX_THREAD_ID;
+      } else {
+        process.env.CODEX_THREAD_ID = previousCodexThreadId;
+      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+});
+
+test("skill install falls back to target when target code is not found", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-target-fallback-"));
+    const fallbackRoot = path.join(tempDir, "fallback-skills");
+    const financeZip = createSkillZip(tempDir, "investoday-finance-data");
+    const javaZip = createSkillZip(tempDir, "investoday-java-service");
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const manifest = {
+      schemaVersion: 1,
+      updatePolicy: {
+        skillInstallPolicy: "existing-only",
+      },
+      nodePackage: {
+        name: "@investoday/investoday-api",
+        version: "1.0.0",
+      },
+      skills: [
+        {
+          name: "investoday-finance-data",
+          version: "1.0.0",
+          zipUrl: "https://example.com/investoday-finance-data.zip",
+          sha256: "placeholder",
+        },
+      ],
+      clients: [
+        {
+          id: "skills-manager",
+          name: "Skills Manager",
+          targets: [
+            {
+              type: "fixed",
+              paths: {
+                codex: "$HOME/.codex/skills",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    process.stdout.write = () => true;
+    global.fetch = async (url) => {
+      const urlText = String(url);
+      if (urlText.endsWith("investoday-api.manifest.json")) {
+        return {
+          ok: true,
+          json: async () => manifest,
+        };
+      }
+      const fileName = urlText.split("/").pop();
+      const buffer = fileName === "investoday-finance-data.zip" ? financeZip : javaZip;
+      return {
+        ok: true,
+        arrayBuffer: async () => buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
+      };
+    };
+
+    try {
+      await main([
+        "skill",
+        "install",
+        "investoday-java-service",
+        "--target-code",
+        "missing-agent",
+        "--target",
+        fallbackRoot,
+        "--json",
+      ]);
+
+      assert.equal(fs.existsSync(path.join(fallbackRoot, "investoday-finance-data", "SKILL.md")), true);
+      assert.equal(fs.existsSync(path.join(fallbackRoot, "investoday-java-service", "SKILL.md")), true);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   });
 });
 

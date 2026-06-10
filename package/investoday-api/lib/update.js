@@ -257,6 +257,80 @@ function expandHome(value) {
   return String(value || "").replace(/^\$HOME(?=$|[\\/])/, os.homedir());
 }
 
+function listManifestTargetPaths(manifest) {
+  const rows = [];
+  for (const client of manifest.clients || []) {
+    for (const target of client.targets || []) {
+      const targetType = target && target.type;
+      const paths = target && target.paths;
+      if (targetType === "fixed" && paths && typeof paths === "object" && !Array.isArray(paths)) {
+        for (const [targetCode, targetPath] of Object.entries(paths)) {
+          if (typeof targetPath !== "string") continue;
+          rows.push({
+            clientId: client.id || "",
+            clientName: client.name || client.id || "",
+            targetType,
+            targetCode,
+            path: targetPath,
+            resolvedPath: path.normalize(expandHome(targetPath)),
+          });
+        }
+      } else if (targetType === "discovery" && Array.isArray(paths)) {
+        paths.forEach((targetPath, index) => {
+          if (typeof targetPath !== "string") return;
+          rows.push({
+            clientId: client.id || "",
+            clientName: client.name || client.id || "",
+            targetType,
+            targetCode: String(index),
+            path: targetPath,
+            resolvedPath: path.normalize(expandHome(targetPath)),
+          });
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+function resolveManifestTargetPath(manifest, targetCode) {
+  const normalizedCode = String(targetCode || "").trim().toLowerCase();
+  if (!normalizedCode) {
+    return null;
+  }
+  return listManifestTargetPaths(manifest).find((item) => (
+    item.targetType === "fixed" && String(item.targetCode || "").toLowerCase() === normalizedCode
+  )) || null;
+}
+
+function inferManifestTargetPath(manifest, env = process.env) {
+  const envHints = [
+    { code: "codex", keys: ["CODEX_HOME", "CODEX_THREAD_ID", "CODEX_INTERNAL_ORIGINATOR_OVERRIDE"] },
+    { code: "cursor", keys: ["CURSOR_TRACE_ID", "CURSOR_SESSION_ID", "CURSOR_AGENT"] },
+    { code: "claude", keys: ["CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_DESKTOP"] },
+    { code: "gemini", keys: ["GEMINI_CLI", "GOOGLE_GEMINI_CLI"] },
+    { code: "qwen", keys: ["QWEN_CODE", "QWEN_CLI"] },
+  ];
+
+  for (const hint of envHints) {
+    if (hint.keys.some((key) => String(env[key] || "").trim())) {
+      const target = resolveManifestTargetPath(manifest, hint.code);
+      if (target) {
+        return { ...target, inferredFrom: `env:${hint.code}` };
+      }
+    }
+  }
+
+  const existingFixedTargets = listManifestTargetPaths(manifest).filter((item) => (
+    item.targetType === "fixed" && fs.existsSync(item.resolvedPath)
+  ));
+  if (existingFixedTargets.length === 1) {
+    return { ...existingFixedTargets[0], inferredFrom: "existing-path" };
+  }
+
+  return null;
+}
+
 function globToRegex(segment) {
   return new RegExp(`^${String(segment).replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*")}$`);
 }
@@ -663,7 +737,10 @@ module.exports = {
   getAutoUpdateConfig,
   getManifestUrl,
   getStatus,
+  inferManifestTargetPath,
+  listManifestTargetPaths,
   readCachedManifest,
+  resolveManifestTargetPath,
   runUpdate,
   runUpdateCommand,
   syncCronFromManifest,
