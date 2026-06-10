@@ -47,6 +47,9 @@ investoday-api update enable
 investoday-api update disable
 investoday-api update register
 investoday-api update unregister
+investoday-api skill list
+investoday-api skill search 股票
+investoday-api skill install investoday-finance-data --target "<SKILLS_DIR>"
 investoday-api list
 investoday-api list 沪深京数据
 investoday-api search-api query=违规处罚 tool_ids=list_stock_violation_penalt
@@ -65,6 +68,10 @@ investoday-api search-api query=stockCodes
 investoday-api search-api query=股票,基本面分析
 investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
 investoday-api search-api query=股票 --text
+investoday-api skill list --page 1 --page-size 20
+investoday-api skill list --api-key "<API_KEY>"
+investoday-api skill search 股票 --json
+investoday-api skill install investoday-finance-data --target "<SKILLS_DIR>"
 investoday-api stock/basic-info stockCode=600519
 investoday-api search key=贵州茅台 type=11
 investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31

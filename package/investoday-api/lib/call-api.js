@@ -1,5 +1,10 @@
 const { getMetadata, resolveApi, searchApis } = require("./metadata");
 const {
+  BASE_SKILL_NAME,
+  DEFAULT_SKILL_PACKAGE_BASE_URL,
+  installSkillPackage,
+} = require("./skill-installer");
+const {
   CONFIG_DIR_ENV,
   getConfigDir,
   getCredentialsPath,
@@ -58,6 +63,9 @@ function printHelp() {
     "  investoday-api init\n" +
     "  investoday-api config status|path|remove\n" +
     "  investoday-api update run|status|enable|disable|register|unregister\n" +
+    "  investoday-api skill list [--page <n>] [--page-size <n>] [--json]\n" +
+    "  investoday-api skill search <keyword> [--page <n>] [--page-size <n>] [--json]\n" +
+    "  investoday-api skill install <skill-name> --target <skills-dir> [--force] [--json]\n" +
     "  investoday-api <endpoint> [key=value ...] [--method GET|POST] [--body-json '<json>']\n" +
     "  investoday-api list [group-or-subgroup]\n" +
     "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
@@ -67,11 +75,15 @@ function printHelp() {
     "  init       初始化本地 API Key 配置\n" +
     "  config     查看、定位或删除本地配置\n" +
     "  update     管理 investoday-api 和 skill 的后台自动更新\n" +
+    "  skill      浏览、搜索或安装 Skill Store 中的 skill\n" +
     "  list       浏览接口分组、子分组或接口\n" +
     "  search-api 搜索接口并返回请求参数、响应字段和示例命令\n\n" +
     "示例:\n" +
     "  investoday-api init\n" +
     "  investoday-api config status\n" +
+    "  investoday-api skill list\n" +
+    "  investoday-api skill search 股票\n" +
+    "  investoday-api skill install investoday-finance-data\n" +
     "  investoday-api list\n" +
     "  investoday-api list 沪深京数据\n" +
     "  investoday-api list 沪深京数据/公司行为/基本信息\n" +
@@ -965,6 +977,406 @@ function splitPostParams(params, endpoint, bodyJson = null) {
   return { queryParams, bodyParams };
 }
 
+function printSkillHelp() {
+  process.stdout.write(
+    "用法:\n" +
+    "  investoday-api skill list [--page <n>] [--page-size <n>] [--json]\n" +
+    "  investoday-api skill search <keyword> [--page <n>] [--page-size <n>] [--json]\n" +
+    "  investoday-api skill install <skill-name> --target <skills-dir> [--force] [--json]\n\n" +
+    "选项:\n" +
+    "  --page <n>          页码，默认 1\n" +
+    "  --page-size <n>     每页条数，默认 20\n" +
+    "  --sort <value>      排序方式，默认 score\n" +
+    "  --skill-type <n>    Skill 类型，默认 1\n" +
+    "  --category <slug>   分类 slug 过滤\n" +
+    "  --tag <tag>         标签过滤\n" +
+    "  --target <dir>      必填，由当前 Agent 识别后传入的 skills 根目录\n" +
+    "  --force             已存在时备份并覆盖\n" +
+    "  --base-url <url>    指定 skill zip 包基础地址\n" +
+    "  --version <value>   指定安装版本，默认 latest\n" +
+    "  --json              输出接口返回的 JSON 结构\n\n" +
+    "示例:\n" +
+    "  investoday-api skill list\n" +
+    "  investoday-api skill search 股票\n" +
+    "  investoday-api skill install investoday-finance-data --target \"C:\\Users\\me\\.codex\\skills\"\n"
+  );
+}
+
+function readInlineOrNextValue(args, index, name) {
+  const arg = args[index];
+  if (arg.startsWith(`${name}=`)) {
+    return { value: arg.slice(name.length + 1), nextIndex: index };
+  }
+
+  const value = args[index + 1];
+  if (value === undefined || String(value).startsWith("--")) {
+    exitWithError(`错误：${name} 需要提供值。`);
+  }
+  return { value, nextIndex: index + 1 };
+}
+
+function setSkillParam(params, key, value) {
+  const aliases = {
+    page: "page",
+    pageSize: "pageSize",
+    "page-size": "pageSize",
+    sort: "sort",
+    skillType: "skillType",
+    "skill-type": "skillType",
+    category: "category",
+    categoryType: "categoryType",
+    "category-type": "categoryType",
+    tag: "tag",
+    keyword: "keyword",
+  };
+  const resolvedKey = aliases[key];
+  if (!resolvedKey) {
+    return false;
+  }
+  params[resolvedKey] = value;
+  return true;
+}
+
+function isSkillApiKeyOption(key) {
+  return key === "apiKey" || key === "api-key";
+}
+
+function parseSkillStoreArgs(args, options = {}) {
+  const params = {
+    skillType: "1",
+    sort: "score",
+    page: "1",
+    pageSize: "20",
+  };
+  const positional = [];
+  let json = false;
+  let help = false;
+  let apiKey = "";
+  let apiKeyProvided = false;
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--json") {
+      json = true;
+      continue;
+    }
+    if (arg === "--help" || arg === "-h" || arg === "help") {
+      help = true;
+      continue;
+    }
+
+    if (arg.startsWith("--")) {
+      const optionName = arg.includes("=") ? arg.slice(2, arg.indexOf("=")) : arg.slice(2);
+      const { value, nextIndex } = readInlineOrNextValue(args, index, `--${optionName}`);
+      if (isSkillApiKeyOption(optionName)) {
+        apiKey = value;
+        apiKeyProvided = true;
+        index = nextIndex;
+        continue;
+      }
+      if (!setSkillParam(params, optionName, value)) {
+        exitWithError(`错误：未知 skill 选项 --${optionName}`);
+      }
+      index = nextIndex;
+      continue;
+    }
+
+    if (arg.includes("=")) {
+      const [key, ...rest] = arg.split("=");
+      if (isSkillApiKeyOption(key)) {
+        apiKey = rest.join("=");
+        apiKeyProvided = true;
+        continue;
+      }
+      if (setSkillParam(params, key, rest.join("="))) {
+        continue;
+      }
+    }
+
+    positional.push(arg);
+  }
+
+  if (options.keywordRequired && !params.keyword) {
+    params.keyword = positional.join(" ").trim();
+  }
+
+  return { params, positional, json, help, apiKey, apiKeyProvided };
+}
+
+function normalizeSkillStorePayload(result) {
+  const pageSource = result && Array.isArray(result.data)
+    ? result
+    : result && result.data && Array.isArray(result.data.data)
+      ? result.data
+      : result || {};
+  return {
+    data: Array.isArray(pageSource.data) ? pageSource.data : [],
+    totalCount: pageSource.totalCount ?? 0,
+    pages: pageSource.pages ?? 0,
+    page: pageSource.page ?? 1,
+    pageSize: pageSource.pageSize ?? 20,
+    hasNextPage: Boolean(pageSource.hasNextPage),
+    nextPage: pageSource.nextPage ?? null,
+    lastPage: Boolean(pageSource.lastPage),
+  };
+}
+
+function summarizeSkillText(value, maxLength = 80) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return `${text.slice(0, maxLength - 3)}...`;
+}
+
+function printSkillStoreText(payload, params) {
+  const label = params.keyword ? `Skills matching '${params.keyword}'` : "Skills";
+  const total = payload.totalCount ?? payload.data.length;
+  process.stdout.write(`${label} (page ${payload.page}/${payload.pages || 1}, total ${total}):\n`);
+
+  if (!payload.data.length) {
+    process.stdout.write("  No skills found.\n");
+    return;
+  }
+
+  for (const skill of payload.data) {
+    const displayName = skill.displayName || skill.name || "(unnamed)";
+    const name = skill.name && skill.displayName !== skill.name ? ` (${skill.name})` : "";
+    const version = skill.defaultVersion ? ` v${skill.defaultVersion}` : "";
+    process.stdout.write(`- ${displayName}${name}${version}\n`);
+    const details = [
+      skill.categoryName ? `category: ${skill.categoryName}` : "",
+      skill.publisherName ? `publisher: ${skill.publisherName}` : "",
+      skill.downloadCount !== undefined ? `downloads: ${skill.downloadCount}` : "",
+      skill.viewCount !== undefined ? `views: ${skill.viewCount}` : "",
+    ].filter(Boolean);
+    if (details.length) {
+      process.stdout.write(`  ${details.join(" | ")}\n`);
+    }
+    const summary = skill.summary || skill.description;
+    if (summary) {
+      process.stdout.write(`  desc: ${summarizeSkillText(summary)}\n`);
+    }
+  }
+}
+
+async function fetchSkillStoreSkills(params, apiKeyOverride = "", apiKeyProvided = false) {
+  const apiKey = String(apiKeyProvided ? apiKeyOverride : resolveApiKey().apiKey || "").trim();
+  if (!apiKey) {
+    exitWithError("错误：未检测到 API Key，请先运行 `investoday-api init` 完成初始化，或通过 --api-key <key> 临时传入。");
+  }
+
+  const url = buildUrl("skill-store/store/skills", { ...params, apiKey });
+
+  let response;
+  try {
+    response = await fetch(url, {
+      method: "GET",
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+    });
+  } catch (error) {
+    if (error.name === "TimeoutError" || error.name === "AbortError") {
+      exitWithError(`错误：请求超时，耗时超过 ${REQUEST_TIMEOUT / 1000}s: ${url}`);
+    }
+
+    const message = redactSecrets(String(error.message || error), [apiKey]);
+    exitWithError(`错误：请求失败： ${message}`);
+  }
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    exitWithError(redactSecrets(`错误：HTTP ${response.status}: ${url}\n${body.slice(0, 500)}`, [apiKey]));
+  }
+
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    const body = await response.text().catch(() => "");
+    exitWithError(`错误：响应不是合法 JSON\n${body.slice(0, 500)}`);
+  }
+
+  if (result.code !== undefined && result.code !== 0 && result.code !== "Success") {
+    exitWithError(redactSecrets(`错误：API 返回错误 [${result.code}]: ${result.message || "未知错误"}`, [apiKey]));
+  }
+
+  return normalizeSkillStorePayload(result);
+}
+
+function parseSkillInstallArgs(args) {
+  const options = {
+    baseUrl: DEFAULT_SKILL_PACKAGE_BASE_URL,
+    version: "latest",
+    force: false,
+    json: false,
+  };
+  const positional = [];
+  let help = false;
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--help" || arg === "-h") {
+      help = true;
+      continue;
+    }
+    if (arg === "--json") {
+      options.json = true;
+      continue;
+    }
+    if (arg === "--force") {
+      options.force = true;
+      continue;
+    }
+    if (arg.startsWith("--")) {
+      const optionName = arg.includes("=") ? arg.slice(2, arg.indexOf("=")) : arg.slice(2);
+      const { value, nextIndex } = readInlineOrNextValue(args, index, `--${optionName}`);
+      if (optionName === "target") {
+        options.targetRoot = value;
+      } else if (optionName === "base-url") {
+        options.baseUrl = value;
+      } else if (optionName === "version") {
+        options.version = value;
+      } else {
+        exitWithError(`错误：未知 skill install 选项 --${optionName}`);
+      }
+      index = nextIndex;
+      continue;
+    }
+    positional.push(arg);
+  }
+
+  return { skillName: positional[0] || "", extra: positional.slice(1), options, help };
+}
+
+function formatSkillInstallStatus(status) {
+  const labels = {
+    "already-installed": "已就绪",
+    installed: "已安装",
+    updated: "已更新",
+    failed: "失败",
+  };
+  return labels[status] || status || "未知";
+}
+
+function printSkillInstallText(result) {
+  process.stdout.write("环境准备:\n");
+  if (result.baseSkill) {
+    process.stdout.write(`- ${result.baseSkill.name}: ${formatSkillInstallStatus(result.baseSkill.status)}\n`);
+    process.stdout.write(`- 路径: ${result.baseSkill.path}\n`);
+    if (result.baseSkill.localVersion || result.baseSkill.remoteVersion) {
+      process.stdout.write(`- 版本: local=${result.baseSkill.localVersion || "unknown"}, latest=${result.baseSkill.remoteVersion || "unknown"}\n`);
+    }
+  }
+  process.stdout.write("\n");
+
+  process.stdout.write("目标 skill:\n");
+  if (result.targetSkill) {
+    process.stdout.write(`- ${result.targetSkill.name}: ${formatSkillInstallStatus(result.targetSkill.status)}\n`);
+    process.stdout.write(`- 路径: ${result.targetSkill.path}\n`);
+    if (result.targetSkill.localVersion || result.targetSkill.remoteVersion) {
+      process.stdout.write(`- 版本: local=${result.targetSkill.localVersion || "unknown"}, latest=${result.targetSkill.remoteVersion || "unknown"}\n`);
+    }
+  } else {
+    process.stdout.write(`- ${result.requestedSkill}: 未执行\n`);
+  }
+
+  process.stdout.write("\n阻塞原因:\n");
+  process.stdout.write(`- ${result.blockedReason || "无"}\n`);
+}
+
+async function runSkillInstallCommand(args) {
+  const { skillName, extra, options, help } = parseSkillInstallArgs(args);
+  if (help) {
+    printSkillHelp();
+    return;
+  }
+  if (!skillName) {
+    exitWithError("错误：skill install 需要提供 skill 名称。");
+  }
+  if (extra.length) {
+    exitWithError(`错误：skill install 只接受一个 skill 名称，无法识别: ${extra.join(" ")}`);
+  }
+  const result = {
+    requestedSkill: skillName,
+    baseSkill: null,
+    targetSkill: null,
+    blockedReason: "",
+  };
+
+  try {
+    if (skillName === BASE_SKILL_NAME) {
+      result.targetSkill = await installSkillPackage(skillName, options);
+    } else {
+      result.baseSkill = await installSkillPackage(BASE_SKILL_NAME, options);
+    }
+
+    if (!result.targetSkill) {
+      result.targetSkill = await installSkillPackage(skillName, options);
+    }
+    if (options.json) {
+      process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    } else {
+      printSkillInstallText(result);
+    }
+  } catch (error) {
+    result.blockedReason = redactSecrets(error.message || error);
+    if (options.json) {
+      process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    } else {
+      printSkillInstallText(result);
+    }
+    process.exit(1);
+  }
+}
+
+async function runSkillCommand(args) {
+  const action = args[0] || "help";
+  if (action === "--help" || action === "-h" || action === "help") {
+    printSkillHelp();
+    return;
+  }
+
+  if (action === "list") {
+    const { params, json, help, apiKey, apiKeyProvided } = parseSkillStoreArgs(args.slice(1));
+    if (help) {
+      printSkillHelp();
+      return;
+    }
+    const payload = await fetchSkillStoreSkills(params, apiKey, apiKeyProvided);
+    if (json) {
+      process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+    } else {
+      printSkillStoreText(payload, params);
+    }
+    return;
+  }
+
+  if (action === "search") {
+    const { params, json, help, apiKey, apiKeyProvided } = parseSkillStoreArgs(args.slice(1), { keywordRequired: true });
+    if (help) {
+      printSkillHelp();
+      return;
+    }
+    if (!params.keyword) {
+      exitWithError("错误：skill search 需要提供搜索关键词。");
+    }
+    const payload = await fetchSkillStoreSkills(params, apiKey, apiKeyProvided);
+    if (json) {
+      process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+    } else {
+      printSkillStoreText(payload, params);
+    }
+    return;
+  }
+
+  if (action === "install") {
+    await runSkillInstallCommand(args.slice(1));
+    return;
+  }
+
+  exitWithError(`错误：未知 skill 命令 '${action}'。可运行 investoday-api skill --help 查看用法。`);
+}
+
 async function callApi(apiPath, method, params, apiKey, options = {}) {
   const headers = { apiKey };
   const requestOptions = {
@@ -1051,6 +1463,11 @@ async function main(argv = process.argv.slice(2)) {
     return;
   }
 
+  if (argv[0] === "skill") {
+    await runSkillCommand(argv.slice(1));
+    return;
+  }
+
   if (argv[0] === "list") {
     runListCommand(argv.slice(1));
     return;
@@ -1089,6 +1506,8 @@ module.exports = {
   resolveRequestEndpoint,
   runConfigCommand,
   runInitCommand,
+  runSkillInstallCommand,
+  runSkillCommand,
   runSearchApiCommand,
   runListCommand,
   selectRequestMethod,

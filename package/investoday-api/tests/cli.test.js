@@ -109,6 +109,34 @@ function writeConfigFile(dir, config) {
   );
 }
 
+function quotePowerShellPath(value) {
+  return `'${String(value).replace(/'/g, "''")}'`;
+}
+
+function createSkillZip(tempDir, skillName, skillMd = null) {
+  const sourceRoot = path.join(tempDir, `${skillName}-source`);
+  const skillDir = path.join(sourceRoot, skillName);
+  const zipPath = path.join(tempDir, `${skillName}.zip`);
+  fs.mkdirSync(skillDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(skillDir, "SKILL.md"),
+    skillMd || `---\nname: ${skillName}\n---\n# ${skillName}\n`
+  );
+
+  const result = process.platform === "win32"
+    ? spawnSync("powershell", [
+      "-NoProfile",
+      "-Command",
+      `Compress-Archive -LiteralPath ${quotePowerShellPath(skillDir)} -DestinationPath ${quotePowerShellPath(zipPath)} -Force`,
+    ], { encoding: "utf8" })
+    : spawnSync("zip", ["-qr", zipPath, skillName], {
+      cwd: sourceRoot,
+      encoding: "utf8",
+    });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  return fs.readFileSync(zipPath);
+}
+
 test("--help prints usage", () => {
   const result = runCli(["--help"]);
 
@@ -117,6 +145,9 @@ test("--help prints usage", () => {
   assert.match(result.stdout, /investoday-api init/);
   assert.match(result.stdout, /investoday-api config status/);
   assert.match(result.stdout, /investoday-api update run\|status\|enable\|disable\|register\|unregister/);
+  assert.match(result.stdout, /investoday-api skill list/);
+  assert.match(result.stdout, /investoday-api skill search 股票/);
+  assert.match(result.stdout, /investoday-api skill install investoday-finance-data/);
   assert.match(result.stdout, /investoday-api list/);
   assert.match(result.stdout, /investoday-api list 沪深京数据\/公司行为\/基本信息/);
   assert.match(result.stdout, /investoday-api search-api query=股票,基本面分析/);
@@ -628,6 +659,277 @@ test("direct endpoint calls use unified API key regardless of endpoint metadata"
     assert.match(calls[0].url, new RegExp(`/${endpoint.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.equal(readCredentials({ [CONFIG_DIR_ENV]: dir }), null);
   });
+});
+
+test("skill list calls skill store list endpoint with defaults", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+    let output = "";
+
+    saveCredentials("config-key", { [CONFIG_DIR_ENV]: dir });
+
+    process.stdout.write = (chunk) => {
+      output += String(chunk);
+      return true;
+    };
+    global.fetch = async (url, options) => {
+      calls.push({ url, options });
+      return {
+        ok: true,
+        json: async () => ({
+          code: "Success",
+          data: [
+            {
+              name: "investoday-stock-message-analysis",
+              displayName: "股票消息解读",
+              defaultVersion: "1.6.1",
+            },
+          ],
+          totalCount: 1,
+          pages: 1,
+          page: 1,
+          pageSize: 20,
+          hasNextPage: false,
+          lastPage: true,
+        }),
+      };
+    };
+
+    try {
+      await main(["skill", "list", "--apiKey", "list-key", "--json"]);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+    }
+
+    assert.equal(calls.length, 1);
+    const url = new URL(calls[0].url);
+    assert.equal(url.origin, "https://data-api.investoday.net");
+    assert.equal(url.pathname, "/data/skill-store/store/skills");
+    assert.equal(url.searchParams.get("skillType"), "1");
+    assert.equal(url.searchParams.get("sort"), "score");
+    assert.equal(url.searchParams.get("page"), "1");
+    assert.equal(url.searchParams.get("pageSize"), "20");
+    assert.equal(url.searchParams.get("apiKey"), "list-key");
+    assert.equal(calls[0].options.method, "GET");
+    assert.equal(calls[0].options.headers, undefined);
+
+    const payload = JSON.parse(output);
+    assert.equal(payload.data[0].name, "investoday-stock-message-analysis");
+    assert.equal(payload.totalCount, 1);
+  });
+});
+
+test("skill list reads api key from init config when no api key option is provided", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+
+    saveCredentials("config-key", { [CONFIG_DIR_ENV]: dir });
+
+    process.stdout.write = () => true;
+    global.fetch = async (url, options) => {
+      calls.push({ url, options });
+      return {
+        ok: true,
+        json: async () => ({
+          code: "Success",
+          data: [],
+          totalCount: 0,
+          pages: 0,
+          page: 1,
+          pageSize: 20,
+        }),
+      };
+    };
+
+    try {
+      await main(["skill", "list", "--json"]);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+    }
+
+    assert.equal(calls.length, 1);
+    const url = new URL(calls[0].url);
+    assert.equal(url.searchParams.get("apiKey"), "config-key");
+    assert.equal(calls[0].options.headers, undefined);
+  });
+});
+
+test("skill search passes keyword and pagination options", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+    let output = "";
+
+    saveCredentials("config-key", { [CONFIG_DIR_ENV]: dir });
+
+    process.stdout.write = (chunk) => {
+      output += String(chunk);
+      return true;
+    };
+    global.fetch = async (url, options) => {
+      calls.push({ url, options });
+      return {
+        ok: true,
+        json: async () => ({
+          code: "Success",
+          data: [],
+          totalCount: 0,
+          pages: 0,
+          page: 1,
+          pageSize: 5,
+        }),
+      };
+    };
+
+    try {
+      await main(["skill", "search", "股票", "--page-size", "5", "apiKey=search-key", "--json"]);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+    }
+
+    assert.equal(calls.length, 1);
+    const url = new URL(calls[0].url);
+    assert.equal(url.pathname, "/data/skill-store/store/skills");
+    assert.equal(url.searchParams.get("keyword"), "股票");
+    assert.equal(url.searchParams.get("skillType"), "1");
+    assert.equal(url.searchParams.get("sort"), "score");
+    assert.equal(url.searchParams.get("pageSize"), "5");
+    assert.equal(url.searchParams.get("apiKey"), "search-key");
+    assert.equal(calls[0].options.headers, undefined);
+    assert.equal(JSON.parse(output).pageSize, 5);
+  });
+});
+
+test("skill install prepares finance data before installing target skill", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async (configDir) => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-install-test-"));
+    const targetRoot = path.join(tempDir, "skills");
+    const financeZip = createSkillZip(tempDir, "investoday-finance-data");
+    const javaZip = createSkillZip(tempDir, "investoday-java-service");
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+    let output = "";
+
+    process.stdout.write = (chunk) => {
+      output += String(chunk);
+      return true;
+    };
+    global.fetch = async (url) => {
+      calls.push(String(url));
+      const fileName = String(url).split("/").pop();
+      const buffer = fileName === "investoday-finance-data.zip" ? financeZip : javaZip;
+      return {
+        ok: true,
+        arrayBuffer: async () => buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
+      };
+    };
+
+    try {
+      await main([
+        "skill",
+        "install",
+        "investoday-java-service",
+        "--target",
+        targetRoot,
+        "--json",
+      ]);
+
+      assert.ok(calls.some((url) => /investoday-finance-data\/latest\/investoday-finance-data\.zip$/.test(url)));
+      assert.equal(fs.existsSync(path.join(targetRoot, "investoday-finance-data", "SKILL.md")), true);
+      assert.equal(fs.existsSync(path.join(targetRoot, "investoday-java-service", "SKILL.md")), true);
+
+      const payload = JSON.parse(output);
+      assert.equal(payload.baseSkill.status, "installed");
+      assert.equal(payload.targetSkill.status, "installed");
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+});
+
+test("skill install requires an explicit target directory from the agent", { concurrency: false }, async () => {
+  await withTempConfigDirAsync(async (configDir) => {
+    const result = runCli(["skill", "install", "investoday-java-service"], {
+      env: {
+        [CONFIG_DIR_ENV]: configDir,
+        INVESTODAY_API_KEY: "",
+      },
+    });
+
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /目标 skill:/);
+    assert.match(result.stdout, /investoday-java-service: 未执行/);
+    assert.match(result.stdout, /必须通过 --target <skills-dir> 指定 skill 安装目录/);
+  });
+});
+
+test("skill install skips existing skill when latest version is not newer", { concurrency: false }, async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-version-skip-"));
+  const targetRoot = path.join(tempDir, "skills");
+  const skillDir = path.join(targetRoot, "investoday-java-service");
+  const javaZip = createSkillZip(tempDir, "investoday-java-service", "---\nname: investoday-java-service\nversion: 1.2.3\n---\nremote\n");
+  const { installSkillPackage } = require("../lib/skill-installer");
+  const originalFetch = global.fetch;
+
+  fs.mkdirSync(skillDir, { recursive: true });
+  fs.writeFileSync(path.join(skillDir, "SKILL.md"), "---\nname: investoday-java-service\nversion: 1.2.3\n---\nlocal\n");
+  global.fetch = async () => ({
+    ok: true,
+    arrayBuffer: async () => javaZip.buffer.slice(javaZip.byteOffset, javaZip.byteOffset + javaZip.byteLength),
+  });
+
+  try {
+    const result = await installSkillPackage("investoday-java-service", { targetRoot });
+
+    assert.equal(result.status, "already-installed");
+    assert.equal(result.localVersion, "1.2.3");
+    assert.equal(result.remoteVersion, "1.2.3");
+    assert.equal(fs.readFileSync(path.join(skillDir, "SKILL.md"), "utf8"), "---\nname: investoday-java-service\nversion: 1.2.3\n---\nlocal\n");
+  } finally {
+    global.fetch = originalFetch;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("skill install updates existing skill when latest version is newer", { concurrency: false }, async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-skill-version-update-"));
+  const targetRoot = path.join(tempDir, "skills");
+  const skillDir = path.join(targetRoot, "investoday-java-service");
+  const javaZip = createSkillZip(tempDir, "investoday-java-service", "---\nname: investoday-java-service\nversion: 1.2.4\n---\nremote\n");
+  const { installSkillPackage } = require("../lib/skill-installer");
+  const originalFetch = global.fetch;
+
+  fs.mkdirSync(skillDir, { recursive: true });
+  fs.writeFileSync(path.join(skillDir, "SKILL.md"), "---\nname: investoday-java-service\nversion: 1.2.3\n---\nlocal\n");
+  global.fetch = async () => ({
+    ok: true,
+    arrayBuffer: async () => javaZip.buffer.slice(javaZip.byteOffset, javaZip.byteOffset + javaZip.byteLength),
+  });
+
+  try {
+    const result = await installSkillPackage("investoday-java-service", { targetRoot });
+
+    assert.equal(result.status, "updated");
+    assert.equal(result.localVersion, "1.2.3");
+    assert.equal(result.remoteVersion, "1.2.4");
+    assert.match(fs.readFileSync(path.join(skillDir, "SKILL.md"), "utf8"), /remote/);
+    assert.ok(result.backupPath);
+    assert.equal(fs.existsSync(path.join(result.backupPath, "SKILL.md")), true);
+  } finally {
+    global.fetch = originalFetch;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 });
 
 test("update manifest URL uses default and environment override", () => {
