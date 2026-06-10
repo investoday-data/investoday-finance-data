@@ -1723,6 +1723,51 @@
                       "apiMethod": "POST"
                     }
                   ]
+                },
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11163,
+                  "groupName": "财务附注",
+                  "groupDesc": null,
+                  "parentId": 1012,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": [
+                    {
+                      "apiId": 110626,
+                      "apiName": "上市公司审计意见",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11163,
+                      "remarks": null,
+                      "toolName": "list_stock_audit_opinion",
+                      "toolId": "list_stock_audit_opinion",
+                      "apiPath": "stock/audit_opinion",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110627,
+                      "apiName": "主要供应商及客户情况",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11163,
+                      "remarks": null,
+                      "toolName": "list_stock_major_sup_cust",
+                      "toolId": "list_stock_major_sup_cust",
+                      "apiPath": "stock/major-sup-cust",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    }
+                  ]
                 }
               ],
               "apis": []
@@ -2235,6 +2280,37 @@
                       "apiPath": "stock/unwind-signal-stat",
                       "enabled": 1,
                       "apiAccessLevel": null,
+                      "apiMethod": "POST"
+                    }
+                  ]
+                },
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11164,
+                  "groupName": "esg",
+                  "groupDesc": null,
+                  "parentId": 1044,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": [
+                    {
+                      "apiId": 110628,
+                      "apiName": "股票ESG综合评级",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11164,
+                      "remarks": null,
+                      "toolName": "list_stock_esg_rating",
+                      "toolId": "list_stock_esg_rating",
+                      "apiPath": "stock/esg_rating",
+                      "enabled": 1,
+                      "apiAccessLevel": "L5",
                       "apiMethod": "POST"
                     }
                   ]
