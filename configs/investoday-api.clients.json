@@ -43,6 +43,7 @@
           "pi-agent": "$HOME/.pi/agent/skills",
           "pochi": "$HOME/.pochi/skills",
           "qoder": "$HOME/.qoder/skills",
+          "qoderwork": "$HOME/.qoderwork/skills",
           "qwen": "$HOME/.qwen/skills",
           "trae-cn": "$HOME/.trae-cn/skills",
           "zencoder": "$HOME/.zencoder/skills",
