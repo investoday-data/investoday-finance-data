@@ -43,13 +43,25 @@ def validate_clients(clients):
             fail(f"client targets cannot be empty: {client_id}")
 
         for target in client["targets"]:
-            if target.get("type") not in {"fixed", "discovery"}:
-                fail(f"invalid target type: {target.get('type')}")
-            if not isinstance(target.get("paths"), list) or not target["paths"]:
-                fail("target paths cannot be empty")
-            for target_path in target["paths"]:
-                if not isinstance(target_path, str) or not target_path.startswith("$HOME/"):
-                    fail(f"target path must start with $HOME/: {target_path}")
+            target_type = target.get("type")
+            if target_type not in {"fixed", "discovery"}:
+                fail(f"invalid target type: {target_type}")
+
+            paths = target.get("paths")
+            if target_type == "fixed":
+                if not isinstance(paths, dict) or not paths:
+                    fail("fixed target paths must be a non-empty object")
+                for path_code, target_path in paths.items():
+                    if not isinstance(path_code, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", path_code):
+                        fail(f"fixed target path code is invalid: {path_code}")
+                    if not isinstance(target_path, str) or not target_path.startswith("$HOME/"):
+                        fail(f"fixed target path must start with $HOME/: {target_path}")
+            else:
+                if not isinstance(paths, list) or not paths:
+                    fail("discovery target paths must be a non-empty array")
+                for target_path in paths:
+                    if not isinstance(target_path, str) or not target_path.startswith("$HOME/"):
+                        fail(f"discovery target path must start with $HOME/: {target_path}")
 
 
 def main():

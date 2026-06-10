@@ -293,10 +293,19 @@ function discoverSkillTargets(manifest) {
   const seenActualPaths = new Set();
   for (const client of manifest.clients || []) {
     for (const target of client.targets || []) {
-      if (!Array.isArray(target.paths)) continue;
       if (target.type !== "fixed" && target.type !== "discovery") continue;
-      const roots = target.paths.flatMap((item) => target.type === "discovery" ? expandDiscoveryPath(item) : [path.normalize(expandHome(item))]);
-      for (const root of roots) {
+      const pathEntries = target.type === "fixed"
+        ? Object.entries(target.paths || {}).filter(([, value]) => typeof value === "string")
+        : Array.isArray(target.paths)
+          ? target.paths.map((value, index) => [String(index), value]).filter(([, item]) => typeof item === "string")
+          : [];
+      const roots = pathEntries.flatMap(([pathCode, item]) => {
+        const resolved = target.type === "discovery"
+          ? expandDiscoveryPath(item)
+          : [path.normalize(expandHome(item))];
+        return resolved.map((root) => ({ root, pathCode }));
+      });
+      for (const { root, pathCode } of roots) {
         if (!fs.existsSync(root)) continue;
         for (const skill of manifest.skills) {
           const displayPath = path.join(root, skill.name);
@@ -307,7 +316,7 @@ function discoverSkillTargets(manifest) {
           const dedupeKey = `${skill.name}:${actualPath}`;
           if (seenActualPaths.has(dedupeKey)) continue;
           seenActualPaths.add(dedupeKey);
-          targets.push({ clientId: client.id, skillName: skill.name, displayPath, actualPath, isSymlink, remote: skill });
+          targets.push({ clientId: client.id, pathCode, skillName: skill.name, displayPath, actualPath, isSymlink, remote: skill });
         }
       }
     }

@@ -1047,7 +1047,9 @@ test("update run replaces symlink target directory and preserves client symlink"
             targets: [
               {
                 type: "fixed",
-                paths: ["$HOME/.workbuddy/skills"],
+                paths: {
+                  workbuddy: "$HOME/.workbuddy/skills",
+                },
               },
             ],
           },
@@ -1096,6 +1098,7 @@ test("update run replaces symlink target directory and preserves client symlink"
       assert.equal(result.state.skills[0].displayPath, clientSkillLink);
       assert.equal(result.state.skills[0].actualPath, resolvedRealSkillDir);
       assert.equal(result.state.skills[0].isSymlink, true);
+      assert.equal(result.state.skills[0].pathCode, "workbuddy");
     } finally {
       global.fetch = originalFetch;
       if (previousHome === undefined) {
