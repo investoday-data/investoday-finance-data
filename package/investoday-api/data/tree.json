@@ -3961,7 +3961,21 @@
                   "toolId": "list_research_sentiment",
                   "apiPath": "research/sentiment",
                   "enabled": 1,
-                  "apiAccessLevel": "L5",
+                  "apiAccessLevel": "L4",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110629,
+                  "apiName": "研报向量搜索",
+                  "apiType": "PROXY",
+                  "apiStatus": "release",
+                  "groupId": 1046,
+                  "remarks": null,
+                  "toolName": "list_report_vector-search",
+                  "toolId": "list_report_vector-search",
+                  "apiPath": "report/vector-search",
+                  "enabled": 1,
+                  "apiAccessLevel": "L4",
                   "apiMethod": "POST"
                 }
               ]

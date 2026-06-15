@@ -62520,6 +62520,196 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/report/vector-search": {
+      "post": {
+        "tags": [
+          "研报向量搜索"
+        ],
+        "summary": "研报向量搜索",
+        "description": "使用必填的查询文本，搭配可选的股票代码、行业代码、机构代码、分类代码、研报发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）、返回结果条数topK，进行研报向量搜索，可返回研报ID、发布时间（格式为yyyy-MM-dd HH:mm:ss）、文本片段、页码、文本块起止位置、片段位置等核心数据，帮助用户快速定位研报中与查询内容相关的重点信息，高效获取深度投研资料。",
+        "operationId": "list_report_vector-search",
+        "parameters": [
+          {
+            "name": "stockCode",
+            "in": "query",
+            "description": "股票代码【与industryCode、institutionCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "002594"
+            }
+          },
+          {
+            "name": "industryCode",
+            "in": "query",
+            "description": "行业代码【与stockCode、institutionCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "740000"
+            }
+          },
+          {
+            "name": "institutionCode",
+            "in": "query",
+            "description": "机构代码【与stockCode、industryCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "37"
+            }
+          },
+          {
+            "name": "categoryCode",
+            "in": "query",
+            "description": "分类代码【与stockCode、industryCode、institutionCode组成多选多参数，必须传递其中一个至多个】",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "000100代表行业研究;\n000200代表公司研究;\n000300代表基金研究;\n000400代表债券研究;\n000500代表投资策略;\n000700代表经济研究;\n000800代表外汇市场;\n000900代表期货市场;\n001000代表货币市场;\n001100代表全球市场;\n001200代表资本市场;\n001210代表新三板;\n001300代表港股研究;\n001400代表其它;\n001500代表晨会资讯;\n001600代表权证研究;\n001700代表金融工程;\n001900代表非基金理财",
+                  "enum": [
+                    "000100",
+                    "000200",
+                    "000300",
+                    "000400",
+                    "000500",
+                    "000700",
+                    "000800",
+                    "000900",
+                    "001000",
+                    "001100",
+                    "001200",
+                    "001210",
+                    "001300",
+                    "001400",
+                    "001500",
+                    "001600",
+                    "001700",
+                    "001900"
+                  ]
+                }
+              ],
+              "example": "000100"
+            }
+          },
+          {
+            "name": "beginDate",
+            "in": "query",
+            "description": "开始日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2020-01-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2021-01-01"
+            }
+          },
+          {
+            "name": "topK",
+            "in": "query",
+            "description": "返回条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 3
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "使用必填的查询文本，搭配可选的股票代码、行业代码、机构代码、分类代码、研报发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）、返回结果条数topK，进行研报向量搜索，可返回研报ID、发布时间（格式为yyyy-MM-dd HH:mm:ss）、文本片段、页码、文本块起止位置、片段位置等核心数据，帮助用户快速定位研报中与查询内容相关的重点信息，高效获取深度投研资料。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "查询文本",
+                    "example": "新能源汽车"
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportId": {
+                      "type": "string",
+                      "description": "研报ID"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "发布时间"
+                    },
+                    "chunk": {
+                      "type": "string",
+                      "description": "文本片段"
+                    },
+                    "page": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "页码"
+                    },
+                    "blockStart": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "文本块起始位置"
+                    },
+                    "blockEnd": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "文本块结束位置"
+                    },
+                    "position": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "片段位置"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
