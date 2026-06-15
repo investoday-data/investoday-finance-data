@@ -1074,7 +1074,7 @@
             }
           },
           {
-            "name": "announcementID",
+            "name": "announcementId",
             "in": "query",
             "description": "公告id",
             "required": false,
