@@ -62710,6 +62710,160 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/announcement/vector-search": {
+      "post": {
+        "tags": [
+          "公告向量搜索"
+        ],
+        "summary": "公告向量搜索",
+        "description": "公告向量搜索",
+        "operationId": "list_announcement_vector-search",
+        "parameters": [
+          {
+            "name": "stockCode",
+            "in": "query",
+            "description": "股票代码",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "002594"
+            }
+          },
+          {
+            "name": "announcementId",
+            "in": "query",
+            "description": "公告ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 11111
+            }
+          },
+          {
+            "name": "beginDate",
+            "in": "query",
+            "description": "开始日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2025-01-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2026-01-01"
+            }
+          },
+          {
+            "name": "topK",
+            "in": "query",
+            "description": "返回条数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "公告向量搜索",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "查询文本",
+                    "example": "新能源汽车"
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "announcementId": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "公告 ID"
+                    },
+                    "guid": {
+                      "type": "string",
+                      "description": "公告 GUID"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "公告标题"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期"
+                    },
+                    "chunk": {
+                      "type": "string",
+                      "description": "文本片段"
+                    },
+                    "position": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "片段位置"
+                    },
+                    "blockStart": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "文本块起始位置"
+                    },
+                    "blockEnd": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "文本块结束位置"
+                    },
+                    "embeddingStatus": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "向量处理状态"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {

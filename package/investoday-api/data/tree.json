@@ -4041,7 +4041,24 @@
           "userId": null,
           "apiCount": 0,
           "isShow": 1,
-          "children": [],
+          "children": [
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11165,
+              "groupName": "特色数据",
+              "groupDesc": null,
+              "parentId": 1009,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 1,
+              "children": [],
+              "apis": []
+            }
+          ],
           "apis": [
             {
               "apiId": 10062,
