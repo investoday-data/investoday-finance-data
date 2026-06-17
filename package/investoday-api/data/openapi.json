@@ -62717,7 +62717,7 @@
           "公告向量搜索"
         ],
         "summary": "公告向量搜索",
-        "description": "公告向量搜索",
+        "description": "通过自然语言查询文本、股票代码及时间范围（yyyy-MM-dd HH:mm:ss），检索匹配的公告向量数据，返回公告ID、标题、发布日期、相关文本片段及其在原文中的位置信息，适用于基于语义的公告内容深度搜索与投研分析场景。",
         "operationId": "list_announcement_vector-search",
         "parameters": [
           {
@@ -62774,7 +62774,7 @@
           }
         ],
         "requestBody": {
-          "description": "公告向量搜索",
+          "description": "通过自然语言查询文本、股票代码及时间范围（yyyy-MM-dd HH:mm:ss），检索匹配的公告向量数据，返回公告ID、标题、发布日期、相关文本片段及其在原文中的位置信息，适用于基于语义的公告内容深度搜索与投研分析场景。",
           "content": {
             "application/json": {
               "schema": {
