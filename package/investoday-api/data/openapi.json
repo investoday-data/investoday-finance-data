@@ -2029,7 +2029,7 @@
           "行业及关联成分股的最新实时日行情"
         ],
         "summary": "行业及关联成分股的最新实时日行情",
-        "description": "输入行业代码，获取该行业的最新整体行情（包括指数、涨跌幅、成交量、总市值、成分股数量、涨跌幅排名、领涨股等）以及所有关联成分股的实时行情明细（包括股票代码、名称、开盘价、当前价、涨跌幅、最高/最低价等），用于全面分析行业及其成分股的最新市场表现。",
+        "description": "通过行业代码（必填）查询对应行业及相关成分股的最新实时日行情数据，支持按响应字段指定排序规则、分页查询，返回行业整体行情信息（含价格、涨跌幅、成交量、近一周涨跌幅、总市值、行业内涨跌排名、涨跌家数统计、领涨股信息等）、成分股实时行情详情（含股票代码、名称、最新价、涨跌幅、开盘价、最高价、最低价等）及分页相关数据，可用于行业行情监测、成分股分析、市场热点追踪等场景。",
         "operationId": "get_industry_stock_realtime_quote",
         "parameters": [
           {
@@ -2039,7 +2039,59 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "330000"
+              "example": "740000"
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "description": "排序字段（响应字段）",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "changeRatio"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "排序方向",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "asc代表正序;\ndesc 代表倒序",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                }
+              ],
+              "example": "desc"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
             }
           }
         ],
@@ -2072,9 +2124,10 @@
                       "example": -0.0121602
                     },
                     "volume": {
-                      "type": "string",
+                      "type": "integer",
+                      "format": "int32",
                       "description": "行业成交量",
-                      "example": "9547379"
+                      "example": 9547379
                     },
                     "changeRatio1W": {
                       "type": "number",
@@ -2381,10 +2434,20 @@
           {
             "name": "conceptType",
             "in": "query",
-            "description": "概念类型(jy-聚源、cls-财联社)\"",
+            "description": "概念类型",
             "required": true,
             "schema": {
               "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "jy代表聚源;\ncls代表财联社",
+                  "enum": [
+                    "jy",
+                    "cls"
+                  ]
+                }
+              ],
               "example": "jy"
             }
           },
@@ -2396,6 +2459,58 @@
             "schema": {
               "type": "string",
               "example": "14060061"
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "description": "排序字段（响应字段）",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "changeRatio"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "排序方向",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "asc代表正序;\ndesc 代表倒序",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                }
+              ],
+              "example": "desc"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
             }
           }
         ],

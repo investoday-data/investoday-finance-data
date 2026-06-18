@@ -3409,7 +3409,7 @@
                   "apiStatus": "release",
                   "groupId": 1031,
                   "remarks": null,
-                  "toolName": "get_industry_stock_realtime_quote",
+                  "toolName": "get_ind_stk_realtime_qt",
                   "toolId": "get_industry_stock_realtime_quote",
                   "apiPath": "industry-quote/stock-realtime",
                   "enabled": 1,
