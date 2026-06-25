@@ -33,6 +33,27 @@ Get an API key from:
 
 - https://data-api.investoday.net/user/api-key
 
+## API base URL
+
+The default API base URL is:
+
+```text
+https://data-api.investoday.net/data
+```
+
+Temporarily override it with an environment variable:
+
+```bash
+INVESTODAY_API_BASE_URL="https://data-api.investoday.net/data" investoday-api list
+```
+
+Persist a custom value in the local config:
+
+```bash
+investoday-api config set-base-url "https://data-api.investoday.net/data"
+investoday-api config reset-base-url
+```
+
 ## Usage
 
 ```bash
@@ -41,6 +62,8 @@ investoday-api init
 investoday-api config status
 investoday-api config path
 investoday-api config remove
+investoday-api config set-base-url "https://data-api.investoday.net/data"
+investoday-api config reset-base-url
 investoday-api update status
 investoday-api update run
 investoday-api update enable

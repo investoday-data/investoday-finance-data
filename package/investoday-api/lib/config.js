@@ -4,6 +4,8 @@ const path = require("node:path");
 
 const CONFIG_DIR_ENV = "INVESTODAY_API_CONFIG_DIR";
 const API_KEY_ENV = "INVESTODAY_API_KEY";
+const API_BASE_URL_ENV = "INVESTODAY_API_BASE_URL";
+const DEFAULT_API_BASE_URL = "https://data-api.investoday.net/data";
 const LEGACY_SUB_API_KEY_ENV = "SUB_INVESTODAY_API_KEY";
 const CONFIG_FILE = "investoday-api.config.json";
 const LEGACY_CREDENTIALS_FILE = "credentials.enc";
@@ -52,6 +54,31 @@ function saveConfig(config, env = process.env) {
   atomicWriteFile(getCredentialsPath(env), `${JSON.stringify(config || {}, null, 2)}\n`);
 }
 
+function normalizeApiBaseUrl(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) {
+    throw new Error(`${API_BASE_URL_ENV} cannot be empty`);
+  }
+
+  let parsed;
+  const normalized = trimmed.replace(/\/+$/g, "");
+  try {
+    parsed = new URL(normalized);
+  } catch {
+    throw new Error(`${API_BASE_URL_ENV} must be a valid URL`);
+  }
+
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    throw new Error(`${API_BASE_URL_ENV} must use http or https`);
+  }
+
+  if (parsed.search || parsed.hash) {
+    throw new Error(`${API_BASE_URL_ENV} must not include query or hash`);
+  }
+
+  return normalized;
+}
+
 function removeLegacyCredentials(env = process.env) {
   for (const filePath of [getLegacyCredentialsPath(env), getLegacyKeyPath(env)]) {
     if (fs.existsSync(filePath)) {
@@ -74,6 +101,14 @@ function saveCredentials(apiKey, env = process.env) {
   delete payload[LEGACY_SUB_API_KEY_ENV];
   saveConfig(payload, env);
   removeLegacyCredentials(env);
+}
+
+function saveApiBaseUrl(baseUrl, env = process.env) {
+  const existing = readConfig(env) || {};
+  saveConfig({
+    ...existing,
+    [API_BASE_URL_ENV]: normalizeApiBaseUrl(baseUrl),
+  }, env);
 }
 
 function readConfig(env = process.env) {
@@ -111,6 +146,15 @@ function removeCredentials(env = process.env) {
   removeLegacyCredentials(env);
 }
 
+function removeApiBaseUrl(env = process.env) {
+  const existing = readConfig(env);
+  if (!existing || !Object.prototype.hasOwnProperty.call(existing, API_BASE_URL_ENV)) {
+    return;
+  }
+  delete existing[API_BASE_URL_ENV];
+  saveConfig(existing, env);
+}
+
 function resolveApiKey(env = process.env) {
   const envKey = String(env[API_KEY_ENV] || "").trim();
   if (envKey) {
@@ -125,11 +169,28 @@ function resolveApiKey(env = process.env) {
   return { apiKey: "", source: "missing" };
 }
 
+function resolveApiBaseUrl(env = process.env) {
+  const envBaseUrl = String(env[API_BASE_URL_ENV] || "").trim();
+  if (envBaseUrl) {
+    return { baseUrl: normalizeApiBaseUrl(envBaseUrl), source: "env" };
+  }
+
+  const config = readConfig(env);
+  const configBaseUrl = String(config && config[API_BASE_URL_ENV] || "").trim();
+  if (configBaseUrl) {
+    return { baseUrl: normalizeApiBaseUrl(configBaseUrl), source: "config" };
+  }
+
+  return { baseUrl: DEFAULT_API_BASE_URL, source: "default" };
+}
+
 module.exports = {
   API_KEY_ENV,
+  API_BASE_URL_ENV,
   CONFIG_FILE,
   CONFIG_DIR_ENV,
   CREDENTIALS_FILE: CONFIG_FILE,
+  DEFAULT_API_BASE_URL,
   LEGACY_CREDENTIALS_FILE,
   LEGACY_KEY_FILE,
   getConfigDir,
@@ -139,8 +200,12 @@ module.exports = {
   removeLegacyCredentials,
   readConfig,
   readCredentials,
+  normalizeApiBaseUrl,
+  removeApiBaseUrl,
   removeCredentials,
   resolveApiKey,
+  resolveApiBaseUrl,
+  saveApiBaseUrl,
   saveConfig,
   saveCredentials,
 };

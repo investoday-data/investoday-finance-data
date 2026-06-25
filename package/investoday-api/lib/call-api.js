@@ -6,11 +6,17 @@ const {
 } = require("./skill-installer");
 const {
   CONFIG_DIR_ENV,
+  API_BASE_URL_ENV,
+  DEFAULT_API_BASE_URL,
   getConfigDir,
   getCredentialsPath,
+  readConfig,
   readCredentials,
+  removeApiBaseUrl,
   removeCredentials,
+  resolveApiBaseUrl,
   resolveApiKey,
+  saveApiBaseUrl,
   saveCredentials,
 } = require("./config");
 const { version: PACKAGE_VERSION } = require("../package.json");
@@ -23,7 +29,7 @@ const {
   runUpdateCommand,
 } = require("./update");
 
-const BASE_URL = "https://data-api.investoday.net/data";
+const BASE_URL = DEFAULT_API_BASE_URL;
 const REQUEST_TIMEOUT = 30_000;
 const API_KEY_MANAGE_URL = "https://data-api.investoday.net/user/api-key";
 
@@ -68,7 +74,7 @@ function printHelp() {
     "investoday-api\n\n" +
     "用法:\n" +
     "  investoday-api init\n" +
-    "  investoday-api config status|path|remove\n" +
+    "  investoday-api config status|path|remove|set-base-url|reset-base-url\n" +
     "  investoday-api update run|status|enable|disable|register|unregister\n" +
     "  investoday-api skill list [--page <n>] [--page-size <n>] [--json]\n" +
     "  investoday-api skill search <keyword> [--page <n>] [--page-size <n>] [--json]\n" +
@@ -368,7 +374,11 @@ function runConfigCommand(args) {
       "用法:\n" +
       "  investoday-api config status\n" +
       "  investoday-api config path\n" +
-      "  investoday-api config remove\n\n" +
+      "  investoday-api config remove\n" +
+      "  investoday-api config set-base-url <url>\n" +
+      "  investoday-api config reset-base-url\n\n" +
+      `Base URL environment override: ${API_BASE_URL_ENV}\n` +
+      `Default Base URL: ${BASE_URL}\n\n` +
       `配置目录环境变量覆盖: \n`
     );
     return;
@@ -385,9 +395,34 @@ function runConfigCommand(args) {
     return;
   }
 
+  if (action === "set-base-url") {
+    const baseUrl = String(args[1] || "").trim();
+    if (!baseUrl) {
+      exitWithError("Error: config set-base-url requires a URL.");
+    }
+    if (args.length > 2) {
+      exitWithError("Error: config set-base-url accepts exactly one URL.");
+    }
+    try {
+      saveApiBaseUrl(baseUrl);
+    } catch (error) {
+      exitWithError(`Error: ${error.message}`);
+    }
+    process.stdout.write(`${resolveApiBaseUrl().baseUrl}\n`);
+    return;
+  }
+
+  if (action === "reset-base-url") {
+    removeApiBaseUrl();
+    process.stdout.write(`${resolveApiBaseUrl().baseUrl}\n`);
+    return;
+  }
+
   if (action === "status") {
     const localCredentials = readCredentials();
     const resourceApiKey = resolveApiKey();
+    const localConfig = readConfig() || {};
+    const apiBaseUrl = resolveApiBaseUrl();
     const localConfigured = Boolean(localCredentials);
     process.stdout.write(
       JSON.stringify({
@@ -398,6 +433,12 @@ function runConfigCommand(args) {
           configured: resourceApiKey.source !== "missing",
           source: resourceApiKey.source,
           localConfig: localCredentials && localCredentials.apiKey ? "configured" : "missing",
+        },
+        baseUrl: {
+          value: apiBaseUrl.baseUrl,
+          source: apiBaseUrl.source,
+          env: API_BASE_URL_ENV,
+          localConfig: localConfig[API_BASE_URL_ENV] ? "configured" : "missing",
         },
         configDir: getConfigDir(),
         configFile: getCredentialsPath(),
@@ -925,8 +966,9 @@ function resolveRequestEndpoint(apiPath, method = "") {
   return null;
 }
 
-function buildUrl(apiPath, params) {
-  let url = `${BASE_URL}/${apiPath}`;
+function buildUrl(apiPath, params, options = {}) {
+  const baseUrl = String(options.baseUrl || resolveApiBaseUrl().baseUrl).replace(/\/+$/g, "");
+  let url = `${baseUrl}/${apiPath}`;
   if (!Object.keys(params).length) {
     return url;
   }
@@ -1547,7 +1589,7 @@ async function callApi(apiPath, method, params, apiKey, options = {}) {
     signal: AbortSignal.timeout(REQUEST_TIMEOUT),
   };
 
-  let url = `${BASE_URL}/${apiPath}`;
+  let url = buildUrl(apiPath, {});
   if (method === "POST") {
     const { queryParams, bodyParams } = splitPostParams(params, options.endpoint, options.bodyJson);
     url = buildUrl(apiPath, queryParams);

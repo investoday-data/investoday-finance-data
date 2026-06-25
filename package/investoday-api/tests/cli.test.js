@@ -24,14 +24,18 @@ const {
   runUpdate,
 } = require("../lib/update");
 const {
+  API_BASE_URL_ENV,
   API_KEY_ENV,
   CONFIG_DIR_ENV,
+  DEFAULT_API_BASE_URL,
   getCredentialsPath,
   getLegacyCredentialsPath,
   getLegacyKeyPath,
   readCredentials,
+  resolveApiBaseUrl,
   removeCredentials,
   resolveApiKey,
+  saveApiBaseUrl,
   saveCredentials,
 } = require("../lib/config");
 const { version } = require("../package.json");
@@ -53,9 +57,11 @@ function withTempConfigDir(fn) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-test-"));
   const previousConfigDir = process.env[CONFIG_DIR_ENV];
   const previousApiKey = process.env[API_KEY_ENV];
+  const previousApiBaseUrl = process.env[API_BASE_URL_ENV];
 
   process.env[CONFIG_DIR_ENV] = dir;
   delete process.env[API_KEY_ENV];
+  delete process.env[API_BASE_URL_ENV];
 
   try {
     return fn(dir);
@@ -71,6 +77,12 @@ function withTempConfigDir(fn) {
     } else {
       process.env[API_KEY_ENV] = previousApiKey;
     }
+
+    if (previousApiBaseUrl === undefined) {
+      delete process.env[API_BASE_URL_ENV];
+    } else {
+      process.env[API_BASE_URL_ENV] = previousApiBaseUrl;
+    }
     fs.rmSync(dir, { recursive: true, force: true });
   }
 }
@@ -79,9 +91,11 @@ async function withTempConfigDirAsync(fn) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "investoday-api-test-"));
   const previousConfigDir = process.env[CONFIG_DIR_ENV];
   const previousApiKey = process.env[API_KEY_ENV];
+  const previousApiBaseUrl = process.env[API_BASE_URL_ENV];
 
   process.env[CONFIG_DIR_ENV] = dir;
   delete process.env[API_KEY_ENV];
+  delete process.env[API_BASE_URL_ENV];
 
   try {
     return await fn(dir);
@@ -96,6 +110,12 @@ async function withTempConfigDirAsync(fn) {
       delete process.env[API_KEY_ENV];
     } else {
       process.env[API_KEY_ENV] = previousApiKey;
+    }
+
+    if (previousApiBaseUrl === undefined) {
+      delete process.env[API_BASE_URL_ENV];
+    } else {
+      process.env[API_BASE_URL_ENV] = previousApiBaseUrl;
     }
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -237,6 +257,29 @@ test("local config is used as fallback after environment variable", () => {
   });
 });
 
+test("API base URL defaults to production and can be overridden", () => {
+  withTempConfigDir((dir) => {
+    assert.deepEqual(resolveApiBaseUrl({ [CONFIG_DIR_ENV]: dir }), {
+      baseUrl: DEFAULT_API_BASE_URL,
+      source: "default",
+    });
+
+    saveApiBaseUrl("https://example.test/data///", { [CONFIG_DIR_ENV]: dir });
+
+    assert.deepEqual(resolveApiBaseUrl({ [CONFIG_DIR_ENV]: dir }), {
+      baseUrl: "https://example.test/data",
+      source: "config",
+    });
+    assert.deepEqual(resolveApiBaseUrl({
+      [CONFIG_DIR_ENV]: dir,
+      [API_BASE_URL_ENV]: "https://env.example.test/data/",
+    }), {
+      baseUrl: "https://env.example.test/data",
+      source: "env",
+    });
+  });
+});
+
 test("config status, path, and remove are available", () => {
   withTempConfigDir((dir) => {
     saveCredentials("local-key", { [CONFIG_DIR_ENV]: dir });
@@ -256,6 +299,12 @@ test("config status, path, and remove are available", () => {
       configured: true,
       source: "config",
       localConfig: "configured",
+    });
+    assert.deepEqual(payload.baseUrl, {
+      value: DEFAULT_API_BASE_URL,
+      source: "default",
+      env: API_BASE_URL_ENV,
+      localConfig: "missing",
     });
     assert.doesNotMatch(statusResult.stdout, /local-key/);
     assert.match(payload.configFile, /investoday-api\.config\.json$/);
@@ -662,6 +711,44 @@ test("direct endpoint calls use unified API key regardless of endpoint metadata"
   });
 });
 
+test("direct endpoint calls use the configured API base URL", async () => {
+  await withTempConfigDirAsync(async (dir) => {
+    const endpoint = getMetadata().records.find((record) => record.method === "GET") || getMetadata().records[0];
+    assert.ok(endpoint);
+
+    const previousResourceKey = process.env[API_KEY_ENV];
+    const originalFetch = global.fetch;
+    const originalStdoutWrite = process.stdout.write;
+    const calls = [];
+
+    process.env[API_KEY_ENV] = "resource-key";
+    saveApiBaseUrl("https://example.test/custom-data/", { [CONFIG_DIR_ENV]: dir });
+    process.stdout.write = () => true;
+    global.fetch = async (url, options) => {
+      calls.push({ url, options });
+      return {
+        ok: true,
+        json: async () => ({ code: 0, data: { ok: true } }),
+      };
+    };
+
+    try {
+      await main([endpoint.path]);
+    } finally {
+      global.fetch = originalFetch;
+      process.stdout.write = originalStdoutWrite;
+      if (previousResourceKey === undefined) {
+        delete process.env[API_KEY_ENV];
+      } else {
+        process.env[API_KEY_ENV] = previousResourceKey;
+      }
+    }
+
+    assert.equal(calls.length, 1);
+    assert.match(calls[0].url, new RegExp(`^https://example\\.test/custom-data/${endpoint.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  });
+});
+
 test("skill list calls skill store list endpoint with defaults", async () => {
   await withTempConfigDirAsync(async (dir) => {
     const originalFetch = global.fetch;
@@ -806,6 +893,42 @@ test("skill search passes keyword and pagination options", async () => {
     assert.equal(url.searchParams.get("apiKey"), "search-key");
     assert.equal(calls[0].options.headers, undefined);
     assert.equal(JSON.parse(output).pageSize, 5);
+  });
+});
+
+test("config can persist and reset API base URL", () => {
+  withTempConfigDir((dir) => {
+    const setResult = runCli(["config", "set-base-url", "https://example.test/data/"], {
+      env: { [CONFIG_DIR_ENV]: dir },
+    });
+    assert.equal(setResult.status, 0);
+    assert.equal(setResult.stdout.trim(), "https://example.test/data");
+    assert.deepEqual(resolveApiBaseUrl({ [CONFIG_DIR_ENV]: dir }), {
+      baseUrl: "https://example.test/data",
+      source: "config",
+    });
+
+    const statusResult = runCli(["config", "status"], {
+      env: { [CONFIG_DIR_ENV]: dir },
+    });
+    assert.equal(statusResult.status, 0);
+    const payload = JSON.parse(statusResult.stdout);
+    assert.deepEqual(payload.baseUrl, {
+      value: "https://example.test/data",
+      source: "config",
+      env: API_BASE_URL_ENV,
+      localConfig: "configured",
+    });
+
+    const resetResult = runCli(["config", "reset-base-url"], {
+      env: { [CONFIG_DIR_ENV]: dir },
+    });
+    assert.equal(resetResult.status, 0);
+    assert.equal(resetResult.stdout.trim(), DEFAULT_API_BASE_URL);
+    assert.deepEqual(resolveApiBaseUrl({ [CONFIG_DIR_ENV]: dir }), {
+      baseUrl: DEFAULT_API_BASE_URL,
+      source: "default",
+    });
   });
 });
 
