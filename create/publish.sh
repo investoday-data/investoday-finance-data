@@ -277,12 +277,23 @@ publish_clawhub() {
   ensure_clawhub_auth
 
   log "Publishing ${SKILL_SLUG}@${local_version} to ClawHub"
-  node "${REPO_ROOT}/create/clawhub_publish_with_timeout.js" "${SKILL_DIR}" \
-    --slug "${SKILL_SLUG}" \
-    --name "${SKILL_NAME}" \
-    --version "${local_version}" \
-    --tags "${SKILL_TAGS}" \
-    --changelog "${CHANGELOG}"
+  local publish_output
+  if ! publish_output="$(
+    node "${REPO_ROOT}/create/clawhub_publish_with_timeout.js" "${SKILL_DIR}" \
+      --slug "${SKILL_SLUG}" \
+      --name "${SKILL_NAME}" \
+      --version "${local_version}" \
+      --tags "${SKILL_TAGS}" \
+      --changelog "${CHANGELOG}" 2>&1
+  )"; then
+    printf '%s\n' "${publish_output}"
+    if grep -qi "already exists" <<<"${publish_output}"; then
+      log "${SKILL_SLUG}@${local_version} already exists on ClawHub, skipping ClawHub publish"
+      return
+    fi
+    fail "ClawHub publish failed"
+  fi
+  printf '%s\n' "${publish_output}"
 }
 
 commit_and_push_release() {
