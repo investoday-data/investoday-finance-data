@@ -4717,7 +4717,7 @@
                       "description": "行业名称",
                       "example": "能源"
                     },
-                    "TYear": {
+                    "tYear": {
                       "type": "string",
                       "description": "T年",
                       "example": "2024"
@@ -36083,7 +36083,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "PUBDT": {
+                    "pubDt": {
                       "type": "string",
                       "description": "发布日期",
                       "example": "2023-11-15"
@@ -36093,57 +36093,57 @@
                       "description": "股票代码",
                       "example": "00001"
                     },
-                    "F2004": {
+                    "f2004": {
                       "type": "string",
                       "description": "中文简称",
                       "example": "长和"
                     },
-                    "F1000": {
+                    "f1000": {
                       "type": "string",
                       "description": "公司代码",
                       "example": "LA00001"
                     },
-                    "F1100": {
+                    "f1100": {
                       "type": "string",
                       "description": "变动日期",
                       "example": "2024-06-15"
                     },
-                    "F1101": {
+                    "f1101": {
                       "type": "number",
                       "description": "优先股股数",
                       "example": 5000000
                     },
-                    "F1102": {
+                    "f1102": {
                       "type": "number",
                       "description": "普通股股数",
                       "example": 1000000
                     },
-                    "F1103": {
+                    "f1103": {
                       "type": "number",
                       "description": "H股股数",
                       "example": 1000000
                     },
-                    "F1104": {
+                    "f1104": {
                       "type": "number",
                       "description": "其他股数（大陆股数）",
                       "example": 10000
                     },
-                    "F1105": {
+                    "f1105": {
                       "type": "number",
                       "description": "特殊股数",
                       "example": 10000
                     },
-                    "F1106": {
+                    "f1106": {
                       "type": "number",
                       "description": "香港股数部分",
                       "example": 1500.5
                     },
-                    "F1107": {
+                    "f1107": {
                       "type": "number",
                       "description": "大陆股数部分",
                       "example": 1000000
                     },
-                    "F1108": {
+                    "f1108": {
                       "type": "number",
                       "description": "总股数",
                       "example": 1000000000
@@ -53240,12 +53240,12 @@
                       "description": "指数的总市值",
                       "example": 122081713834.268
                     },
-                    "PE": {
+                    "pe": {
                       "type": "number",
                       "description": "市盈率",
                       "example": 14.3326
                     },
-                    "PB": {
+                    "pb": {
                       "type": "number",
                       "description": "市净率",
                       "example": 1.376
