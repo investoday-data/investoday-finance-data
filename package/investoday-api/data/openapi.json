@@ -28250,6 +28250,18 @@
                     "fcfe": {
                       "type": "number",
                       "description": "权益自由现金流(FCFE)"
+                    },
+                    "capexMaintenance": {
+                      "type": "number",
+                      "description": "维护性资本支出"
+                    },
+                    "ownerEarningsBuffett": {
+                      "type": "number",
+                      "description": "巴菲特所有者收益"
+                    },
+                    "capexToRevenue": {
+                      "type": "number",
+                      "description": "资本支出占收入比"
                     }
                   }
                 }
@@ -28570,6 +28582,18 @@
                     "fcfe": {
                       "type": "number",
                       "description": "权益自由现金流(FCFE)"
+                    },
+                    "capexMaintenance": {
+                      "type": "number",
+                      "description": "维护性资本支出"
+                    },
+                    "ownerEarningsBuffett": {
+                      "type": "number",
+                      "description": "巴菲特所有者收益"
+                    },
+                    "capexToRevenue": {
+                      "type": "number",
+                      "description": "资本支出占收入比"
                     }
                   }
                 }
