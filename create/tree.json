@@ -394,6 +394,20 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110637,
+                      "apiName": "股票分钟未复权日行情",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1083,
+                      "remarks": null,
+                      "toolName": "list_stk_unadj_min_quotes",
+                      "toolId": "list_stk_unadj_min_quotes",
+                      "apiPath": "stock/unadj-min-quotes",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -464,6 +478,20 @@
                       "toolName": "list_stk_share_adj_fac",
                       "toolId": "list_stock_share_adj_factors",
                       "apiPath": "stock/adjustment-factors",
+                      "enabled": 1,
+                      "apiAccessLevel": "L1",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110641,
+                      "apiName": "股票分钟复权日行情",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1084,
+                      "remarks": null,
+                      "toolName": "list_stk_adj_min_quotes",
+                      "toolId": "list_stk_adj_min_quotes",
+                      "apiPath": "stock/adj-min-quotes",
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "POST"
@@ -1809,7 +1837,7 @@
                   "updateBy": null,
                   "updateTime": null,
                   "groupId": 1071,
-                  "groupName": "个股诊断V4",
+                  "groupName": "个股诊断",
                   "groupDesc": null,
                   "parentId": 1044,
                   "userId": null,
@@ -1984,6 +2012,37 @@
                           "enabled": 1,
                           "apiAccessLevel": "L2",
                           "apiMethod": "GET"
+                        }
+                      ]
+                    },
+                    {
+                      "createBy": null,
+                      "createByName": null,
+                      "createTime": null,
+                      "updateBy": null,
+                      "updateTime": null,
+                      "groupId": 11167,
+                      "groupName": "dcf估值模型",
+                      "groupDesc": null,
+                      "parentId": 1071,
+                      "userId": null,
+                      "apiCount": 0,
+                      "isShow": 1,
+                      "children": [],
+                      "apis": [
+                        {
+                          "apiId": 110636,
+                          "apiName": "DCF估值模型结果",
+                          "apiType": "SQL",
+                          "apiStatus": "release",
+                          "groupId": 11167,
+                          "remarks": null,
+                          "toolName": "list_stock_dcf_result",
+                          "toolId": "list_stock_dcf_result",
+                          "apiPath": "stock/dcf-result",
+                          "enabled": 1,
+                          "apiAccessLevel": "L5",
+                          "apiMethod": "POST"
                         }
                       ]
                     }
@@ -5125,6 +5184,48 @@
                       "toolName": "list_fund_tech_indicators",
                       "toolId": "list_fund_tech_indicators",
                       "apiPath": "fund/technical-indicators",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110638,
+                      "apiName": "基金强弱与趋向指标",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11146,
+                      "remarks": null,
+                      "toolName": "list_fund_str_trend_ind",
+                      "toolId": "list_fund_strength_trend_indicators",
+                      "apiPath": "fund/str-trend-ind",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110639,
+                      "apiName": "基金摆动与超买超卖指标",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11146,
+                      "remarks": null,
+                      "toolName": "list_fund_osc_indicators",
+                      "toolId": "list_fund_oscillator_indicators",
+                      "apiPath": "fund/osc-indicators",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110640,
+                      "apiName": "基金量价与压力支撑指标",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11146,
+                      "remarks": null,
+                      "toolName": "list_fund_price_vol_ind",
+                      "toolId": "list_fund_price_volume_indicators",
+                      "apiPath": "fund/price-vol-ind",
                       "enabled": 1,
                       "apiAccessLevel": "L2",
                       "apiMethod": "POST"

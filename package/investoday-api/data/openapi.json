@@ -63003,6 +63003,1060 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/stock/dcf-result": {
+      "post": {
+        "tags": [
+          "DCF估值模型结果"
+        ],
+        "summary": "DCF估值模型结果",
+        "description": "支持通过单只股票代码、多只股票代码列表，结合基准报告截止日期范围（格式yyyy-MM-dd）及分页参数，查询股票的DCF估值模型结果，包含发布日期、股票代码与名称、基准报告截止日期、场景类型、预测年数、预测期FCF现值合计、永续增长率、终值、终值现值、企业价值EV、加权平均资本成本WACC等核心数据，可用于股票估值分析、企业价值研究等投研场景。",
+        "operationId": "list_stock_dcf_result",
+        "requestBody": {
+          "description": "支持通过单只股票代码、多只股票代码列表，结合基准报告截止日期范围（格式yyyy-MM-dd）及分页参数，查询股票的DCF估值模型结果，包含发布日期、股票代码与名称、基准报告截止日期、场景类型、预测年数、预测期FCF现值合计、永续增长率、终值、终值现值、企业价值EV、加权平均资本成本WACC等核心数据，可用于股票估值分析、企业价值研究等投研场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": ""
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "基准报告截止日期",
+                      "example": "2024-12-31 00:00:00"
+                    },
+                    "scenarioType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1、乐观情景；2、中立情景；3、悲观情景；\n",
+                          "enum": [
+                            "1、乐观情景；2、中立情景；3、悲观情景；"
+                          ]
+                        }
+                      ],
+                      "description": "情景类型",
+                      "example": 1
+                    },
+                    "forecastYears": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "预测年份数",
+                      "example": 5
+                    },
+                    "sumFcfPv": {
+                      "type": "number",
+                      "description": "预测期FCF现值合计",
+                      "example": 123456.789
+                    },
+                    "terminalGrowthRate": {
+                      "type": "number",
+                      "description": "永续增长率",
+                      "example": 0.03
+                    },
+                    "terminalValue": {
+                      "type": "number",
+                      "description": "终值",
+                      "example": 123456.789
+                    },
+                    "terminalValuePv": {
+                      "type": "number",
+                      "description": "终值现值",
+                      "example": 123456.789
+                    },
+                    "enterpriseValueEv": {
+                      "type": "number",
+                      "description": "企业价值EV",
+                      "example": 123456.789
+                    },
+                    "wacc": {
+                      "type": "number",
+                      "description": "加权平均资本成本",
+                      "example": 0.085
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/unadj-min-quotes": {
+      "post": {
+        "tags": [
+          "股票分钟未复权日行情"
+        ],
+        "summary": "股票分钟未复权日行情",
+        "description": "使用股票代码和时间范围查询股票的未复权行情数据，包括股票基本信息、行情时间、前收盘价、开盘价、最高价、最低价、最新价、成交量和成交金额等核心数据，适用于历史行情分析和数据回溯。",
+        "operationId": "list_stk_unadj_min_quotes",
+        "requestBody": {
+          "description": "使用股票代码和时间范围查询股票的未复权行情数据，包括股票基本信息、行情时间、前收盘价、开盘价、最高价、最低价、最新价、成交量和成交金额等核心数据，适用于历史行情分析和数据回溯。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "freq": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表1分钟;\n5代表5分钟;\n30代表30分钟;\n60代表60分钟;\n120代表120分钟",
+                        "enum": [
+                          1,
+                          5,
+                          30,
+                          60,
+                          120
+                        ]
+                      }
+                    ],
+                    "description": "频率",
+                    "example": 1
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "freq"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2023-10-26"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "贵州茅台"
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 12.75
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 128.75
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 12.75
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 15.75
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量（股）",
+                      "example": 12345.67
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "成交金额（元）",
+                      "example": 123456.78
+                    },
+                    "changePct": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.025
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund/str-trend-ind": {
+      "post": {
+        "tags": [
+          "基金强弱与趋向指标"
+        ],
+        "summary": "基金强弱与趋向指标",
+        "description": "支持通过单个基金代码或批量基金代码数组，结合指定的时间范围（开始日期、结束日期格式为yyyy-MM-dd），并可通过页码、页长分页，查询基金的强弱与趋势技术指标数据，包含交易日期（格式yyyy-MM-dd HH:mm:ss）、基金代码及名称，以及5日、10日、20日、60日、120日、250日移动平均线，MACD、DMI、DMA、MTM、TRIX等多类技术指标数值，可用于基金趋势判断、强弱分析等投资研究场景。",
+        "operationId": "list_fund_strength_trend_indicators",
+        "requestBody": {
+          "description": "支持通过单个基金代码或批量基金代码数组，结合指定的时间范围（开始日期、结束日期格式为yyyy-MM-dd），并可通过页码、页长分页，查询基金的强弱与趋势技术指标数据，包含交易日期（格式yyyy-MM-dd HH:mm:ss）、基金代码及名称，以及5日、10日、20日、60日、120日、250日移动平均线，MACD、DMI、DMA、MTM、TRIX等多类技术指标数值，可用于基金趋势判断、强弱分析等投资研究场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000001"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2014-01-02 00:00:00"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "600716"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "凤凰股份"
+                    },
+                    "ma5d": {
+                      "type": "number",
+                      "description": "5日均价",
+                      "example": 15.78
+                    },
+                    "ma10d": {
+                      "type": "number",
+                      "description": "10日均价",
+                      "example": 15.78
+                    },
+                    "ma20d": {
+                      "type": "number",
+                      "description": "20日均价",
+                      "example": 15.78
+                    },
+                    "ma60d": {
+                      "type": "number",
+                      "description": "60日均价",
+                      "example": 12.45
+                    },
+                    "ma120d": {
+                      "type": "number",
+                      "description": "120日均价",
+                      "example": 15.78
+                    },
+                    "ma250d": {
+                      "type": "number",
+                      "description": "250日均价",
+                      "example": 15.78
+                    },
+                    "macdDiff": {
+                      "type": "number",
+                      "description": "MACD差离值",
+                      "example": 0
+                    },
+                    "macdDea": {
+                      "type": "number",
+                      "description": "DIF线移动平均线",
+                      "example": 0
+                    },
+                    "macd": {
+                      "type": "number",
+                      "description": "MACD值",
+                      "example": 0
+                    },
+                    "dmiPdi": {
+                      "type": "number",
+                      "description": "DMI趋向指标",
+                      "example": 0
+                    },
+                    "dmiMdi": {
+                      "type": "number",
+                      "description": "下降方向线",
+                      "example": 0
+                    },
+                    "dmiAdx": {
+                      "type": "number",
+                      "description": "平均趋向指数",
+                      "example": 0
+                    },
+                    "dmiAdxr": {
+                      "type": "number",
+                      "description": "平均趋向指数评估值",
+                      "example": 0
+                    },
+                    "dmaDma": {
+                      "type": "number",
+                      "description": "DMA指标",
+                      "example": 3.75
+                    },
+                    "dmaAma": {
+                      "type": "number",
+                      "description": "平行线差指标",
+                      "example": -0.015
+                    },
+                    "mtmMtm": {
+                      "type": "number",
+                      "description": "MTM动量线",
+                      "example": 0
+                    },
+                    "trixTrix": {
+                      "type": "number",
+                      "description": "三重指数平滑平均线​ ",
+                      "example": 0
+                    },
+                    "trixTrma": {
+                      "type": "number",
+                      "description": "三重指数平滑平均线的移动平均线",
+                      "example": 0.015
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund/osc-indicators": {
+      "post": {
+        "tags": [
+          "基金摆动与超买超卖指标"
+        ],
+        "summary": "基金摆动与超买超卖指标",
+        "description": "支持通过单个基金代码或批量基金代码列表，结合指定的时间范围（开始日期、结束日期格式均为yyyy-MM-dd），查询ETF的振荡与超买超卖相关技术指标数据，包括交易日期（格式yyyy-MM-dd HH:mm:ss）、基金代码、基金名称，以及RC变化率、ATR真实波幅、CVLT蔡金波动指标、ADTM动态买卖气指标、KDJ指标（K/D/J线）、5日和14日RSI相对强弱指标、不同周期的乖离率等核心数据，还可通过页码和页长控制返回结果的分页，适用于ETF的技术面分析、投资决策辅助等场景。",
+        "operationId": "list_fund_oscillator_indicators",
+        "requestBody": {
+          "description": "支持通过单个基金代码或批量基金代码列表，结合指定的时间范围（开始日期、结束日期格式均为yyyy-MM-dd），查询ETF的振荡与超买超卖相关技术指标数据，包括交易日期（格式yyyy-MM-dd HH:mm:ss）、基金代码、基金名称，以及RC变化率、ATR真实波幅、CVLT蔡金波动指标、ADTM动态买卖气指标、KDJ指标（K/D/J线）、5日和14日RSI相对强弱指标、不同周期的乖离率等核心数据，还可通过页码和页长控制返回结果的分页，适用于ETF的技术面分析、投资决策辅助等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000001"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2014-01-02 00:00:00"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "000016"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "深康佳Ａ"
+                    },
+                    "rateOfChange": {
+                      "type": "number",
+                      "description": "RC变化率指数",
+                      "example": 0
+                    },
+                    "atr": {
+                      "type": "number",
+                      "description": "ATR真实波幅ATR",
+                      "example": 3.75
+                    },
+                    "chaikinVolatility": {
+                      "type": "number",
+                      "description": "CVLT佳庆离散指标",
+                      "example": 0
+                    },
+                    "adtm": {
+                      "type": "number",
+                      "description": "ADTM动态买卖气指标",
+                      "example": -0.73
+                    },
+                    "kdjK": {
+                      "type": "number",
+                      "description": "KDJ随机指标快线K",
+                      "example": 50
+                    },
+                    "kdjD": {
+                      "type": "number",
+                      "description": "KDJ随机指标慢线D",
+                      "example": 50
+                    },
+                    "kdjJ": {
+                      "type": "number",
+                      "description": "KDJ随机指标方向敏感线J",
+                      "example": 60
+                    },
+                    "rsi5d": {
+                      "type": "number",
+                      "description": "5天相对强弱指数(rsi)",
+                      "example": 11.5945
+                    },
+                    "rsi14d": {
+                      "type": "number",
+                      "description": "14天相对强弱指数(rsi)",
+                      "example": 29.5792
+                    },
+                    "bias": {
+                      "type": "number",
+                      "description": " 乖离率",
+                      "example": -17.6218
+                    },
+                    "bias6d": {
+                      "type": "number",
+                      "description": "6天乖离率",
+                      "example": -17.6218
+                    },
+                    "bias24d": {
+                      "type": "number",
+                      "description": "24天乖离率",
+                      "example": -17.6218
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund/price-vol-ind": {
+      "post": {
+        "tags": [
+          "基金量价与压力支撑指标"
+        ],
+        "summary": "基金量价与压力支撑指标",
+        "description": "支持通过单个基金代码或批量基金代码，结合可选的时间范围（开始日期、结束日期，格式为yyyy-MM-dd）、分页参数，查询ETF的量价与压力支撑类技术指标数据，包括交易日期（格式为yyyy-MM-dd HH:mm:ss）、基金代码、基金名称，以及布林带、多空布林线、ENV、MIKE等压力支撑指标，还有MFI、OBV、PVT、WVAD、AR、BR、PSY、CR等量价类指标，可用于ETF的技术面分析、走势研判及投资决策参考。",
+        "operationId": "list_fund_price_volume_indicators",
+        "requestBody": {
+          "description": "支持通过单个基金代码或批量基金代码，结合可选的时间范围（开始日期、结束日期，格式为yyyy-MM-dd）、分页参数，查询ETF的量价与压力支撑类技术指标数据，包括交易日期（格式为yyyy-MM-dd HH:mm:ss）、基金代码、基金名称，以及布林带、多空布林线、ENV、MIKE等压力支撑指标，还有MFI、OBV、PVT、WVAD、AR、BR、PSY、CR等量价类指标，可用于ETF的技术面分析、走势研判及投资决策参考。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000001"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2014-01-02 00:00:00"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "000004"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "*ST国华"
+                    },
+                    "bollMid": {
+                      "type": "number",
+                      "description": "布林带上轨",
+                      "example": 102.45
+                    },
+                    "bollUpper": {
+                      "type": "number",
+                      "description": "布林带上轨",
+                      "example": 20.75
+                    },
+                    "bollLower": {
+                      "type": "number",
+                      "description": "布林带下轨",
+                      "example": -12.34
+                    },
+                    "bbibollBbi": {
+                      "type": "number",
+                      "description": "多空布林线上轨",
+                      "example": 123.45
+                    },
+                    "bbibollUpper": {
+                      "type": "number",
+                      "description": "多空布林线上轨",
+                      "example": 12.85
+                    },
+                    "bbibollLower": {
+                      "type": "number",
+                      "description": "多空布林线下轨",
+                      "example": -12.35
+                    },
+                    "envUpper": {
+                      "type": "number",
+                      "description": "ENV指标下轨",
+                      "example": -0.15
+                    },
+                    "envLower": {
+                      "type": "number",
+                      "description": "ENV指标下轨",
+                      "example": -0.15
+                    },
+                    "mikeWr": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-中级压力线",
+                      "example": 11.71
+                    },
+                    "mikeMr": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-中级压力线",
+                      "example": 11.71
+                    },
+                    "mikeWs": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-初级支撑线",
+                      "example": 11.71
+                    },
+                    "mikeSr": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-强力压力线",
+                      "example": 11.71
+                    },
+                    "mikeMs": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-中级支撑线",
+                      "example": 11.71
+                    },
+                    "mikeSs": {
+                      "type": "number",
+                      "description": "MIKE麦克指标-强力支撑线",
+                      "example": 11.71
+                    },
+                    "mfi": {
+                      "type": "number",
+                      "description": "资金流量指标MFI",
+                      "example": 50
+                    },
+                    "obv": {
+                      "type": "number",
+                      "description": "修正OBV能量潮",
+                      "example": 0
+                    },
+                    "pvt": {
+                      "type": "number",
+                      "description": "价量趋势指标PVT",
+                      "example": 0
+                    },
+                    "wvad": {
+                      "type": "number",
+                      "description": "威廉变异离散量WVAD",
+                      "example": -0.0345
+                    },
+                    "ar": {
+                      "type": "number",
+                      "description": "AR人气指标",
+                      "example": 100
+                    },
+                    "br": {
+                      "type": "number",
+                      "description": "BR意愿指标",
+                      "example": 100
+                    },
+                    "psy": {
+                      "type": "number",
+                      "description": "心理线PSY",
+                      "example": 50
+                    },
+                    "cr": {
+                      "type": "number",
+                      "description": "中间意愿指标/带状能量线",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/adj-min-quotes": {
+      "post": {
+        "tags": [
+          "股票分钟复权日行情"
+        ],
+        "summary": "股票分钟复权日行情",
+        "description": "使用股票代码和时间范围查询股票的复权行情数据，包括股票基本信息、行情时间、前收盘价、开盘价、最高价、最低价、最新价、成交量和成交金额等核心数据，适用于历史行情分析和数据回溯。",
+        "operationId": "list_stk_adj_min_quotes",
+        "requestBody": {
+          "description": "使用股票代码和时间范围查询股票的复权行情数据，包括股票基本信息、行情时间、前收盘价、开盘价、最高价、最低价、最新价、成交量和成交金额等核心数据，适用于历史行情分析和数据回溯。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "freq": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表1分钟;\n5代表5分钟;\n30代表30分钟;\n60代表60分钟;\n120代表120分钟",
+                        "enum": [
+                          1,
+                          5,
+                          30,
+                          60,
+                          120
+                        ]
+                      }
+                    ],
+                    "description": "频率",
+                    "example": 1
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "freq"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2023-10-26"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "贵州茅台"
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 12.75
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 128.75
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 12.75
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 15.75
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量（股）",
+                      "example": 12345.67
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "成交金额（元）",
+                      "example": 123456.78
+                    },
+                    "changePct": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.025
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
