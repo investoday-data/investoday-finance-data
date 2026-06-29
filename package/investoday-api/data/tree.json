@@ -3806,6 +3806,48 @@
                   "enabled": 1,
                   "apiAccessLevel": "L2",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110642,
+                  "apiName": "指数量价与压力支撑指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1117,
+                  "remarks": null,
+                  "toolName": "list_idx_price_vol_ind",
+                  "toolId": "list_index_price_volume_indicators",
+                  "apiPath": "index/price-vol-ind",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110643,
+                  "apiName": "指数摆动与超买超卖指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1117,
+                  "remarks": null,
+                  "toolName": "list_index_osc_indicators",
+                  "toolId": "list_index_oscillator_indicators",
+                  "apiPath": "index/osc-indicators",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110644,
+                  "apiName": "指数强弱与趋向指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1117,
+                  "remarks": null,
+                  "toolName": "list_index_str_trend_ind",
+                  "toolId": "list_index_strength_trend_indicators",
+                  "apiPath": "index/str-trend-ind",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiMethod": "POST"
                 }
               ]
             },
