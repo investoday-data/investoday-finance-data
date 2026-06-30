@@ -35,6 +35,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [三大报表时点数据](../references/沪深京数据/财务数据/三大报表时点数据.md)
 - [三大报表TTM数据](../references/沪深京数据/财务数据/三大报表TTM数据.md)
 - [财务附注](../references/沪深京数据/财务数据/财务附注.md)
+- [财务ttm指标数据](../references/沪深京数据/财务数据/财务ttm指标数据.md)
 ### 特色数据 / 个股诊断
 
 - [财务面](../references/沪深京数据/特色数据/个股诊断/财务面.md)
@@ -157,3 +158,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [基础信息](../references/产业链/基础信息.md)
 - [关系图谱](../references/产业链/关系图谱.md)
 - [经营分析](../references/产业链/经营分析.md)
+
+## 数据字典
+
+- [数据字典](../references/数据字典.md)

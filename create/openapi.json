@@ -63004,6 +63004,609 @@
         "resource"
       ]
     },
+    "/data-dict/search": {
+      "get": {
+        "tags": [
+          "数据字典搜索"
+        ],
+        "summary": "数据字典搜索",
+        "description": "支持按表名、字段名或关键词搜索数据字典，返回匹配的表及字段详细信息（包括中英文名称、数据库归属、模块分类、状态及备注等），并标识当前用户权限及元数据完整性，便于大模型进行数据资产发现、字段映射及元数据管理。",
+        "operationId": "get_data_dict_search",
+        "parameters": [
+          {
+            "name": "srchtype",
+            "in": "query",
+            "description": "搜索类型",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "allOf": [
+                {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "1代表按表搜索;\n2代表按字段搜索;\n3代表按表名批量搜索",
+                  "enum": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              ],
+              "example": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "关键字",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "好股"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否管理员",
+                      "example": false
+                    },
+                    "dictTables": {
+                      "type": "object",
+                      "description": "搜索表结果(key:表名)",
+                      "example": "{GZLTJ_ana_viw_cnt_creat=[{tableId=403, tableName=GZLTJ_ana_viw_cnt_creat}]}"
+                    },
+                    "existFiledEng": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否存在字段英文说明",
+                      "example": false
+                    },
+                    "existTblEng": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否存在表英文描述",
+                      "example": true
+                    },
+                    "tables": {
+                      "type": "array",
+                      "example": null,
+                      "items": {
+                        "type": "object",
+                        "description": "搜索表结果",
+                        "properties": {
+                          "colDescCn": {
+                            "type": "string",
+                            "description": "字段中文说明",
+                            "example": "观点数量"
+                          },
+                          "colDescEn": {
+                            "type": "string",
+                            "description": "字段英文说明",
+                            "example": "View Count"
+                          },
+                          "colName": {
+                            "type": "string",
+                            "description": "字段名",
+                            "example": "CNT"
+                          },
+                          "dbName": {
+                            "type": "string",
+                            "description": "标题显示的数据库名",
+                            "example": "edt_work"
+                          },
+                          "dbNameCn": {
+                            "type": "string",
+                            "description": "中文库名",
+                            "example": "采集库"
+                          },
+                          "dbNameEn": {
+                            "type": "string",
+                            "description": "英文库名",
+                            "example": "central_database"
+                          },
+                          "modNameCn": {
+                            "type": "string",
+                            "description": "中文模块名",
+                            "example": "采集工作"
+                          },
+                          "modNameEn": {
+                            "type": "string",
+                            "description": "英文模块名",
+                            "example": "collection_work"
+                          },
+                          "rmrk": {
+                            "type": "string",
+                            "description": "备注",
+                            "example": "分析师观点量统计字段"
+                          },
+                          "status": {
+                            "type": "integer",
+                            "format": "int32",
+                            "allOf": [
+                              {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "1代表规划中;\n2代表开发中;\n3代表已发布;\n4代表已废弃;\n5代表已归档",
+                                "enum": [
+                                  1,
+                                  2,
+                                  3,
+                                  4,
+                                  5
+                                ]
+                              }
+                            ],
+                            "description": "表状态",
+                            "example": 3
+                          },
+                          "tableDescCn": {
+                            "type": "string",
+                            "description": "表中文描述",
+                            "example": "分析师观点量（录入时间）"
+                          },
+                          "tableDescEn": {
+                            "type": "string",
+                            "description": "表英文描述",
+                            "example": "Analyst view count by create time"
+                          },
+                          "tableId": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "表唯一标识",
+                            "example": 403
+                          },
+                          "tableName": {
+                            "type": "string",
+                            "description": "表名",
+                            "example": "GZLTJ_ana_viw_cnt_creat"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/data-dict/detail": {
+      "get": {
+        "tags": [
+          "数据字典表详情"
+        ],
+        "summary": "数据字典表详情",
+        "description": "根据数据字典表标识获取指定表的详细元数据信息，包括表的基本属性（如中英文名称、描述、状态、所属模块等）以及所有字段的详细信息（如字段名、中英文说明、数据类型、主键/唯一/非空约束、默认值、精度等），并返回字段关联的常量枚举列表及其定义，适用于数据治理、数据库文档生成及开发过程中的数据结构查询场景。",
+        "operationId": "get_data_dict_detail",
+        "parameters": [
+          {
+            "name": "tableId",
+            "in": "query",
+            "description": "数据字典表标识",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 101
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "dictCols": {
+                      "type": "array",
+                      "example": null,
+                      "items": {
+                        "type": "object",
+                        "description": "字段信息表",
+                        "properties": {
+                          "colDescCN": {
+                            "type": "string",
+                            "description": "字段说明(中文)",
+                            "example": "观点数量"
+                          },
+                          "colDescEN": {
+                            "type": "string",
+                            "description": "字段说明(英文)",
+                            "example": "View Count"
+                          },
+                          "colId": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "字段标识",
+                            "example": 1001
+                          },
+                          "colName": {
+                            "type": "string",
+                            "description": "字段名",
+                            "example": "CNT"
+                          },
+                          "colNum": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "列号",
+                            "example": 1
+                          },
+                          "constList": {
+                            "type": "array",
+                            "example": null,
+                            "items": {
+                              "type": "object",
+                              "description": "关联常量列表",
+                              "properties": {
+                                "constCode": {
+                                  "type": "string",
+                                  "description": "常量代码",
+                                  "example": "1"
+                                },
+                                "constDesc": {
+                                  "type": "string",
+                                  "description": "常量说明",
+                                  "example": "有效"
+                                },
+                                "constId": {
+                                  "type": "integer",
+                                  "format": "int32",
+                                  "description": "唯一id",
+                                  "example": 10
+                                },
+                                "constType": {
+                                  "type": "string",
+                                  "description": "常量类别",
+                                  "example": "IS_VALID"
+                                },
+                                "constTypeDesc": {
+                                  "type": "string",
+                                  "description": "常量类别说明",
+                                  "example": "是否有效"
+                                },
+                                "createTime": {
+                                  "type": "string",
+                                  "description": "创建时间",
+                                  "example": "2026-06-29 10:30:00"
+                                },
+                                "isVld": {
+                                  "type": "string",
+                                  "description": "有效标识",
+                                  "example": "1"
+                                },
+                                "updateTime": {
+                                  "type": "string",
+                                  "description": "更新时间",
+                                  "example": "2026-06-29 10:30:00"
+                                }
+                              }
+                            }
+                          },
+                          "constType": {
+                            "type": "string",
+                            "description": "关联常量类别",
+                            "example": "IS_VALID"
+                          },
+                          "createTime": {
+                            "type": "string",
+                            "description": "创建时间",
+                            "example": "2026-06-29 10:30:00"
+                          },
+                          "dataType": {
+                            "type": "string",
+                            "description": "数据类型",
+                            "example": "int"
+                          },
+                          "defValue": {
+                            "type": "string",
+                            "description": "默认值",
+                            "example": "0"
+                          },
+                          "dictSeq": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "数据字典的字段序号",
+                            "example": 1
+                          },
+                          "isIdent": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "1代表是;\n0代表否",
+                                "enum": [
+                                  "1",
+                                  "0"
+                                ]
+                              }
+                            ],
+                            "description": "是否自增",
+                            "example": "0"
+                          },
+                          "isNullable": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "1代表是;\n0代表否",
+                                "enum": [
+                                  "1",
+                                  "0"
+                                ]
+                              }
+                            ],
+                            "description": "是否允许为空",
+                            "example": "1"
+                          },
+                          "isPK": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "1代表是;\n0代表否",
+                                "enum": [
+                                  "1",
+                                  "0"
+                                ]
+                              }
+                            ],
+                            "description": "是否主键",
+                            "example": "0"
+                          },
+                          "isUnique": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "1代表是;\n0代表否",
+                                "enum": [
+                                  "1",
+                                  "0"
+                                ]
+                              }
+                            ],
+                            "description": "是否唯一",
+                            "example": "0"
+                          },
+                          "isVld": {
+                            "type": "string",
+                            "description": "有效标识",
+                            "example": "1"
+                          },
+                          "precision": {
+                            "type": "string",
+                            "description": "精度",
+                            "example": "10"
+                          },
+                          "rmrk": {
+                            "type": "string",
+                            "description": "备注",
+                            "example": "观点数量字段"
+                          },
+                          "rmrkEn": {
+                            "type": "string",
+                            "description": "英文字段说明",
+                            "example": "View count field"
+                          },
+                          "scale": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "小数位数",
+                            "example": 0
+                          },
+                          "seq": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "数据库表中字字段序号",
+                            "example": 1
+                          },
+                          "tableId": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "表ID",
+                            "example": 403
+                          },
+                          "updateTime": {
+                            "type": "string",
+                            "description": "更新时间",
+                            "example": "2026-06-29 10:30:00"
+                          }
+                        }
+                      }
+                    },
+                    "dictTable": {
+                      "type": "object",
+                      "description": "数据字典表",
+                      "example": null,
+                      "properties": {
+                        "account": {
+                          "type": "string",
+                          "description": "用户名",
+                          "example": "10016483"
+                        },
+                        "createTime": {
+                          "type": "string",
+                          "description": "创建时间",
+                          "example": "2026-06-29 10:30:00"
+                        },
+                        "dbName": {
+                          "type": "string",
+                          "description": "头部显示的英文库名",
+                          "example": "edt_work"
+                        },
+                        "dbNameCn": {
+                          "type": "string",
+                          "description": "中文库名",
+                          "example": "采集库"
+                        },
+                        "dbNameEn": {
+                          "type": "string",
+                          "description": "英文库名",
+                          "example": "central_database"
+                        },
+                        "dbRmrk": {
+                          "type": "string",
+                          "description": "库名备注",
+                          "example": "采集库备注"
+                        },
+                        "isVld": {
+                          "type": "string",
+                          "description": "有效标识(默认为1)",
+                          "example": "1"
+                        },
+                        "modNameCn": {
+                          "type": "string",
+                          "description": "中文模块名",
+                          "example": "采集工作"
+                        },
+                        "modNameEn": {
+                          "type": "string",
+                          "description": "英文模块名",
+                          "example": "collection_work"
+                        },
+                        "modRmrk": {
+                          "type": "string",
+                          "description": "模块备注",
+                          "example": "采集工作模块备注"
+                        },
+                        "status": {
+                          "type": "integer",
+                          "format": "int32",
+                          "allOf": [
+                            {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "1代表规划中;\n2代表开发中;\n3代表已发布;\n4代表已废弃;\n5代表已归档",
+                              "enum": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                              ]
+                            }
+                          ],
+                          "description": "表状态",
+                          "example": 3
+                        },
+                        "tableDescCn": {
+                          "type": "string",
+                          "description": "表中文描述",
+                          "example": "分析师观点量（录入时间）"
+                        },
+                        "tableDescEn": {
+                          "type": "string",
+                          "description": "表英文描述",
+                          "example": "Analyst view count by create time"
+                        },
+                        "tableId": {
+                          "type": "string",
+                          "description": "表唯一标识",
+                          "example": "403"
+                        },
+                        "tableName": {
+                          "type": "string",
+                          "description": "表名",
+                          "example": "GZLTJ_ana_viw_cnt_creat"
+                        },
+                        "tableRmrk": {
+                          "type": "string",
+                          "description": "表描述",
+                          "example": "分析师观点量统计表"
+                        },
+                        "updateTime": {
+                          "type": "string",
+                          "description": "更新时间",
+                          "example": "2026-06-29 10:30:00"
+                        }
+                      }
+                    },
+                    "existEngDesc": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否存在字段英文说明",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/stock/dcf-result": {
       "post": {
         "tags": [
@@ -64607,6 +65210,160 @@
                       "type": "number",
                       "description": "三重指数平滑平均线的移动平均线",
                       "example": 0.015
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/fin-indicators-solvency-ttm": {
+      "post": {
+        "tags": [
+          "财务指标（ttm偿债能力）"
+        ],
+        "summary": "财务指标（ttm偿债能力）",
+        "description": "支持通过单个股票代码、批量股票代码列表，结合报告发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）及分页参数，查询A股、B股的TTM偿债能力财务指标数据，包含股票代码、名称，报告发布日期、报告期截止日，以及经营现金流流动负债比、EBIT利息保障倍数、经营活动净现金流与总负债/有息债务/非流动负债的比值、营业利润与流动负债/总负债的比值、EBITDA与总负债/有息债务的比值等核心偿债指标，可用于股票财务状况分析、偿债能力评估等投研场景。",
+        "operationId": "list_fin_ind_solvency_ttm",
+        "requestBody": {
+          "description": "支持通过单个股票代码、批量股票代码列表，结合报告发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）及分页参数，查询A股、B股的TTM偿债能力财务指标数据，包含股票代码、名称，报告发布日期、报告期截止日，以及经营现金流流动负债比、EBIT利息保障倍数、经营活动净现金流与总负债/有息债务/非流动负债的比值、营业利润与流动负债/总负债的比值、EBITDA与总负债/有息债务的比值等核心偿债指标，可用于股票财务状况分析、偿债能力评估等投研场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "688569"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "铁科轨道"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "披露日期",
+                      "example": "2020-08-11 00:00:00"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期截止日",
+                      "example": "2020-06-30 00:00:00"
+                    },
+                    "cfoToCurrentLiab": {
+                      "type": "number",
+                      "description": "经营现金流流动负债比",
+                      "example": 0.2976
+                    },
+                    "interestCoverageEbit": {
+                      "type": "number",
+                      "description": "EBIT利息保障倍数",
+                      "example": 54.6579
+                    },
+                    "cfoToTotalLiabilities": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额／负债总额",
+                      "example": 1
+                    },
+                    "cfoToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/有息债务",
+                      "example": 3.03257631
+                    },
+                    "cfoToNonCurrentLiab": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/非流动负债",
+                      "example": 1.50485065
+                    },
+                    "operatingProfitToCurrentLiab": {
+                      "type": "number",
+                      "description": "营业利润/流动负债",
+                      "example": 1
+                    },
+                    "operatingProfitToTotalLiabilities": {
+                      "type": "number",
+                      "description": "营业利润/负债合计",
+                      "example": 0.15168014
+                    },
+                    "ebitdaToTotalLiabilities": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/负债合计",
+                      "example": 0.19155736
+                    },
+                    "ebitdaToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/有息债务",
+                      "example": 2.54500393
                     }
                   }
                 }

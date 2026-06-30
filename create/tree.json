@@ -1796,6 +1796,37 @@
                       "apiMethod": "POST"
                     }
                   ]
+                },
+                {
+                  "createBy": null,
+                  "createByName": null,
+                  "createTime": null,
+                  "updateBy": null,
+                  "updateTime": null,
+                  "groupId": 11168,
+                  "groupName": "财务ttm指标数据",
+                  "groupDesc": null,
+                  "parentId": 1012,
+                  "userId": null,
+                  "apiCount": 0,
+                  "isShow": 1,
+                  "children": [],
+                  "apis": [
+                    {
+                      "apiId": 110645,
+                      "apiName": "财务指标（ttm偿债能力）",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11168,
+                      "remarks": null,
+                      "toolName": "list_fin_ind_solvency_ttm",
+                      "toolId": "list_fin_ind_solvency_ttm",
+                      "apiPath": "stock/fin-indicators-solvency-ttm",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiMethod": "POST"
+                    }
+                  ]
                 }
               ],
               "apis": []
@@ -6387,6 +6418,51 @@
             }
           ],
           "apis": []
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 11166,
+          "groupName": "数据字典",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 110634,
+              "apiName": "数据字典搜索",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11166,
+              "remarks": null,
+              "toolName": "get_data_dict_search",
+              "toolId": "get_data_dict_search",
+              "apiPath": "data-dict/search",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "GET"
+            },
+            {
+              "apiId": 110635,
+              "apiName": "数据字典表详情",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11166,
+              "remarks": null,
+              "toolName": "get_data_dict_detail",
+              "toolId": "get_data_dict_detail",
+              "apiPath": "data-dict/detail",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "GET"
+            }
+          ]
         }
       ],
       "apis": []
