@@ -394,20 +394,6 @@
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "POST"
-                    },
-                    {
-                      "apiId": 110637,
-                      "apiName": "股票分钟未复权日行情",
-                      "apiType": "SQL",
-                      "apiStatus": "release",
-                      "groupId": 1083,
-                      "remarks": null,
-                      "toolName": "list_stk_unadj_min_quotes",
-                      "toolId": "list_stk_unadj_min_quotes",
-                      "apiPath": "stock/unadj-min-quotes",
-                      "enabled": 1,
-                      "apiAccessLevel": "L1",
-                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -478,20 +464,6 @@
                       "toolName": "list_stk_share_adj_fac",
                       "toolId": "list_stock_share_adj_factors",
                       "apiPath": "stock/adjustment-factors",
-                      "enabled": 1,
-                      "apiAccessLevel": "L1",
-                      "apiMethod": "POST"
-                    },
-                    {
-                      "apiId": 110641,
-                      "apiName": "股票分钟复权日行情",
-                      "apiType": "SQL",
-                      "apiStatus": "release",
-                      "groupId": 1084,
-                      "remarks": null,
-                      "toolName": "list_stk_adj_min_quotes",
-                      "toolId": "list_stk_adj_min_quotes",
-                      "apiPath": "stock/adj-min-quotes",
                       "enabled": 1,
                       "apiAccessLevel": "L1",
                       "apiMethod": "POST"
