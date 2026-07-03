@@ -162,3 +162,7 @@ The reference documents themselves are currently maintained in Chinese.
 ## 数据字典
 
 - [数据字典](../references/数据字典.md)
+
+## 国信
+
+- [国信](../references/国信.md)

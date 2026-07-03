@@ -6435,6 +6435,79 @@
               "apiMethod": "GET"
             }
           ]
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 11169,
+          "groupName": "国信",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 110646,
+              "apiName": "沪深京核心实时行情",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_stock_quote_core",
+              "toolId": "get_stock_quote_core",
+              "apiPath": "stock-quote/core",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110647,
+              "apiName": "沪深京盘中行情状态",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_stock_quote_state",
+              "toolId": "get_stock_quote_intraday_states",
+              "apiPath": "stock-quote/intraday-states",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110648,
+              "apiName": "沪深京实时k线行情",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_stock_quote_k_line",
+              "toolId": "get_stock_quote_k_line",
+              "apiPath": "stock-quote/k-line",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110649,
+              "apiName": "市场行情汇总",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_market_quote_summary",
+              "toolId": "get_market_quote_summary",
+              "apiPath": "market/quote-summaries",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiMethod": "POST"
+            }
+          ]
         }
       ],
       "apis": []
