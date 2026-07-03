@@ -40491,6 +40491,11 @@
                     "format": "int32",
                     "description": "页长。\n最小值:1;\n最大值:500;",
                     "example": 10
+                  },
+                  "key": {
+                    "type": "string",
+                    "description": "关键字",
+                    "example": "光模块"
                   }
                 }
               }
