@@ -67161,6 +67161,660 @@
           }
         ]
       }
+    },
+    "/index-quote/core": {
+      "post": {
+        "tags": [
+          "指数核心实时行情"
+        ],
+        "summary": "指数核心实时行情",
+        "description": "通过传入指数代码数组（可批量）和固定为index的资产类型，获取指数的核心实时行情数据，包括接口快照时间、缓存更新时间等基础信息，以及指数的最新价格、昨收价、开盘价、最高价、最低价、涨跌额、涨跌幅、振幅、成交量、成交额等核心行情指标，还包含近20日涨跌幅、年初至今涨跌幅等数据，可用于实时市场监测、指数走势分析等场景。",
+        "operationId": "get_index_quote_core",
+        "requestBody": {
+          "description": "通过传入指数代码数组（可批量）和固定为index的资产类型，获取指数的核心实时行情数据，包括接口快照时间、缓存更新时间等基础信息，以及指数的最新价格、昨收价、开盘价、最高价、最低价、涨跌额、涨跌幅、振幅、成交量、成交额等核心行情指标，还包含近20日涨跌幅、年初至今涨跌幅等数据，可用于实时市场监测、指数走势分析等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "codes": {
+                    "type": "array",
+                    "description": "股票代码",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "assetType": {
+                    "type": "string",
+                    "description": "资产类型（固定为 index）",
+                    "example": "index"
+                  }
+                },
+                "required": [
+                  "assetType",
+                  "codes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "description": "业务数据",
+                      "example": {},
+                      "properties": {
+                        "snapshotTime": {
+                          "type": "string",
+                          "description": "接口快照时间",
+                          "example": "2026-07-06T11:02:35"
+                        },
+                        "cacheTime": {
+                          "type": "string",
+                          "description": "行情缓存最后更新时间",
+                          "example": "2026-07-06T11:02:35"
+                        },
+                        "cacheAgeMs": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "缓存距本次请求的时间差，单位毫秒",
+                          "example": 932
+                        },
+                        "cacheStatus": {
+                          "type": "string",
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "description": "正常代表正常",
+                              "enum": [
+                                "正常"
+                              ]
+                            }
+                          ],
+                          "description": "缓存状态",
+                          "example": "正常"
+                        },
+                        "requestedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "请求数量",
+                          "example": 1
+                        },
+                        "returnedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "返回数量",
+                          "example": 1
+                        },
+                        "elapsedMs": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "接口耗时，单位毫秒",
+                          "example": 24
+                        },
+                        "items": {
+                          "type": "array",
+                          "example": [],
+                          "items": {
+                            "type": "object",
+                            "description": "指数行情列表",
+                            "properties": {
+                              "securityCode": {
+                                "type": "string",
+                                "description": "指数代码",
+                                "example": "000001"
+                              },
+                              "securityName": {
+                                "type": "string",
+                                "description": "指数名称",
+                                "example": "上证指数"
+                              },
+                              "exchange": {
+                                "type": "string",
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
+                                    "enum": [
+                                      "sh",
+                                      "sz",
+                                      "bj"
+                                    ]
+                                  }
+                                ],
+                                "description": "交易所/市场",
+                                "example": "sh"
+                              },
+                              "securityType": {
+                                "type": "string",
+                                "description": "TDX 原始证券类型；部分指数可能仍返回 0，不作为指数判断依据",
+                                "example": "0"
+                              },
+                              "assetType": {
+                                "type": "string",
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "description": "index代表指数",
+                                    "enum": [
+                                      "index"
+                                    ]
+                                  }
+                                ],
+                                "description": "资产类型，固定为 index",
+                                "example": "index"
+                              },
+                              "tradeDate": {
+                                "type": "string",
+                                "description": "交易日期",
+                                "example": "20260706"
+                              },
+                              "quoteTime": {
+                                "type": "string",
+                                "description": "行情快照时间",
+                                "example": "20260706110236"
+                              },
+                              "snapshotTime": {
+                                "type": "string",
+                                "description": "接口快照时间",
+                                "example": "2026-07-06T11:02:35"
+                              },
+                              "lastPrice": {
+                                "type": "number",
+                                "description": "最新点位",
+                                "example": 4023.68
+                              },
+                              "preClose": {
+                                "type": "number",
+                                "description": "昨收点位",
+                                "example": 4043.64
+                              },
+                              "openPrice": {
+                                "type": "number",
+                                "description": "开盘点位",
+                                "example": 4059.19
+                              },
+                              "highPrice": {
+                                "type": "number",
+                                "description": "最高点位",
+                                "example": 4060.07
+                              },
+                              "lowPrice": {
+                                "type": "number",
+                                "description": "最低点位",
+                                "example": 4005.41
+                              },
+                              "chgAmount": {
+                                "type": "number",
+                                "description": "涨跌点数",
+                                "example": -19.96
+                              },
+                              "pctChg": {
+                                "type": "number",
+                                "description": "涨跌幅",
+                                "example": -0.0049
+                              },
+                              "amplitude": {
+                                "type": "number",
+                                "description": "振幅",
+                                "example": 0.0135
+                              },
+                              "intradayReturn": {
+                                "type": "number",
+                                "description": "盘中收益",
+                                "example": -0.0087
+                              },
+                              "speed": {
+                                "type": "number",
+                                "description": "涨速",
+                                "example": 0.0025
+                              },
+                              "volumeLot": {
+                                "type": "number",
+                                "description": "成交量，单位手",
+                                "example": 366018516
+                              },
+                              "volume": {
+                                "type": "number",
+                                "description": "成交量，单位股",
+                                "example": 36601851600
+                              },
+                              "amount": {
+                                "type": "number",
+                                "description": "成交额",
+                                "example": 909594787840
+                              },
+                              "nowVolume": {
+                                "type": "number",
+                                "description": "现量",
+                                "example": 181879700
+                              },
+                              "avgTradePrice": {
+                                "type": "number",
+                                "description": "成交均价",
+                                "example": 4005.86
+                              },
+                              "vwap": {
+                                "type": "number",
+                                "description": "当日成交均价",
+                                "example": 4005.86
+                              },
+                              "return20d": {
+                                "type": "number",
+                                "description": "近 20 日涨跌幅",
+                                "example": -0.001
+                              },
+                              "returnYtd": {
+                                "type": "number",
+                                "description": "年初至今涨跌幅",
+                                "example": 0.0138
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund-quote/core": {
+      "post": {
+        "tags": [
+          "ETF核心实时行情"
+        ],
+        "summary": "ETF核心实时行情",
+        "description": "使用ETF代码列表（可批量传入），并指定资产类型为etf，即可获取对应ETF的核心实时行情数据，涵盖证券基本信息（代码、名称、交易所）、关键价格指标（最新价、昨收价、开盘价、最高价、最低价等）、涨跌数据（涨跌额、涨跌幅、振幅等）、成交数据（成交量、成交额、成交均价等）、买卖盘深度（买一到买二、卖一到卖二的报价及量）、ETF专属指标（IOPV、净值、折溢价率等）以及交易日期、行情快照时间等时间信息，适用于ETF实时行情监测、交易决策分析等场景。",
+        "operationId": "get_fund_quote_core",
+        "requestBody": {
+          "description": "使用ETF代码列表（可批量传入），并指定资产类型为etf，即可获取对应ETF的核心实时行情数据，涵盖证券基本信息（代码、名称、交易所）、关键价格指标（最新价、昨收价、开盘价、最高价、最低价等）、涨跌数据（涨跌额、涨跌幅、振幅等）、成交数据（成交量、成交额、成交均价等）、买卖盘深度（买一到买二、卖一到卖二的报价及量）、ETF专属指标（IOPV、净值、折溢价率等）以及交易日期、行情快照时间等时间信息，适用于ETF实时行情监测、交易决策分析等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "codes": {
+                    "type": "array",
+                    "description": "股票代码",
+                    "example": [
+                      "159001",
+                      "510300"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "assetType": {
+                    "type": "string",
+                    "description": "资产类型（固定为 etf）",
+                    "example": "etf"
+                  }
+                },
+                "required": [
+                  "assetType",
+                  "codes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "description": "业务数据",
+                      "example": {},
+                      "properties": {
+                        "snapshotTime": {
+                          "type": "string",
+                          "description": "接口快照时间",
+                          "example": "2026-07-06T11:49:17"
+                        },
+                        "cacheTime": {
+                          "type": "string",
+                          "description": "行情缓存最后更新时间",
+                          "example": "2026-07-06T11:30:02"
+                        },
+                        "cacheAgeMs": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "缓存距本次请求的时间差，单位毫秒",
+                          "example": 1155946
+                        },
+                        "cacheStatus": {
+                          "type": "string",
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "description": "正常代表正常",
+                              "enum": [
+                                "正常"
+                              ]
+                            }
+                          ],
+                          "description": "缓存状态",
+                          "example": "正常"
+                        },
+                        "requestedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "请求数量",
+                          "example": 1
+                        },
+                        "returnedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "返回数量",
+                          "example": 1
+                        },
+                        "elapsedMs": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "接口耗时，单位毫秒",
+                          "example": 182
+                        },
+                        "items": {
+                          "type": "array",
+                          "example": [],
+                          "items": {
+                            "type": "object",
+                            "description": "ETF 行情列表",
+                            "properties": {
+                              "securityCode": {
+                                "type": "string",
+                                "description": "证券代码",
+                                "example": "159001"
+                              },
+                              "securityName": {
+                                "type": "string",
+                                "description": "证券名称",
+                                "example": "货币ETF易方达"
+                              },
+                              "exchange": {
+                                "type": "string",
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
+                                    "enum": [
+                                      "sh",
+                                      "sz",
+                                      "bj"
+                                    ]
+                                  }
+                                ],
+                                "description": "交易所/市场",
+                                "example": "sz"
+                              },
+                              "securityType": {
+                                "type": "string",
+                                "description": "TDX 原始证券类型；部分 ETF 可能仍返回 0，不作为 ETF 判断依据",
+                                "example": "0"
+                              },
+                              "assetType": {
+                                "type": "string",
+                                "allOf": [
+                                  {
+                                    "type": "string",
+                                    "description": "etf代表ETF",
+                                    "enum": [
+                                      "etf"
+                                    ]
+                                  }
+                                ],
+                                "description": "资产类型，固定为 etf",
+                                "example": "etf"
+                              },
+                              "tradeDate": {
+                                "type": "string",
+                                "description": "交易日期",
+                                "example": "20260706"
+                              },
+                              "quoteTime": {
+                                "type": "string",
+                                "description": "行情快照时间",
+                                "example": "20260706113000"
+                              },
+                              "snapshotTime": {
+                                "type": "string",
+                                "description": "接口快照时间",
+                                "example": "2026-07-06T11:49:17"
+                              },
+                              "lastPrice": {
+                                "type": "number",
+                                "description": "最新价",
+                                "example": 99.997
+                              },
+                              "preClose": {
+                                "type": "number",
+                                "description": "昨收价",
+                                "example": 100
+                              },
+                              "openPrice": {
+                                "type": "number",
+                                "description": "开盘价",
+                                "example": 100
+                              },
+                              "highPrice": {
+                                "type": "number",
+                                "description": "最高价",
+                                "example": 100
+                              },
+                              "lowPrice": {
+                                "type": "number",
+                                "description": "最低价",
+                                "example": 99.997
+                              },
+                              "chgAmount": {
+                                "type": "number",
+                                "description": "涨跌额",
+                                "example": -0.00300000000000011
+                              },
+                              "pctChg": {
+                                "type": "number",
+                                "description": "涨跌幅",
+                                "example": 0
+                              },
+                              "amplitude": {
+                                "type": "number",
+                                "description": "振幅",
+                                "example": 0
+                              },
+                              "intradayReturn": {
+                                "type": "number",
+                                "description": "盘中收益",
+                                "example": 0
+                              },
+                              "speed": {
+                                "type": "number",
+                                "description": "涨速",
+                                "example": 0
+                              },
+                              "volumeLot": {
+                                "type": "number",
+                                "description": "成交量，单位手",
+                                "example": 72817
+                              },
+                              "volume": {
+                                "type": "number",
+                                "description": "成交量，单位股",
+                                "example": 7281700
+                              },
+                              "amount": {
+                                "type": "number",
+                                "description": "成交额",
+                                "example": 728163456
+                              },
+                              "nowVolume": {
+                                "type": "number",
+                                "description": "现量",
+                                "example": 500
+                              },
+                              "avgTradePrice": {
+                                "type": "number",
+                                "description": "成交均价",
+                                "example": 99.999
+                              },
+                              "vwap": {
+                                "type": "number",
+                                "description": "当日成交均价",
+                                "example": 99.999
+                              },
+                              "iopv": {
+                                "type": "number",
+                                "description": "ETF 盘中参考净值候选值，对应 TDX JJJZ"
+                              },
+                              "nav": {
+                                "type": "number",
+                                "description": "基金/ETF 净值候选值，对应 TDX JJJZ"
+                              },
+                              "iopvPremiumRate": {
+                                "type": "number",
+                                "description": "ETF IOPV 折溢价率候选值，由 lastPrice / iopv - 1 计算"
+                              },
+                              "navPremiumRate": {
+                                "type": "number",
+                                "description": "基金/ETF 净值折溢价率候选值，由 lastPrice / nav - 1 计算"
+                              },
+                              "return20d": {
+                                "type": "number",
+                                "description": "近 20 日涨跌幅",
+                                "example": 0
+                              },
+                              "returnYtd": {
+                                "type": "number",
+                                "description": "年初至今涨跌幅",
+                                "example": 0
+                              },
+                              "bidPrice1": {
+                                "type": "number",
+                                "description": "买一价",
+                                "example": 99.997
+                              },
+                              "bidVolume1": {
+                                "type": "number",
+                                "description": "买一量",
+                                "example": 390000
+                              },
+                              "askPrice1": {
+                                "type": "number",
+                                "description": "卖一价",
+                                "example": 99.998
+                              },
+                              "askVolume1": {
+                                "type": "number",
+                                "description": "卖一量",
+                                "example": 459600
+                              },
+                              "bidPrice2": {
+                                "type": "number",
+                                "description": "买二价",
+                                "example": 99.996
+                              },
+                              "bidVolume2": {
+                                "type": "number",
+                                "description": "买二量",
+                                "example": 69700
+                              },
+                              "askPrice2": {
+                                "type": "number",
+                                "description": "卖二价",
+                                "example": 99.999
+                              },
+                              "askVolume2": {
+                                "type": "number",
+                                "description": "卖二量",
+                                "example": 1158500
+                              },
+                              "orderBookDepth": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "当前盘口深度",
+                                "example": 2
+                              },
+                              "spread": {
+                                "type": "number",
+                                "description": "买卖价差",
+                                "example": 0.00100000000000477
+                              },
+                              "spreadRate": {
+                                "type": "number",
+                                "description": "买卖价差率",
+                                "example": 0
+                              },
+                              "midPrice": {
+                                "type": "number",
+                                "description": "买一卖一中间价",
+                                "example": 99.9975
+                              },
+                              "bookPressure": {
+                                "type": "number",
+                                "description": "盘口压力",
+                                "example": -0.5575
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
