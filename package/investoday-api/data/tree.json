@@ -3747,20 +3747,6 @@
                   "enabled": 1,
                   "apiAccessLevel": "L1",
                   "apiMethod": "POST"
-                },
-                {
-                  "apiId": 110650,
-                  "apiName": "指数核心实时行情",
-                  "apiType": "PROXY",
-                  "apiStatus": "release",
-                  "groupId": 1033,
-                  "remarks": null,
-                  "toolName": "get_index_quote_core",
-                  "toolId": "get_index_quote_core",
-                  "apiPath": "index-quote/core",
-                  "enabled": 1,
-                  "apiAccessLevel": "L3",
-                  "apiMethod": "POST"
                 }
               ]
             },
@@ -5215,20 +5201,6 @@
                       "enabled": 1,
                       "apiAccessLevel": "L3",
                       "apiMethod": "GET"
-                    },
-                    {
-                      "apiId": 110651,
-                      "apiName": "ETF核心实时行情",
-                      "apiType": "PROXY",
-                      "apiStatus": "release",
-                      "groupId": 11137,
-                      "remarks": null,
-                      "toolName": "get_fund_quote_core",
-                      "toolId": "get_fund_quote_core",
-                      "apiPath": "fund-quote/core",
-                      "enabled": 1,
-                      "apiAccessLevel": "L3",
-                      "apiMethod": "POST"
                     }
                   ]
                 },
@@ -6533,6 +6505,34 @@
               "apiPath": "market/quote-summaries",
               "enabled": 1,
               "apiAccessLevel": null,
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110650,
+              "apiName": "指数核心实时行情",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_index_quote_core",
+              "toolId": "get_index_quote_core",
+              "apiPath": "index-quote/core",
+              "enabled": 1,
+              "apiAccessLevel": "L3",
+              "apiMethod": "POST"
+            },
+            {
+              "apiId": 110651,
+              "apiName": "ETF核心实时行情",
+              "apiType": "PROXY",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "get_fund_quote_core",
+              "toolId": "get_fund_quote_core",
+              "apiPath": "fund-quote/core",
+              "enabled": 1,
+              "apiAccessLevel": "L3",
               "apiMethod": "POST"
             }
           ]
