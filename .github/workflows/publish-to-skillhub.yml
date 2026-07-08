@@ -142,12 +142,13 @@ jobs:
       - name: Read public SkillHub state
         if: steps.check.outputs.skip == 'false'
         run: |
-          curl -fsS "$SKILLHUB_HOST/api/v1/skills/$SKILLHUB_SLUG" \
-            | python3 - <<'PY'
+          curl -fsS "$SKILLHUB_HOST/api/v1/skills/$SKILLHUB_SLUG" > /tmp/skillhub-state.json
+          python3 - /tmp/skillhub-state.json <<'PY'
           import json
           import sys
+          from pathlib import Path
 
-          payload = json.load(sys.stdin)
+          payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
           slug = payload.get("skill", {}).get("slug", "")
           print(
               json.dumps(
