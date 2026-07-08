@@ -1,0 +1,162 @@
+name: Publish to SkillHub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/SKILL.md'
+
+  workflow_run:
+    workflows: ["Package Skills"]
+    types:
+      - completed
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      changelog:
+        description: 'Changelog text'
+        required: false
+        default: 'Manual release'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    env:
+      SKILLHUB_SLUG: investoday-finance-data-v2
+      SKILLHUB_DISPLAY_NAME: 今日投资金融数据
+      SKILLHUB_HOST: https://api.skillhub.cn
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read version from SKILL.md
+        id: skill
+        run: |
+          VERSION=$(grep '^version:' skills/SKILL.md | head -1 | awk '{print $2}')
+          if [ -z "$VERSION" ]; then
+            echo "ERROR: version field not found in skills/SKILL.md" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Skill version: $VERSION"
+
+      - name: Check if version already published
+        id: check
+        run: |
+          PUBLISHED="$(
+            curl -fsS "$SKILLHUB_HOST/api/v1/skills/$SKILLHUB_SLUG" \
+              | python3 -c 'import json,sys; print(json.load(sys.stdin).get("latestVersion", {}).get("version", ""))'
+          )"
+          echo "Published: ${PUBLISHED:-<none>}  |  Local: ${{ steps.skill.outputs.version }}"
+          if [ "$PUBLISHED" = "${{ steps.skill.outputs.version }}" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip (version already published)
+        if: steps.check.outputs.skip == 'true'
+        run: echo "investoday-finance-data-v2@${{ steps.skill.outputs.version }} already published, nothing to do."
+
+      - name: Build SkillHub release directory
+        id: release_dir
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          TMP_SKILL_DIR="$(mktemp -d)"
+          cp -R skills/. "$TMP_SKILL_DIR/"
+          python3 - "$TMP_SKILL_DIR/SKILL.md" <<'PY'
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          text = path.read_text(encoding="utf-8")
+          match = re.match(r"(?s)^(---\n)(.*?)(\n---\n.*)$", text)
+          if not match:
+              raise SystemExit("SKILL.md is missing YAML frontmatter")
+
+          start, frontmatter, rest = match.groups()
+          lines = frontmatter.splitlines()
+          filtered = []
+          for line in lines:
+              if line.startswith("slug:") or line.startswith("displayName:"):
+                  continue
+              filtered.append(line)
+
+          insert_at = 0
+          for index, line in enumerate(filtered):
+              if line.startswith("title:"):
+                  insert_at = index + 1
+                  break
+
+          injected = [
+              f"slug: {os.environ['SKILLHUB_SLUG']}",
+              f"displayName: {os.environ['SKILLHUB_DISPLAY_NAME']}",
+          ]
+          filtered[insert_at:insert_at] = injected
+          path.write_text(start + "\n".join(filtered) + rest, encoding="utf-8")
+          PY
+          echo "path=$TMP_SKILL_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Install SkillHub CLI
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          curl -fsSL https://skillhub.cn/install/install.sh | bash -s -- --cli-only
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Login SkillHub
+        if: steps.check.outputs.skip == 'false'
+        env:
+          SKILLHUB_KEY: ${{ secrets.SKILLHUB_KEY }}
+        run: |
+          if [ -z "$SKILLHUB_KEY" ]; then
+            echo "ERROR: SKILLHUB_KEY secret is not configured" >&2
+            exit 1
+          fi
+          skillhub login --key "$SKILLHUB_KEY" --host "$SKILLHUB_HOST"
+
+      - name: Verify auth
+        if: steps.check.outputs.skip == 'false'
+        run: skillhub auth whoami
+
+      - name: Dry run publish
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          skillhub publish "${{ steps.release_dir.outputs.path }}" \
+            --host "$SKILLHUB_HOST" \
+            --dry-run
+
+      - name: Publish to SkillHub
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          skillhub publish "${{ steps.release_dir.outputs.path }}" \
+            --host "$SKILLHUB_HOST" \
+            --changelog "${{ github.event.inputs.changelog || 'Automated release from GitHub Actions' }}"
+
+      - name: Read public SkillHub state
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          curl -fsS "$SKILLHUB_HOST/api/v1/skills/$SKILLHUB_SLUG" \
+            | python3 - <<'PY'
+          import json
+          import sys
+
+          payload = json.load(sys.stdin)
+          slug = payload.get("skill", {}).get("slug", "")
+          print(
+              json.dumps(
+                  {
+                      "slug": slug,
+                      "latestVersion": payload.get("latestVersion", {}).get("version"),
+                      "detailUrl": f"https://www.skillhub.cn/skills/{slug}",
+                  },
+                  ensure_ascii=False,
+              )
+          )
+          PY
