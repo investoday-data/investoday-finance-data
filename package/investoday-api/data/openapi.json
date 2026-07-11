@@ -5300,6 +5300,28 @@
               "type": "string",
               "example": "000001"
             }
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "页码。\n最小值:1;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长。\n最小值:1;\n最大值:500;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
           }
         ],
         "responses": {
@@ -5343,18 +5365,48 @@
                     "tPlus1YProfitForecastChg": {
                       "type": "integer",
                       "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表调高；2代表调低；3代表维持；4代表首次；",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
                       "description": "T+1年盈利预测变动",
                       "example": 1
                     },
                     "investRatingChg": {
                       "type": "integer",
                       "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表调高；2代表调低；3代表维持；4代表首次；",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
                       "description": "投资评级变动",
                       "example": 1
                     },
                     "targetPriceChg": {
                       "type": "integer",
                       "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表调高；2代表调低；3代表维持；4代表首次；",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
                       "description": "目标价变动",
                       "example": 1
                     },
@@ -5366,6 +5418,16 @@
                     "tPlus2YProfitForecastChg": {
                       "type": "integer",
                       "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表调高；2代表调低；3代表维持；4代表首次；",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
                       "description": "T+2年盈利预测变动",
                       "example": 1
                     },
@@ -5377,6 +5439,16 @@
                     "tPlus3YProfitForecastChg": {
                       "type": "integer",
                       "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表调高；2代表调低；3代表维持；4代表首次；",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
                       "description": "T+3年盈利预测变动",
                       "example": 1
                     },
@@ -8564,287 +8636,6 @@
       "x-apikey-supported": [
         "resource"
       ]
-    },
-    "/api/prompt/diagnosis-fund": {
-      "post": {
-        "tags": [
-          "闪电诊基"
-        ],
-        "summary": "闪电诊基",
-        "description": "闪电诊基API通过输入基金代码和内容丰富度参数，快速生成基金诊断提示词，适用于需要快速获取基金诊断信息的场景。",
-        "operationId": "prompt_diagnosis_fund",
-        "requestBody": {
-          "description": "闪电诊基API通过输入基金代码和内容丰富度参数，快速生成基金诊断提示词，适用于需要快速获取基金诊断信息的场景。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "fundCode": {
-                    "type": "string",
-                    "description": "基金代码",
-                    "example": "159001"
-                  },
-                  "richness": {
-                    "type": "string",
-                    "description": "内容丰富度",
-                    "example": "simple"
-                  },
-                  "industryCodes": {
-                    "type": "array",
-                    "description": "行业代码",
-                    "example": [
-                      "640000",
-                      "740000"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "matchType": {
-                    "type": "integer",
-                    "format": "int32",
-                    "allOf": [
-                      {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "1代表基于最新报告的持有比重（占基金资产总值）（默认）;\n2代表基于季报的持有比重（占基金资产总值）;\n3代表基于年报的持有比重（占基金资产总值）;\n4代表基于最新报告的持有比重（占基金资产净值）;\n5代表基于季报的持有比重（占基金资产净值）;\n6代表基于年报的持有比重（占基金资产净值）;\n7代表基于最新报告的持有比重(占基金资产净值)(包含二次穿透数值)",
-                        "enum": [
-                          1,
-                          2,
-                          3,
-                          4,
-                          5,
-                          6,
-                          7
-                        ]
-                      }
-                    ],
-                    "description": "匹配类型",
-                    "example": 1
-                  },
-                  "threshold": {
-                    "type": "number",
-                    "description": "阈值",
-                    "example": 40
-                  },
-                  "isETF": {
-                    "type": "boolean",
-                    "description": "是否ETF",
-                    "example": true
-                  }
-                },
-                "required": [
-                  "fundCode",
-                  "industryCodes",
-                  "matchType",
-                  "richness",
-                  "threshold"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "date": {
-                      "type": "string",
-                      "description": "发布日期",
-                      "example": "2024-03-28 00:00:00"
-                    },
-                    "fundId": {
-                      "type": "string",
-                      "description": "今日投资内部编码",
-                      "example": "001701JK"
-                    },
-                    "fundCode": {
-                      "type": "string",
-                      "description": "基金代码",
-                      "example": "001701"
-                    },
-                    "fundName": {
-                      "type": "string",
-                      "description": "基金名称",
-                      "example": "国联产业升级灵活配置混合"
-                    },
-                    "fundType": {
-                      "type": "string",
-                      "allOf": [
-                        {
-                          "type": "string",
-                          "description": "0代表公司型封闭式;\n1代表契约型封闭式;\n2代表契约型开放式;\n3代表其他;\n4代表ETF;\n5代表LOFs;\n6代表外币基金;\n7代表创新型封闭式;\n8代表创新型开放式;\n9代表ETF联接基金",
-                          "enum": [
-                            "0",
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8",
-                            "9"
-                          ]
-                        }
-                      ],
-                      "description": "基金类型代码",
-                      "example": "2"
-                    },
-                    "industryStandard": {
-                      "type": "string",
-                      "allOf": [
-                        {
-                          "type": "string",
-                          "description": "INDUS2_CL代表证监会行业体系;\nINDUS3_CL代表今日投资行业体系;\nINDUS4_CL代表申万行业体系;\nINDUS5_CL代表中信行业体系;\nINDUS6_CL代表通达信行业体系;\nINDUS8_CL代表中证行业体系",
-                          "enum": [
-                            "INDUS2_CL",
-                            "INDUS3_CL",
-                            "INDUS4_CL",
-                            "INDUS5_CL",
-                            "INDUS6_CL",
-                            "INDUS8_CL"
-                          ]
-                        }
-                      ],
-                      "description": "行业体系",
-                      "example": "INDUS4_CL"
-                    },
-                    "industryCode": {
-                      "type": "string",
-                      "description": "行业代码",
-                      "example": "C"
-                    },
-                    "industryName": {
-                      "type": "string",
-                      "description": "行业名称",
-                      "example": "制造业"
-                    },
-                    "industryLevel": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业级别",
-                      "example": 1
-                    },
-                    "holdingWeightLatest": {
-                      "type": "number",
-                      "description": "基于最新报告的持有比重（占基金资产总值）",
-                      "example": 43.0181
-                    },
-                    "holdingWeightQuarterly": {
-                      "type": "number",
-                      "description": "基于季报的持有比重（占基金资产总值）",
-                      "example": 43.0181
-                    },
-                    "holdingWeightAnnual": {
-                      "type": "number",
-                      "description": "基于年报的持有比重（占基金资产总值）",
-                      "example": 75.8681
-                    },
-                    "holdingRatioLatest": {
-                      "type": "number",
-                      "description": "基于最新报告的持有比重（占基金资产净值）",
-                      "example": 44.18
-                    },
-                    "holdingRatioQuarterly": {
-                      "type": "number",
-                      "description": "基于季报的持有比重（占基金资产净值）",
-                      "example": 44.18
-                    },
-                    "holdingRatioAnnual": {
-                      "type": "number",
-                      "description": "基于年报的持有比重（占基金资产净值）",
-                      "example": 76.84
-                    },
-                    "holdingRatioLatestPenetrated": {
-                      "type": "number",
-                      "description": "基于最新报告的持有比重",
-                      "example": 0.125
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      }
-    },
-    "/api/prompt/diagnosis-stock": {
-      "post": {
-        "tags": [
-          "闪电诊股"
-        ],
-        "summary": "闪电诊股",
-        "description": "通过股票代码和内容丰富度参数，获取闪电诊股的分析结果，适用于快速获取股票诊断信息以辅助投资决策。",
-        "operationId": "prompt_diagnosis_stock",
-        "requestBody": {
-          "description": "通过股票代码和内容丰富度参数，获取闪电诊股的分析结果，适用于快速获取股票诊断信息以辅助投资决策。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "stockCode": {
-                    "type": "string",
-                    "description": "股票代码",
-                    "example": "002594"
-                  },
-                  "richness": {
-                    "type": "string",
-                    "description": "内容丰富度",
-                    "example": "simple"
-                  }
-                },
-                "required": [
-                  "richness",
-                  "stockCode"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      }
     },
     "/stock/adjustment-factors": {
       "get": {
@@ -39791,12 +39582,12 @@
           {
             "name": "pageSize",
             "in": "query",
-            "description": "页长。\n最小值:1;\n最大值:500;",
+            "description": "页长。\n最小值:1;\n最大值:5;",
             "required": false,
             "schema": {
               "type": "integer",
               "format": "int32",
-              "example": 10
+              "example": 5
             }
           }
         ],
@@ -62665,351 +62456,7 @@
         "resource"
       ]
     },
-    "/report/vector-search": {
-      "post": {
-        "tags": [
-          "研报向量搜索"
-        ],
-        "summary": "研报向量搜索",
-        "description": "使用必填的查询文本，搭配可选的股票代码、行业代码、机构代码、分类代码、研报发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）、返回结果条数topK，进行研报向量搜索，可返回研报ID、发布时间（格式为yyyy-MM-dd HH:mm:ss）、文本片段、页码、文本块起止位置、片段位置等核心数据，帮助用户快速定位研报中与查询内容相关的重点信息，高效获取深度投研资料。",
-        "operationId": "list_report_vector-search",
-        "parameters": [
-          {
-            "name": "stockCode",
-            "in": "query",
-            "description": "股票代码",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "002594"
-            }
-          },
-          {
-            "name": "industryCode",
-            "in": "query",
-            "description": "行业代码",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "740000"
-            }
-          },
-          {
-            "name": "institutionCode",
-            "in": "query",
-            "description": "机构代码",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "37"
-            }
-          },
-          {
-            "name": "categoryCode",
-            "in": "query",
-            "description": "分类代码",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "allOf": [
-                {
-                  "type": "string",
-                  "description": "000100代表行业研究;\n000200代表公司研究;\n000300代表基金研究;\n000400代表债券研究;\n000500代表投资策略;\n000700代表经济研究;\n000800代表外汇市场;\n000900代表期货市场;\n001000代表货币市场;\n001100代表全球市场;\n001200代表资本市场;\n001210代表新三板;\n001300代表港股研究;\n001400代表其它;\n001500代表晨会资讯;\n001600代表权证研究;\n001700代表金融工程;\n001900代表非基金理财",
-                  "enum": [
-                    "000100",
-                    "000200",
-                    "000300",
-                    "000400",
-                    "000500",
-                    "000700",
-                    "000800",
-                    "000900",
-                    "001000",
-                    "001100",
-                    "001200",
-                    "001210",
-                    "001300",
-                    "001400",
-                    "001500",
-                    "001600",
-                    "001700",
-                    "001900"
-                  ]
-                }
-              ],
-              "example": "000100"
-            }
-          },
-          {
-            "name": "beginDate",
-            "in": "query",
-            "description": "开始日期",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2020-01-01"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "description": "结束日期",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2021-01-01"
-            }
-          },
-          {
-            "name": "topK",
-            "in": "query",
-            "description": "返回条数",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 3
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "使用必填的查询文本，搭配可选的股票代码、行业代码、机构代码、分类代码、研报发布时间范围（开始日期格式为yyyy-MM-dd、结束日期格式为yyyy-MM-dd）、返回结果条数topK，进行研报向量搜索，可返回研报ID、发布时间（格式为yyyy-MM-dd HH:mm:ss）、文本片段、页码、文本块起止位置、片段位置等核心数据，帮助用户快速定位研报中与查询内容相关的重点信息，高效获取深度投研资料。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "query": {
-                    "type": "string",
-                    "description": "查询文本",
-                    "example": "新能源汽车"
-                  }
-                },
-                "required": [
-                  "query"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "reportId": {
-                      "type": "string",
-                      "description": "研报ID"
-                    },
-                    "pubDate": {
-                      "type": "string",
-                      "description": "发布时间"
-                    },
-                    "chunk": {
-                      "type": "string",
-                      "description": "文本片段"
-                    },
-                    "page": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "页码"
-                    },
-                    "blockStart": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "文本块起始位置"
-                    },
-                    "blockEnd": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "文本块结束位置"
-                    },
-                    "position": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "片段位置"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "resource"
-      ]
-    },
-    "/announcement/vector-search": {
-      "post": {
-        "tags": [
-          "公告向量搜索"
-        ],
-        "summary": "公告向量搜索",
-        "description": "通过自然语言查询文本、股票代码及时间范围（yyyy-MM-dd HH:mm:ss），检索匹配的公告向量数据，返回公告ID、标题、发布日期、相关文本片段及其在原文中的位置信息，适用于基于语义的公告内容深度搜索与投研分析场景。",
-        "operationId": "list_announcement_vector-search",
-        "parameters": [
-          {
-            "name": "stockCode",
-            "in": "query",
-            "description": "股票代码",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "002594"
-            }
-          },
-          {
-            "name": "announcementId",
-            "in": "query",
-            "description": "公告ID",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 11111
-            }
-          },
-          {
-            "name": "beginDate",
-            "in": "query",
-            "description": "开始日期",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2025-01-01"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "description": "结束日期",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2026-01-01"
-            }
-          },
-          {
-            "name": "topK",
-            "in": "query",
-            "description": "返回条数",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 10
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "通过自然语言查询文本、股票代码及时间范围（yyyy-MM-dd HH:mm:ss），检索匹配的公告向量数据，返回公告ID、标题、发布日期、相关文本片段及其在原文中的位置信息，适用于基于语义的公告内容深度搜索与投研分析场景。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "query": {
-                    "type": "string",
-                    "description": "查询文本",
-                    "example": "新能源汽车"
-                  }
-                },
-                "required": [
-                  "query"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "announcementId": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "公告 ID"
-                    },
-                    "guid": {
-                      "type": "string",
-                      "description": "公告 GUID"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "公告标题"
-                    },
-                    "publishDate": {
-                      "type": "string",
-                      "description": "发布日期"
-                    },
-                    "chunk": {
-                      "type": "string",
-                      "description": "文本片段"
-                    },
-                    "position": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "片段位置"
-                    },
-                    "blockStart": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "文本块起始位置"
-                    },
-                    "blockEnd": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "文本块结束位置"
-                    },
-                    "embeddingStatus": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "向量处理状态"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "resource"
-      ]
-    },
-    "/data-dict/search": {
+    "/dict/search": {
       "get": {
         "tags": [
           "数据字典搜索"
@@ -63223,9 +62670,12 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
-    "/data-dict/detail": {
+    "/dict/detail": {
       "get": {
         "tags": [
           "数据字典表详情"
@@ -63610,7 +63060,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/stock/dcf-result": {
       "post": {
@@ -65708,7 +65161,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/stock-quote/intraday-states": {
       "post": {
@@ -65970,95 +65426,117 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/stock-quote/k-line": {
-      "post": {
+      "get": {
         "tags": [
           "沪深京实时k线行情"
         ],
         "summary": "沪深京实时k线行情",
         "description": "通过股票代码，指定K线周期（支持5分钟、15分钟、30分钟、60分钟、120分钟），可选择设置返回K线数量、复权方式（不复权、前复权、后复权）、分页起始位置，查询沪深京市场股票的实时K线行情数据，包含快照时间、股票基本信息（代码、市场、名称），以及各周期K线的日期时间、开盘价、最高价、最低价、收盘价、成交量、成交额、收益率等核心数据，可用于股票实时技术分析、行情监控等场景。",
         "operationId": "get_stock_quote_k_line",
-        "requestBody": {
-          "description": "通过股票代码，指定K线周期（支持5分钟、15分钟、30分钟、60分钟、120分钟），可选择设置返回K线数量、复权方式（不复权、前复权、后复权）、分页起始位置，查询沪深京市场股票的实时K线行情数据，包含快照时间、股票基本信息（代码、市场、名称），以及各周期K线的日期时间、开盘价、最高价、最低价、收盘价、成交量、成交额、收益率等核心数据，可用于股票实时技术分析、行情监控等场景。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": {
-                    "type": "string",
-                    "description": "股票代码",
-                    "example": "002594"
-                  },
-                  "period": {
-                    "type": "array",
-                    "allOf": [
-                      {
-                        "type": "array",
-                        "description": "5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟\n120min代表120分钟",
-                        "enum": [
-                          "5min",
-                          "15min",
-                          "30min",
-                          "60min"
-                        ],
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    ],
-                    "description": "K 线周期",
-                    "example": [
-                      "120min",
-                      "60min",
-                      "30min",
-                      "15min",
-                      "5min"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "count": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "返回最近多少根 K 线",
-                    "example": 1
-                  },
-                  "adjust": {
-                    "type": "string",
-                    "allOf": [
-                      {
-                        "type": "string",
-                        "description": "none代表不复权;\npre代表前复权;\npost代表后复权",
-                        "enum": [
-                          "none",
-                          "pre",
-                          "post"
-                        ]
-                      }
-                    ],
-                    "description": "复权方式",
-                    "example": "pre"
-                  },
-                  "startxh": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "分页起点（0 表示从最新位置取）",
-                    "example": 0
-                  }
-                },
-                "required": [
-                  "code",
-                  "period"
-                ]
-              }
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "证券代码",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "000001"
             }
           },
-          "required": true
-        },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "K 线周期，默认 120min",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟 120min代表120分钟",
+                  "enum": [
+                    "5min",
+                    "15min",
+                    "30min",
+                    "60min"
+                  ]
+                }
+              ],
+              "example": "120min"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "返回最近多少根 K 线，默认 500，最大 700。\n最大值:700;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 500
+            }
+          },
+          {
+            "name": "adjust",
+            "in": "query",
+            "description": "复权方式",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "none代表不复权;\npre代表前复权;\npost代表后复权",
+                  "enum": [
+                    "none",
+                    "pre",
+                    "post"
+                  ]
+                }
+              ],
+              "example": "none"
+            }
+          },
+          {
+            "name": "startxh",
+            "in": "query",
+            "description": "分页起点，默认 0。\n最小值:0;",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 0
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "description": "可选市场；为空时按代码自动推断",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "allOf": [
+                {
+                  "type": "string",
+                  "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
+                  "enum": [
+                    "sh",
+                    "sz",
+                    "bj"
+                  ]
+                }
+              ],
+              "example": ""
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "成功响应",
@@ -66075,19 +65553,19 @@
                         "snapshotTime": {
                           "type": "string",
                           "description": "接口快照时间",
-                          "example": "2026-06-25T13:46:40"
+                          "example": "2026-07-09T13:23:45"
                         },
                         "code": {
                           "type": "string",
                           "description": "证券代码",
-                          "example": "000001"
+                          "example": "300088"
                         },
                         "market": {
                           "type": "string",
                           "allOf": [
                             {
                               "type": "string",
-                              "description": "sh代表上海;\nsz代表深圳;\nbj代表北京",
+                              "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
                               "enum": [
                                 "sh",
                                 "sz",
@@ -66095,302 +65573,327 @@
                               ]
                             }
                           ],
-                          "description": "市场",
+                          "description": "交易所/市场",
                           "example": "sz"
                         },
                         "name": {
                           "type": "string",
                           "description": "证券名称",
-                          "example": "平安银行"
+                          "example": "长信科技"
                         },
-                        "requestedPeriods": {
-                          "type": "array",
+                        "period": {
+                          "type": "string",
                           "allOf": [
                             {
-                              "type": "array",
-                              "description": "5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟\n120min代表120分钟",
+                              "type": "string",
+                              "description": "1min代表1分钟;\n5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟;\n120min代表120分钟;\nday代表日线;\nweek代表周线;\nmonth代表月线",
                               "enum": [
+                                "1min",
                                 "5min",
                                 "15min",
                                 "30min",
-                                "60min"
-                              ],
-                              "items": {
-                                "type": "string"
-                              }
+                                "60min",
+                                "120min",
+                                "day",
+                                "week",
+                                "month"
+                              ]
                             }
                           ],
-                          "description": "请求周期列表",
-                          "example": [
-                            "120min",
-                            "60min",
-                            "30min",
-                            "15min",
-                            "5min"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
+                          "description": "K线周期",
+                          "example": "1min"
                         },
-                        "returnedPeriods": {
-                          "type": "array",
+                        "periodName": {
+                          "type": "string",
+                          "description": "K线周期名称",
+                          "example": "1分钟"
+                        },
+                        "adjust": {
+                          "type": "string",
                           "allOf": [
                             {
-                              "type": "array",
-                              "description": "5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟\n120min代表120分钟",
+                              "type": "string",
+                              "description": "不复权代表不复权;\n前复权代表前复权;\n后复权代表后复权",
                               "enum": [
-                                "5min",
-                                "15min",
-                                "30min",
-                                "60min"
-                              ],
-                              "items": {
-                                "type": "string"
-                              }
+                                "不复权",
+                                "前复权",
+                                "后复权"
+                              ]
                             }
                           ],
-                          "description": "实际返回周期列表",
-                          "example": [
-                            "120min",
-                            "60min",
-                            "30min",
-                            "15min",
-                            "5min"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
+                          "description": "复权方式",
+                          "example": "前复权"
+                        },
+                        "startxh": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "分页起点",
+                          "example": 0
+                        },
+                        "requestedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "请求数量",
+                          "example": 100
+                        },
+                        "returnedCount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "返回数量",
+                          "example": 100
                         },
                         "elapsedMs": {
                           "type": "integer",
                           "format": "int32",
-                          "description": "接口处理耗时",
-                          "example": 499
+                          "description": "接口耗时，单位毫秒",
+                          "example": 112
                         },
-                        "item": {
-                          "type": "object",
-                          "description": "K 线数据",
-                          "example": {},
-                          "properties": {
-                            "securityCode": {
-                              "type": "string",
-                              "description": "证券代码",
-                              "example": "000001"
-                            },
-                            "exchange": {
-                              "type": "string",
-                              "description": "交易所/市场",
-                              "example": "sz"
-                            },
-                            "securityName": {
-                              "type": "string",
-                              "description": "证券名称",
-                              "example": "平安银行"
-                            },
-                            "klinePeriod": {
-                              "type": "string",
-                              "description": "K 线周期",
-                              "example": "120F,60F,30F,15F,5F"
-                            },
-                            "kline120fDatetime": {
-                              "type": "string",
-                              "description": "120F K 线日期时间",
-                              "example": "20260625150000"
-                            },
-                            "kline120fOpen": {
-                              "type": "number",
-                              "description": "120F K 线开盘价",
-                              "example": 10.51
-                            },
-                            "kline120fHigh": {
-                              "type": "number",
-                              "description": "120F K 线最高价",
-                              "example": 10.51
-                            },
-                            "kline120fLow": {
-                              "type": "number",
-                              "description": "120F K 线最低价",
-                              "example": 10.42
-                            },
-                            "kline120fClose": {
-                              "type": "number",
-                              "description": "120F K 线收盘价/当前最新价",
-                              "example": 10.44
-                            },
-                            "kline120fVolume": {
-                              "type": "number",
-                              "description": "120F K 线成交量",
-                              "example": 21286900
-                            },
-                            "kline120fAmount": {
-                              "type": "number",
-                              "description": "120F K 线成交额",
-                              "example": 222564176
-                            },
-                            "kline120fReturnRate": {
-                              "type": "number",
-                              "description": "120F K 线收益率",
-                              "example": 0.1541
-                            },
-                            "kline60fDatetime": {
-                              "type": "string",
-                              "description": "60F K 线日期时间",
-                              "example": "20260625140000"
-                            },
-                            "kline60fOpen": {
-                              "type": "number",
-                              "description": "60F K 线开盘价",
-                              "example": 10.51
-                            },
-                            "kline60fHigh": {
-                              "type": "number",
-                              "description": "60F K 线最高价",
-                              "example": 10.51
-                            },
-                            "kline60fLow": {
-                              "type": "number",
-                              "description": "60F K 线最低价",
-                              "example": 10.42
-                            },
-                            "kline60fClose": {
-                              "type": "number",
-                              "description": "60F K 线收盘价/当前最新价",
-                              "example": 10.44
-                            },
-                            "kline60fVolume": {
-                              "type": "number",
-                              "description": "60F K 线成交量",
-                              "example": 21286900
-                            },
-                            "kline60fAmount": {
-                              "type": "number",
-                              "description": "60F K 线成交额",
-                              "example": 222564176
-                            },
-                            "kline60fReturnRate": {
-                              "type": "number",
-                              "description": "60F K 线收益率",
-                              "example": 0.1541
-                            },
-                            "kline30fDatetime": {
-                              "type": "string",
-                              "description": "30F K 线日期时间",
-                              "example": "20260625140000"
-                            },
-                            "kline30fOpen": {
-                              "type": "number",
-                              "description": "30F K 线开盘价",
-                              "example": 10.45
-                            },
-                            "kline30fHigh": {
-                              "type": "number",
-                              "description": "30F K 线最高价",
-                              "example": 10.45
-                            },
-                            "kline30fLow": {
-                              "type": "number",
-                              "description": "30F K 线最低价",
-                              "example": 10.42
-                            },
-                            "kline30fClose": {
-                              "type": "number",
-                              "description": "30F K 线收盘价/当前最新价",
-                              "example": 10.44
-                            },
-                            "kline30fVolume": {
-                              "type": "number",
-                              "description": "30F K 线成交量",
-                              "example": 7495900
-                            },
-                            "kline30fAmount": {
-                              "type": "number",
-                              "description": "30F K 线成交额",
-                              "example": 78213720
-                            },
-                            "kline30fReturnRate": {
-                              "type": "number",
-                              "description": "30F K 线收益率",
-                              "example": 0.1541
-                            },
-                            "kline15fDatetime": {
-                              "type": "string",
-                              "description": "15F K 线日期时间",
-                              "example": "20260625140000"
-                            },
-                            "kline15fOpen": {
-                              "type": "number",
-                              "description": "15F K 线开盘价",
-                              "example": 10.44
-                            },
-                            "kline15fHigh": {
-                              "type": "number",
-                              "description": "15F K 线最高价",
-                              "example": 10.44
-                            },
-                            "kline15fLow": {
-                              "type": "number",
-                              "description": "15F K 线最低价",
-                              "example": 10.43
-                            },
-                            "kline15fClose": {
-                              "type": "number",
-                              "description": "15F K 线收盘价/当前最新价",
-                              "example": 10.44
-                            },
-                            "kline15fVolume": {
-                              "type": "number",
-                              "description": "15F K 线成交量",
-                              "example": 397300
-                            },
-                            "kline15fAmount": {
-                              "type": "number",
-                              "description": "15F K 线成交额",
-                              "example": 4147200.5
-                            },
-                            "kline15fReturnRate": {
-                              "type": "number",
-                              "description": "15F K 线收益率",
-                              "example": 0.1541
-                            },
-                            "kline5fDatetime": {
-                              "type": "string",
-                              "description": "5F K 线日期时间",
-                              "example": "20260625135000"
-                            },
-                            "kline5fOpen": {
-                              "type": "number",
-                              "description": "5F K 线开盘价",
-                              "example": 10.44
-                            },
-                            "kline5fHigh": {
-                              "type": "number",
-                              "description": "5F K 线最高价",
-                              "example": 10.44
-                            },
-                            "kline5fLow": {
-                              "type": "number",
-                              "description": "5F K 线最低价",
-                              "example": 10.43
-                            },
-                            "kline5fClose": {
-                              "type": "number",
-                              "description": "5F K 线收盘价/当前最新价",
-                              "example": 10.44
-                            },
-                            "kline5fVolume": {
-                              "type": "number",
-                              "description": "5F K 线成交量",
-                              "example": 397300
-                            },
-                            "kline5fAmount": {
-                              "type": "number",
-                              "description": "5F K 线成交额",
-                              "example": 4147200.5
-                            },
-                            "kline5fReturnRate": {
-                              "type": "number",
-                              "description": "5F K 线收益率",
-                              "example": 0.1541
+                        "items": {
+                          "type": "array",
+                          "example": [],
+                          "items": {
+                            "type": "object",
+                            "description": "K线数据列表",
+                            "properties": {
+                              "tradeDate": {
+                                "type": "string",
+                                "description": "交易日期",
+                                "example": "20260709"
+                              },
+                              "second": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "交易时间秒数",
+                                "example": 36900
+                              },
+                              "tradeTime": {
+                                "type": "string",
+                                "description": "交易时间",
+                                "example": "101500"
+                              },
+                              "datetime": {
+                                "type": "string",
+                                "description": "交易日期时间",
+                                "example": "20260709101500"
+                              },
+                              "open": {
+                                "type": "number",
+                                "description": "开盘价",
+                                "example": 8.64
+                              },
+                              "high": {
+                                "type": "number",
+                                "description": "最高价",
+                                "example": 8.66
+                              },
+                              "low": {
+                                "type": "number",
+                                "description": "最低价",
+                                "example": 8.64
+                              },
+                              "close": {
+                                "type": "number",
+                                "description": "收盘价",
+                                "example": 8.64
+                              },
+                              "amount": {
+                                "type": "number",
+                                "description": "成交额",
+                                "example": 5822225
+                              },
+                              "volInStock": {
+                                "type": "number",
+                                "description": "成交额入库值",
+                                "example": 5822225
+                              },
+                              "volume": {
+                                "type": "number",
+                                "description": "成交量",
+                                "example": 673300
+                              },
+                              "settle": {
+                                "type": "number",
+                                "description": "结算价",
+                                "example": 0
+                              },
+                              "up": {
+                                "type": "number",
+                                "description": "上涨值",
+                                "example": 0
+                              },
+                              "down": {
+                                "type": "number",
+                                "description": "下跌值",
+                                "example": 0
+                              },
+                              "returnRate": {
+                                "type": "number",
+                                "description": "收益率"
+                              },
+                              "ma5": {
+                                "type": "number",
+                                "description": "5周期均线"
+                              },
+                              "ma10": {
+                                "type": "number",
+                                "description": "10周期均线"
+                              },
+                              "ma20": {
+                                "type": "number",
+                                "description": "20周期均线"
+                              },
+                              "ma60": {
+                                "type": "number",
+                                "description": "60周期均线"
+                              },
+                              "isAboveMa5": {
+                                "type": "boolean",
+                                "allOf": [
+                                  {
+                                    "type": "boolean",
+                                    "description": "true代表是;\nfalse代表否",
+                                    "enum": [
+                                      false,
+                                      false
+                                    ]
+                                  }
+                                ],
+                                "description": "是否高于5周期均线",
+                                "example": false
+                              },
+                              "isAboveMa10": {
+                                "type": "boolean",
+                                "allOf": [
+                                  {
+                                    "type": "boolean",
+                                    "description": "true代表是;\nfalse代表否",
+                                    "enum": [
+                                      false,
+                                      false
+                                    ]
+                                  }
+                                ],
+                                "description": "是否高于10周期均线",
+                                "example": false
+                              },
+                              "isAboveMa20": {
+                                "type": "boolean",
+                                "allOf": [
+                                  {
+                                    "type": "boolean",
+                                    "description": "true代表是;\nfalse代表否",
+                                    "enum": [
+                                      false,
+                                      false
+                                    ]
+                                  }
+                                ],
+                                "description": "是否高于20周期均线",
+                                "example": false
+                              },
+                              "isAboveMa60": {
+                                "type": "boolean",
+                                "allOf": [
+                                  {
+                                    "type": "boolean",
+                                    "description": "true代表是;\nfalse代表否",
+                                    "enum": [
+                                      false,
+                                      false
+                                    ]
+                                  }
+                                ],
+                                "description": "是否高于60周期均线",
+                                "example": false
+                              },
+                              "momentum5": {
+                                "type": "number",
+                                "description": "5周期动量"
+                              },
+                              "momentum10": {
+                                "type": "number",
+                                "description": "10周期动量"
+                              },
+                              "momentum20": {
+                                "type": "number",
+                                "description": "20周期动量"
+                              },
+                              "momentum60": {
+                                "type": "number",
+                                "description": "60周期动量"
+                              },
+                              "reversal5": {
+                                "type": "number",
+                                "description": "5周期反转指标"
+                              },
+                              "reversal10": {
+                                "type": "number",
+                                "description": "10周期反转指标"
+                              },
+                              "reversal20": {
+                                "type": "number",
+                                "description": "20周期反转指标"
+                              },
+                              "reversal60": {
+                                "type": "number",
+                                "description": "60周期反转指标"
+                              },
+                              "volatility5": {
+                                "type": "number",
+                                "description": "5周期波动率"
+                              },
+                              "volatility10": {
+                                "type": "number",
+                                "description": "10周期波动率"
+                              },
+                              "volatility20": {
+                                "type": "number",
+                                "description": "20周期波动率"
+                              },
+                              "volatility60": {
+                                "type": "number",
+                                "description": "60周期波动率"
+                              },
+                              "amountMa5": {
+                                "type": "number",
+                                "description": "5周期成交额均线"
+                              },
+                              "amountMa20": {
+                                "type": "number",
+                                "description": "20周期成交额均线"
+                              },
+                              "amountActivity5": {
+                                "type": "number",
+                                "description": "5周期成交额活跃度"
+                              },
+                              "amountActivity20": {
+                                "type": "number",
+                                "description": "20周期成交额活跃度"
+                              },
+                              "volumeMa5": {
+                                "type": "number",
+                                "description": "5周期成交量均线"
+                              },
+                              "volumeMa20": {
+                                "type": "number",
+                                "description": "20周期成交量均线"
+                              },
+                              "volumeActivity5": {
+                                "type": "number",
+                                "description": "5周期成交量活跃度"
+                              },
+                              "volumeActivity20": {
+                                "type": "number",
+                                "description": "20周期成交量活跃度"
+                              },
+                              "amihud5": {
+                                "type": "number",
+                                "description": "5周期Amihud非流动性指标"
+                              },
+                              "amihud20": {
+                                "type": "number",
+                                "description": "20周期Amihud非流动性指标"
+                              }
                             }
                           }
                         }
@@ -66413,7 +65916,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/market/quote-summaries": {
       "post": {
@@ -67160,7 +66666,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/index-quote/core": {
       "post": {
@@ -67445,7 +66954,7 @@
         ]
       },
       "x-apikey-supported": [
-        "resource"
+        "subscription"
       ]
     },
     "/fund-quote/core": {
@@ -67813,7 +67322,7 @@
         ]
       },
       "x-apikey-supported": [
-        "resource"
+        "subscription"
       ]
     }
   },

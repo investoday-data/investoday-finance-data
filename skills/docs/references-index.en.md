@@ -86,7 +86,6 @@ The reference documents themselves are currently maintained in Chinese.
 
 ## 公告
 
-- [特色数据](../references/公告/特色数据.md)
 - [公告](../references/公告.md)
 
 ## 港股
@@ -103,10 +102,6 @@ The reference documents themselves are currently maintained in Chinese.
 
 - [融资分红](../references/港股/公司行为/融资分红.md)
 - [股本与股东](../references/港股/公司行为/股本与股东.md)
-
-## 提示词
-
-- [提示词](../references/提示词.md)
 
 ## 工具
 

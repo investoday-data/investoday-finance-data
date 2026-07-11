@@ -4067,20 +4067,6 @@
                   "enabled": 1,
                   "apiAccessLevel": "L4",
                   "apiMethod": "POST"
-                },
-                {
-                  "apiId": 110629,
-                  "apiName": "研报向量搜索",
-                  "apiType": "PROXY",
-                  "apiStatus": "release",
-                  "groupId": 1046,
-                  "remarks": null,
-                  "toolName": "list_report_vector-search",
-                  "toolId": "list_report_vector-search",
-                  "apiPath": "report/vector-search",
-                  "enabled": 1,
-                  "apiAccessLevel": "L4",
-                  "apiMethod": "POST"
                 }
               ]
             },
@@ -4120,7 +4106,7 @@
                   "apiStatus": "release",
                   "groupId": 1065,
                   "remarks": null,
-                  "toolName": "get_report_earnings_forecast_rating",
+                  "toolName": "get_rt_earn_fs_rating",
                   "toolId": "get_report_earnings_forecast_rating",
                   "apiPath": "report/earnings-forecast-rating-cha",
                   "enabled": 1,
@@ -4160,22 +4146,7 @@
               "apiCount": 0,
               "isShow": 1,
               "children": [],
-              "apis": [
-                {
-                  "apiId": 110630,
-                  "apiName": "公告向量搜索",
-                  "apiType": "PROXY",
-                  "apiStatus": "release",
-                  "groupId": 11165,
-                  "remarks": null,
-                  "toolName": "list_announcement_v_s",
-                  "toolId": "list_announcement_vector-search",
-                  "apiPath": "announcement/vector-search",
-                  "enabled": 1,
-                  "apiAccessLevel": "L4",
-                  "apiMethod": "POST"
-                }
-              ]
+              "apis": []
             }
           ],
           "apis": [
@@ -4748,51 +4719,6 @@
             }
           ],
           "apis": []
-        },
-        {
-          "createBy": null,
-          "createByName": null,
-          "createTime": null,
-          "updateBy": null,
-          "updateTime": null,
-          "groupId": 1078,
-          "groupName": "提示词",
-          "groupDesc": null,
-          "parentId": 1,
-          "userId": null,
-          "apiCount": 0,
-          "isShow": 0,
-          "children": [],
-          "apis": [
-            {
-              "apiId": 10286,
-              "apiName": "闪电诊基",
-              "apiType": "LLM-Base",
-              "apiStatus": "release",
-              "groupId": 1078,
-              "remarks": null,
-              "toolName": "prompt_diagnosis_fund",
-              "toolId": "prompt_diagnosis_fund",
-              "apiPath": "api/prompt/diagnosis-fund",
-              "enabled": 1,
-              "apiAccessLevel": null,
-              "apiMethod": "POST"
-            },
-            {
-              "apiId": 10287,
-              "apiName": "闪电诊股",
-              "apiType": "LLM-Base",
-              "apiStatus": "release",
-              "groupId": 1078,
-              "remarks": null,
-              "toolName": "prompt_diagnosis_stock",
-              "toolId": "prompt_diagnosis_stock",
-              "apiPath": "api/prompt/diagnosis-stock",
-              "enabled": 1,
-              "apiAccessLevel": null,
-              "apiMethod": "POST"
-            }
-          ]
         },
         {
           "createBy": null,
@@ -6415,7 +6341,7 @@
               "remarks": null,
               "toolName": "get_data_dict_search",
               "toolId": "get_data_dict_search",
-              "apiPath": "data-dict/search",
+              "apiPath": "dict/search",
               "enabled": 1,
               "apiAccessLevel": null,
               "apiMethod": "GET"
@@ -6429,7 +6355,7 @@
               "remarks": null,
               "toolName": "get_data_dict_detail",
               "toolId": "get_data_dict_detail",
-              "apiPath": "data-dict/detail",
+              "apiPath": "dict/detail",
               "enabled": 1,
               "apiAccessLevel": null,
               "apiMethod": "GET"
@@ -6491,7 +6417,7 @@
               "apiPath": "stock-quote/k-line",
               "enabled": 1,
               "apiAccessLevel": null,
-              "apiMethod": "POST"
+              "apiMethod": "GET"
             },
             {
               "apiId": 110649,
@@ -6518,7 +6444,7 @@
               "toolId": "get_index_quote_core",
               "apiPath": "index-quote/core",
               "enabled": 1,
-              "apiAccessLevel": "L3",
+              "apiAccessLevel": null,
               "apiMethod": "POST"
             },
             {
@@ -6532,7 +6458,7 @@
               "toolId": "get_fund_quote_core",
               "apiPath": "fund-quote/core",
               "enabled": 1,
-              "apiAccessLevel": "L3",
+              "apiAccessLevel": null,
               "apiMethod": "POST"
             }
           ]
