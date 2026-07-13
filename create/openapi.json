@@ -12126,7 +12126,7 @@
         "resource"
       ]
     },
-    "/stcok/dt-broker-det": {
+    "/stock/dt-broker-det": {
       "get": {
         "tags": [
           "龙虎榜营业部交易明细"
@@ -62456,615 +62456,6 @@
         "resource"
       ]
     },
-    "/dict/search": {
-      "get": {
-        "tags": [
-          "数据字典搜索"
-        ],
-        "summary": "数据字典搜索",
-        "description": "支持按表名、字段名或关键词搜索数据字典，返回匹配的表及字段详细信息（包括中英文名称、数据库归属、模块分类、状态及备注等），并标识当前用户权限及元数据完整性，便于大模型进行数据资产发现、字段映射及元数据管理。",
-        "operationId": "get_data_dict_search",
-        "parameters": [
-          {
-            "name": "srchtype",
-            "in": "query",
-            "description": "搜索类型",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "allOf": [
-                {
-                  "type": "integer",
-                  "format": "int32",
-                  "description": "1代表按表搜索;\n2代表按字段搜索;\n3代表按表名批量搜索",
-                  "enum": [
-                    1,
-                    2,
-                    3
-                  ]
-                }
-              ],
-              "example": 1
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "description": "关键字",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "好股"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "admin": {
-                      "type": "boolean",
-                      "allOf": [
-                        {
-                          "type": "boolean",
-                          "description": "true代表是;\nfalse代表否",
-                          "enum": [
-                            false,
-                            false
-                          ]
-                        }
-                      ],
-                      "description": "是否管理员",
-                      "example": false
-                    },
-                    "dictTables": {
-                      "type": "object",
-                      "description": "搜索表结果(key:表名)",
-                      "example": "{GZLTJ_ana_viw_cnt_creat=[{tableId=403, tableName=GZLTJ_ana_viw_cnt_creat}]}"
-                    },
-                    "existFiledEng": {
-                      "type": "boolean",
-                      "allOf": [
-                        {
-                          "type": "boolean",
-                          "description": "true代表是;\nfalse代表否",
-                          "enum": [
-                            false,
-                            false
-                          ]
-                        }
-                      ],
-                      "description": "是否存在字段英文说明",
-                      "example": false
-                    },
-                    "existTblEng": {
-                      "type": "boolean",
-                      "allOf": [
-                        {
-                          "type": "boolean",
-                          "description": "true代表是;\nfalse代表否",
-                          "enum": [
-                            false,
-                            false
-                          ]
-                        }
-                      ],
-                      "description": "是否存在表英文描述",
-                      "example": true
-                    },
-                    "tables": {
-                      "type": "array",
-                      "example": null,
-                      "items": {
-                        "type": "object",
-                        "description": "搜索表结果",
-                        "properties": {
-                          "colDescCn": {
-                            "type": "string",
-                            "description": "字段中文说明",
-                            "example": "观点数量"
-                          },
-                          "colDescEn": {
-                            "type": "string",
-                            "description": "字段英文说明",
-                            "example": "View Count"
-                          },
-                          "colName": {
-                            "type": "string",
-                            "description": "字段名",
-                            "example": "CNT"
-                          },
-                          "dbName": {
-                            "type": "string",
-                            "description": "标题显示的数据库名",
-                            "example": "edt_work"
-                          },
-                          "dbNameCn": {
-                            "type": "string",
-                            "description": "中文库名",
-                            "example": "采集库"
-                          },
-                          "dbNameEn": {
-                            "type": "string",
-                            "description": "英文库名",
-                            "example": "central_database"
-                          },
-                          "modNameCn": {
-                            "type": "string",
-                            "description": "中文模块名",
-                            "example": "采集工作"
-                          },
-                          "modNameEn": {
-                            "type": "string",
-                            "description": "英文模块名",
-                            "example": "collection_work"
-                          },
-                          "rmrk": {
-                            "type": "string",
-                            "description": "备注",
-                            "example": "分析师观点量统计字段"
-                          },
-                          "status": {
-                            "type": "integer",
-                            "format": "int32",
-                            "allOf": [
-                              {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "1代表规划中;\n2代表开发中;\n3代表已发布;\n4代表已废弃;\n5代表已归档",
-                                "enum": [
-                                  1,
-                                  2,
-                                  3,
-                                  4,
-                                  5
-                                ]
-                              }
-                            ],
-                            "description": "表状态",
-                            "example": 3
-                          },
-                          "tableDescCn": {
-                            "type": "string",
-                            "description": "表中文描述",
-                            "example": "分析师观点量（录入时间）"
-                          },
-                          "tableDescEn": {
-                            "type": "string",
-                            "description": "表英文描述",
-                            "example": "Analyst view count by create time"
-                          },
-                          "tableId": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "表唯一标识",
-                            "example": 403
-                          },
-                          "tableName": {
-                            "type": "string",
-                            "description": "表名",
-                            "example": "GZLTJ_ana_viw_cnt_creat"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/dict/detail": {
-      "get": {
-        "tags": [
-          "数据字典表详情"
-        ],
-        "summary": "数据字典表详情",
-        "description": "根据数据字典表标识获取指定表的详细元数据信息，包括表的基本属性（如中英文名称、描述、状态、所属模块等）以及所有字段的详细信息（如字段名、中英文说明、数据类型、主键/唯一/非空约束、默认值、精度等），并返回字段关联的常量枚举列表及其定义，适用于数据治理、数据库文档生成及开发过程中的数据结构查询场景。",
-        "operationId": "get_data_dict_detail",
-        "parameters": [
-          {
-            "name": "tableId",
-            "in": "query",
-            "description": "数据字典表标识",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 101
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "dictCols": {
-                      "type": "array",
-                      "example": null,
-                      "items": {
-                        "type": "object",
-                        "description": "字段信息表",
-                        "properties": {
-                          "colDescCN": {
-                            "type": "string",
-                            "description": "字段说明(中文)",
-                            "example": "观点数量"
-                          },
-                          "colDescEN": {
-                            "type": "string",
-                            "description": "字段说明(英文)",
-                            "example": "View Count"
-                          },
-                          "colId": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "字段标识",
-                            "example": 1001
-                          },
-                          "colName": {
-                            "type": "string",
-                            "description": "字段名",
-                            "example": "CNT"
-                          },
-                          "colNum": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "列号",
-                            "example": 1
-                          },
-                          "constList": {
-                            "type": "array",
-                            "example": null,
-                            "items": {
-                              "type": "object",
-                              "description": "关联常量列表",
-                              "properties": {
-                                "constCode": {
-                                  "type": "string",
-                                  "description": "常量代码",
-                                  "example": "1"
-                                },
-                                "constDesc": {
-                                  "type": "string",
-                                  "description": "常量说明",
-                                  "example": "有效"
-                                },
-                                "constId": {
-                                  "type": "integer",
-                                  "format": "int32",
-                                  "description": "唯一id",
-                                  "example": 10
-                                },
-                                "constType": {
-                                  "type": "string",
-                                  "description": "常量类别",
-                                  "example": "IS_VALID"
-                                },
-                                "constTypeDesc": {
-                                  "type": "string",
-                                  "description": "常量类别说明",
-                                  "example": "是否有效"
-                                },
-                                "createTime": {
-                                  "type": "string",
-                                  "description": "创建时间",
-                                  "example": "2026-06-29 10:30:00"
-                                },
-                                "isVld": {
-                                  "type": "string",
-                                  "description": "有效标识",
-                                  "example": "1"
-                                },
-                                "updateTime": {
-                                  "type": "string",
-                                  "description": "更新时间",
-                                  "example": "2026-06-29 10:30:00"
-                                }
-                              }
-                            }
-                          },
-                          "constType": {
-                            "type": "string",
-                            "description": "关联常量类别",
-                            "example": "IS_VALID"
-                          },
-                          "createTime": {
-                            "type": "string",
-                            "description": "创建时间",
-                            "example": "2026-06-29 10:30:00"
-                          },
-                          "dataType": {
-                            "type": "string",
-                            "description": "数据类型",
-                            "example": "int"
-                          },
-                          "defValue": {
-                            "type": "string",
-                            "description": "默认值",
-                            "example": "0"
-                          },
-                          "dictSeq": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "数据字典的字段序号",
-                            "example": 1
-                          },
-                          "isIdent": {
-                            "type": "string",
-                            "allOf": [
-                              {
-                                "type": "string",
-                                "description": "1代表是;\n0代表否",
-                                "enum": [
-                                  "1",
-                                  "0"
-                                ]
-                              }
-                            ],
-                            "description": "是否自增",
-                            "example": "0"
-                          },
-                          "isNullable": {
-                            "type": "string",
-                            "allOf": [
-                              {
-                                "type": "string",
-                                "description": "1代表是;\n0代表否",
-                                "enum": [
-                                  "1",
-                                  "0"
-                                ]
-                              }
-                            ],
-                            "description": "是否允许为空",
-                            "example": "1"
-                          },
-                          "isPK": {
-                            "type": "string",
-                            "allOf": [
-                              {
-                                "type": "string",
-                                "description": "1代表是;\n0代表否",
-                                "enum": [
-                                  "1",
-                                  "0"
-                                ]
-                              }
-                            ],
-                            "description": "是否主键",
-                            "example": "0"
-                          },
-                          "isUnique": {
-                            "type": "string",
-                            "allOf": [
-                              {
-                                "type": "string",
-                                "description": "1代表是;\n0代表否",
-                                "enum": [
-                                  "1",
-                                  "0"
-                                ]
-                              }
-                            ],
-                            "description": "是否唯一",
-                            "example": "0"
-                          },
-                          "isVld": {
-                            "type": "string",
-                            "description": "有效标识",
-                            "example": "1"
-                          },
-                          "precision": {
-                            "type": "string",
-                            "description": "精度",
-                            "example": "10"
-                          },
-                          "rmrk": {
-                            "type": "string",
-                            "description": "备注",
-                            "example": "观点数量字段"
-                          },
-                          "rmrkEn": {
-                            "type": "string",
-                            "description": "英文字段说明",
-                            "example": "View count field"
-                          },
-                          "scale": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "小数位数",
-                            "example": 0
-                          },
-                          "seq": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "数据库表中字字段序号",
-                            "example": 1
-                          },
-                          "tableId": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "表ID",
-                            "example": 403
-                          },
-                          "updateTime": {
-                            "type": "string",
-                            "description": "更新时间",
-                            "example": "2026-06-29 10:30:00"
-                          }
-                        }
-                      }
-                    },
-                    "dictTable": {
-                      "type": "object",
-                      "description": "数据字典表",
-                      "example": null,
-                      "properties": {
-                        "account": {
-                          "type": "string",
-                          "description": "用户名",
-                          "example": "10016483"
-                        },
-                        "createTime": {
-                          "type": "string",
-                          "description": "创建时间",
-                          "example": "2026-06-29 10:30:00"
-                        },
-                        "dbName": {
-                          "type": "string",
-                          "description": "头部显示的英文库名",
-                          "example": "edt_work"
-                        },
-                        "dbNameCn": {
-                          "type": "string",
-                          "description": "中文库名",
-                          "example": "采集库"
-                        },
-                        "dbNameEn": {
-                          "type": "string",
-                          "description": "英文库名",
-                          "example": "central_database"
-                        },
-                        "dbRmrk": {
-                          "type": "string",
-                          "description": "库名备注",
-                          "example": "采集库备注"
-                        },
-                        "isVld": {
-                          "type": "string",
-                          "description": "有效标识(默认为1)",
-                          "example": "1"
-                        },
-                        "modNameCn": {
-                          "type": "string",
-                          "description": "中文模块名",
-                          "example": "采集工作"
-                        },
-                        "modNameEn": {
-                          "type": "string",
-                          "description": "英文模块名",
-                          "example": "collection_work"
-                        },
-                        "modRmrk": {
-                          "type": "string",
-                          "description": "模块备注",
-                          "example": "采集工作模块备注"
-                        },
-                        "status": {
-                          "type": "integer",
-                          "format": "int32",
-                          "allOf": [
-                            {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "1代表规划中;\n2代表开发中;\n3代表已发布;\n4代表已废弃;\n5代表已归档",
-                              "enum": [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                              ]
-                            }
-                          ],
-                          "description": "表状态",
-                          "example": 3
-                        },
-                        "tableDescCn": {
-                          "type": "string",
-                          "description": "表中文描述",
-                          "example": "分析师观点量（录入时间）"
-                        },
-                        "tableDescEn": {
-                          "type": "string",
-                          "description": "表英文描述",
-                          "example": "Analyst view count by create time"
-                        },
-                        "tableId": {
-                          "type": "string",
-                          "description": "表唯一标识",
-                          "example": "403"
-                        },
-                        "tableName": {
-                          "type": "string",
-                          "description": "表名",
-                          "example": "GZLTJ_ana_viw_cnt_creat"
-                        },
-                        "tableRmrk": {
-                          "type": "string",
-                          "description": "表描述",
-                          "example": "分析师观点量统计表"
-                        },
-                        "updateTime": {
-                          "type": "string",
-                          "description": "更新时间",
-                          "example": "2026-06-29 10:30:00"
-                        }
-                      }
-                    },
-                    "existEngDesc": {
-                      "type": "boolean",
-                      "allOf": [
-                        {
-                          "type": "boolean",
-                          "description": "true代表是;\nfalse代表否",
-                          "enum": [
-                            false,
-                            false
-                          ]
-                        }
-                      ],
-                      "description": "是否存在字段英文说明",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
     "/stock/dcf-result": {
       "post": {
         "tags": [
@@ -64521,2477 +63912,105 @@
         "resource"
       ]
     },
-    "/stock-quote/core": {
+    "/stock/trend-structure": {
       "post": {
         "tags": [
-          "沪深京核心实时行情"
+          "股票趋势结构筛选"
         ],
-        "summary": "沪深京核心实时行情",
-        "description": "通过股票代码查询沪深京市场的核心实时行情数据，返回包括最新价、涨跌幅、成交量、成交额、买卖五档盘口、资金流向、涨跌停状态及行业概念标签等关键指标，所有时间字段统一格式为 yyyy-MM-dd HH:mm:ss，适用于大模型进行即时市场监测、个股异动分析和投资策略辅助。",
-        "operationId": "get_stock_quote_core",
+        "summary": "股票趋势结构筛选",
+        "description": "支持通过指定周期类型（短/中/长周期）、交易日期（格式为yyyy-MM-dd HH:mm:ss，不填则取对应周期的最新数据）、趋势信号代码（可多选，涵盖多头排列、趋势转强、突破前高、回踩均线不破、高低点结构改善、趋势阶段改善6类信号），并可搭配信号匹配模式（全匹配/任意匹配，默认全匹配）、最低趋势综合得分（取值范围0-100）及分页参数进行筛选，返回符合条件的股票代码、股票名称、交易日期、周期类型、趋势综合得分、匹配的信号代码等核心数据，适用于股票趋势分析、精准选股等投研场景。",
+        "operationId": "list_stk_trend_structure",
         "requestBody": {
-          "description": "通过股票代码查询沪深京市场的核心实时行情数据，返回包括最新价、涨跌幅、成交量、成交额、买卖五档盘口、资金流向、涨跌停状态及行业概念标签等关键指标，所有时间字段统一格式为 yyyy-MM-dd HH:mm:ss，适用于大模型进行即时市场监测、个股异动分析和投资策略辅助。",
+          "description": "支持通过指定周期类型（短/中/长周期）、交易日期（格式为yyyy-MM-dd HH:mm:ss，不填则取对应周期的最新数据）、趋势信号代码（可多选，涵盖多头排列、趋势转强、突破前高、回踩均线不破、高低点结构改善、趋势阶段改善6类信号），并可搭配信号匹配模式（全匹配/任意匹配，默认全匹配）、最低趋势综合得分（取值范围0-100）及分页参数进行筛选，返回符合条件的股票代码、股票名称、交易日期、周期类型、趋势综合得分、匹配的信号代码等核心数据，适用于股票趋势分析、精准选股等投研场景。",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "codes": {
-                    "type": "array",
-                    "description": "股票代码",
-                    "example": [
-                      "000001",
-                      "600519"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "codes"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-06-24T10:00:00"
-                        },
-                        "cacheTime": {
-                          "type": "string",
-                          "description": "行情缓存最后更新时间",
-                          "example": "2026-06-24T09:59:58"
-                        },
-                        "cacheAgeMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "缓存距本次请求的时间差，单位毫秒",
-                          "example": 2000
-                        },
-                        "cacheStatus": {
-                          "type": "string",
-                          "description": "缓存状态",
-                          "example": "正常"
-                        },
-                        "requestedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "请求标的数量",
-                          "example": 2
-                        },
-                        "returnedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "返回标的数量",
-                          "example": 2
-                        },
-                        "elapsedMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "接口处理耗时，单位毫秒",
-                          "example": 35
-                        },
-                        "items": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "实时行情明细",
-                            "properties": {
-                              "securityCode": {
-                                "type": "string",
-                                "description": "证券代码",
-                                "example": "002594"
-                              },
-                              "securityName": {
-                                "type": "string",
-                                "description": "证券名称",
-                                "example": "比亚迪"
-                              },
-                              "exchange": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "sh代表上海;\nsz代表深圳;\nbj代表北京",
-                                    "enum": [
-                                      "sh",
-                                      "sz",
-                                      "bj"
-                                    ]
-                                  }
-                                ],
-                                "description": "交易所/市场",
-                                "example": "sz"
-                              },
-                              "securityType": {
-                                "type": "string",
-                                "description": "证券类型",
-                                "example": "stock"
-                              },
-                              "board": {
-                                "type": "string",
-                                "description": "所属上市板块",
-                                "example": "主板"
-                              },
-                              "isSt": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否 ST",
-                                "example": false
-                              },
-                              "tradeStatus": {
-                                "type": "string",
-                                "description": "交易状态",
-                                "example": "交易中"
-                              },
-                              "openStatus": {
-                                "type": "string",
-                                "description": "开市/交易状态",
-                                "example": "open"
-                              },
-                              "specialStatus": {
-                                "type": "string",
-                                "description": "特殊交易状态",
-                                "example": "正常"
-                              },
-                              "industryCode": {
-                                "type": "string",
-                                "description": "行业代码",
-                                "example": "410000"
-                              },
-                              "industrySubCode": {
-                                "type": "string",
-                                "description": "细分行业代码",
-                                "example": "410100"
-                              },
-                              "conceptCodes": {
-                                "type": "array",
-                                "description": "所属概念代码集合",
-                                "example": [
-                                  "CLS80201"
-                                ],
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "tradeDate": {
-                                "type": "string",
-                                "description": "交易日期",
-                                "example": "2026-06-24"
-                              },
-                              "quoteTime": {
-                                "type": "string",
-                                "description": "行情快照时间",
-                                "example": "2026-06-24T10:00:00"
-                              },
-                              "snapshotTime": {
-                                "type": "string",
-                                "description": "接口快照时间",
-                                "example": "2026-06-24T10:00:00"
-                              },
-                              "lastPrice": {
-                                "type": "number",
-                                "description": "最新价",
-                                "example": 255.68
-                              },
-                              "preClose": {
-                                "type": "number",
-                                "description": "昨收价",
-                                "example": 250.12
-                              },
-                              "openPrice": {
-                                "type": "number",
-                                "description": "开盘价",
-                                "example": 251
-                              },
-                              "highPrice": {
-                                "type": "number",
-                                "description": "最高价",
-                                "example": 258.8
-                              },
-                              "lowPrice": {
-                                "type": "number",
-                                "description": "最低价",
-                                "example": 249.5
-                              },
-                              "chgAmount": {
-                                "type": "number",
-                                "description": "涨跌额",
-                                "example": 5.56
-                              },
-                              "pctChg": {
-                                "type": "number",
-                                "description": "涨跌幅",
-                                "example": 2.22
-                              },
-                              "amplitude": {
-                                "type": "number",
-                                "description": "振幅",
-                                "example": 3.72
-                              },
-                              "intradayReturn": {
-                                "type": "number",
-                                "description": "盘中收益",
-                                "example": 1.86
-                              },
-                              "speed": {
-                                "type": "number",
-                                "description": "涨速",
-                                "example": 0.35
-                              },
-                              "volumeLot": {
-                                "type": "number",
-                                "description": "成交量，单位手",
-                                "example": 125430
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量，单位股",
-                                "example": 12543000
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额",
-                                "example": 3208450000
-                              },
-                              "nowVolume": {
-                                "type": "number",
-                                "description": "现量",
-                                "example": 1200
-                              },
-                              "avgTradePrice": {
-                                "type": "number",
-                                "description": "成交均价",
-                                "example": 255.8
-                              },
-                              "vwap": {
-                                "type": "number",
-                                "description": "当日成交均价",
-                                "example": 255.73
-                              },
-                              "turnoverRate": {
-                                "type": "number",
-                                "description": "换手率",
-                                "example": 1.25
-                              },
-                              "amountToFloatMcap": {
-                                "type": "number",
-                                "description": "成交额占流通市值比例",
-                                "example": 0.18
-                              },
-                              "volumeRatio": {
-                                "type": "number",
-                                "description": "量比",
-                                "example": 1.32
-                              },
-                              "return20d": {
-                                "type": "number",
-                                "description": "近 20 日涨跌幅",
-                                "example": 8.65
-                              },
-                              "returnYtd": {
-                                "type": "number",
-                                "description": "年初至今涨跌幅",
-                                "example": 15.28
-                              },
-                              "floatShares": {
-                                "type": "number",
-                                "description": "流通股本",
-                                "example": 1160000000
-                              },
-                              "freeFloatShares": {
-                                "type": "number",
-                                "description": "自由流通股本",
-                                "example": 980000000
-                              },
-                              "totalShares": {
-                                "type": "number",
-                                "description": "总股本",
-                                "example": 2910000000
-                              },
-                              "floatMarketCap": {
-                                "type": "number",
-                                "description": "流通市值",
-                                "example": 296588800000
-                              },
-                              "totalMarketCap": {
-                                "type": "number",
-                                "description": "总市值",
-                                "example": 744028800000
-                              },
-                              "limitUpPrice": {
-                                "type": "number",
-                                "description": "涨停价",
-                                "example": 275.13
-                              },
-                              "limitDownPrice": {
-                                "type": "number",
-                                "description": "跌停价",
-                                "example": 225.11
-                              },
-                              "isLimitUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前是否涨停",
-                                "example": false
-                              },
-                              "isLimitDown": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前是否跌停",
-                                "example": false
-                              },
-                              "isSealedUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前是否涨停封板",
-                                "example": false
-                              },
-                              "isSealedDown": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前是否跌停封单",
-                                "example": false
-                              },
-                              "sealVolumeUp": {
-                                "type": "number",
-                                "description": "涨停封单量",
-                                "example": 0
-                              },
-                              "sealVolumeDown": {
-                                "type": "number",
-                                "description": "跌停封单量",
-                                "example": 0
-                              },
-                              "sealAmountUp": {
-                                "type": "number",
-                                "description": "涨停封单金额",
-                                "example": 0
-                              },
-                              "sealAmountDown": {
-                                "type": "number",
-                                "description": "跌停封单金额",
-                                "example": 0
-                              },
-                              "sealToVolume": {
-                                "type": "number",
-                                "description": "封单量占成交量比例",
-                                "example": 0
-                              },
-                              "sealToFloat": {
-                                "type": "number",
-                                "description": "封单量占流通股本比例",
-                                "example": 0
-                              },
-                              "touchedLimitUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前快照是否触及涨停",
-                                "example": false
-                              },
-                              "isBlowUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当前快照是否近似炸板",
-                                "example": false
-                              },
-                              "yearLimitUpDays": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "年内涨停天数",
-                                "example": 3
-                              },
-                              "consecutiveReturnDays": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "连续涨跌幅天数",
-                                "example": 2
-                              },
-                              "insideVolume": {
-                                "type": "number",
-                                "description": "内盘成交量",
-                                "example": 5200000
-                              },
-                              "outsideVolume": {
-                                "type": "number",
-                                "description": "外盘成交量",
-                                "example": 7343000
-                              },
-                              "bidPrice1": {
-                                "type": "number",
-                                "description": "买一价",
-                                "example": 255.67
-                              },
-                              "bidVolume1": {
-                                "type": "number",
-                                "description": "买一量",
-                                "example": 8600
-                              },
-                              "askPrice1": {
-                                "type": "number",
-                                "description": "卖一价",
-                                "example": 255.68
-                              },
-                              "askVolume1": {
-                                "type": "number",
-                                "description": "卖一量",
-                                "example": 9200
-                              },
-                              "bidPrice2": {
-                                "type": "number",
-                                "description": "买二价",
-                                "example": 255.66
-                              },
-                              "bidVolume2": {
-                                "type": "number",
-                                "description": "买二量",
-                                "example": 7600
-                              },
-                              "askPrice2": {
-                                "type": "number",
-                                "description": "卖二价",
-                                "example": 255.69
-                              },
-                              "askVolume2": {
-                                "type": "number",
-                                "description": "卖二量",
-                                "example": 8100
-                              },
-                              "orderBookDepth": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "当前盘口深度",
-                                "example": 5
-                              },
-                              "bidVolumeN": {
-                                "type": "number",
-                                "description": "当前可用委买量合计",
-                                "example": 42000
-                              },
-                              "askVolumeN": {
-                                "type": "number",
-                                "description": "当前可用委卖量合计",
-                                "example": 39000
-                              },
-                              "bidAmountN": {
-                                "type": "number",
-                                "description": "当前可用委买金额合计",
-                                "example": 10738140
-                              },
-                              "askAmountN": {
-                                "type": "number",
-                                "description": "当前可用委卖金额合计",
-                                "example": 9971520
-                              },
-                              "orderVolumeDiff": {
-                                "type": "number",
-                                "description": "委差",
-                                "example": 3000
-                              },
-                              "orderVolumeRatio": {
-                                "type": "number",
-                                "description": "委比",
-                                "example": 3.7
-                              },
-                              "orderAmountDiff": {
-                                "type": "number",
-                                "description": "盘口金额差",
-                                "example": 766620
-                              },
-                              "spread": {
-                                "type": "number",
-                                "description": "买卖价差",
-                                "example": 0.01
-                              },
-                              "spreadRate": {
-                                "type": "number",
-                                "description": "买卖价差率",
-                                "example": 0.004
-                              },
-                              "midPrice": {
-                                "type": "number",
-                                "description": "买一卖一中间价",
-                                "example": 255.675
-                              },
-                              "bookPressure": {
-                                "type": "number",
-                                "description": "盘口压力",
-                                "example": 1.08
-                              },
-                              "netInflow": {
-                                "type": "number",
-                                "description": "资金净流入",
-                                "example": 12800000
-                              },
-                              "mainNetInflow": {
-                                "type": "number",
-                                "description": "主力资金净流入",
-                                "example": 9600000
-                              },
-                              "netInflowRatio": {
-                                "type": "number",
-                                "description": "主力净流入占成交额比例",
-                                "example": 0.3
-                              },
-                              "superLargeNetInflow": {
-                                "type": "number",
-                                "description": "超大单净流入",
-                                "example": 5200000
-                              },
-                              "largeNetInflow": {
-                                "type": "number",
-                                "description": "大单净流入",
-                                "example": 4400000
-                              },
-                              "mediumNetInflow": {
-                                "type": "number",
-                                "description": "中单净流入",
-                                "example": -1200000
-                              },
-                              "smallNetInflow": {
-                                "type": "number",
-                                "description": "小单净流入",
-                                "example": -8400000
-                              },
-                              "fundFlowPersistence": {
-                                "type": "number",
-                                "description": "资金持续性",
-                                "example": 0.6
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/stock-quote/intraday-states": {
-      "post": {
-        "tags": [
-          "沪深京盘中行情状态"
-        ],
-        "summary": "沪深京盘中行情状态",
-        "description": "通过传入股票代码列表（可批量），获取沪深京股票的盘中行情状态数据，包含接口快照时间、缓存更新时间、缓存状态等接口相关信息，以及每只股票的交易日期、是否触及涨停、首次触及涨停时间、首次封板时间、封板后是否开板、开板次数、回封次数等核心盘中异动状态数据，可用于实时监测股票盘中表现，辅助交易决策与盘中行情分析。",
-        "operationId": "get_stock_quote_intraday_states",
-        "requestBody": {
-          "description": "通过传入股票代码列表（可批量），获取沪深京股票的盘中行情状态数据，包含接口快照时间、缓存更新时间、缓存状态等接口相关信息，以及每只股票的交易日期、是否触及涨停、首次触及涨停时间、首次封板时间、封板后是否开板、开板次数、回封次数等核心盘中异动状态数据，可用于实时监测股票盘中表现，辅助交易决策与盘中行情分析。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "codes": {
-                    "type": "array",
-                    "description": "股票代码",
-                    "example": [
-                      "000001",
-                      "600519"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "codes"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-06-25T13:16:31"
-                        },
-                        "cacheTime": {
-                          "type": "string",
-                          "description": "行情缓存最后更新时间",
-                          "example": "2026-06-25T13:16:29"
-                        },
-                        "cacheAgeMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "缓存距本次请求的时间差，单位毫秒",
-                          "example": 2330
-                        },
-                        "cacheStatus": {
-                          "type": "string",
-                          "description": "缓存状态",
-                          "example": "正常"
-                        },
-                        "requestedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "请求标的数量",
-                          "example": 1
-                        },
-                        "returnedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "返回标的数量",
-                          "example": 1
-                        },
-                        "elapsedMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "接口处理耗时，单位毫秒",
-                          "example": 16
-                        },
-                        "items": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "盘中累计状态列表",
-                            "properties": {
-                              "securityCode": {
-                                "type": "string",
-                                "description": "证券代码",
-                                "example": "000001"
-                              },
-                              "exchange": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "sh代表上海;\nsz代表深圳;\nbj代表北京",
-                                    "enum": [
-                                      "sh",
-                                      "sz",
-                                      "bj"
-                                    ]
-                                  }
-                                ],
-                                "description": "交易所/市场",
-                                "example": "sz"
-                              },
-                              "tradeDate": {
-                                "type": "string",
-                                "description": "交易日期",
-                                "example": "20260625"
-                              },
-                              "firstTouchTime": {
-                                "type": "string",
-                                "description": "当天首次触及涨停时间",
-                                "example": ""
-                              },
-                              "firstSealTime": {
-                                "type": "string",
-                                "description": "当天首次涨停封板时间",
-                                "example": ""
-                              },
-                              "hasTouchedLimitUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当天是否曾触及涨停",
-                                "example": false
-                              },
-                              "hasSealedUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当天是否曾涨停封板",
-                                "example": false
-                              },
-                              "openedAfterSeal": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "当天是否封板后打开",
-                                "example": false
-                              },
-                              "openBoardCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "当天开板次数",
-                                "example": 0
-                              },
-                              "resealCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "当天回封次数",
-                                "example": 0
-                              },
-                              "isPreciseBlowUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否精确炸板",
-                                "example": false
-                              },
-                              "sealDurationSeconds": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "已结束封板区间累计时长，单位秒",
-                                "example": 0
-                              },
-                              "currentSealStartedTime": {
-                                "type": "string",
-                                "description": "当前封板区间开始时间",
-                                "example": ""
-                              },
-                              "lastOpenBoardTime": {
-                                "type": "string",
-                                "description": "最近一次开板时间",
-                                "example": ""
-                              },
-                              "lastIsSealedUp": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "最近一轮是否封板",
-                                "example": false
-                              },
-                              "stateUpdatedTime": {
-                                "type": "string",
-                                "description": "盘中状态最后更新时间",
-                                "example": "20260625131627"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/stock-quote/k-line": {
-      "get": {
-        "tags": [
-          "沪深京实时k线行情"
-        ],
-        "summary": "沪深京实时k线行情",
-        "description": "通过股票代码，指定K线周期（支持5分钟、15分钟、30分钟、60分钟、120分钟），可选择设置返回K线数量、复权方式（不复权、前复权、后复权）、分页起始位置，查询沪深京市场股票的实时K线行情数据，包含快照时间、股票基本信息（代码、市场、名称），以及各周期K线的日期时间、开盘价、最高价、最低价、收盘价、成交量、成交额、收益率等核心数据，可用于股票实时技术分析、行情监控等场景。",
-        "operationId": "get_stock_quote_k_line",
-        "parameters": [
-          {
-            "name": "code",
-            "in": "query",
-            "description": "证券代码",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "000001"
-            }
-          },
-          {
-            "name": "period",
-            "in": "query",
-            "description": "K 线周期，默认 120min",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "allOf": [
-                {
-                  "type": "string",
-                  "description": "5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟 120min代表120分钟",
-                  "enum": [
-                    "5min",
-                    "15min",
-                    "30min",
-                    "60min"
-                  ]
-                }
-              ],
-              "example": "120min"
-            }
-          },
-          {
-            "name": "count",
-            "in": "query",
-            "description": "返回最近多少根 K 线，默认 500，最大 700。\n最大值:700;",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 500
-            }
-          },
-          {
-            "name": "adjust",
-            "in": "query",
-            "description": "复权方式",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "allOf": [
-                {
-                  "type": "string",
-                  "description": "none代表不复权;\npre代表前复权;\npost代表后复权",
-                  "enum": [
-                    "none",
-                    "pre",
-                    "post"
-                  ]
-                }
-              ],
-              "example": "none"
-            }
-          },
-          {
-            "name": "startxh",
-            "in": "query",
-            "description": "分页起点，默认 0。\n最小值:0;",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 0
-            }
-          },
-          {
-            "name": "market",
-            "in": "query",
-            "description": "可选市场；为空时按代码自动推断",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "allOf": [
-                {
-                  "type": "string",
-                  "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
-                  "enum": [
-                    "sh",
-                    "sz",
-                    "bj"
-                  ]
-                }
-              ],
-              "example": ""
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-07-09T13:23:45"
-                        },
-                        "code": {
-                          "type": "string",
-                          "description": "证券代码",
-                          "example": "300088"
-                        },
-                        "market": {
-                          "type": "string",
-                          "allOf": [
-                            {
-                              "type": "string",
-                              "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
-                              "enum": [
-                                "sh",
-                                "sz",
-                                "bj"
-                              ]
-                            }
-                          ],
-                          "description": "交易所/市场",
-                          "example": "sz"
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "证券名称",
-                          "example": "长信科技"
-                        },
-                        "period": {
-                          "type": "string",
-                          "allOf": [
-                            {
-                              "type": "string",
-                              "description": "1min代表1分钟;\n5min代表5分钟;\n15min代表15分钟;\n30min代表30分钟;\n60min代表60分钟;\n120min代表120分钟;\nday代表日线;\nweek代表周线;\nmonth代表月线",
-                              "enum": [
-                                "1min",
-                                "5min",
-                                "15min",
-                                "30min",
-                                "60min",
-                                "120min",
-                                "day",
-                                "week",
-                                "month"
-                              ]
-                            }
-                          ],
-                          "description": "K线周期",
-                          "example": "1min"
-                        },
-                        "periodName": {
-                          "type": "string",
-                          "description": "K线周期名称",
-                          "example": "1分钟"
-                        },
-                        "adjust": {
-                          "type": "string",
-                          "allOf": [
-                            {
-                              "type": "string",
-                              "description": "不复权代表不复权;\n前复权代表前复权;\n后复权代表后复权",
-                              "enum": [
-                                "不复权",
-                                "前复权",
-                                "后复权"
-                              ]
-                            }
-                          ],
-                          "description": "复权方式",
-                          "example": "前复权"
-                        },
-                        "startxh": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "分页起点",
-                          "example": 0
-                        },
-                        "requestedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "请求数量",
-                          "example": 100
-                        },
-                        "returnedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "返回数量",
-                          "example": 100
-                        },
-                        "elapsedMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "接口耗时，单位毫秒",
-                          "example": 112
-                        },
-                        "items": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "K线数据列表",
-                            "properties": {
-                              "tradeDate": {
-                                "type": "string",
-                                "description": "交易日期",
-                                "example": "20260709"
-                              },
-                              "second": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "交易时间秒数",
-                                "example": 36900
-                              },
-                              "tradeTime": {
-                                "type": "string",
-                                "description": "交易时间",
-                                "example": "101500"
-                              },
-                              "datetime": {
-                                "type": "string",
-                                "description": "交易日期时间",
-                                "example": "20260709101500"
-                              },
-                              "open": {
-                                "type": "number",
-                                "description": "开盘价",
-                                "example": 8.64
-                              },
-                              "high": {
-                                "type": "number",
-                                "description": "最高价",
-                                "example": 8.66
-                              },
-                              "low": {
-                                "type": "number",
-                                "description": "最低价",
-                                "example": 8.64
-                              },
-                              "close": {
-                                "type": "number",
-                                "description": "收盘价",
-                                "example": 8.64
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额",
-                                "example": 5822225
-                              },
-                              "volInStock": {
-                                "type": "number",
-                                "description": "成交额入库值",
-                                "example": 5822225
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量",
-                                "example": 673300
-                              },
-                              "settle": {
-                                "type": "number",
-                                "description": "结算价",
-                                "example": 0
-                              },
-                              "up": {
-                                "type": "number",
-                                "description": "上涨值",
-                                "example": 0
-                              },
-                              "down": {
-                                "type": "number",
-                                "description": "下跌值",
-                                "example": 0
-                              },
-                              "returnRate": {
-                                "type": "number",
-                                "description": "收益率"
-                              },
-                              "ma5": {
-                                "type": "number",
-                                "description": "5周期均线"
-                              },
-                              "ma10": {
-                                "type": "number",
-                                "description": "10周期均线"
-                              },
-                              "ma20": {
-                                "type": "number",
-                                "description": "20周期均线"
-                              },
-                              "ma60": {
-                                "type": "number",
-                                "description": "60周期均线"
-                              },
-                              "isAboveMa5": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否高于5周期均线",
-                                "example": false
-                              },
-                              "isAboveMa10": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否高于10周期均线",
-                                "example": false
-                              },
-                              "isAboveMa20": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否高于20周期均线",
-                                "example": false
-                              },
-                              "isAboveMa60": {
-                                "type": "boolean",
-                                "allOf": [
-                                  {
-                                    "type": "boolean",
-                                    "description": "true代表是;\nfalse代表否",
-                                    "enum": [
-                                      false,
-                                      false
-                                    ]
-                                  }
-                                ],
-                                "description": "是否高于60周期均线",
-                                "example": false
-                              },
-                              "momentum5": {
-                                "type": "number",
-                                "description": "5周期动量"
-                              },
-                              "momentum10": {
-                                "type": "number",
-                                "description": "10周期动量"
-                              },
-                              "momentum20": {
-                                "type": "number",
-                                "description": "20周期动量"
-                              },
-                              "momentum60": {
-                                "type": "number",
-                                "description": "60周期动量"
-                              },
-                              "reversal5": {
-                                "type": "number",
-                                "description": "5周期反转指标"
-                              },
-                              "reversal10": {
-                                "type": "number",
-                                "description": "10周期反转指标"
-                              },
-                              "reversal20": {
-                                "type": "number",
-                                "description": "20周期反转指标"
-                              },
-                              "reversal60": {
-                                "type": "number",
-                                "description": "60周期反转指标"
-                              },
-                              "volatility5": {
-                                "type": "number",
-                                "description": "5周期波动率"
-                              },
-                              "volatility10": {
-                                "type": "number",
-                                "description": "10周期波动率"
-                              },
-                              "volatility20": {
-                                "type": "number",
-                                "description": "20周期波动率"
-                              },
-                              "volatility60": {
-                                "type": "number",
-                                "description": "60周期波动率"
-                              },
-                              "amountMa5": {
-                                "type": "number",
-                                "description": "5周期成交额均线"
-                              },
-                              "amountMa20": {
-                                "type": "number",
-                                "description": "20周期成交额均线"
-                              },
-                              "amountActivity5": {
-                                "type": "number",
-                                "description": "5周期成交额活跃度"
-                              },
-                              "amountActivity20": {
-                                "type": "number",
-                                "description": "20周期成交额活跃度"
-                              },
-                              "volumeMa5": {
-                                "type": "number",
-                                "description": "5周期成交量均线"
-                              },
-                              "volumeMa20": {
-                                "type": "number",
-                                "description": "20周期成交量均线"
-                              },
-                              "volumeActivity5": {
-                                "type": "number",
-                                "description": "5周期成交量活跃度"
-                              },
-                              "volumeActivity20": {
-                                "type": "number",
-                                "description": "20周期成交量活跃度"
-                              },
-                              "amihud5": {
-                                "type": "number",
-                                "description": "5周期Amihud非流动性指标"
-                              },
-                              "amihud20": {
-                                "type": "number",
-                                "description": "20周期Amihud非流动性指标"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/market/quote-summaries": {
-      "post": {
-        "tags": [
-          "市场行情汇总"
-        ],
-        "summary": "市场行情汇总",
-        "description": "通过申万一级行业代码、申万二级行业代码、概念代码，获取市场行情汇总数据，涵盖整体市场的有效样本数、涨跌家数、涨跌幅、赚钱效应、情绪温度等核心指标，同时提供一级行业、细分行业、概念板块的详细汇总信息，包括成分股涨跌情况、龙头股及领跌股、资金净流入、成交集中度等，可用于市场整体行情分析、行业及概念板块的监测与投研分析",
-        "operationId": "get_market_quote_summary",
-        "requestBody": {
-          "description": "通过申万一级行业代码、申万二级行业代码、概念代码，获取市场行情汇总数据，涵盖整体市场的有效样本数、涨跌家数、涨跌幅、赚钱效应、情绪温度等核心指标，同时提供一级行业、细分行业、概念板块的详细汇总信息，包括成分股涨跌情况、龙头股及领跌股、资金净流入、成交集中度等，可用于市场整体行情分析、行业及概念板块的监测与投研分析",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "industryCodes": {
-                    "type": "array",
-                    "description": "申万一级行业代码【与industrySubCodes、conceptCodes组成多选多参数，必须传递其中一个至多个】",
-                    "example": [
-                      "410000"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "industrySubCodes": {
-                    "type": "array",
-                    "description": "申万二级行业代码【与industryCodes、conceptCodes组成多选多参数，必须传递其中一个至多个】",
-                    "example": [
-                      "410100"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "conceptCodes": {
-                    "type": "array",
-                    "description": "概念代码【与industryCodes、industrySubCodes组成多选多参数，必须传递其中一个至多个】",
-                    "example": [
-                      "CLS80201"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-06-25T13:26:07"
-                        },
-                        "cacheTime": {
-                          "type": "string",
-                          "description": "行情缓存最后更新时间",
-                          "example": "2026-06-25T13:26:06"
-                        },
-                        "cacheAgeMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "缓存距本次请求的时间差，单位毫秒",
-                          "example": 1841
-                        },
-                        "cacheStatus": {
-                          "type": "string",
-                          "description": "缓存状态",
-                          "example": "正常"
-                        },
-                        "marketSummary": {
-                          "type": "object",
-                          "description": "市场汇总",
-                          "example": {},
-                          "properties": {
-                            "validCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "有效样本数",
-                              "example": 5505
-                            },
-                            "upCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "上涨家数",
-                              "example": 1140
-                            },
-                            "downCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "下跌家数",
-                              "example": 4301
-                            },
-                            "flatCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "平盘家数",
-                              "example": 64
-                            },
-                            "limitUpCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "涨停数量",
-                              "example": 78
-                            },
-                            "limitDownCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "跌停数量",
-                              "example": 62
-                            },
-                            "strongCount005": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "强势股数量，涨幅大于等于 5%",
-                              "example": 275
-                            },
-                            "weakCount005": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "弱势股数量，跌幅小于等于 -5%",
-                              "example": 364
-                            },
-                            "sealedUpCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "涨停封板数量",
-                              "example": 78
-                            },
-                            "touchedLimitUpCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "触及涨停数量",
-                              "example": 116
-                            },
-                            "blowUpCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "近似炸板数量",
-                              "example": 38
-                            },
-                            "upRatio": {
-                              "type": "number",
-                              "description": "上涨占比",
-                              "example": 0.20708446866485
-                            },
-                            "downRatio": {
-                              "type": "number",
-                              "description": "下跌占比",
-                              "example": 0.781289736603088
-                            },
-                            "marketBreadth": {
-                              "type": "number",
-                              "description": "市场宽度",
-                              "example": 0.20708446866485
-                            },
-                            "avgPctChg": {
-                              "type": "number",
-                              "description": "平均涨跌幅",
-                              "example": -0.0139685970941771
-                            },
-                            "medianPctChg": {
-                              "type": "number",
-                              "description": "涨跌幅中位数",
-                              "example": -0.0191304347826088
-                            },
-                            "profitEffect": {
-                              "type": "number",
-                              "description": "赚钱效应",
-                              "example": 0.102070844686649
-                            },
-                            "lossEffect": {
-                              "type": "number",
-                              "description": "亏钱效应",
-                              "example": 0.335731153496821
-                            },
-                            "sentimentScore": {
-                              "type": "number",
-                              "description": "情绪温度",
-                              "example": 23.314385295216
-                            },
-                            "sealRate": {
-                              "type": "number",
-                              "description": "封板率",
-                              "example": 0.672413793103448
-                            },
-                            "blowUpRate": {
-                              "type": "number",
-                              "description": "炸板率",
-                              "example": 0.327586206896552
-                            },
-                            "openedAfterSealCount": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "当天曾封板后打开数量",
-                              "example": 29
-                            },
-                            "openBoardCountTotal": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "开板次数合计",
-                              "example": 124
-                            },
-                            "resealCountTotal": {
-                              "type": "integer",
-                              "format": "int32",
-                              "description": "回封次数合计",
-                              "example": 112
-                            },
-                            "openedAfterSealRate": {
-                              "type": "number",
-                              "description": "封板后打开比例",
-                              "example": 0.322222222222222
-                            }
-                          }
-                        },
-                        "industrySummaries": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "一级行业汇总",
-                            "properties": {
-                              "industryCode": {
-                                "type": "string",
-                                "description": "一级行业代码",
-                                "example": "740000"
-                              },
-                              "industrySubCode": {
-                                "type": "string",
-                                "description": "细分行业代码",
-                                "example": ""
-                              },
-                              "conceptCode": {
-                                "type": "string",
-                                "description": "概念代码",
-                                "example": ""
-                              },
-                              "industryPctChg": {
-                                "type": "number",
-                                "description": "行业/细分行业涨跌幅",
-                                "example": -0.0101296582346907
-                              },
-                              "conceptPctChg": {
-                                "type": "number",
-                                "description": "概念涨跌幅"
-                              },
-                              "memberCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "成分数量",
-                                "example": 37
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量合计",
-                                "example": 1497266800
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额合计",
-                                "example": 11444983606
-                              },
-                              "floatMarketCap": {
-                                "type": "number",
-                                "description": "流通市值合计",
-                                "example": 1633818785711
-                              },
-                              "totalMarketCap": {
-                                "type": "number",
-                                "description": "总市值合计",
-                                "example": 2021224324864
-                              },
-                              "pctChgEq": {
-                                "type": "number",
-                                "description": "等权涨跌幅",
-                                "example": -0.0101296582346907
-                              },
-                              "pctChgMcap": {
-                                "type": "number",
-                                "description": "流通市值加权涨跌幅",
-                                "example": -0.0157761516716601
-                              },
-                              "upCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "上涨家数",
-                                "example": 7
-                              },
-                              "downCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "下跌家数",
-                                "example": 27
-                              },
-                              "flatCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "平盘家数",
-                                "example": 3
-                              },
-                              "limitUpCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "涨停家数",
-                                "example": 0
-                              },
-                              "limitDownCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "跌停家数",
-                                "example": 0
-                              },
-                              "diffusion": {
-                                "type": "number",
-                                "description": "扩散度",
-                                "example": 0.189189189189189
-                              },
-                              "limitDiffusion": {
-                                "type": "number",
-                                "description": "涨停扩散度",
-                                "example": 0
-                              },
-                              "leaderCode": {
-                                "type": "string",
-                                "description": "领涨证券代码",
-                                "example": "000723"
-                              },
-                              "leaderName": {
-                                "type": "string",
-                                "description": "领涨证券名称",
-                                "example": "美锦能源"
-                              },
-                              "leaderPctChg": {
-                                "type": "number",
-                                "description": "领涨证券涨跌幅",
-                                "example": 0.0347826086956521
-                              },
-                              "laggardCode": {
-                                "type": "string",
-                                "description": "领跌证券代码",
-                                "example": "000937"
-                              },
-                              "laggardName": {
-                                "type": "string",
-                                "description": "领跌证券名称",
-                                "example": "冀中能源"
-                              },
-                              "laggardPctChg": {
-                                "type": "number",
-                                "description": "领跌证券涨跌幅",
-                                "example": -0.0378250591016549
-                              },
-                              "amountConcentrationTop5": {
-                                "type": "number",
-                                "description": "成交额 Top5 集中度",
-                                "example": 0.521035605929028
-                              },
-                              "netInflow": {
-                                "type": "number",
-                                "description": "主力资金净流入合计",
-                                "example": -244204587.84
-                              },
-                              "netInflowRatio": {
-                                "type": "number",
-                                "description": "主力净流入占成交额比例",
-                                "example": -0.0213372597328996
-                              },
-                              "flowConcentrationTop5": {
-                                "type": "number",
-                                "description": "资金 Top5 集中度",
-                                "example": 0.561062537968274
-                              },
-                              "heat": {
-                                "type": "number",
-                                "description": "热度",
-                                "example": 1
-                              }
-                            }
-                          }
-                        },
-                        "subIndustrySummaries": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "细分行业汇总",
-                            "properties": {
-                              "industryCode": {
-                                "type": "string",
-                                "description": "一级行业代码",
-                                "example": ""
-                              },
-                              "industrySubCode": {
-                                "type": "string",
-                                "description": "细分行业代码",
-                                "example": "740100"
-                              },
-                              "conceptCode": {
-                                "type": "string",
-                                "description": "概念代码",
-                                "example": ""
-                              },
-                              "industryPctChg": {
-                                "type": "number",
-                                "description": "行业/细分行业涨跌幅",
-                                "example": -0.0126723720945419
-                              },
-                              "conceptPctChg": {
-                                "type": "number",
-                                "description": "概念涨跌幅"
-                              },
-                              "memberCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "成分数量",
-                                "example": 30
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量合计",
-                                "example": 1254672100
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额合计",
-                                "example": 10687154210
-                              },
-                              "floatMarketCap": {
-                                "type": "number",
-                                "description": "流通市值合计",
-                                "example": 1588082329057
-                              },
-                              "totalMarketCap": {
-                                "type": "number",
-                                "description": "总市值合计",
-                                "example": 1975457551360
-                              },
-                              "pctChgEq": {
-                                "type": "number",
-                                "description": "等权涨跌幅",
-                                "example": -0.0126723720945419
-                              },
-                              "pctChgMcap": {
-                                "type": "number",
-                                "description": "流通市值加权涨跌幅",
-                                "example": -0.0165066274907104
-                              },
-                              "upCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "上涨家数",
-                                "example": 5
-                              },
-                              "downCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "下跌家数",
-                                "example": 23
-                              },
-                              "flatCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "平盘家数",
-                                "example": 2
-                              },
-                              "limitUpCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "涨停家数",
-                                "example": 0
-                              },
-                              "limitDownCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "跌停家数",
-                                "example": 0
-                              },
-                              "diffusion": {
-                                "type": "number",
-                                "description": "扩散度",
-                                "example": 0.166666666666667
-                              },
-                              "limitDiffusion": {
-                                "type": "number",
-                                "description": "涨停扩散度",
-                                "example": 0
-                              },
-                              "leaderCode": {
-                                "type": "string",
-                                "description": "领涨证券代码",
-                                "example": "000571"
-                              },
-                              "leaderName": {
-                                "type": "string",
-                                "description": "领涨证券名称",
-                                "example": "新大洲A"
-                              },
-                              "leaderPctChg": {
-                                "type": "number",
-                                "description": "领涨证券涨跌幅",
-                                "example": 0.0319488817891374
-                              },
-                              "laggardCode": {
-                                "type": "string",
-                                "description": "领跌证券代码",
-                                "example": "000937"
-                              },
-                              "laggardName": {
-                                "type": "string",
-                                "description": "领跌证券名称",
-                                "example": "冀中能源"
-                              },
-                              "laggardPctChg": {
-                                "type": "number",
-                                "description": "领跌证券涨跌幅",
-                                "example": -0.0378250591016549
-                              },
-                              "amountConcentrationTop5": {
-                                "type": "number",
-                                "description": "成交额 Top5 集中度",
-                                "example": 0.557982401191533
-                              },
-                              "netInflow": {
-                                "type": "number",
-                                "description": "主力资金净流入合计",
-                                "example": -287566820.34
-                              },
-                              "netInflowRatio": {
-                                "type": "number",
-                                "description": "主力净流入占成交额比例",
-                                "example": -0.0269077075795279
-                              },
-                              "flowConcentrationTop5": {
-                                "type": "number",
-                                "description": "资金 Top5 集中度",
-                                "example": 0.612389089440542
-                              },
-                              "heat": {
-                                "type": "number",
-                                "description": "热度",
-                                "example": 1
-                              }
-                            }
-                          }
-                        },
-                        "conceptSummaries": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "概念汇总",
-                            "properties": {
-                              "industryCode": {
-                                "type": "string",
-                                "description": "一级行业代码",
-                                "example": ""
-                              },
-                              "industrySubCode": {
-                                "type": "string",
-                                "description": "细分行业代码",
-                                "example": ""
-                              },
-                              "conceptCode": {
-                                "type": "string",
-                                "description": "概念代码",
-                                "example": "CLS80201"
-                              },
-                              "industryPctChg": {
-                                "type": "number",
-                                "description": "行业/细分行业涨跌幅"
-                              },
-                              "conceptPctChg": {
-                                "type": "number",
-                                "description": "概念涨跌幅",
-                                "example": -0.0172942928149088
-                              },
-                              "memberCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "成分数量",
-                                "example": 276
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量合计",
-                                "example": 3932141200
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额合计",
-                                "example": 102049782809
-                              },
-                              "floatMarketCap": {
-                                "type": "number",
-                                "description": "流通市值合计",
-                                "example": 2708879566465
-                              },
-                              "totalMarketCap": {
-                                "type": "number",
-                                "description": "总市值合计",
-                                "example": 3276523877696
-                              },
-                              "pctChgEq": {
-                                "type": "number",
-                                "description": "等权涨跌幅",
-                                "example": -0.0172942928149088
-                              },
-                              "pctChgMcap": {
-                                "type": "number",
-                                "description": "流通市值加权涨跌幅",
-                                "example": -0.00325924949936644
-                              },
-                              "upCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "上涨家数",
-                                "example": 54
-                              },
-                              "downCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "下跌家数",
-                                "example": 220
-                              },
-                              "flatCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "平盘家数",
-                                "example": 2
-                              },
-                              "limitUpCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "涨停家数",
-                                "example": 5
-                              },
-                              "limitDownCount": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "跌停家数",
-                                "example": 3
-                              },
-                              "diffusion": {
-                                "type": "number",
-                                "description": "扩散度",
-                                "example": 0.195652173913044
-                              },
-                              "limitDiffusion": {
-                                "type": "number",
-                                "description": "涨停扩散度",
-                                "example": 0.0181159420289855
-                              },
-                              "leaderCode": {
-                                "type": "string",
-                                "description": "领涨证券代码",
-                                "example": "920249"
-                              },
-                              "leaderName": {
-                                "type": "string",
-                                "description": "领涨证券名称",
-                                "example": "利尔达"
-                              },
-                              "leaderPctChg": {
-                                "type": "number",
-                                "description": "领涨证券涨跌幅",
-                                "example": 0.277712952158693
-                              },
-                              "laggardCode": {
-                                "type": "string",
-                                "description": "领跌证券代码",
-                                "example": "301107"
-                              },
-                              "laggardName": {
-                                "type": "string",
-                                "description": "领跌证券名称",
-                                "example": "瑜欣电子"
-                              },
-                              "laggardPctChg": {
-                                "type": "number",
-                                "description": "领跌证券涨跌幅",
-                                "example": -0.135847526358475
-                              },
-                              "amountConcentrationTop5": {
-                                "type": "number",
-                                "description": "成交额 Top5 集中度",
-                                "example": 0.268743632343932
-                              },
-                              "netInflow": {
-                                "type": "number",
-                                "description": "主力资金净流入合计",
-                                "example": -1820061968.96
-                              },
-                              "netInflowRatio": {
-                                "type": "number",
-                                "description": "主力净流入占成交额比例",
-                                "example": -0.0178350401035786
-                              },
-                              "flowConcentrationTop5": {
-                                "type": "number",
-                                "description": "资金 Top5 集中度",
-                                "example": 0.276453782712732
-                              },
-                              "heat": {
-                                "type": "number",
-                                "description": "热度",
-                                "example": 1
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/index-quote/core": {
-      "post": {
-        "tags": [
-          "指数核心实时行情"
-        ],
-        "summary": "指数核心实时行情",
-        "description": "通过传入指数代码数组（可批量）和固定为index的资产类型，获取指数的核心实时行情数据，包括接口快照时间、缓存更新时间等基础信息，以及指数的最新价格、昨收价、开盘价、最高价、最低价、涨跌额、涨跌幅、振幅、成交量、成交额等核心行情指标，还包含近20日涨跌幅、年初至今涨跌幅等数据，可用于实时市场监测、指数走势分析等场景。",
-        "operationId": "get_index_quote_core",
-        "requestBody": {
-          "description": "通过传入指数代码数组（可批量）和固定为index的资产类型，获取指数的核心实时行情数据，包括接口快照时间、缓存更新时间等基础信息，以及指数的最新价格、昨收价、开盘价、最高价、最低价、涨跌额、涨跌幅、振幅、成交量、成交额等核心行情指标，还包含近20日涨跌幅、年初至今涨跌幅等数据，可用于实时市场监测、指数走势分析等场景。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "codes": {
-                    "type": "array",
-                    "description": "股票代码",
-                    "example": [
-                      "000001",
-                      "600519"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "assetType": {
+                  "date": {
                     "type": "string",
-                    "description": "资产类型（固定为 index）",
-                    "example": "index"
-                  }
-                },
-                "required": [
-                  "assetType",
-                  "codes"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-07-06T11:02:35"
-                        },
-                        "cacheTime": {
-                          "type": "string",
-                          "description": "行情缓存最后更新时间",
-                          "example": "2026-07-06T11:02:35"
-                        },
-                        "cacheAgeMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "缓存距本次请求的时间差，单位毫秒",
-                          "example": 932
-                        },
-                        "cacheStatus": {
-                          "type": "string",
-                          "allOf": [
-                            {
-                              "type": "string",
-                              "description": "正常代表正常",
-                              "enum": [
-                                "正常"
-                              ]
-                            }
-                          ],
-                          "description": "缓存状态",
-                          "example": "正常"
-                        },
-                        "requestedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "请求数量",
-                          "example": 1
-                        },
-                        "returnedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "返回数量",
-                          "example": 1
-                        },
-                        "elapsedMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "接口耗时，单位毫秒",
-                          "example": 24
-                        },
+                    "description": "交易日期",
+                    "example": "2020-01-01"
+                  },
+                  "cycleType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表表示短周期;\n2代表表示中周期;\n3代表表示长周期;",
+                        "enum": [
+                          1,
+                          2,
+                          3
+                        ]
+                      }
+                    ],
+                    "description": "周期",
+                    "example": 1
+                  },
+                  "signalCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "1：多头排列\n2：趋势转强\n3：突破前高\n4：回踩均线不破\n5：高低点结构改善\n6：趋势阶段改善",
+                        "enum": [
+                          "1：多头排列\n2：趋势转强\n3：突破前高\n4：回踩均线不破\n5：高低点结构改善\n6：趋势阶段改善"
+                        ],
                         "items": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "指数行情列表",
-                            "properties": {
-                              "securityCode": {
-                                "type": "string",
-                                "description": "指数代码",
-                                "example": "000001"
-                              },
-                              "securityName": {
-                                "type": "string",
-                                "description": "指数名称",
-                                "example": "上证指数"
-                              },
-                              "exchange": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
-                                    "enum": [
-                                      "sh",
-                                      "sz",
-                                      "bj"
-                                    ]
-                                  }
-                                ],
-                                "description": "交易所/市场",
-                                "example": "sh"
-                              },
-                              "securityType": {
-                                "type": "string",
-                                "description": "TDX 原始证券类型；部分指数可能仍返回 0，不作为指数判断依据",
-                                "example": "0"
-                              },
-                              "assetType": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "index代表指数",
-                                    "enum": [
-                                      "index"
-                                    ]
-                                  }
-                                ],
-                                "description": "资产类型，固定为 index",
-                                "example": "index"
-                              },
-                              "tradeDate": {
-                                "type": "string",
-                                "description": "交易日期",
-                                "example": "20260706"
-                              },
-                              "quoteTime": {
-                                "type": "string",
-                                "description": "行情快照时间",
-                                "example": "20260706110236"
-                              },
-                              "snapshotTime": {
-                                "type": "string",
-                                "description": "接口快照时间",
-                                "example": "2026-07-06T11:02:35"
-                              },
-                              "lastPrice": {
-                                "type": "number",
-                                "description": "最新点位",
-                                "example": 4023.68
-                              },
-                              "preClose": {
-                                "type": "number",
-                                "description": "昨收点位",
-                                "example": 4043.64
-                              },
-                              "openPrice": {
-                                "type": "number",
-                                "description": "开盘点位",
-                                "example": 4059.19
-                              },
-                              "highPrice": {
-                                "type": "number",
-                                "description": "最高点位",
-                                "example": 4060.07
-                              },
-                              "lowPrice": {
-                                "type": "number",
-                                "description": "最低点位",
-                                "example": 4005.41
-                              },
-                              "chgAmount": {
-                                "type": "number",
-                                "description": "涨跌点数",
-                                "example": -19.96
-                              },
-                              "pctChg": {
-                                "type": "number",
-                                "description": "涨跌幅",
-                                "example": -0.0049
-                              },
-                              "amplitude": {
-                                "type": "number",
-                                "description": "振幅",
-                                "example": 0.0135
-                              },
-                              "intradayReturn": {
-                                "type": "number",
-                                "description": "盘中收益",
-                                "example": -0.0087
-                              },
-                              "speed": {
-                                "type": "number",
-                                "description": "涨速",
-                                "example": 0.0025
-                              },
-                              "volumeLot": {
-                                "type": "number",
-                                "description": "成交量，单位手",
-                                "example": 366018516
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量，单位股",
-                                "example": 36601851600
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额",
-                                "example": 909594787840
-                              },
-                              "nowVolume": {
-                                "type": "number",
-                                "description": "现量",
-                                "example": 181879700
-                              },
-                              "avgTradePrice": {
-                                "type": "number",
-                                "description": "成交均价",
-                                "example": 4005.86
-                              },
-                              "vwap": {
-                                "type": "number",
-                                "description": "当日成交均价",
-                                "example": 4005.86
-                              },
-                              "return20d": {
-                                "type": "number",
-                                "description": "近 20 日涨跌幅",
-                                "example": -0.001
-                              },
-                              "returnYtd": {
-                                "type": "number",
-                                "description": "年初至今涨跌幅",
-                                "example": 0.0138
-                              }
-                            }
-                          }
+                          "type": "string"
                         }
                       }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "subscription"
-      ]
-    },
-    "/fund-quote/core": {
-      "post": {
-        "tags": [
-          "ETF核心实时行情"
-        ],
-        "summary": "ETF核心实时行情",
-        "description": "使用ETF代码列表（可批量传入），并指定资产类型为etf，即可获取对应ETF的核心实时行情数据，涵盖证券基本信息（代码、名称、交易所）、关键价格指标（最新价、昨收价、开盘价、最高价、最低价等）、涨跌数据（涨跌额、涨跌幅、振幅等）、成交数据（成交量、成交额、成交均价等）、买卖盘深度（买一到买二、卖一到卖二的报价及量）、ETF专属指标（IOPV、净值、折溢价率等）以及交易日期、行情快照时间等时间信息，适用于ETF实时行情监测、交易决策分析等场景。",
-        "operationId": "get_fund_quote_core",
-        "requestBody": {
-          "description": "使用ETF代码列表（可批量传入），并指定资产类型为etf，即可获取对应ETF的核心实时行情数据，涵盖证券基本信息（代码、名称、交易所）、关键价格指标（最新价、昨收价、开盘价、最高价、最低价等）、涨跌数据（涨跌额、涨跌幅、振幅等）、成交数据（成交量、成交额、成交均价等）、买卖盘深度（买一到买二、卖一到卖二的报价及量）、ETF专属指标（IOPV、净值、折溢价率等）以及交易日期、行情快照时间等时间信息，适用于ETF实时行情监测、交易决策分析等场景。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "codes": {
-                    "type": "array",
-                    "description": "股票代码",
+                    ],
+                    "description": "趋势信号代码",
                     "example": [
-                      "159001",
-                      "510300"
+                      1,
+                      2,
+                      3
                     ],
                     "items": {
                       "type": "string"
                     }
                   },
-                  "assetType": {
+                  "matchMode": {
                     "type": "string",
-                    "description": "资产类型（固定为 etf）",
-                    "example": "etf"
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "description": "1代表表示全部信号同时满足;\n2代表表示满足任意一个信号；\n不传默认按1处理",
+                        "enum": [
+                          "1",
+                          "2"
+                        ]
+                      }
+                    ],
+                    "description": "多个趋势信号的匹配方式",
+                    "example": "2"
+                  },
+                  "minTrendScore": {
+                    "type": "string",
+                    "description": "最低趋势综合得分，取值范围0～100；仅返回趋势得分大于或等于该值的股票",
+                    "example": "60"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
                   }
                 },
                 "required": [
-                  "assetType",
-                  "codes"
+                  "cycleType",
+                  "date",
+                  "signalCodes"
                 ]
               }
             }
@@ -67006,302 +64025,55 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "type": "object",
-                      "description": "业务数据",
-                      "example": {},
-                      "properties": {
-                        "snapshotTime": {
-                          "type": "string",
-                          "description": "接口快照时间",
-                          "example": "2026-07-06T11:49:17"
-                        },
-                        "cacheTime": {
-                          "type": "string",
-                          "description": "行情缓存最后更新时间",
-                          "example": "2026-07-06T11:30:02"
-                        },
-                        "cacheAgeMs": {
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2026-07-10 00:00:00"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "cycleType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
                           "type": "integer",
                           "format": "int32",
-                          "description": "缓存距本次请求的时间差，单位毫秒",
-                          "example": 1155946
-                        },
-                        "cacheStatus": {
-                          "type": "string",
-                          "allOf": [
-                            {
-                              "type": "string",
-                              "description": "正常代表正常",
-                              "enum": [
-                                "正常"
-                              ]
-                            }
-                          ],
-                          "description": "缓存状态",
-                          "example": "正常"
-                        },
-                        "requestedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "请求数量",
-                          "example": 1
-                        },
-                        "returnedCount": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "返回数量",
-                          "example": 1
-                        },
-                        "elapsedMs": {
-                          "type": "integer",
-                          "format": "int32",
-                          "description": "接口耗时，单位毫秒",
-                          "example": 182
-                        },
-                        "items": {
-                          "type": "array",
-                          "example": [],
-                          "items": {
-                            "type": "object",
-                            "description": "ETF 行情列表",
-                            "properties": {
-                              "securityCode": {
-                                "type": "string",
-                                "description": "证券代码",
-                                "example": "159001"
-                              },
-                              "securityName": {
-                                "type": "string",
-                                "description": "证券名称",
-                                "example": "货币ETF易方达"
-                              },
-                              "exchange": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
-                                    "enum": [
-                                      "sh",
-                                      "sz",
-                                      "bj"
-                                    ]
-                                  }
-                                ],
-                                "description": "交易所/市场",
-                                "example": "sz"
-                              },
-                              "securityType": {
-                                "type": "string",
-                                "description": "TDX 原始证券类型；部分 ETF 可能仍返回 0，不作为 ETF 判断依据",
-                                "example": "0"
-                              },
-                              "assetType": {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "type": "string",
-                                    "description": "etf代表ETF",
-                                    "enum": [
-                                      "etf"
-                                    ]
-                                  }
-                                ],
-                                "description": "资产类型，固定为 etf",
-                                "example": "etf"
-                              },
-                              "tradeDate": {
-                                "type": "string",
-                                "description": "交易日期",
-                                "example": "20260706"
-                              },
-                              "quoteTime": {
-                                "type": "string",
-                                "description": "行情快照时间",
-                                "example": "20260706113000"
-                              },
-                              "snapshotTime": {
-                                "type": "string",
-                                "description": "接口快照时间",
-                                "example": "2026-07-06T11:49:17"
-                              },
-                              "lastPrice": {
-                                "type": "number",
-                                "description": "最新价",
-                                "example": 99.997
-                              },
-                              "preClose": {
-                                "type": "number",
-                                "description": "昨收价",
-                                "example": 100
-                              },
-                              "openPrice": {
-                                "type": "number",
-                                "description": "开盘价",
-                                "example": 100
-                              },
-                              "highPrice": {
-                                "type": "number",
-                                "description": "最高价",
-                                "example": 100
-                              },
-                              "lowPrice": {
-                                "type": "number",
-                                "description": "最低价",
-                                "example": 99.997
-                              },
-                              "chgAmount": {
-                                "type": "number",
-                                "description": "涨跌额",
-                                "example": -0.00300000000000011
-                              },
-                              "pctChg": {
-                                "type": "number",
-                                "description": "涨跌幅",
-                                "example": 0
-                              },
-                              "amplitude": {
-                                "type": "number",
-                                "description": "振幅",
-                                "example": 0
-                              },
-                              "intradayReturn": {
-                                "type": "number",
-                                "description": "盘中收益",
-                                "example": 0
-                              },
-                              "speed": {
-                                "type": "number",
-                                "description": "涨速",
-                                "example": 0
-                              },
-                              "volumeLot": {
-                                "type": "number",
-                                "description": "成交量，单位手",
-                                "example": 72817
-                              },
-                              "volume": {
-                                "type": "number",
-                                "description": "成交量，单位股",
-                                "example": 7281700
-                              },
-                              "amount": {
-                                "type": "number",
-                                "description": "成交额",
-                                "example": 728163456
-                              },
-                              "nowVolume": {
-                                "type": "number",
-                                "description": "现量",
-                                "example": 500
-                              },
-                              "avgTradePrice": {
-                                "type": "number",
-                                "description": "成交均价",
-                                "example": 99.999
-                              },
-                              "vwap": {
-                                "type": "number",
-                                "description": "当日成交均价",
-                                "example": 99.999
-                              },
-                              "iopv": {
-                                "type": "number",
-                                "description": "ETF 盘中参考净值候选值，对应 TDX JJJZ"
-                              },
-                              "nav": {
-                                "type": "number",
-                                "description": "基金/ETF 净值候选值，对应 TDX JJJZ"
-                              },
-                              "iopvPremiumRate": {
-                                "type": "number",
-                                "description": "ETF IOPV 折溢价率候选值，由 lastPrice / iopv - 1 计算"
-                              },
-                              "navPremiumRate": {
-                                "type": "number",
-                                "description": "基金/ETF 净值折溢价率候选值，由 lastPrice / nav - 1 计算"
-                              },
-                              "return20d": {
-                                "type": "number",
-                                "description": "近 20 日涨跌幅",
-                                "example": 0
-                              },
-                              "returnYtd": {
-                                "type": "number",
-                                "description": "年初至今涨跌幅",
-                                "example": 0
-                              },
-                              "bidPrice1": {
-                                "type": "number",
-                                "description": "买一价",
-                                "example": 99.997
-                              },
-                              "bidVolume1": {
-                                "type": "number",
-                                "description": "买一量",
-                                "example": 390000
-                              },
-                              "askPrice1": {
-                                "type": "number",
-                                "description": "卖一价",
-                                "example": 99.998
-                              },
-                              "askVolume1": {
-                                "type": "number",
-                                "description": "卖一量",
-                                "example": 459600
-                              },
-                              "bidPrice2": {
-                                "type": "number",
-                                "description": "买二价",
-                                "example": 99.996
-                              },
-                              "bidVolume2": {
-                                "type": "number",
-                                "description": "买二量",
-                                "example": 69700
-                              },
-                              "askPrice2": {
-                                "type": "number",
-                                "description": "卖二价",
-                                "example": 99.999
-                              },
-                              "askVolume2": {
-                                "type": "number",
-                                "description": "卖二量",
-                                "example": 1158500
-                              },
-                              "orderBookDepth": {
-                                "type": "integer",
-                                "format": "int32",
-                                "description": "当前盘口深度",
-                                "example": 2
-                              },
-                              "spread": {
-                                "type": "number",
-                                "description": "买卖价差",
-                                "example": 0.00100000000000477
-                              },
-                              "spreadRate": {
-                                "type": "number",
-                                "description": "买卖价差率",
-                                "example": 0
-                              },
-                              "midPrice": {
-                                "type": "number",
-                                "description": "买一卖一中间价",
-                                "example": 99.9975
-                              },
-                              "bookPressure": {
-                                "type": "number",
-                                "description": "盘口压力",
-                                "example": -0.5575
-                              }
-                            }
-                          }
+                          "description": "1代表短周期,2代表中周期,3代表长周期",
+                          "enum": [
+                            1
+                          ]
                         }
-                      }
+                      ],
+                      "description": "趋势分析周期：1短周期、2中周期、3长周期",
+                      "example": 2
+                    },
+                    "trendScore": {
+                      "type": "number",
+                      "description": "趋势综合得分，取值范围0至100",
+                      "example": 82.5
+                    },
+                    "matchedSignalCodes": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "1代表多头排列,2代表趋势转强,3代表突破前高,4代表回踩均线不破,5代表高低点结构改善,6代表趋势阶段改善",
+                          "enum": [
+                            "1"
+                          ]
+                        }
+                      ],
+                      "description": "实际命中的趋势信号代码，多个代码使用逗号分隔",
+                      "example": "1,2,3"
                     }
                   }
                 }
@@ -67322,7 +64094,490 @@
         ]
       },
       "x-apikey-supported": [
-        "subscription"
+        "resource"
+      ]
+    },
+    "/stock/price-pattern": {
+      "post": {
+        "tags": [
+          "股票价格形态筛选"
+        ],
+        "summary": "股票价格形态筛选",
+        "description": "通过指定交易日期（格式为yyyy-MM-dd，不指定则查询对应周期最新日期）、周期类型（短/中/长期）、价格模式代码（可批量，如双底、双顶等）、模式状态代码（形成中/已确认/已失效），还可通过页码和页长分页，筛选符合条件的股票价格形态数据，返回股票代码、名称、交易日期、周期类型、模式代码、颈线价格、形态上下边界价格、模式状态等核心信息，用于股票技术分析和投资决策辅助。",
+        "operationId": "list_stock_price_pattern",
+        "requestBody": {
+          "description": "通过指定交易日期（格式为yyyy-MM-dd，不指定则查询对应周期最新日期）、周期类型（短/中/长期）、价格模式代码（可批量，如双底、双顶等）、模式状态代码（形成中/已确认/已失效），还可通过页码和页长分页，筛选符合条件的股票价格形态数据，返回股票代码、名称、交易日期、周期类型、模式代码、颈线价格、形态上下边界价格、模式状态等核心信息，用于股票技术分析和投资决策辅助。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "交易日期",
+                    "example": "2026-07-10"
+                  },
+                  "cycleType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表表示短周期；\n2代表表示中周期；\n3代表表示长周期",
+                        "enum": [
+                          1
+                        ]
+                      }
+                    ],
+                    "description": "形态分析周期",
+                    "example": 2
+                  },
+                  "patternCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "1代表双底;\n2代表双顶;\n3代表头肩底;\n4代表头肩顶;\n5代表箱体向上突破;\n6代表箱体向下突破;\n7代表三角形；",
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "价格形态代码",
+                    "example": [
+                      1,
+                      5,
+                      7
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "statusCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "1代表形成中;\n2代表已确认;\n3代表已失效；",
+                        "enum": [
+                          "1",
+                          "2",
+                          "3"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "形态状态代码",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "cycleType",
+                  "date",
+                  "patternCodes",
+                  "statusCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2026-07-10 00:00:00"
+                    },
+                    "cycleType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表短周期,2代表中周期,3代表长周期",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "形态分析周期：1短周期、2中周期、3长周期",
+                      "example": 2
+                    },
+                    "patternCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表双底,2代表双顶,3代表头肩底,4代表头肩顶,5代表箱体向上突破,6代表箱体向下突破,7代表三角形",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "价格形态代码：1双底、2双顶、3头肩底、4头肩顶、5箱体向上突破、6箱体向下突破、7三角形",
+                      "example": 5
+                    },
+                    "necklinePrice": {
+                      "type": "number",
+                      "description": "形态颈线价格；不适用的形态可能为空",
+                      "example": 12.35
+                    },
+                    "upperBoundary": {
+                      "type": "number",
+                      "description": "形态上边界价格",
+                      "example": 12.8
+                    },
+                    "lowerBoundary": {
+                      "type": "number",
+                      "description": "形态下边界价格",
+                      "example": 11.6
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表形成中,2代表已确认,3代表已失效",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "形态状态：1形成中、2已确认、3已失效",
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/volume-price": {
+      "post": {
+        "tags": [
+          "股票量价信号筛选"
+        ],
+        "summary": "股票量价信号筛选",
+        "description": "支持通过指定量价分析周期（短/中/长期，必填）、交易日期（格式yyyy-MM-dd，可选，默认查询所选周期最新交易日）、最低量价综合得分、价格反馈分类（如强正向、正向等）、量价信号代码（如放量突破、缩量回调等，支持多信号全部满足或任意满足的匹配模式）及分页参数筛选股票，返回股票代码、名称、交易日期（格式yyyy-MM-dd HH:mm:ss）、周期类型、当日成交量、成交金额、换手率、5/10/20/60日平均成交量、价格反馈分类、量价综合得分及匹配的信号代码等核心数据，可用于股票量价分析、投资信号挖掘及投资决策辅助。",
+        "operationId": "list_stock_volume_price",
+        "requestBody": {
+          "description": "支持通过指定量价分析周期（短/中/长期，必填）、交易日期（格式yyyy-MM-dd，可选，默认查询所选周期最新交易日）、最低量价综合得分、价格反馈分类（如强正向、正向等）、量价信号代码（如放量突破、缩量回调等，支持多信号全部满足或任意满足的匹配模式）及分页参数筛选股票，返回股票代码、名称、交易日期（格式yyyy-MM-dd HH:mm:ss）、周期类型、当日成交量、成交金额、换手率、5/10/20/60日平均成交量、价格反馈分类、量价综合得分及匹配的信号代码等核心数据，可用于股票量价分析、投资信号挖掘及投资决策辅助。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "交易日期（格式yyyy-MM-dd），不传则查询所选周期的最新交易日期",
+                    "example": "2026-07-10"
+                  },
+                  "cycleType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表短周期,2代表中周期,3代表长周期",
+                        "enum": [
+                          1
+                        ]
+                      }
+                    ],
+                    "description": "量价分析周期：1短周期、2中周期、3长周期。\n最小值:1;\n最大值:3;",
+                    "example": 2
+                  },
+                  "minVolumePriceScore": {
+                    "type": "number",
+                    "description": "最低量价综合得分，仅返回得分大于或等于该值的股票。\n最小值:0;\n最大值:100;",
+                    "example": 60
+                  },
+                  "priceFeedbacks": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "strong_positive代表强正向,positive代表正向,flat代表平稳,negative代表负向,strong_negative代表强负向",
+                        "enum": [
+                          "strong_positive"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "价格反馈分类列表",
+                    "example": [
+                      "positive",
+                      "strong_positive"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "signalCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "1代表放量突破,2代表缩量回踩,3代表放量滞涨,4代表破位确认,5代表换手异常",
+                        "enum": [
+                          "1"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "量价信号代码列表：1放量突破、2缩量回踩、3放量滞涨、4破位确认、5换手异常。\n最小值:1;\n最大值:5;",
+                    "example": [
+                      1,
+                      2,
+                      5
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "matchMode": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表全部满足,2代表任意满足",
+                        "enum": [
+                          1
+                        ]
+                      }
+                    ],
+                    "description": "多个信号的匹配方式：1全部满足、2任意满足；不传默认1。\n最小值:1;\n最大值:2;",
+                    "example": 1
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码，从1开始。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "每页返回的数据条数。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "cycleType",
+                  "date"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2026-07-10 00:00:00"
+                    },
+                    "cycleType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表短周期,2代表中周期,3代表长周期",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "量价分析周期：1短周期、2中周期、3长周期",
+                      "example": 2
+                    },
+                    "volume": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "当日成交量",
+                      "example": 156000000
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "当日成交金额",
+                      "example": 1234500000
+                    },
+                    "turnoverRate": {
+                      "type": "number",
+                      "description": "当日换手率",
+                      "example": 2.3456
+                    },
+                    "volumeMa5": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "近5个交易日平均成交量",
+                      "example": 145000000
+                    },
+                    "volumeMa10": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "近10个交易日平均成交量",
+                      "example": 138000000
+                    },
+                    "volumeMa20": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "近20个交易日平均成交量",
+                      "example": 126000000
+                    },
+                    "volumeMa60": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "近60个交易日平均成交量",
+                      "example": 118000000
+                    },
+                    "priceFeedback": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "strong_positive代表强正向,positive代表正向,flat代表平稳,negative代表负向,strong_negative代表强负向",
+                          "enum": [
+                            "strong_positive"
+                          ]
+                        }
+                      ],
+                      "description": "价格反馈分类：strong_positive强正向、positive正向、flat平稳、negative负向、strong_negative强负向",
+                      "example": "positive"
+                    },
+                    "volumePriceScore": {
+                      "type": "number",
+                      "description": "量价综合得分，取值范围0至100；得分越高表示量价配合越好",
+                      "example": 82.5
+                    },
+                    "matchedSignalCodes": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "1代表放量突破,2代表缩量回踩,3代表放量滞涨,4代表破位确认,5代表换手异常",
+                          "enum": [
+                            "1"
+                          ]
+                        }
+                      ],
+                      "description": "实际命中的量价信号代码：1放量突破、2缩量回踩、3放量滞涨、4破位确认、5换手异常；多个代码使用逗号分隔",
+                      "example": "1,2,5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
       ]
     }
   },
