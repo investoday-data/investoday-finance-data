@@ -2324,6 +2324,34 @@
                       "enabled": 1,
                       "apiAccessLevel": "L5",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110655,
+                      "apiName": "资金流向选股",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1116,
+                      "remarks": null,
+                      "toolName": "list_stock_fund_flow_s",
+                      "toolId": "list_stock_fund_flow_s",
+                      "apiPath": "stock/fund-flow-s",
+                      "enabled": 1,
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110656,
+                      "apiName": "股票技术信号与K线形态筛选",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 1116,
+                      "remarks": null,
+                      "toolName": "list_stk_tech_signals",
+                      "toolId": "list_stk_tech_signals",
+                      "apiPath": "stock/technical-signals",
+                      "enabled": 1,
+                      "apiAccessLevel": "L5",
+                      "apiMethod": "POST"
                     }
                   ]
                 },

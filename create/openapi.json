@@ -64579,6 +64579,1428 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/stock/fund-flow-s": {
+      "post": {
+        "tags": [
+          "资金流向选股"
+        ],
+        "summary": "资金流向选股",
+        "description": "支持通过指定交易日期（格式yyyy-MM-dd，不填则查询最新日期数据）、资金选股信号代码数组（包含主力/大单/超大单/中小单的净流入流出、资金与价格联动等多种信号组合），可设置金额范围、信号匹配模式（全部满足或任意满足）及分页参数，筛选符合条件的股票，返回股票代码、名称、交易日期、各类型资金净流入金额、总净流入金额、昨收价、最新价、涨跌幅等核心数据，适用于根据资金流向特征进行股票筛选与投资分析。",
+        "operationId": "list_stock_fund_flow_s",
+        "requestBody": {
+          "description": "支持通过指定交易日期（格式yyyy-MM-dd，不填则查询最新日期数据）、资金选股信号代码数组（包含主力/大单/超大单/中小单的净流入流出、资金与价格联动等多种信号组合），可设置金额范围、信号匹配模式（全部满足或任意满足）及分页参数，筛选符合条件的股票，返回股票代码、名称、交易日期、各类型资金净流入金额、总净流入金额、昨收价、最新价、涨跌幅等核心数据，适用于根据资金流向特征进行股票筛选与投资分析。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "选股日期，格式yyyy-MM-dd；不传时查询资金流向表最新日期",
+                    "example": "2026-07-10"
+                  },
+                  "signalCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "101代表主力净流入,102代表主力净流出,201代表大单净流入,202代表大单净流出,203代表超大单净流入,204代表超大单净流出,205代表大单和超大单同时净流入,206代表大单和超大单同时净流出,301代表主力净流入中小单净流出,302代表主力净流出中小单净流入,303代表超大单净流入大单净流出,304代表超大单净流出大单净流入,401代表主力净流入价格上涨,402代表主力净流入价格下跌,403代表主力净流出价格上涨,404代表主力净流出价格下跌",
+                        "enum": [
+                          "101"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "资金选股信号代码数组",
+                    "example": [
+                      101,
+                      203,
+                      401
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "minAmount": {
+                    "type": "number",
+                    "description": "最小金额，单位万元。\n最小值:0;",
+                    "example": 1000
+                  },
+                  "maxAmount": {
+                    "type": "number",
+                    "description": "最大金额，单位万元。\n最小值:0;",
+                    "example": 20000
+                  },
+                  "matchMode": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表全部满足,2代表任意满足;默认1",
+                        "enum": [
+                          1,
+                          "默认1"
+                        ]
+                      }
+                    ],
+                    "description": "多个资金信号的组合方式；不传默认全部满足。\n最小值:1;\n最大值:2;",
+                    "example": 1
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "date",
+                  "signalCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "600519"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票简称",
+                      "example": "贵州茅台"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2026-07-10 00:00:00"
+                    },
+                    "mainNetAmt": {
+                      "type": "number",
+                      "description": "主力净流入金额，单位万元",
+                      "example": 8250.5
+                    },
+                    "largeNetAmt": {
+                      "type": "number",
+                      "description": "大单净流入金额，单位万元；由大单流入减大单流出计算",
+                      "example": 3100.25
+                    },
+                    "superNetAmt": {
+                      "type": "number",
+                      "description": "超大单净流入金额，单位万元；由超大单流入减超大单流出计算",
+                      "example": 5150.25
+                    },
+                    "midSmallNetAmt": {
+                      "type": "number",
+                      "description": "中单与小单合计净流入金额，单位万元",
+                      "example": -7200
+                    },
+                    "totalNetAmt": {
+                      "type": "number",
+                      "description": "总净流入金额，单位万元",
+                      "example": 1050.5
+                    },
+                    "prevClosePrice": {
+                      "type": "number",
+                      "description": "昨收盘价，单位元；行情缺失时为空",
+                      "example": 1813.54
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "最新价，单位元；行情缺失时为空",
+                      "example": 1845.3
+                    },
+                    "priceChangePct": {
+                      "type": "number",
+                      "description": "当日涨跌幅，单位%；昨收为0或行情缺失时为空",
+                      "example": 1.7517
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/technical-signals": {
+      "post": {
+        "tags": [
+          "股票技术信号与K线形态筛选"
+        ],
+        "summary": "股票技术信号与K线形态筛选",
+        "description": "该API用于查询指定股票的技术指标数据及对应的交易信号，涵盖MACD、RSI、KDJ、BOLL、ATR、BIAS等多种指标的数值，以及买卖、金叉死叉、背离、超买超卖等信号，同时支持识别多种K线形态（如十字星、早晨之星、乌云盖顶等）。可通过股票代码列表、指定日期、信号代码列表及信号匹配模式（全部满足/任意满足）进行筛选，并支持分页查询结果。",
+        "operationId": "list_stk_tech_signals",
+        "requestBody": {
+          "description": "该API用于查询指定股票的技术指标数据及对应的交易信号，涵盖MACD、RSI、KDJ、BOLL、ATR、BIAS等多种指标的数值，以及买卖、金叉死叉、背离、超买超卖等信号，同时支持识别多种K线形态（如十字星、早晨之星、乌云盖顶等）。可通过股票代码列表、指定日期、信号代码列表及信号匹配模式（全部满足/任意满足）进行筛选，并支持分页查询结果。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "交易日期",
+                    "example": "2026-07-13"
+                  },
+                  "signalCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "101代表BIAS买入;102代表BIAS卖出;103代表BIAS金叉;104代表BIAS死叉;105代表BIAS底背离;106代表BIAS顶背离;107代表BIAS超卖;108代表BIAS超买;201代表BOLL突破上轨;202代表BOLL跌破上轨;203代表BOLL突破中轨;204代表BOLL跌破中轨;205代表BOLL突破下轨;206代表BOLL跌破下轨;301代表CCI买入;302代表CCI卖出;303代表CCI拐头向上;401代表KDJ超卖;402代表KDJ超买;403代表KDJ金叉;404代表KDJ死叉;405代表KDJ买入;406代表KDJ卖出;407代表KDJ底背离;408代表KDJ顶背离;501代表均线多头排列;502代表均线空头排列;503代表均线粘合;504代表5日线上穿20日线;505代表5日线下穿20日线;506代表股价突破250日线;507代表股价跌破250日线;601代表MACD底背离;602代表MACD顶背离;603代表MACD买入;604代表MACD卖出;605代表MACD红二波;606代表MACD金叉;607代表MACD死叉;701代表动量指标金叉;702代表动量指标死叉;703代表动量指标买入;704代表动量指标卖出;705代表MTM二次金叉;706代表MTM二次死叉;801代表RSI金叉;802代表RSI死叉;803代表RSI买入;804代表RSI卖出;805代表RSI底背离;806代表RSI顶背离;807代表RSI超卖;808代表RSI超买;901代表威廉指标买入;902代表威廉指标卖出;1001代表光脚阴线;1002代表光头阳线;1003代表好友反攻;1004代表穿头破脚;1005代表十字星;1006代表乌云盖顶;1007代表垂死十字星;1008代表双飞乌鸦;1009代表长下影;1010代表下跌三部曲;1011代表黄昏之星;1012代表平底;1013代表平顶;1014代表大阴烛;1015代表锤头;1016代表长十字;1017代表曙光初现;1018代表早晨之星;1019代表十字胎;1020代表孕育线;1021代表身怀六甲;1022代表大阳烛;1023代表射击之星;1024代表吊顶;1025代表三只乌鸦;1026代表三个白武士;1027代表倒转锤头;1028代表长上影;1029代表上升三部曲;1030代表跳空缺口",
+                        "enum": [
+                          "101",
+                          "102",
+                          "103",
+                          "104",
+                          "105",
+                          "106",
+                          "107",
+                          "108",
+                          "201",
+                          "202",
+                          "203",
+                          "204",
+                          "205",
+                          "206",
+                          "301",
+                          "302",
+                          "303",
+                          "401",
+                          "402",
+                          "403",
+                          "404",
+                          "405",
+                          "406",
+                          "407",
+                          "408",
+                          "501",
+                          "502",
+                          "503",
+                          "504",
+                          "505",
+                          "506",
+                          "507",
+                          "601",
+                          "602",
+                          "603",
+                          "604",
+                          "605",
+                          "606",
+                          "607",
+                          "701",
+                          "702",
+                          "703",
+                          "704",
+                          "705",
+                          "706",
+                          "801",
+                          "802",
+                          "803",
+                          "804",
+                          "805",
+                          "806",
+                          "807",
+                          "808",
+                          "901",
+                          "902",
+                          "1001",
+                          "1002",
+                          "1003",
+                          "1004",
+                          "1005",
+                          "1006",
+                          "1007",
+                          "1008",
+                          "1009",
+                          "1010",
+                          "1011",
+                          "1012",
+                          "1013",
+                          "1014",
+                          "1015",
+                          "1016",
+                          "1017",
+                          "1018",
+                          "1019",
+                          "1020",
+                          "1021",
+                          "1022",
+                          "1023",
+                          "1024",
+                          "1025",
+                          "1026",
+                          "1027",
+                          "1028",
+                          "1029",
+                          "1030"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "技术指标信号及K线形态",
+                    "example": [
+                      606,
+                      801,
+                      807,
+                      1018
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "signalMatchMode": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表全部满足（AND）;2代表任意满足（OR）;默认1全部满足（AND）",
+                        "enum": [
+                          1,
+                          2,
+                          "默认1全部满足（AND）"
+                        ]
+                      }
+                    ],
+                    "description": "signalCodes之间的匹配关系；不传时SQL默认全部满足。\n最小值:1;\n最大值:2;",
+                    "example": 1
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "date",
+                  "signalCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票中文简称",
+                      "example": "平安银行"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "技术指标发布日期",
+                      "example": "2026-07-13 00:00:00"
+                    },
+                    "dif": {
+                      "type": "number",
+                      "description": "MACD差离值DIF，数据库精度18,4",
+                      "example": 1.235
+                    },
+                    "dea": {
+                      "type": "number",
+                      "description": "DIF的N日指数移动平均DEA，数据库精度18,4",
+                      "example": 0.986
+                    },
+                    "macd": {
+                      "type": "number",
+                      "description": "MACD指标值，数据库精度18,4",
+                      "example": 0.498
+                    },
+                    "rsi5": {
+                      "type": "number",
+                      "description": "5天相对强弱指数，数据库精度18,4",
+                      "example": 68.25
+                    },
+                    "rsi14": {
+                      "type": "number",
+                      "description": "14天相对强弱指数，数据库精度18,4",
+                      "example": 61.43
+                    },
+                    "kdjK": {
+                      "type": "number",
+                      "description": "KDJ指标K值，数据库精度18,4",
+                      "example": 72.36
+                    },
+                    "kdjD": {
+                      "type": "number",
+                      "description": "KDJ指标D值，数据库精度18,4",
+                      "example": 65.28
+                    },
+                    "kdjJ": {
+                      "type": "number",
+                      "description": "KDJ指标J值，数据库精度18,4",
+                      "example": 86.52
+                    },
+                    "bollUp": {
+                      "type": "number",
+                      "description": "布林线上轨，数据库精度18,4",
+                      "example": 18.65
+                    },
+                    "bollMid": {
+                      "type": "number",
+                      "description": "布林线中轨，数据库精度18,4",
+                      "example": 17.42
+                    },
+                    "bollLow": {
+                      "type": "number",
+                      "description": "布林线下轨，数据库精度18,4",
+                      "example": 16.19
+                    },
+                    "atr": {
+                      "type": "number",
+                      "description": "平均真实幅度ATR，数据库精度18,4",
+                      "example": 0.685
+                    },
+                    "bias": {
+                      "type": "number",
+                      "description": "乖离率，数据库精度18,4",
+                      "example": 2.35
+                    },
+                    "bias6": {
+                      "type": "number",
+                      "description": "6天乖离率，数据库精度18,4",
+                      "example": 1.86
+                    },
+                    "bias24": {
+                      "type": "number",
+                      "description": "24天乖离率，数据库精度18,4",
+                      "example": 3.42
+                    },
+                    "biasBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BIAS买卖信号",
+                      "example": 1
+                    },
+                    "biasCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表金叉,-1代表死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BIAS金叉死叉信号",
+                      "example": 1
+                    },
+                    "biasDiv": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表底背离,-1代表顶背离",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BIAS背离信号",
+                      "example": 1
+                    },
+                    "biasObos": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表超卖,-1代表超买",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BIAS超买超卖状态",
+                      "example": 1
+                    },
+                    "bollUpSig": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表突破上轨,-1代表跌破上轨",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BOLL穿破上轨信号",
+                      "example": 1
+                    },
+                    "bollMidSig": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表突破中轨,-1代表跌破中轨",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BOLL穿破中轨信号",
+                      "example": 1
+                    },
+                    "bollLowSig": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表突破下轨,-1代表跌破下轨",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "BOLL穿破下轨信号",
+                      "example": 1
+                    },
+                    "cciBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "CCI买卖信号",
+                      "example": 1
+                    },
+                    "cciTurnUp": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表拐头向上",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "CCI拐头向上信号",
+                      "example": 1
+                    },
+                    "kdjObos": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表超卖,-1代表超买",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "KDJ超买超卖信号",
+                      "example": 1
+                    },
+                    "kdjCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表金叉,-1代表死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "KDJ金叉死叉信号",
+                      "example": 1
+                    },
+                    "kdjBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "KDJ买入卖出信号",
+                      "example": 1
+                    },
+                    "kdjDiv": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表底背离,-1代表顶背离",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "KDJ背离信号",
+                      "example": 1
+                    },
+                    "maArrange": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表多头排列,-1代表空头排列",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "均线排列状态",
+                      "example": 1
+                    },
+                    "maAdhesion": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表均线粘合",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "均线粘合状态",
+                      "example": 1
+                    },
+                    "ma5CrossMa20": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表上穿20日线,-1代表下穿20日线",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "5日线穿破20日线状态",
+                      "example": 1
+                    },
+                    "priceCrossMa250": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表突破250日线,-1代表跌破250日线",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "股价穿破250日线状态",
+                      "example": 1
+                    },
+                    "macdDiv": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表底背离,-1代表顶背离",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "MACD背离信号",
+                      "example": 1
+                    },
+                    "macdBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "MACD买卖信号",
+                      "example": 1
+                    },
+                    "macdRedWave2": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表红二波",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "MACD红二波信号",
+                      "example": 1
+                    },
+                    "macdCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表金叉,-1代表死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "MACD金叉死叉信号",
+                      "example": 1
+                    },
+                    "momentumCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表金叉,-1代表死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "动量指标金叉死叉信号",
+                      "example": 1
+                    },
+                    "momentumBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "动量指标买卖信号",
+                      "example": 1
+                    },
+                    "mtmSecondCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表二次金叉,-1代表二次死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "MTM二次金叉死叉信号",
+                      "example": 1
+                    },
+                    "rsiCross": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表金叉,-1代表死叉",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "RSI金叉死叉信号",
+                      "example": 1
+                    },
+                    "rsiBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "RSI买卖信号",
+                      "example": 1
+                    },
+                    "rsiDiv": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表底背离,-1代表顶背离",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "RSI背离信号",
+                      "example": 1
+                    },
+                    "rsiObos": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表超卖,-1代表超买",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "RSI超买超卖状态",
+                      "example": 1
+                    },
+                    "williamsBs": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表买入,-1代表卖出",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "威廉指标买卖信号",
+                      "example": 1
+                    },
+                    "barefootBearish": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "光脚阴线形态",
+                      "example": 1
+                    },
+                    "baldBullish": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "光头阳线形态",
+                      "example": 1
+                    },
+                    "friendCounterattack": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "好友反攻形态",
+                      "example": 1
+                    },
+                    "engulfing": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "穿头破脚形态",
+                      "example": 1
+                    },
+                    "doji": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "十字星形态",
+                      "example": 1
+                    },
+                    "darkCloudCover": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "乌云盖顶形态",
+                      "example": 1
+                    },
+                    "gravestoneDoji": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "垂死十字星形态",
+                      "example": 1
+                    },
+                    "twoCrows": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "双飞乌鸦形态",
+                      "example": 1
+                    },
+                    "longLowerShadow": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "长下影形态",
+                      "example": 1
+                    },
+                    "fallingThreeMethods": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "下跌三部曲形态",
+                      "example": 1
+                    },
+                    "eveningStar": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "黄昏之星形态",
+                      "example": 1
+                    },
+                    "tweezerBottom": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "平底形态",
+                      "example": 1
+                    },
+                    "tweezerTop": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "平顶形态",
+                      "example": 1
+                    },
+                    "longBearish": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "大阴烛形态",
+                      "example": 1
+                    },
+                    "hammer": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "锤头形态",
+                      "example": 1
+                    },
+                    "longDoji": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "长十字形态",
+                      "example": 1
+                    },
+                    "piercingPattern": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "曙光初现形态",
+                      "example": 1
+                    },
+                    "morningStar": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "早晨之星形态",
+                      "example": 1
+                    },
+                    "dojiHarami": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "十字胎形态",
+                      "example": 1
+                    },
+                    "harami": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "孕育线形态",
+                      "example": 1
+                    },
+                    "pregnantPattern": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "身怀六甲形态",
+                      "example": 1
+                    },
+                    "longBullish": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "大阳烛形态",
+                      "example": 1
+                    },
+                    "shootingStar": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "射击之星形态",
+                      "example": 1
+                    },
+                    "hangingMan": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "吊顶形态",
+                      "example": 1
+                    },
+                    "threeBlackCrows": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "三只乌鸦形态",
+                      "example": 1
+                    },
+                    "threeWhiteSoldiers": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "三个白武士形态",
+                      "example": 1
+                    },
+                    "invertedHammer": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "倒转锤头形态",
+                      "example": 1
+                    },
+                    "longUpperShadow": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "长上影形态",
+                      "example": 1
+                    },
+                    "risingThreeMethods": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "上升三部曲形态",
+                      "example": 1
+                    },
+                    "gap": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表出现",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "跳空缺口形态",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
