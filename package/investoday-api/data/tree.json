@@ -286,21 +286,6 @@
                       "apiAccessLevel": "L1",
                       "apiVisibility": "external",
                       "apiMethod": "GET"
-                    },
-                    {
-                      "apiId": 110612,
-                      "apiName": "全市场股票列表",
-                      "apiType": "SQL",
-                      "apiStatus": "release",
-                      "groupId": 1081,
-                      "remarks": null,
-                      "toolName": "list_stock_all",
-                      "toolId": "list_stock_all",
-                      "apiPath": "stock/all",
-                      "enabled": 1,
-                      "apiAccessLevel": "L1",
-                      "apiVisibility": "external",
-                      "apiMethod": "POST"
                     }
                   ]
                 },
