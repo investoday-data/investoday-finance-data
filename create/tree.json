@@ -1882,6 +1882,21 @@
                       "apiAccessLevel": "L2",
                       "apiVisibility": "external",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110659,
+                      "apiName": "财务指标（ttm盈利能力）",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11168,
+                      "remarks": null,
+                      "toolName": "list_fin_ind_profit_ttm",
+                      "toolId": "list_fin_ind_profit_ttm",
+                      "apiPath": "stock/fin-indicators-profitab-ttm",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiVisibility": "external",
+                      "apiMethod": "POST"
                     }
                   ]
                 }

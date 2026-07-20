@@ -11681,7 +11681,7 @@
           "股票成交量指标"
         ],
         "summary": "股票成交量指标",
-        "description": "根据股票代码和日期范围查询沪深京股票的成交量相关技术指标，包括加权指数成交值TAPI、简单能量潮和成交量摆荡指标，用于分析股票成交量的变化趋势和市场活跃度。",
+        "description": "通过指定股票代码（必填），可结合开始日期（格式yyyy-MM-dd）、结束日期（格式yyyy-MM-dd）、页码、页长，查询对应沪深京A、B股的成交量相关技术指标数据，返回交易日期、股票代码、股票名称、加权指数成交值TAPI、简易能量潮SOBV、成交量比率指标，适用于股票量能分析、技术指标研究等场景。",
         "operationId": "list_stock_vol_indicators",
         "parameters": [
           {
@@ -11772,7 +11772,7 @@
                     },
                     "volumeRatio": {
                       "type": "number",
-                      "description": "成交量摆荡指标",
+                      "description": "成交量比率指标",
                       "example": 31.3606
                     }
                   }
@@ -11798,10 +11798,10 @@
           "股票成交量指标"
         ],
         "summary": "股票成交量指标",
-        "description": "根据股票代码和日期范围查询沪深京股票的成交量相关技术指标，包括加权指数成交值TAPI、简单能量潮和成交量摆荡指标，用于分析股票成交量的变化趋势和市场活跃度。",
+        "description": "支持通过单个股票代码或股票代码列表，结合开始日期（格式yyyy-MM-dd）、结束日期（格式yyyy-MM-dd）、页码、页长，查询沪深京A股、B股的成交量相关技术指标，包括交易日期（格式yyyy-MM-dd HH:mm:ss）、股票代码、股票名称、简易成交量、成交量比率指标，可用于分析股票成交量的变化趋势和市场活跃度。",
         "operationId": "list_stock_vol_indicators",
         "requestBody": {
-          "description": "根据股票代码和日期范围查询沪深京股票的成交量相关技术指标，包括加权指数成交值TAPI、简单能量潮和成交量摆荡指标，用于分析股票成交量的变化趋势和市场活跃度。",
+          "description": "支持通过单个股票代码或股票代码列表，结合开始日期（格式yyyy-MM-dd）、结束日期（格式yyyy-MM-dd）、页码、页长，查询沪深京A股、B股的成交量相关技术指标，包括交易日期（格式yyyy-MM-dd HH:mm:ss）、股票代码、股票名称、简易成交量、成交量比率指标，可用于分析股票成交量的变化趋势和市场活跃度。",
           "content": {
             "application/json": {
               "schema": {
@@ -11886,7 +11886,7 @@
                     },
                     "volumeRatio": {
                       "type": "number",
-                      "description": "成交量摆荡指标",
+                      "description": "成交量比率指标",
                       "example": 31.3606
                     }
                   }
@@ -65852,6 +65852,150 @@
                       ],
                       "description": "跳空缺口形态",
                       "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/fin-indicators-profitab-ttm": {
+      "post": {
+        "tags": [
+          "财务指标（ttm盈利能力）"
+        ],
+        "summary": "财务指标（ttm盈利能力）",
+        "description": "获取沪深京股票单季度盈利能力财务指标，支持通过股票代码、代码列表及发布日期范围（yyyy-MM-dd）筛选，返回包含毛利率、净利率、ROE（摊薄/扣非）、ROA、ROIC及总资产报酬率等核心数据，适用于大模型进行企业单季度盈利表现分析与横向对比。",
+        "operationId": "list_fin_ind_profit_ttm",
+        "requestBody": {
+          "description": "获取沪深京股票单季度盈利能力财务指标，支持通过股票代码、代码列表及发布日期范围（yyyy-MM-dd）筛选，返回包含毛利率、净利率、ROE（摊薄/扣非）、ROA、ROIC及总资产报酬率等核心数据，适用于大模型进行企业单季度盈利表现分析与横向对比。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "披露日期",
+                      "example": "2023-08-25"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期截止日",
+                      "example": "2023-12-31"
+                    },
+                    "grossMargin": {
+                      "type": "number",
+                      "description": "毛利率(%)",
+                      "example": 0.356
+                    },
+                    "netMargin": {
+                      "type": "number",
+                      "description": "净利率(%)",
+                      "example": 0.156
+                    },
+                    "roeDiluted": {
+                      "type": "number",
+                      "description": "ROE(摊薄)",
+                      "example": 0.152
+                    },
+                    "roeDeductedDiluted": {
+                      "type": "number",
+                      "description": "ROE(扣非摊薄)",
+                      "example": 12.75
+                    },
+                    "roa": {
+                      "type": "number",
+                      "description": "ROA",
+                      "example": 0.156
+                    },
+                    "roic": {
+                      "type": "number",
+                      "description": "ROIC",
+                      "example": 0.154
+                    },
+                    "roaEbit": {
+                      "type": "number",
+                      "description": "总资产报酬率(EBIT/资产)",
+                      "example": 0.0632704647
                     }
                   }
                 }
