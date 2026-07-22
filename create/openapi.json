@@ -9077,10 +9077,10 @@
           "股票估值指标"
         ],
         "summary": "股票估值指标",
-        "description": "通过输入股票代码（单个或批量）和可选的日期范围（格式为 yyyy-MM-dd），查询指定沪深京股票在特定交易日的估值指标，包括股票名称、交易日期、总市值、流通市值、自由流通换手率、市盈率（TTM、扣非）、市净率、市销率等核心估值数据，用于股票估值分析和投资决策。",
+        "description": "支持通过单个股票代码或批量股票代码列表，结合可选的日期范围（格式为yyyy-MM-dd）、页码和页长，查询沪深京A股、B股的指定交易日估值指标数据，包含股票代码、名称、交易日期、总市值、流通市值、自由流通换手率、市盈率、扣非市盈率、市净率、市销率、股价/自由现金流等核心估值数据，可用于股票估值分析和投资决策。",
         "operationId": "get_stock_val_indicators",
         "requestBody": {
-          "description": "通过输入股票代码（单个或批量）和可选的日期范围（格式为 yyyy-MM-dd），查询指定沪深京股票在特定交易日的估值指标，包括股票名称、交易日期、总市值、流通市值、自由流通换手率、市盈率（TTM、扣非）、市净率、市销率等核心估值数据，用于股票估值分析和投资决策。",
+          "description": "支持通过单个股票代码或批量股票代码列表，结合可选的日期范围（格式为yyyy-MM-dd）、页码和页长，查询沪深京A股、B股的指定交易日估值指标数据，包含股票代码、名称、交易日期、总市值、流通市值、自由流通换手率、市盈率、扣非市盈率、市净率、市销率、股价/自由现金流等核心估值数据，可用于股票估值分析和投资决策。",
           "content": {
             "application/json": {
               "schema": {
@@ -9187,6 +9187,11 @@
                       "type": "number",
                       "description": "市销率",
                       "example": 3.75
+                    },
+                    "priceFreeCashFlow": {
+                      "type": "number",
+                      "description": "股价/自由现金流",
+                      "example": 10.25
                     }
                   }
                 }
@@ -29845,6 +29850,11 @@
                     "ebitdaToInterestBearingDebt": {
                       "type": "number",
                       "description": "息税折旧摊销前利润/有息债务",
+                      "example": 2.54500393
+                    },
+                    "debtRatio": {
+                      "type": "number",
+                      "description": "资产负债率(%)",
                       "example": 2.54500393
                     }
                   }
@@ -52805,6 +52815,11 @@
                       "type": "number",
                       "description": "息税折旧摊销前利润/有息债务",
                       "example": 2.54500393
+                    },
+                    "debtRatio": {
+                      "type": "number",
+                      "description": "资产负债率(%)",
+                      "example": 2.54500393
                     }
                   }
                 }
@@ -63762,6 +63777,11 @@
                       "type": "number",
                       "description": "息税折旧摊销前利润/有息债务",
                       "example": 2.54500393
+                    },
+                    "debtRatio": {
+                      "type": "number",
+                      "description": "资产负债率(%)",
+                      "example": 2.54500393
                     }
                   }
                 }
@@ -65996,6 +66016,321 @@
                       "type": "number",
                       "description": "总资产报酬率(EBIT/资产)",
                       "example": 0.0632704647
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/finance-ttm": {
+      "post": {
+        "tags": [
+          "行业财务数据(ttm)"
+        ],
+        "summary": "行业财务数据(ttm)",
+        "description": "支持通过单个行业代码或多个行业代码列表，结合报告期结束日期范围（格式yyyy-MM-dd），分页查询行业的TTM财务数据，涵盖毛利率、净利润率、资产负债率、基金持股比例、营业收入、营业利润、各类周转率、现金流净额、营收及利润增长率等多维度核心财务指标，可用于行业财务状况分析、不同行业财务对比、行业基本面研究等场景。",
+        "operationId": "list_industry_fin_ttm",
+        "requestBody": {
+          "description": "支持通过单个行业代码或多个行业代码列表，结合报告期结束日期范围（格式yyyy-MM-dd），分页查询行业的TTM财务数据，涵盖毛利率、净利润率、资产负债率、基金持股比例、营业收入、营业利润、各类周转率、现金流净额、营收及利润增长率等多维度核心财务指标，可用于行业财务状况分析、不同行业财务对比、行业基本面研究等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "801780"
+                  },
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表【与industryCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "801780",
+                      "801790"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "报告期结束日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-03-31"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "报告期结束日期终止值，格式yyyy-MM-dd",
+                    "example": "2025-12-31"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "801780"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "银行"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期结束日期，格式yyyy-MM-dd",
+                      "example": "2025-12-31"
+                    },
+                    "grossMarginPct": {
+                      "type": "number",
+                      "description": "毛利率(%)",
+                      "example": 28.45
+                    },
+                    "netProfitMargin": {
+                      "type": "number",
+                      "description": "净利润率(%)",
+                      "example": 9.87
+                    },
+                    "assetTurnoverRatio": {
+                      "type": "number",
+                      "description": "资产周转率",
+                      "example": 0.7654
+                    },
+                    "debtRatio": {
+                      "type": "number",
+                      "description": "资产负债率(%)",
+                      "example": 52.34
+                    },
+                    "fundHoldingRatioPct": {
+                      "type": "number",
+                      "description": "基金持股比例(%)",
+                      "example": 3.21
+                    },
+                    "fundCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "基金家数",
+                      "example": 128
+                    },
+                    "operatingRevenue": {
+                      "type": "number",
+                      "description": "业务收入",
+                      "example": 123456789
+                    },
+                    "operatingProfit": {
+                      "type": "number",
+                      "description": "业务利润",
+                      "example": 15678900
+                    },
+                    "currentRatio": {
+                      "type": "number",
+                      "description": "流动比率",
+                      "example": 1.42
+                    },
+                    "quickRatio": {
+                      "type": "number",
+                      "description": "速动比率",
+                      "example": 1.11
+                    },
+                    "equityPerShare": {
+                      "type": "number",
+                      "description": "每股权益",
+                      "example": 6.82
+                    },
+                    "earningsPerShare": {
+                      "type": "number",
+                      "description": "每股收益",
+                      "example": 0.54
+                    },
+                    "returnOnEquityPct": {
+                      "type": "number",
+                      "description": "净资产报酬率（权益报酬率）(%)",
+                      "example": 10.22
+                    },
+                    "returnOnAssetsPct": {
+                      "type": "number",
+                      "description": "资产报酬率(%)",
+                      "example": 4.76
+                    },
+                    "inventoryTurnoverRatio": {
+                      "type": "number",
+                      "description": "存货周转率",
+                      "example": 5.43
+                    },
+                    "operatingCashFlowNet": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额",
+                      "example": 23456789
+                    },
+                    "operatingCashToCurrentLiabilitiesRatio": {
+                      "type": "number",
+                      "description": "经营性现金与流动负债比率",
+                      "example": 0.32
+                    },
+                    "accountsReceivableTurnoverRatio": {
+                      "type": "number",
+                      "description": "应收账款周转率",
+                      "example": 8.54
+                    },
+                    "monetaryFundsToTotalAssetsRatio": {
+                      "type": "number",
+                      "description": "货币资金占总资产比例",
+                      "example": 0.18
+                    },
+                    "receivablesToTotalAssetsRatio": {
+                      "type": "number",
+                      "description": "应收账款占总资产比例",
+                      "example": 0.12
+                    },
+                    "inventoryToTotalAssetsRatio": {
+                      "type": "number",
+                      "description": "存货占总资产比例",
+                      "example": 0.09
+                    },
+                    "intangibleAssetsToTotalAssetsRatio": {
+                      "type": "number",
+                      "description": "无形资产占总资产比例",
+                      "example": 0.03
+                    },
+                    "goodwillToTotalAssetsRatio": {
+                      "type": "number",
+                      "description": "商誉占总资产比例",
+                      "example": 0.05
+                    },
+                    "netProfit": {
+                      "type": "number",
+                      "description": "净利润",
+                      "example": 11223344
+                    },
+                    "investingCashFlowNet": {
+                      "type": "number",
+                      "description": "投资活动产生的现金流量净额",
+                      "example": -3456789
+                    },
+                    "financingCashFlowNet": {
+                      "type": "number",
+                      "description": "筹资活动产生的现金流量净额",
+                      "example": 4567890
+                    },
+                    "recurringBusinessNetProfit": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润",
+                      "example": 10223344
+                    },
+                    "operatingRevenue1yAvgGrowthPct": {
+                      "type": "number",
+                      "description": "业务收入1年平均增长率(%)",
+                      "example": 8.23
+                    },
+                    "netProfit1yAvgGrowthPct": {
+                      "type": "number",
+                      "description": "净利润1年平均增长率(%)",
+                      "example": 7.68
+                    },
+                    "recurringNetProfit1yAvgGrowthPct": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润1年平均增长率(%)",
+                      "example": 6.95
+                    },
+                    "netAccountsReceivable": {
+                      "type": "number",
+                      "description": "应收账款净额",
+                      "example": 23450000
+                    },
+                    "goodwillToNetAssetsRatio": {
+                      "type": "number",
+                      "description": "商誉占净资产比例",
+                      "example": 0.08
+                    },
+                    "fixedAssetsRatioPct": {
+                      "type": "number",
+                      "description": "固定资产占比(%)",
+                      "example": 24.56
+                    },
+                    "interestBearingDebtRatioPct": {
+                      "type": "number",
+                      "description": "有息负债占比(%)",
+                      "example": 18.67
+                    },
+                    "roicPct": {
+                      "type": "number",
+                      "description": "ROIC(%)",
+                      "example": 9.43
+                    },
+                    "operatingRevenueCashContentPct": {
+                      "type": "number",
+                      "description": "主营收入现金含量占比(%)",
+                      "example": 87.32
+                    },
+                    "advanceReceiptsToRevenueRatioPct": {
+                      "type": "number",
+                      "description": "预收账款占营业收入比例(%)",
+                      "example": 4.12
+                    },
+                    "longTermDebtRatioPct": {
+                      "type": "number",
+                      "description": "长期负债比率(%)",
+                      "example": 12.34
+                    },
+                    "inventoryToRevenueRatioPct": {
+                      "type": "number",
+                      "description": "存货占营业收入比例(%)",
+                      "example": 15.67
+                    },
+                    "assetImpairmentLossRatioPct": {
+                      "type": "number",
+                      "description": "资产减值损失占比(%)",
+                      "example": 1.23
+                    },
+                    "operatingCashFlowToNetProfitRatio": {
+                      "type": "number",
+                      "description": "经营现金净流量与净利润的比率",
+                      "example": 1.18
+                    },
+                    "operatingProfitMarginPct": {
+                      "type": "number",
+                      "description": "营业利润率(%)",
+                      "example": 0.08
                     }
                   }
                 }

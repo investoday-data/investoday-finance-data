@@ -3883,6 +3883,21 @@
                   "apiAccessLevel": "L2",
                   "apiVisibility": "external",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110664,
+                  "apiName": "行业财务数据(ttm)",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1050,
+                  "remarks": null,
+                  "toolName": "list_industry_fin_ttm",
+                  "toolId": "list_industry_fin_ttm",
+                  "apiPath": "industry/finance-ttm",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             },
