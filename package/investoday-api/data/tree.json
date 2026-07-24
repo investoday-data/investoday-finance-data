@@ -4469,7 +4469,23 @@
               "apiCount": 0,
               "isShow": 1,
               "children": [],
-              "apis": []
+              "apis": [
+                {
+                  "apiId": 110630,
+                  "apiName": "公告向量搜索",
+                  "apiType": "PROXY",
+                  "apiStatus": "release",
+                  "groupId": 11165,
+                  "remarks": null,
+                  "toolName": "list_announcement_v_s",
+                  "toolId": "list_announcement_vector-search",
+                  "apiPath": "announcement/vector-search",
+                  "enabled": 1,
+                  "apiAccessLevel": "L4",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
             }
           ],
           "apis": [
