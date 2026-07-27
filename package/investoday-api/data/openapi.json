@@ -54082,11 +54082,6 @@
                       "description": "近三年涨跌幅(%)",
                       "example": 10
                     },
-                    "return5y": {
-                      "type": "number",
-                      "description": "近五年涨跌幅(%)",
-                      "example": 10
-                    },
                     "returnYtd": {
                       "type": "number",
                       "description": "今年以来涨跌幅(%)",
