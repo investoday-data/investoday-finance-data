@@ -66697,6 +66697,311 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/stock/fin-der-inds-ttm": {
+      "post": {
+        "tags": [
+          "财务衍生指标(ttm)"
+        ],
+        "summary": "财务衍生指标(ttm)",
+        "description": "支持通过单只股票代码或多只股票代码列表，结合报告发布时间范围（格式yyyy-MM-dd），查询A股、B股的财务衍生TTM指标数据，包含股票代码、名称、发布日期、报告期截止日，以及盈利能力、偿债能力、运营能力、成长能力、现金流等多维度核心财务指标，可用于股票基本面分析、价值评估等投研场景",
+        "operationId": "list_stock_fin_derivative_inds_ttm",
+        "requestBody": {
+          "description": "支持通过单只股票代码或多只股票代码列表，结合报告发布时间范围（格式yyyy-MM-dd），查询A股、B股的财务衍生TTM指标数据，包含股票代码、名称、发布日期、报告期截止日，以及盈利能力、偿债能力、运营能力、成长能力、现金流等多维度核心财务指标，可用于股票基本面分析、价值评估等投研场景",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": ""
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": ""
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": ""
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期截止日",
+                      "example": ""
+                    },
+                    "grossMargin": {
+                      "type": "number",
+                      "description": "销售毛利率"
+                    },
+                    "operatingProfitMarginPct": {
+                      "type": "number",
+                      "description": "主营业务利润率"
+                    },
+                    "netMargin": {
+                      "type": "number",
+                      "description": "销售净利率"
+                    },
+                    "roeDiluted": {
+                      "type": "number",
+                      "description": "摊薄净资产收益率"
+                    },
+                    "roa": {
+                      "type": "number",
+                      "description": "总资产净利率"
+                    },
+                    "roic": {
+                      "type": "number",
+                      "description": "投入资本回报率"
+                    },
+                    "greenblattRocPct": {
+                      "type": "number",
+                      "description": "乔尔.格林布拉特资本回报(%)"
+                    },
+                    "capitalEmployedReturnPct": {
+                      "type": "number",
+                      "description": "已动用资本回报率(%)"
+                    },
+                    "epsGrowth1y": {
+                      "type": "number",
+                      "description": "每股收益1年平均增长率"
+                    },
+                    "revGrowth1y": {
+                      "type": "number",
+                      "description": "业务收入1年平均增长率"
+                    },
+                    "revenueGrowth3yPct": {
+                      "type": "number",
+                      "description": "业务收入3年平均增长率"
+                    },
+                    "cashDebtRatioPct": {
+                      "type": "number",
+                      "description": "现金负债率(%)"
+                    },
+                    "equityRatioPct": {
+                      "type": "number",
+                      "description": "股东权益比率(%)"
+                    },
+                    "ebitInterestCoverage": {
+                      "type": "number",
+                      "description": "EBIT利息保障倍数"
+                    },
+                    "debtAssetRatioPct": {
+                      "type": "number",
+                      "description": "资产负债率(%)"
+                    },
+                    "currentRatio": {
+                      "type": "number",
+                      "description": "流动比率"
+                    },
+                    "quickRatio": {
+                      "type": "number",
+                      "description": "速动比率"
+                    },
+                    "epsDiluted": {
+                      "type": "number",
+                      "description": "每股收益(摊薄)"
+                    },
+                    "epsDeducted": {
+                      "type": "number",
+                      "description": "扣除每股收益(摊薄)"
+                    },
+                    "revenuePs": {
+                      "type": "number",
+                      "description": "每股营业收入"
+                    },
+                    "cfoPs": {
+                      "type": "number",
+                      "description": "每股经营现金流净额"
+                    },
+                    "fcfToEquityPs": {
+                      "type": "number",
+                      "description": "每股股东自由现金流"
+                    },
+                    "netOperatingCashFlow": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额"
+                    },
+                    "ocfToNetProfitRatio": {
+                      "type": "number",
+                      "description": "经营现金净流量与净利润的比率"
+                    },
+                    "receivableTurnover": {
+                      "type": "number",
+                      "description": "应收账款周转率"
+                    },
+                    "inventoryTurnover": {
+                      "type": "number",
+                      "description": "存货周转率"
+                    },
+                    "assetTurnover": {
+                      "type": "number",
+                      "description": "总资产周转率"
+                    },
+                    "npGrowth1y": {
+                      "type": "number",
+                      "description": "净利润1年平均增长率"
+                    },
+                    "recurringProfitGrowth3yPct": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润3年平均增长率"
+                    },
+                    "netProfitParentDeducted": {
+                      "type": "number",
+                      "description": "扣非归母净利润"
+                    },
+                    "ebitda": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润"
+                    },
+                    "ebit": {
+                      "type": "number",
+                      "description": "息税前利润"
+                    },
+                    "interestBearingDebt": {
+                      "type": "number",
+                      "description": "带息债务"
+                    },
+                    "roeDeductedDiluted": {
+                      "type": "number",
+                      "description": "扣非摊薄净资产收益率"
+                    },
+                    "cfoToCurrentLiab": {
+                      "type": "number",
+                      "description": "经营现金流流动负债比"
+                    },
+                    "cashReceivedSalesToRevenue": {
+                      "type": "number",
+                      "description": "销售收现营收比"
+                    },
+                    "cfoToRevenue": {
+                      "type": "number",
+                      "description": "经营现金流净额营收比"
+                    },
+                    "taGrowth1y": {
+                      "type": "number",
+                      "description": "总资产1年平均增长率"
+                    },
+                    "npRecurringGrowth1y": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润1年平均增长率"
+                    },
+                    "opProfitGrowth1y": {
+                      "type": "number",
+                      "description": "业务利润1年平均增长率"
+                    },
+                    "cfoGrowth1y": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额1年平均增长率"
+                    },
+                    "equityGrowth1y": {
+                      "type": "number",
+                      "description": "净资产1年平均增长率"
+                    },
+                    "receivablesToAssetsPct": {
+                      "type": "number",
+                      "description": "应收账款占总资产比例"
+                    },
+                    "nonRecurringPnlRatio": {
+                      "type": "number",
+                      "description": "非经常性损益占比"
+                    },
+                    "advanceReceiptsToRevenue": {
+                      "type": "number",
+                      "description": "预收款项营收比"
+                    },
+                    "sellingExpenseToRevenue": {
+                      "type": "number",
+                      "description": "销售费用总营收比"
+                    },
+                    "adminExpenseToRevenue": {
+                      "type": "number",
+                      "description": "管理费用率"
+                    },
+                    "financeExpenseToRevenue": {
+                      "type": "number",
+                      "description": "财务费用率"
+                    },
+                    "netProfitMargin": {
+                      "type": "number",
+                      "description": "净利润率(%)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {

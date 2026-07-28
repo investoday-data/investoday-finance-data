@@ -1897,6 +1897,21 @@
                       "apiAccessLevel": "L2",
                       "apiVisibility": "external",
                       "apiMethod": "POST"
+                    },
+                    {
+                      "apiId": 110665,
+                      "apiName": "财务衍生指标(ttm)",
+                      "apiType": "SQL",
+                      "apiStatus": "release",
+                      "groupId": 11168,
+                      "remarks": null,
+                      "toolName": "list_stk_fin_der_inds_ttm",
+                      "toolId": "list_stock_fin_derivative_inds_ttm",
+                      "apiPath": "stock/fin-der-inds-ttm",
+                      "enabled": 1,
+                      "apiAccessLevel": "L2",
+                      "apiVisibility": "external",
+                      "apiMethod": "POST"
                     }
                   ]
                 }
