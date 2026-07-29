@@ -32670,222 +32670,438 @@
                     "stockCode": {
                       "type": "string",
                       "description": "股票代码",
-                      "example": "831697"
+                      "example": "000001"
                     },
                     "stockName": {
                       "type": "string",
-                      "description": "中文简称",
-                      "example": "海优新材"
+                      "description": "股票名称",
+                      "example": "平安银行"
                     },
                     "date": {
                       "type": "string",
-                      "description": "截止日期",
-                      "example": "2025-09-30 00:00:00"
+                      "description": "报告期截止日期",
+                      "example": "2024-12-31 00:00:00"
                     },
                     "infoSource": {
                       "type": "string",
-                      "description": "信息来源",
-                      "example": "第三季报"
+                      "description": "信息来源或报告类型",
+                      "example": "年度报告"
+                    },
+                    "updateStatus": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表更新完成,2代表更新中",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "更新状态",
+                      "example": 1
                     },
                     "instHoldingAFloatShares": {
                       "type": "number",
-                      "description": "机构持有无限售流通A股数量合计(股)",
-                      "example": 8055613
+                      "description": "机构持有无限售流通 A 股数量，单位股",
+                      "example": 100000000
                     },
                     "fundHoldingAFloatShares": {
                       "type": "number",
-                      "description": "基金持有无限售流通A股数量(股)",
-                      "example": 1234567.89
+                      "description": "基金持有无限售流通 A 股数量，单位股",
+                      "example": 20000000
                     },
                     "qfiiHoldingAFloatShares": {
                       "type": "number",
-                      "description": "QFII持有无限售流通A股数量(股)",
-                      "example": 12345678.9
+                      "description": "QFII 持有无限售流通 A 股数量，单位股",
+                      "example": 5000000
                     },
                     "insuranceHoldingAFloatShares": {
                       "type": "number",
-                      "description": "保险公司持有无限售流通A股数量(股)",
-                      "example": 123456789
+                      "description": "保险公司持有无限售流通 A 股数量，单位股",
+                      "example": 8000000
                     },
                     "pensionHoldingAFloatShares": {
                       "type": "number",
-                      "description": "社保基金持有无限售流通A股数量(股)",
-                      "example": 12345678.9
+                      "description": "社保基金持有无限售流通 A 股数量，单位股",
+                      "example": 3000000
                     },
                     "nationalTeamHoldingAFloatShares": {
                       "type": "number",
-                      "description": "国家队持有无限售流通A股数量(股)",
-                      "example": 123456789.12
+                      "description": "国家队持有无限售流通 A 股数量，单位股",
+                      "example": 1000000
                     },
                     "instHoldingAFloatRatio": {
                       "type": "number",
-                      "description": "机构持有无限售流通A股比例合计(%)",
-                      "example": 9.5873
+                      "description": "机构持有无限售流通 A 股比例（%）",
+                      "example": 12.3456
                     },
                     "fundHoldingAFloatRatio": {
                       "type": "number",
-                      "description": "基金持有无限售流通A股比例(%)",
-                      "example": 3.75
+                      "description": "基金持有无限售流通 A 股比例（%）",
+                      "example": 2.3456
                     },
                     "qfiiHoldingAFloatRatio": {
                       "type": "number",
-                      "description": "QFII持有无限售流通A股比例(%)",
-                      "example": 3.75
+                      "description": "QFII 持有无限售流通 A 股比例（%）",
+                      "example": 0.5678
                     },
                     "insuranceHoldingAFloatRatio": {
                       "type": "number",
-                      "description": "保险公司持有无限售流通A股比例(%)",
-                      "example": 3.75
+                      "description": "保险公司持有无限售流通 A 股比例（%）",
+                      "example": 1.2345
                     },
                     "pensionHoldingAFloatRatio": {
                       "type": "number",
-                      "description": "社保基金持有无限售流通A股比例(%)",
-                      "example": 3.75
+                      "description": "社保基金持有无限售流通 A 股比例（%）",
+                      "example": 0.6789
+                    },
+                    "nationalTeamHoldingAFloatRatio": {
+                      "type": "number",
+                      "description": "国家队持有无限售流通 A 股比例（%），当前预留",
+                      "example": 0
                     },
                     "instHoldingAShares": {
                       "type": "number",
-                      "description": "机构持有A股数量合计(股)",
-                      "example": 8281449
+                      "description": "机构持有全部 A 股数量，单位股",
+                      "example": 120000000
                     },
                     "fundHoldingAShares": {
                       "type": "number",
-                      "description": "基金持有A股数量(股)",
-                      "example": 225836
+                      "description": "基金持有全部 A 股数量，单位股",
+                      "example": 25000000
                     },
                     "qfiiHoldingAShares": {
                       "type": "number",
-                      "description": "QFII持有A股数量(股)",
-                      "example": 1234567.89
+                      "description": "QFII 持有全部 A 股数量，单位股",
+                      "example": 6000000
                     },
                     "insuranceHoldingAShares": {
                       "type": "number",
-                      "description": "保险公司持有A股数量(股)",
-                      "example": 12345678.9
+                      "description": "保险公司持有全部 A 股数量，单位股",
+                      "example": 9000000
                     },
                     "pensionHoldingAShares": {
                       "type": "number",
-                      "description": "社保基金持有A股数量(股)",
-                      "example": 12345678.9
+                      "description": "社保基金持有全部 A 股数量，单位股",
+                      "example": 3500000
                     },
                     "nationalTeamHoldingAShares": {
                       "type": "number",
-                      "description": "国家队持有A股数量(股)",
-                      "example": 123456789.5
+                      "description": "国家队持有全部 A 股数量，单位股",
+                      "example": 1200000
                     },
                     "instHoldingARatio": {
                       "type": "number",
-                      "description": "机构持有A股比例合计(%)",
-                      "example": 9.8561
+                      "description": "机构持有全部 A 股比例（%）",
+                      "example": 14.5678
                     },
                     "fundHoldingARatio": {
                       "type": "number",
-                      "description": "基金持有A股比例(%)",
-                      "example": 0.2688
+                      "description": "基金持有全部 A 股比例（%）",
+                      "example": 3.4567
                     },
                     "qfiiHoldingARatio": {
                       "type": "number",
-                      "description": "QFII持有A股比例(%)",
-                      "example": 0.75
+                      "description": "QFII 持有全部 A 股比例（%）",
+                      "example": 0.789
                     },
                     "insuranceHoldingARatio": {
                       "type": "number",
-                      "description": "保险公司持有A股比例(%)",
-                      "example": 3.75
+                      "description": "保险公司持有全部 A 股比例（%）",
+                      "example": 1.4567
                     },
                     "pensionHoldingARatio": {
                       "type": "number",
-                      "description": "社保基金持有A股比例(%)",
-                      "example": 3.75
+                      "description": "社保基金持有全部 A 股比例（%）",
+                      "example": 0.789
+                    },
+                    "nationalTeamHoldingARatio": {
+                      "type": "number",
+                      "description": "国家队持有全部 A 股比例（%），当前预留",
+                      "example": 0
+                    },
+                    "top10HoldingShares": {
+                      "type": "number",
+                      "description": "前十大股东持股数量合计，单位股",
+                      "example": 300000000
+                    },
+                    "top10HoldingRatio": {
+                      "type": "number",
+                      "description": "前十大股东持股比例（%）",
+                      "example": 35.6789
+                    },
+                    "top10UnrestrictedHoldingShares": {
+                      "type": "number",
+                      "description": "前十大无限售股东持股数量合计，单位股",
+                      "example": 280000000
+                    },
+                    "top10UnrestrictedHoldingRatioToUnrestrictedCapital": {
+                      "type": "number",
+                      "description": "前十大无限售股东持股数占无限售股本比例（%）",
+                      "example": 42.3456
+                    },
+                    "top10UnrestrictedHoldingRatioToTotalCapital": {
+                      "type": "number",
+                      "description": "前十大无限售股东持股数占总股本比例（%）",
+                      "example": 28.4567
+                    },
+                    "top10UnrestrictedAFloatShares": {
+                      "type": "number",
+                      "description": "前十大无限售股东持有无限售 A 股数量，单位股",
+                      "example": 260000000
+                    },
+                    "top10UnrestrictedAFloatRatio": {
+                      "type": "number",
+                      "description": "前十大无限售股东持有无限售 A 股比例（%）",
+                      "example": 39.4567
+                    },
+                    "instHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "机构全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 15.6789
+                    },
+                    "fundHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "基金全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 3.789
+                    },
+                    "qfiiHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "QFII 全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 0.8901
+                    },
+                    "insuranceHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "保险公司全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 1.5678
+                    },
+                    "pensionHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "社保基金全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 0.8901
+                    },
+                    "nationalTeamHoldingAToFloatCapitalRatio": {
+                      "type": "number",
+                      "description": "国家队全部 A 股持仓占流通 A 股股本比例（%）",
+                      "example": 0.1234
                     },
                     "instReduceAShares": {
                       "type": "number",
-                      "description": "机构持有A股减持数量合计(股)",
+                      "description": "机构持有 A 股减持数量合计（股）",
                       "example": -9226892
                     },
                     "fundReduceAShares": {
                       "type": "number",
-                      "description": "基金持有A股减持数量(股)",
+                      "description": "基金持有 A 股减持数量（股）",
                       "example": -9974385
                     },
                     "qfiiReduceAShares": {
                       "type": "number",
-                      "description": "QFII持有A股减持数量(股)",
+                      "description": "QFII 持有 A 股减持数量（股）",
                       "example": 0
                     },
                     "insuranceReduceAShares": {
                       "type": "number",
-                      "description": "保险公司持有A股减持数量(股)",
+                      "description": "保险公司持有 A 股减持数量（股）",
                       "example": 0
                     },
                     "pensionReduceAShares": {
                       "type": "number",
-                      "description": "社保基金持有A股减持数量(股)",
+                      "description": "社保基金持有 A 股减持数量（股）",
                       "example": 0
                     },
                     "nationalTeamReduceAShares": {
                       "type": "number",
-                      "description": "国家队持有A股减持数量(股)",
+                      "description": "国家队持有 A 股减持数量（股）",
                       "example": 0
                     },
                     "instReduceRatioToBegin": {
                       "type": "number",
-                      "description": "机构持有A股减持数量合计占期初持股比例(%)",
+                      "description": "机构持有 A 股减持数量合计占期初持股比例（%）",
                       "example": -52.7
                     },
                     "fundReduceRatioToBegin": {
                       "type": "number",
-                      "description": "基金持有A股减持数量占期初持股比例(%)",
+                      "description": "基金持有 A 股减持数量占期初持股比例（%）",
                       "example": -97.786
                     },
                     "qfiiReduceRatioToBegin": {
                       "type": "number",
-                      "description": "QFII持有A股减持数量占期初持股比例(%)",
+                      "description": "QFII 持有 A 股减持数量占期初持股比例（%）",
                       "example": -3.75
                     },
                     "insuranceReduceRatioToBegin": {
                       "type": "number",
-                      "description": "保险公司持有A股减持数量占期初持股比例(%)",
+                      "description": "保险公司持有 A 股减持数量占期初持股比例（%）",
                       "example": 3.75
                     },
                     "pensionReduceRatioToBegin": {
                       "type": "number",
-                      "description": "社保基金持有A股减持数量占期初持股比例(%)",
+                      "description": "社保基金持有 A 股减持数量占期初持股比例（%）",
                       "example": -3.75
                     },
                     "nationalTeamReduceRatioToBegin": {
                       "type": "number",
-                      "description": "国家队持有A股减持数量占期初持股比例(%)",
+                      "description": "国家队持有 A 股减持数量占期初持股比例（%）",
                       "example": -0.75
                     },
                     "instReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "机构持有A股减持数量合计占无限售A股比例(%)",
+                      "description": "机构持有 A 股减持数量合计占无限售 A 股比例（%）",
                       "example": -10.9813
                     },
                     "fundReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "基金持有A股减持数量占无限售A股比例(%)",
+                      "description": "基金持有 A 股减持数量占无限售 A 股比例（%）",
                       "example": -11.8709
                     },
                     "qfiiReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "QFII持有A股减持数量占无限售A股比例(%)",
+                      "description": "QFII 持有 A 股减持数量占无限售 A 股比例（%）",
                       "example": 0
                     },
                     "insuranceReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "保险公司持有A股减持数量占无限售A股比例(%)",
+                      "description": "保险公司持有 A 股减持数量占无限售 A 股比例（%）",
                       "example": 0
                     },
                     "pensionReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "社保基金持有A股减持数量占无限售A股比例(%)",
+                      "description": "社保基金持有 A 股减持数量占无限售 A 股比例（%）",
                       "example": 0
                     },
                     "nationalTeamReduceRatioToAFloat": {
                       "type": "number",
-                      "description": "国家队持有A股减持数量占无限售A股比例(%)",
+                      "description": "国家队持有 A 股减持数量占无限售 A 股比例（%）",
                       "example": 0
+                    },
+                    "instHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "机构无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": 5.6789
+                    },
+                    "fundHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "基金无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": -2.3456
+                    },
+                    "qfiiHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "QFII 无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": 1.2345
+                    },
+                    "insuranceHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "保险公司无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": 3.4567
+                    },
+                    "pensionHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "社保基金无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": -1.2345
+                    },
+                    "nationalTeamHoldingAFloatSharesQoq": {
+                      "type": "number",
+                      "description": "国家队无限售流通 A 股持仓数量复权环比增长率（%）",
+                      "example": 0.5678
+                    },
+                    "instHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "机构无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": 8.9012
+                    },
+                    "fundHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "基金无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": -3.4567
+                    },
+                    "qfiiHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "QFII 无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": 2.3456
+                    },
+                    "insuranceHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "保险公司无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": 4.5678
+                    },
+                    "pensionHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "社保基金无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": -2.3456
+                    },
+                    "nationalTeamHoldingAFloatSharesYoy": {
+                      "type": "number",
+                      "description": "国家队无限售流通 A 股持仓数量复权同比增长率（%）",
+                      "example": 1.2345
+                    },
+                    "instHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "机构全部 A 股持仓数量复权环比增长率（%）",
+                      "example": 6.789
+                    },
+                    "fundHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "基金全部 A 股持仓数量复权环比增长率（%）",
+                      "example": -1.2345
+                    },
+                    "qfiiHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "QFII 全部 A 股持仓数量复权环比增长率（%）",
+                      "example": 1.6789
+                    },
+                    "insuranceHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "保险公司全部 A 股持仓数量复权环比增长率（%）",
+                      "example": 3.789
+                    },
+                    "pensionHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "社保基金全部 A 股持仓数量复权环比增长率（%）",
+                      "example": -0.6789
+                    },
+                    "nationalTeamHoldingASharesQoq": {
+                      "type": "number",
+                      "description": "国家队全部 A 股持仓数量复权环比增长率（%）",
+                      "example": 0.789
+                    },
+                    "instHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "机构全部 A 股持仓数量复权同比增长率（%）",
+                      "example": 9.0123
+                    },
+                    "fundHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "基金全部 A 股持仓数量复权同比增长率（%）",
+                      "example": -2.3456
+                    },
+                    "qfiiHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "QFII 全部 A 股持仓数量复权同比增长率（%）",
+                      "example": 2.789
+                    },
+                    "insuranceHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "保险公司全部 A 股持仓数量复权同比增长率（%）",
+                      "example": 4.8901
+                    },
+                    "pensionHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "社保基金全部 A 股持仓数量复权同比增长率（%）",
+                      "example": -1.2345
+                    },
+                    "nationalTeamHoldingASharesYoy": {
+                      "type": "number",
+                      "description": "国家队全部 A 股持仓数量复权同比增长率（%）",
+                      "example": 1.5678
+                    },
+                    "nextDate": {
+                      "type": "string",
+                      "description": "同一公司下一条有效记录的报告期",
+                      "example": "2025-03-31 00:00:00"
                     }
                   }
                 }
