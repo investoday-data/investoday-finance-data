@@ -56713,7 +56713,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/consensus/stk-anlst-mom": {
       "post": {
@@ -57119,7 +57122,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/consensus/stk-estimate": {
       "post": {
@@ -57358,7 +57364,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/consensus/stk_rating": {
       "post": {
@@ -57545,7 +57554,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "subscription"
+      ]
     },
     "/stock/unwind-signal-details": {
       "post": {
