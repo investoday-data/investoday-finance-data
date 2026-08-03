@@ -9192,6 +9192,11 @@
                       "type": "number",
                       "description": "股价/自由现金流",
                       "example": 10.25
+                    },
+                    "dividendYield": {
+                      "type": "number",
+                      "description": "股息率",
+                      "example": 10.25
                     }
                   }
                 }
@@ -28421,6 +28426,14 @@
                     "capexToRevenue": {
                       "type": "number",
                       "description": "资本支出占收入比"
+                    },
+                    "netProfitMargin": {
+                      "type": "number",
+                      "description": "净利润率(%)"
+                    },
+                    "epsCagrThreeYear": {
+                      "type": "number",
+                      "description": "每股收益3年平均增长率"
                     }
                   }
                 }
@@ -68507,6 +68520,850 @@
                     "netProfitMargin": {
                       "type": "number",
                       "description": "净利润率(%)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/futures/kline-minute": {
+      "post": {
+        "tags": [
+          "期货分钟行情"
+        ],
+        "summary": "期货分钟行情",
+        "description": "通过必填的合约代码，以及可选的K线周期、交易日期范围（格式yyyy-MM-dd）、页码、页大小等参数，查询期货的分钟级K线行情数据，返回交易日期、合约代码、K线开始时间（yyyy-MM-dd HH:mm:ss）、K线周期、开盘价、最高价、最低价、收盘价、成交量、成交金额、持仓量等核心数据，可用于期货行情分析、历史走势回溯等场景。（目前只有富时A50期货股指）",
+        "operationId": "list_futures_kline_minute",
+        "requestBody": {
+          "description": "通过必填的合约代码，以及可选的K线周期、交易日期范围（格式yyyy-MM-dd）、页码、页大小等参数，查询期货的分钟级K线行情数据，返回交易日期、合约代码、K线开始时间（yyyy-MM-dd HH:mm:ss）、K线周期、开盘价、最高价、最低价、收盘价、成交量、成交金额、持仓量等核心数据，可用于期货行情分析、历史走势回溯等场景。（目前只有富时A50期货股指）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "futureCode": {
+                    "type": "string",
+                    "description": "合约代码",
+                    "example": "CHINA50"
+                  },
+                  "klinePeriod": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表1m,5代表5m,15代表15m,30代表30m,60代表60m,-1代表日盘;-2代表夜盘",
+                        "enum": [
+                          1,
+                          -2
+                        ]
+                      }
+                    ],
+                    "description": "K线周期",
+                    "example": -2
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "交易日期起始值，格式yyyy-MM-dd",
+                    "example": "2026-07-23"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "交易日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-07-23"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "交易日期，交易所业务交易日",
+                      "example": "2026-07-23 00:00:00"
+                    },
+                    "futureCode": {
+                      "type": "string",
+                      "description": "合约代码",
+                      "example": "IF2508"
+                    },
+                    "klineStartTime": {
+                      "type": "string",
+                      "description": "K线开始时间，真实自然时间",
+                      "example": "2026-07-23 09:30:00"
+                    },
+                    "klinePeriod": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表1m,5代表5m,15代表15m,30代表30m,60代表60m",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "K线周期",
+                      "example": 1
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 3800.12
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 3815.34
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 3792.56
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 3808.78
+                    },
+                    "volumeLot": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 12500
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "成交金额",
+                      "example": 485000000
+                    },
+                    "openInterest": {
+                      "type": "number",
+                      "description": "持仓量",
+                      "example": 86000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/val-indicators": {
+      "post": {
+        "tags": [
+          "行业平均估值指标"
+        ],
+        "summary": "行业平均估值指标",
+        "description": "支持通过单个行业代码或批量行业代码数组，结合指定的日期范围（开始日期、结束日期格式均为yyyy-MM-dd），并可通过页码、页长控制返回数据量，查询对应行业的平均估值指标，包括交易日期、行业代码、行业名称、平均市盈率、平均市净率、平均市销率，可用于行业估值对比、行业投资价值分析等场景。",
+        "operationId": "list_industry_val_ind",
+        "requestBody": {
+          "description": "支持通过单个行业代码或批量行业代码数组，结合指定的日期范围（开始日期、结束日期格式均为yyyy-MM-dd），并可通过页码、页长控制返回数据量，查询对应行业的平均估值指标，包括交易日期、行业代码、行业名称、平均市盈率、平均市净率、平均市销率，可用于行业估值对比、行业投资价值分析等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表【与industryCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2023-10-26"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "640000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "农业"
+                    },
+                    "peAvg": {
+                      "type": "number",
+                      "description": "市盈率平均",
+                      "example": 15.73
+                    },
+                    "pbAvg": {
+                      "type": "number",
+                      "description": "市净率平均",
+                      "example": 1.85
+                    },
+                    "psAvg": {
+                      "type": "number",
+                      "description": "市销率平均",
+                      "example": 3.75
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/fin-ind-solvency-avg": {
+      "post": {
+        "tags": [
+          "财务指标（偿债能力）"
+        ],
+        "summary": "财务指标（偿债能力）",
+        "description": "行业财务平均指标（偿债能力）",
+        "operationId": "list__idu_fin_ind_sol_avg",
+        "requestBody": {
+          "description": "行业财务平均指标（偿债能力）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "640000"
+                  },
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表【与industryCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "640000",
+                      "740000"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "688569"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "铁科轨道"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "披露日期",
+                      "example": "2020-08-11 00:00:00"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期截止日",
+                      "example": "2020-06-30 00:00:00"
+                    },
+                    "cfoToCurrentLiab": {
+                      "type": "number",
+                      "description": "经营现金流流动负债比",
+                      "example": 0.2976
+                    },
+                    "interestCoverageEbit": {
+                      "type": "number",
+                      "description": "EBIT利息保障倍数",
+                      "example": 54.6579
+                    },
+                    "cfoToTotalLiabilities": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额／负债总额",
+                      "example": 1
+                    },
+                    "cfoToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/有息债务",
+                      "example": 3.03257631
+                    },
+                    "cfoToNonCurrentLiab": {
+                      "type": "number",
+                      "description": "经营活动现金流量净额/非流动负债",
+                      "example": 1.50485065
+                    },
+                    "operatingProfitToCurrentLiab": {
+                      "type": "number",
+                      "description": "营业利润/流动负债",
+                      "example": 1
+                    },
+                    "operatingProfitToTotalLiabilities": {
+                      "type": "number",
+                      "description": "营业利润/负债合计",
+                      "example": 0.15168014
+                    },
+                    "ebitdaToTotalLiabilities": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/负债合计",
+                      "example": 0.19155736
+                    },
+                    "ebitdaToInterestBearingDebt": {
+                      "type": "number",
+                      "description": "息税折旧摊销前利润/有息债务",
+                      "example": 2.54500393
+                    },
+                    "debtRatio": {
+                      "type": "number",
+                      "description": "资产负债率(%)",
+                      "example": 2.54500393
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/excess-alpha": {
+      "post": {
+        "tags": [
+          "行业超额收益"
+        ],
+        "summary": "行业超额收益",
+        "description": "支持通过行业代码、日期范围（开始日期、结束日期，格式为yyyy-MM-dd）及分页参数，查询行业的超额收益及阿尔法数据，包含发布日期（yyyy-MM-dd HH:mm:ss）、行业代码、行业名称、成交量、成交金额、流通市值，以及不同周期（1天、2天、3天、4天、1周、2周、3周、1月、2月、3月、6月、1年、3年、5年）相对沪深300、相对一级行业的超额收益，还有对应周期的行业阿尔法值，可用于行业收益分析、超额收益对比及阿尔法策略研究等场景。",
+        "operationId": "list_industry_excess_alph",
+        "requestBody": {
+          "description": "支持通过行业代码、日期范围（开始日期、结束日期，格式为yyyy-MM-dd）及分页参数，查询行业的超额收益及阿尔法数据，包含发布日期（yyyy-MM-dd HH:mm:ss）、行业代码、行业名称、成交量、成交金额、流通市值，以及不同周期（1天、2天、3天、4天、1周、2周、3周、1月、2月、3月、6月、1年、3年、5年）相对沪深300、相对一级行业的超额收益，还有对应周期的行业阿尔法值，可用于行业收益分析、超额收益对比及阿尔法策略研究等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码",
+                    "example": "640000"
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期，格式yyyy-MM-dd",
+                    "example": "2026-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期，格式yyyy-MM-dd",
+                    "example": "2026-07-31"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "industryCode"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-07-31 00:00:00"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "801080"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "半导体"
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 123456789
+                    },
+                    "turnover": {
+                      "type": "number",
+                      "description": "成交金额",
+                      "example": 123456.78
+                    },
+                    "marketValue": {
+                      "type": "number",
+                      "description": "流通市值",
+                      "example": 987654.32
+                    },
+                    "excessHs3001d": {
+                      "type": "number",
+                      "description": "行业当天超额收益相对沪深300",
+                      "example": 0.23
+                    },
+                    "excessHs3002d": {
+                      "type": "number",
+                      "description": "行业2天超额收益相对沪深300",
+                      "example": 0.45
+                    },
+                    "excessHs3003d": {
+                      "type": "number",
+                      "description": "行业3天超额收益相对沪深300",
+                      "example": 0.67
+                    },
+                    "excessHs3004d": {
+                      "type": "number",
+                      "description": "行业4天超额收益相对沪深300",
+                      "example": 0.89
+                    },
+                    "excessHs3001w": {
+                      "type": "number",
+                      "description": "行业1周超额收益相对沪深300",
+                      "example": 1.12
+                    },
+                    "excessHs3002w": {
+                      "type": "number",
+                      "description": "行业2周超额收益相对沪深300",
+                      "example": 1.34
+                    },
+                    "excessHs3003w": {
+                      "type": "number",
+                      "description": "行业3周超额收益相对沪深300",
+                      "example": 1.56
+                    },
+                    "excessHs3001m": {
+                      "type": "number",
+                      "description": "行业1月超额收益相对沪深300",
+                      "example": 2.23
+                    },
+                    "excessHs3002m": {
+                      "type": "number",
+                      "description": "行业2月超额收益相对沪深300",
+                      "example": 2.78
+                    },
+                    "excessHs3003m": {
+                      "type": "number",
+                      "description": "行业3月超额收益相对沪深300",
+                      "example": 3.45
+                    },
+                    "excessHs3006m": {
+                      "type": "number",
+                      "description": "行业6月超额收益相对沪深300",
+                      "example": 5.12
+                    },
+                    "excessHs3001y": {
+                      "type": "number",
+                      "description": "行业1年超额收益相对沪深300",
+                      "example": 8.23
+                    },
+                    "excessHs3003y": {
+                      "type": "number",
+                      "description": "行业3年超额收益相对沪深300",
+                      "example": 12.56
+                    },
+                    "excessHs3005y": {
+                      "type": "number",
+                      "description": "行业5年超额收益相对沪深300",
+                      "example": 18.34
+                    },
+                    "excessL1Industry1d": {
+                      "type": "number",
+                      "description": "行业当天超额收益相对一级行业",
+                      "example": 0.12
+                    },
+                    "excessL1Industry2d": {
+                      "type": "number",
+                      "description": "行业2天超额收益相对一级行业",
+                      "example": 0.23
+                    },
+                    "excessL1Industry3d": {
+                      "type": "number",
+                      "description": "行业3天超额收益相对一级行业",
+                      "example": 0.34
+                    },
+                    "excessL1Industry4d": {
+                      "type": "number",
+                      "description": "行业4天超额收益相对一级行业",
+                      "example": 0.45
+                    },
+                    "excessL1Industry1w": {
+                      "type": "number",
+                      "description": "行业1周超额收益相对一级行业",
+                      "example": 0.67
+                    },
+                    "excessL1Industry2w": {
+                      "type": "number",
+                      "description": "行业2周超额收益相对一级行业",
+                      "example": 0.89
+                    },
+                    "excessL1Industry3w": {
+                      "type": "number",
+                      "description": "行业3周超额收益相对一级行业",
+                      "example": 1.12
+                    },
+                    "excessL1Industry1m": {
+                      "type": "number",
+                      "description": "行业1月超额收益相对一级行业",
+                      "example": 1.45
+                    },
+                    "excessL1Industry2m": {
+                      "type": "number",
+                      "description": "行业2月超额收益相对一级行业",
+                      "example": 1.78
+                    },
+                    "excessL1Industry3m": {
+                      "type": "number",
+                      "description": "行业3月超额收益相对一级行业",
+                      "example": 2.23
+                    },
+                    "excessL1Industry6m": {
+                      "type": "number",
+                      "description": "行业6月超额收益相对一级行业",
+                      "example": 3.45
+                    },
+                    "excessL1Industry1y": {
+                      "type": "number",
+                      "description": "行业1年超额收益相对一级行业",
+                      "example": 5.67
+                    },
+                    "excessL1Industry3y": {
+                      "type": "number",
+                      "description": "行业3年超额收益相对一级行业",
+                      "example": 9.12
+                    },
+                    "excessL1Industry5y": {
+                      "type": "number",
+                      "description": "行业5年超额收益相对一级行业",
+                      "example": 13.45
+                    },
+                    "alpha1w": {
+                      "type": "number",
+                      "description": "行业1周阿尔法",
+                      "example": 0.56
+                    },
+                    "alpha1m": {
+                      "type": "number",
+                      "description": "行业1月阿尔法",
+                      "example": 1.23
+                    },
+                    "alpha3m": {
+                      "type": "number",
+                      "description": "行业3月阿尔法",
+                      "example": 2.34
+                    },
+                    "alpha6m": {
+                      "type": "number",
+                      "description": "行业6月阿尔法",
+                      "example": 3.45
+                    },
+                    "alpha1y": {
+                      "type": "number",
+                      "description": "行业1年阿尔法",
+                      "example": 5.67
+                    },
+                    "alpha3y": {
+                      "type": "number",
+                      "description": "行业3年阿尔法",
+                      "example": 8.9
+                    },
+                    "alpha5y": {
+                      "type": "number",
+                      "description": "行业5年阿尔法",
+                      "example": 12.34
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/index/sample-history": {
+      "post": {
+        "tags": [
+          "指数样本"
+        ],
+        "summary": "指数样本",
+        "description": "指数样本",
+        "operationId": "list_index_sample",
+        "requestBody": {
+          "description": "指数样本",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string",
+                    "description": "指数代码",
+                    "example": "000300"
+                  },
+                  "indexCodes": {
+                    "type": "array",
+                    "description": "指数代码列表",
+                    "example": [
+                      "000300",
+                      "000905"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期，按加入时间筛选，格式yyyy-MM-dd",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期，按加入时间筛选，格式yyyy-MM-dd",
+                    "example": "2026-07-31"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000300"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数名称",
+                      "example": "沪深300"
+                    },
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "600519"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "贵州茅台"
+                    },
+                    "addDate": {
+                      "type": "string",
+                      "description": "加入时间",
+                      "example": "2020-01-01 00:00:00"
+                    },
+                    "delDate": {
+                      "type": "string",
+                      "description": "剔除时间",
+                      "example": "2026-07-31 00:00:00"
                     }
                   }
                 }
