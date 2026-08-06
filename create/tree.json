@@ -5805,6 +5805,38 @@
           "createTime": null,
           "updateBy": null,
           "updateTime": null,
+          "groupId": 11169,
+          "groupName": "国信",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 0,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 110675,
+              "apiName": "股票缠论K线",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11169,
+              "remarks": null,
+              "toolName": "list_stock_chan_kline",
+              "toolId": "list_stock_chan_kline",
+              "apiPath": "stock/chan-kline",
+              "enabled": 1,
+              "apiAccessLevel": null,
+              "apiVisibility": "external",
+              "apiMethod": "POST"
+            }
+          ]
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
           "groupId": 11170,
           "groupName": "期货",
           "groupDesc": null,

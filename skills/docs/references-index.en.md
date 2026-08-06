@@ -159,6 +159,10 @@ The reference documents themselves are currently maintained in Chinese.
 
 - [一致预期](../references/一致预期.md)
 
+## 国信
+
+- [国信](../references/国信.md)
+
 ## 期货
 
 - [期货](../references/期货.md)
