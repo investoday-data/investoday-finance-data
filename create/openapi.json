@@ -11415,9 +11415,10 @@
                             "example": 1
                           },
                           "riskLevel": {
-                            "type": "string",
+                            "type": "integer",
+                            "format": "int32",
                             "description": "风险等级",
-                            "example": "1"
+                            "example": 1
                           }
                         }
                       }
@@ -22992,7 +22993,24 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否为交易日",
+                      "example": true
+                    }
+                  }
                 }
               }
             }
