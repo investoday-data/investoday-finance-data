@@ -765,11 +765,13 @@
                     },
                     "limitUpTime": {
                       "type": "string",
-                      "description": "涨停时间"
+                      "description": "涨停时间",
+                      "example": ""
                     },
                     "limitDownTime": {
                       "type": "string",
-                      "description": "跌停时间"
+                      "description": "跌停时间",
+                      "example": ""
                     },
                     "limitUpPrice": {
                       "type": "number",
@@ -790,48 +792,6 @@
                       "type": "number",
                       "description": "总市值",
                       "example": 1075403847801.6344
-                    },
-                    "changeRatio1W": {
-                      "type": "number",
-                      "description": "一周涨跌幅",
-                      "example": -0.01561285
-                    },
-                    "changeRatioB10D": {
-                      "type": "number",
-                      "description": "10日涨跌幅",
-                      "example": -0.01880209
-                    },
-                    "changeRatioB1M": {
-                      "type": "number",
-                      "description": "1月涨跌幅"
-                    },
-                    "industryCode": {
-                      "type": "string",
-                      "description": "行业代码",
-                      "example": "280500"
-                    },
-                    "industryName": {
-                      "type": "string",
-                      "description": "行业名称",
-                      "example": "乘用车"
-                    },
-                    "industryLV1Code": {
-                      "type": "string",
-                      "description": "一级行业代码",
-                      "example": "280000"
-                    },
-                    "industryLV1Name": {
-                      "type": "string",
-                      "description": "一级行业名称",
-                      "example": "汽车"
-                    },
-                    "dealMoney1W": {
-                      "type": "number",
-                      "description": "近一周成交额"
-                    },
-                    "dealStockAmount1W": {
-                      "type": "number",
-                      "description": "近一周成交量"
                     },
                     "turnOverRate": {
                       "type": "number",
@@ -891,6 +851,7 @@
                     "stockRealQuote": {
                       "type": "object",
                       "description": "股票实时行情数据",
+                      "example": null,
                       "properties": {
                         "stockCode": {
                           "type": "string",
@@ -965,11 +926,13 @@
                         },
                         "limitUpTime": {
                           "type": "string",
-                          "description": "涨停时间"
+                          "description": "涨停时间",
+                          "example": ""
                         },
                         "limitDownTime": {
                           "type": "string",
-                          "description": "跌停时间"
+                          "description": "跌停时间",
+                          "example": ""
                         },
                         "limitUpPrice": {
                           "type": "number",
@@ -991,45 +954,17 @@
                           "description": "总市值",
                           "example": 1077622365552.7318
                         },
-                        "changeRatio1W": {
+                        "turnOverRate": {
                           "type": "number",
-                          "description": "一周涨跌幅",
-                          "example": -0.01530726
-                        },
-                        "changeRatioB10D": {
-                          "type": "number",
-                          "description": "10日涨跌幅",
-                          "example": -0.01849749
-                        },
-                        "changeRatioB1M": {
-                          "type": "number",
-                          "description": "1月涨跌幅"
-                        },
-                        "industryCode": {
-                          "type": "string",
-                          "description": "行业代码",
-                          "example": "280500"
-                        },
-                        "industryName": {
-                          "type": "string",
-                          "description": "行业名称",
-                          "example": "乘用车"
-                        },
-                        "industryLV1Code": {
-                          "type": "string",
-                          "description": "一级行业代码",
-                          "example": "280000"
-                        },
-                        "industryLV1Name": {
-                          "type": "string",
-                          "description": "一级行业名称",
-                          "example": "汽车"
+                          "description": "换手率(%)",
+                          "example": 1.96
                         }
                       }
                     },
                     "stockRealPriceExt": {
                       "type": "object",
                       "description": "股票扩展行情数据",
+                      "example": null,
                       "properties": {
                         "highPriceDate60D": {
                           "type": "string",
@@ -1047,9 +982,10 @@
                           "example": "2025-05-26 00:00:00"
                         },
                         "highVolume60D": {
-                          "type": "string",
+                          "type": "integer",
+                          "format": "int32",
                           "description": "60日最高成交量",
-                          "example": "30955063"
+                          "example": 30955063
                         },
                         "highTurnoverDate60D": {
                           "type": "string",
@@ -1066,6 +1002,7 @@
                     "industryRealQuote": {
                       "type": "object",
                       "description": "行业实时行情数据",
+                      "example": null,
                       "properties": {
                         "industryCode": {
                           "type": "string",
@@ -1088,9 +1025,10 @@
                           "example": -0.00410459
                         },
                         "volume": {
-                          "type": "string",
+                          "type": "integer",
+                          "format": "int32",
                           "description": "行业成交量",
-                          "example": "48213158"
+                          "example": 48213158
                         },
                         "currentPrice": {
                           "type": "number",
@@ -1098,16 +1036,19 @@
                         },
                         "dataTime": {
                           "type": "string",
-                          "description": "数据时间"
+                          "description": "数据时间",
+                          "example": ""
                         },
                         "sysTime": {
                           "type": "string",
-                          "description": "系统时间"
+                          "description": "系统时间",
+                          "example": ""
                         }
                       }
                     },
                     "conceptRealQuotes": {
                       "type": "array",
+                      "example": null,
                       "items": {
                         "type": "object",
                         "description": "概念板块实时行情数据",
@@ -1435,163 +1376,221 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "industryCode": {
-                      "type": "string",
-                      "description": "行业代码",
-                      "example": "740000"
+                    "hasNextPage": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否有下一页",
+                      "example": true
                     },
-                    "industryName": {
-                      "type": "string",
-                      "description": "行业名称",
-                      "example": "煤炭"
-                    },
-                    "price": {
-                      "type": "number",
-                      "description": "行业指数",
-                      "example": 2549.1562
-                    },
-                    "changeRatio": {
-                      "type": "number",
-                      "description": "行业涨跌幅",
-                      "example": -0.0121602
-                    },
-                    "volume": {
+                    "lastPage": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "行业成交量",
-                      "example": 9547379
-                    },
-                    "changeRatio1W": {
-                      "type": "number",
-                      "description": "行业一周涨跌幅",
-                      "example": -0.00646898
-                    },
-                    "totalValue": {
-                      "type": "number",
-                      "description": "行业总市值",
-                      "example": 1756873387871.2708
-                    },
-                    "ratioRank": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业涨跌幅排名",
-                      "example": 31
-                    },
-                    "industryAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业成分股数量",
-                      "example": 31
-                    },
-                    "limitUpAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业涨停股数量",
-                      "example": 0
-                    },
-                    "stockUpAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业上涨股数量",
+                      "description": "上一页页码",
                       "example": 1
                     },
-                    "stockDownAmount": {
+                    "page": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "行业下跌股数量",
-                      "example": 32
+                      "description": "当前页码",
+                      "example": 2
                     },
-                    "stockBxAmount": {
+                    "pageSize": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "行业平盘股数量",
-                      "example": 4
+                      "description": "每页条数",
+                      "example": 20
                     },
-                    "stockAmount": {
+                    "pages": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "行业股票总数",
-                      "example": 37
+                      "description": "总页数",
+                      "example": 10
                     },
-                    "leadUpStockCode": {
-                      "type": "string",
-                      "description": "行业领涨股代码",
-                      "example": ""
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "总记录数",
+                      "example": 200
                     },
-                    "leadUpStockName": {
-                      "type": "string",
-                      "description": "行业领涨股名称",
-                      "example": ""
-                    },
-                    "dataTime": {
-                      "type": "string",
-                      "description": "数据时间"
-                    },
-                    "stockRealQuotes": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "description": "股票实时行情数据列表",
-                        "properties": {
-                          "stockCode": {
-                            "type": "string",
-                            "description": "股票代码",
-                            "example": "600397"
-                          },
-                          "stockName": {
-                            "type": "string",
-                            "description": "股票名称",
-                            "example": "安源煤业"
-                          },
-                          "marketType": {
-                            "type": "string",
-                            "description": "市场类型",
-                            "example": "sh"
-                          },
-                          "openPrice": {
-                            "type": "number",
-                            "description": "开盘价",
-                            "example": 6.48
-                          },
-                          "closePriceYDay": {
-                            "type": "number",
-                            "description": "昨日收盘价",
-                            "example": 6.5
-                          },
-                          "currentPrice": {
-                            "type": "number",
-                            "description": "当前价格",
-                            "example": 6.29
-                          },
-                          "changeRatio": {
-                            "type": "number",
-                            "description": "涨跌幅",
-                            "example": -0.03230769
-                          },
-                          "highPrice": {
-                            "type": "number",
-                            "description": "最高价",
-                            "example": 6.48
-                          },
-                          "lowPrice": {
-                            "type": "number",
-                            "description": "最低价",
-                            "example": 6.16
-                          },
-                          "dataTime": {
-                            "type": "string",
-                            "description": "数据时间",
-                            "example": "2025-06-12 14:43:20"
-                          },
-                          "sysTime": {
-                            "type": "string",
-                            "description": "系统时间",
-                            "example": "2025-06-12 14:43:30"
-                          },
-                          "status": {
-                            "type": "string",
-                            "description": "状态",
-                            "example": "0"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "下一页页码",
+                          "example": 3
+                        },
+                        "industryCode": {
+                          "type": "string",
+                          "description": "行业代码",
+                          "example": "740000"
+                        },
+                        "industryName": {
+                          "type": "string",
+                          "description": "行业名称",
+                          "example": "煤炭"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "行业指数",
+                          "example": 2549.1562
+                        },
+                        "changeRatio": {
+                          "type": "number",
+                          "description": "行业涨跌幅",
+                          "example": -0.0121602
+                        },
+                        "volume": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业成交量",
+                          "example": 9547379
+                        },
+                        "changeRatio1W": {
+                          "type": "number",
+                          "description": "行业一周涨跌幅",
+                          "example": -0.00646898
+                        },
+                        "totalValue": {
+                          "type": "number",
+                          "description": "行业总市值",
+                          "example": 1756873387871.2708
+                        },
+                        "ratioRank": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业涨跌幅排名",
+                          "example": 31
+                        },
+                        "industryAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业成分股数量",
+                          "example": 31
+                        },
+                        "limitUpAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业涨停股数量",
+                          "example": 0
+                        },
+                        "stockUpAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业上涨股数量",
+                          "example": 1
+                        },
+                        "stockDownAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业下跌股数量",
+                          "example": 32
+                        },
+                        "stockBxAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业平盘股数量",
+                          "example": 4
+                        },
+                        "stockAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "行业股票总数",
+                          "example": 37
+                        },
+                        "leadUpStockCode": {
+                          "type": "string",
+                          "description": "行业领涨股代码",
+                          "example": ""
+                        },
+                        "leadUpStockName": {
+                          "type": "string",
+                          "description": "行业领涨股名称",
+                          "example": ""
+                        },
+                        "dataTime": {
+                          "type": "string",
+                          "description": "数据时间",
+                          "example": ""
+                        },
+                        "stockRealQuotes": {
+                          "type": "array",
+                          "example": null,
+                          "items": {
+                            "type": "object",
+                            "description": "股票实时行情数据列表",
+                            "properties": {
+                              "stockCode": {
+                                "type": "string",
+                                "description": "股票代码",
+                                "example": "600397"
+                              },
+                              "stockName": {
+                                "type": "string",
+                                "description": "股票名称",
+                                "example": "安源煤业"
+                              },
+                              "marketType": {
+                                "type": "string",
+                                "description": "市场类型",
+                                "example": "sh"
+                              },
+                              "openPrice": {
+                                "type": "number",
+                                "description": "开盘价",
+                                "example": 6.48
+                              },
+                              "closePriceYDay": {
+                                "type": "number",
+                                "description": "昨日收盘价",
+                                "example": 6.5
+                              },
+                              "currentPrice": {
+                                "type": "number",
+                                "description": "当前价格",
+                                "example": 6.29
+                              },
+                              "changeRatio": {
+                                "type": "number",
+                                "description": "涨跌幅",
+                                "example": -0.03230769
+                              },
+                              "highPrice": {
+                                "type": "number",
+                                "description": "最高价",
+                                "example": 6.48
+                              },
+                              "lowPrice": {
+                                "type": "number",
+                                "description": "最低价",
+                                "example": 6.16
+                              },
+                              "dataTime": {
+                                "type": "string",
+                                "description": "数据时间",
+                                "example": "2025-06-12 14:43:20"
+                              },
+                              "sysTime": {
+                                "type": "string",
+                                "description": "系统时间",
+                                "example": "2025-06-12 14:43:30"
+                              },
+                              "status": {
+                                "type": "string",
+                                "description": "状态",
+                                "example": "0"
+                              }
+                            }
                           }
                         }
                       }
@@ -1854,147 +1853,204 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "conceptCode": {
-                      "type": "string",
-                      "description": "概念编码",
-                      "example": "14060061"
+                    "hasNextPage": {
+                      "type": "boolean",
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否有下一页",
+                      "example": true
                     },
-                    "conceptName": {
-                      "type": "string",
-                      "description": "概念名称",
-                      "example": "磷酸铁"
-                    },
-                    "changeRatio": {
-                      "type": "number",
-                      "description": "涨跌幅",
-                      "example": -0.00740056
-                    },
-                    "changeRatio1W": {
-                      "type": "number",
-                      "description": "一周涨跌幅",
-                      "example": -0.00371402
-                    },
-                    "ratioRank": {
+                    "lastPage": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "涨跌幅排名",
-                      "example": 966
-                    },
-                    "conceptAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "概念包含股票数量",
+                      "description": "上一页页码",
                       "example": 1
                     },
-                    "limitUpAmount": {
+                    "page": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "涨停股票数量",
-                      "example": 0
+                      "description": "当前页码",
+                      "example": 2
                     },
-                    "stockUpAmount": {
+                    "pageSize": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "上涨股票数量",
-                      "example": 0
+                      "description": "每页条数",
+                      "example": 20
                     },
-                    "stockDownAmount": {
+                    "pages": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "下跌股票数量",
-                      "example": 1
+                      "description": "总页数",
+                      "example": 10
                     },
-                    "stockBxAmount": {
+                    "totalCount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "平盘股票数量",
-                      "example": 0
+                      "description": "总记录数",
+                      "example": 200
                     },
-                    "leadUpStockCode": {
-                      "type": "string",
-                      "description": "领涨股票代码",
-                      "example": ""
-                    },
-                    "leadUpStockName": {
-                      "type": "string",
-                      "description": "领涨股票名称",
-                      "example": ""
-                    },
-                    "totalValue": {
-                      "type": "number",
-                      "description": "总市值",
-                      "example": 2307164588.474928
-                    },
-                    "dataTime": {
-                      "type": "string",
-                      "description": "数据时间",
-                      "example": "2025-06-12 15:10:06"
-                    },
-                    "stockRealQuotes": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "description": "股票实时行情数据",
-                        "properties": {
-                          "stockCode": {
-                            "type": "string",
-                            "description": "股票代码",
-                            "example": "002136"
-                          },
-                          "stockName": {
-                            "type": "string",
-                            "description": "股票名称",
-                            "example": "安 纳 达"
-                          },
-                          "marketType": {
-                            "type": "string",
-                            "description": "市场类型",
-                            "example": "sz"
-                          },
-                          "openPrice": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "开盘价"
-                          },
-                          "closePriceYDay": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "昨日收盘价"
-                          },
-                          "currentPrice": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "当前价格"
-                          },
-                          "changeRatio": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "涨跌幅"
-                          },
-                          "highPrice": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "最高价"
-                          },
-                          "lowPrice": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "最低价"
-                          },
-                          "dataTime": {
-                            "type": "string",
-                            "description": "数据时间",
-                            "example": "2025-06-12 15:03:00"
-                          },
-                          "sysTime": {
-                            "type": "string",
-                            "description": "系统时间",
-                            "example": "2025-06-12 15:09:30"
-                          },
-                          "status": {
-                            "type": "string",
-                            "description": "状态",
-                            "example": "0"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "下一页页码",
+                          "example": 3
+                        },
+                        "conceptCode": {
+                          "type": "string",
+                          "description": "概念编码",
+                          "example": "14060061"
+                        },
+                        "conceptName": {
+                          "type": "string",
+                          "description": "概念名称",
+                          "example": "磷酸铁"
+                        },
+                        "changeRatio": {
+                          "type": "number",
+                          "description": "涨跌幅",
+                          "example": -0.00740056
+                        },
+                        "changeRatio1W": {
+                          "type": "number",
+                          "description": "一周涨跌幅",
+                          "example": -0.00371402
+                        },
+                        "ratioRank": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "涨跌幅排名",
+                          "example": 966
+                        },
+                        "conceptAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "概念包含股票数量",
+                          "example": 1
+                        },
+                        "limitUpAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "涨停股票数量",
+                          "example": 0
+                        },
+                        "stockUpAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "上涨股票数量",
+                          "example": 0
+                        },
+                        "stockDownAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "下跌股票数量",
+                          "example": 1
+                        },
+                        "stockBxAmount": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "平盘股票数量",
+                          "example": 0
+                        },
+                        "leadUpStockCode": {
+                          "type": "string",
+                          "description": "领涨股票代码",
+                          "example": ""
+                        },
+                        "leadUpStockName": {
+                          "type": "string",
+                          "description": "领涨股票名称",
+                          "example": ""
+                        },
+                        "totalValue": {
+                          "type": "number",
+                          "description": "总市值",
+                          "example": 2307164588.474928
+                        },
+                        "dataTime": {
+                          "type": "string",
+                          "description": "数据时间",
+                          "example": "2025-06-12 15:10:06"
+                        },
+                        "stockRealQuotes": {
+                          "type": "array",
+                          "example": null,
+                          "items": {
+                            "type": "object",
+                            "description": "股票实时行情数据",
+                            "properties": {
+                              "stockCode": {
+                                "type": "string",
+                                "description": "股票代码",
+                                "example": "002136"
+                              },
+                              "stockName": {
+                                "type": "string",
+                                "description": "股票名称",
+                                "example": "安 纳 达"
+                              },
+                              "marketType": {
+                                "type": "string",
+                                "description": "市场类型",
+                                "example": "sz"
+                              },
+                              "openPrice": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "开盘价"
+                              },
+                              "closePriceYDay": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "昨日收盘价"
+                              },
+                              "currentPrice": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "当前价格"
+                              },
+                              "changeRatio": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "涨跌幅"
+                              },
+                              "highPrice": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "最高价"
+                              },
+                              "lowPrice": {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "最低价"
+                              },
+                              "dataTime": {
+                                "type": "string",
+                                "description": "数据时间",
+                                "example": "2025-06-12 15:03:00"
+                              },
+                              "sysTime": {
+                                "type": "string",
+                                "description": "系统时间",
+                                "example": "2025-06-12 15:09:30"
+                              },
+                              "status": {
+                                "type": "string",
+                                "description": "状态",
+                                "example": "0"
+                              }
+                            }
                           }
                         }
                       }
@@ -3978,8 +4034,63 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "entities": {
+                    "code": {
+                      "type": "string",
+                      "description": "证券代码",
+                      "example": "600519"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "证券名称",
+                      "example": "贵州茅台"
+                    },
+                    "level": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "层级",
+                      "example": 0
+                    },
+                    "type": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "stock代表股票",
+                          "enum": [
+                            "stock"
+                          ]
+                        }
+                      ],
+                      "description": "实体类型",
+                      "example": "stock"
+                    },
+                    "source": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "value代表参数值",
+                          "enum": [
+                            "value"
+                          ]
+                        }
+                      ],
+                      "description": "来源",
+                      "example": "value"
+                    },
+                    "reason": {
+                      "type": "string",
+                      "description": "匹配原因",
+                      "example": "输入中包含实体名称：贵州茅台"
+                    },
+                    "correlation": {
+                      "type": "number",
+                      "description": "相关度",
+                      "example": 1
+                    },
+                    "data": {
                       "type": "array",
+                      "example": null,
                       "items": {
                         "type": "object",
                         "description": "实体信息",
@@ -3995,9 +4106,9 @@
                             "example": "四川长虹"
                           },
                           "correlation": {
-                            "type": "number",
+                            "type": "string",
                             "description": "相关性",
-                            "example": 1
+                            "example": "1"
                           },
                           "type": {
                             "type": "string",
@@ -4006,16 +4117,19 @@
                           },
                           "reason": {
                             "type": "string",
-                            "description": "关联理由"
+                            "description": "关联理由",
+                            "example": ""
                           },
                           "level": {
-                            "type": "string",
+                            "type": "integer",
+                            "format": "int32",
                             "description": "行业等级（type=industry可用）",
-                            "example": "1"
+                            "example": 1
                           },
                           "source": {
                             "type": "string",
-                            "description": "概念来源（type=concept可用）"
+                            "description": "概念来源（type=concept可用）",
+                            "example": ""
                           }
                         }
                       }
@@ -25895,6 +26009,12 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
                   }
                 }
               }
@@ -25910,133 +26030,107 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "pageNum": {
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "740000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "煤炭"
+                    },
+                    "changeRatio": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.04
+                    },
+                    "changeRatio1W": {
+                      "type": "number",
+                      "description": "近一周涨跌幅",
+                      "example": 0.12
+                    },
+                    "dataTime": {
+                      "type": "string",
+                      "description": "数据时间",
+                      "example": "2025-01-01 10:10:10"
+                    },
+                    "industryAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "page number",
+                      "description": "行业总数",
+                      "example": 30
+                    },
+                    "leadUpFundCode": {
+                      "type": "string",
+                      "description": "领涨ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUpFundName": {
+                      "type": "string",
+                      "description": "领ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUpStockCode": {
+                      "type": "string",
+                      "description": "领涨股代码",
+                      "example": "002594"
+                    },
+                    "leadUpStockName": {
+                      "type": "string",
+                      "description": "领涨股名称",
+                      "example": "比亚迪"
+                    },
+                    "limitUpAmount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "涨停家数",
+                      "example": 10
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "价格",
+                      "example": 12
+                    },
+                    "ratioRank": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "同行业排名",
                       "example": 1
                     },
-                    "pageSize": {
+                    "stockAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "page size",
-                      "example": 100
+                      "description": "股票家数",
+                      "example": 30
                     },
-                    "totalCount": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "total count",
-                      "example": 0
+                      "description": "0%家数",
+                      "example": 1
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "industryCode": {
-                            "type": "string",
-                            "description": "行业代码",
-                            "example": "740000"
-                          },
-                          "industryName": {
-                            "type": "string",
-                            "description": "行业名称",
-                            "example": "煤炭"
-                          },
-                          "changeRatio": {
-                            "type": "number",
-                            "description": "涨跌幅",
-                            "example": 0.04
-                          },
-                          "changeRatio1W": {
-                            "type": "number",
-                            "description": "近一周涨跌幅",
-                            "example": 0.12
-                          },
-                          "dataTime": {
-                            "type": "string",
-                            "description": "数据时间",
-                            "example": "2025-01-01 10:10:10"
-                          },
-                          "industryAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "行业总数",
-                            "example": 30
-                          },
-                          "leadUpFundCode": {
-                            "type": "string",
-                            "description": "领涨ETF基金代码",
-                            "example": "159590"
-                          },
-                          "leadUpFundName": {
-                            "type": "string",
-                            "description": "领ETF基金名称",
-                            "example": "软件ETF"
-                          },
-                          "leadUpStockCode": {
-                            "type": "string",
-                            "description": "领涨股代码",
-                            "example": "002594"
-                          },
-                          "leadUpStockName": {
-                            "type": "string",
-                            "description": "领涨股名称",
-                            "example": "比亚迪"
-                          },
-                          "limitUpAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "涨停家数",
-                            "example": 10
-                          },
-                          "price": {
-                            "type": "number",
-                            "description": "价格",
-                            "example": 12
-                          },
-                          "ratioRank": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "同行业排名",
-                            "example": 1
-                          },
-                          "stockAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "股票家数",
-                            "example": 30
-                          },
-                          "stockBxAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "0%家数",
-                            "example": 1
-                          },
-                          "stockDownAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "下跌家数",
-                            "example": 2
-                          },
-                          "stockUpAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "上涨家数",
-                            "example": 3
-                          },
-                          "totalValue": {
-                            "type": "number",
-                            "description": "总市值 T日",
-                            "example": 15343870
-                          },
-                          "volume": {
-                            "type": "number",
-                            "description": "成交量",
-                            "example": 1354808410
-                          }
-                        }
-                      }
+                    "stockDownAmount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "下跌家数",
+                      "example": 2
+                    },
+                    "stockUpAmount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "上涨家数",
+                      "example": 3
+                    },
+                    "totalValue": {
+                      "type": "number",
+                      "description": "总市值 T日",
+                      "example": 15343870
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 1354808410
                     }
                   }
                 }
@@ -26136,6 +26230,12 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
                   }
                 }
               }
@@ -26151,137 +26251,111 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "pageNum": {
+                    "conceptCode": {
+                      "type": "string",
+                      "description": "概念代码",
+                      "example": "14010009"
+                    },
+                    "conceptName": {
+                      "type": "string",
+                      "description": "概念名称",
+                      "example": "海参"
+                    },
+                    "changeRatio": {
+                      "type": "number",
+                      "description": "涨跌幅",
+                      "example": 0.02
+                    },
+                    "changeRatio1W": {
+                      "type": "number",
+                      "description": "近一周涨跌幅",
+                      "example": 0.08
+                    },
+                    "conceptAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "page number",
+                      "description": "概念总数",
+                      "example": 50
+                    },
+                    "dataTime": {
+                      "type": "string",
+                      "description": "数据时间",
+                      "example": "2025-01-01 10:10:10"
+                    },
+                    "leadUp1WFundCode": {
+                      "type": "string",
+                      "description": "领涨1周ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUp1WFundName": {
+                      "type": "string",
+                      "description": "领涨1周ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUp1WStockCode": {
+                      "type": "string",
+                      "description": "领涨1周股票代码",
+                      "example": "002594"
+                    },
+                    "leadUp1WStockName": {
+                      "type": "string",
+                      "description": "领涨1周股票名称",
+                      "example": "比亚迪"
+                    },
+                    "leadUpFundCode": {
+                      "type": "string",
+                      "description": "领涨ETF基金代码",
+                      "example": "159590"
+                    },
+                    "leadUpFundName": {
+                      "type": "string",
+                      "description": "领ETF基金名称",
+                      "example": "软件ETF"
+                    },
+                    "leadUpStockCode": {
+                      "type": "string",
+                      "description": "领涨股代码",
+                      "example": "002594"
+                    },
+                    "leadUpStockName": {
+                      "type": "string",
+                      "description": "领涨股名称",
+                      "example": "比亚迪"
+                    },
+                    "limitUpAmount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "涨停家数",
+                      "example": 10
+                    },
+                    "ratioRank": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "同概念排名",
                       "example": 1
                     },
-                    "pageSize": {
+                    "stockBxAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "page size",
-                      "example": 100
+                      "description": "不涨不跌家数",
+                      "example": 2
                     },
-                    "totalCount": {
+                    "stockDownAmount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "total count",
-                      "example": 0
+                      "description": "下跌家数",
+                      "example": 3
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "conceptCode": {
-                            "type": "string",
-                            "description": "概念代码",
-                            "example": "14010009"
-                          },
-                          "conceptName": {
-                            "type": "string",
-                            "description": "概念名称",
-                            "example": "海参"
-                          },
-                          "changeRatio": {
-                            "type": "number",
-                            "description": "涨跌幅",
-                            "example": 0.02
-                          },
-                          "changeRatio1W": {
-                            "type": "number",
-                            "description": "近一周涨跌幅",
-                            "example": 0.08
-                          },
-                          "conceptAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "概念总数",
-                            "example": 50
-                          },
-                          "dataTime": {
-                            "type": "string",
-                            "description": "数据时间",
-                            "example": "2025-01-01 10:10:10"
-                          },
-                          "leadUp1WFundCode": {
-                            "type": "string",
-                            "description": "领涨1周ETF基金代码",
-                            "example": "159590"
-                          },
-                          "leadUp1WFundName": {
-                            "type": "string",
-                            "description": "领涨1周ETF基金名称",
-                            "example": "软件ETF"
-                          },
-                          "leadUp1WStockCode": {
-                            "type": "string",
-                            "description": "领涨1周股票代码",
-                            "example": "002594"
-                          },
-                          "leadUp1WStockName": {
-                            "type": "string",
-                            "description": "领涨1周股票名称",
-                            "example": "比亚迪"
-                          },
-                          "leadUpFundCode": {
-                            "type": "string",
-                            "description": "领涨ETF基金代码",
-                            "example": "159590"
-                          },
-                          "leadUpFundName": {
-                            "type": "string",
-                            "description": "领ETF基金名称",
-                            "example": "软件ETF"
-                          },
-                          "leadUpStockCode": {
-                            "type": "string",
-                            "description": "领涨股代码",
-                            "example": "002594"
-                          },
-                          "leadUpStockName": {
-                            "type": "string",
-                            "description": "领涨股名称",
-                            "example": "比亚迪"
-                          },
-                          "limitUpAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "涨停家数",
-                            "example": 10
-                          },
-                          "ratioRank": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "同概念排名",
-                            "example": 1
-                          },
-                          "stockBxAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "不涨不跌家数",
-                            "example": 2
-                          },
-                          "stockDownAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "下跌家数",
-                            "example": 3
-                          },
-                          "stockUpAmount": {
-                            "type": "integer",
-                            "format": "int32",
-                            "description": "上涨家数",
-                            "example": 5
-                          },
-                          "totalValue": {
-                            "type": "number",
-                            "description": "总市值 T日",
-                            "example": 44213521214
-                          }
-                        }
-                      }
+                    "stockUpAmount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "上涨家数",
+                      "example": 5
+                    },
+                    "totalValue": {
+                      "type": "number",
+                      "description": "总市值 T日",
+                      "example": 44213521214
                     }
                   }
                 }
@@ -51905,25 +51979,50 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "lastPage": {
+                    "hasNextPage": {
                       "type": "boolean",
-                      "description": "是否最后一页"
+                      "allOf": [
+                        {
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
+                        }
+                      ],
+                      "description": "是否有下一页",
+                      "example": true
                     },
-                    "pageNum": {
+                    "lastPage": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "当前页码"
+                      "description": "上一页页码",
+                      "example": 1
                     },
-                    "totalCount": {
+                    "page": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "总条数"
+                      "description": "当前页码",
+                      "example": 2
                     },
                     "pageSize": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "page size",
-                      "example": 100
+                      "description": "每页条数",
+                      "example": 20
+                    },
+                    "pages": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "总页数",
+                      "example": 10
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "总记录数",
+                      "example": 200
                     },
                     "data": {
                       "type": "array",
@@ -51956,7 +52055,8 @@
                           },
                           "dataTime": {
                             "type": "string",
-                            "description": "数据时间"
+                            "description": "数据时间",
+                            "example": ""
                           },
                           "dealMoney": {
                             "type": "number",
@@ -51980,19 +52080,23 @@
                           },
                           "industryCode": {
                             "type": "string",
-                            "description": "行业代码(申万二级)"
+                            "description": "行业代码(申万二级)",
+                            "example": ""
                           },
                           "industryLV1Code": {
                             "type": "string",
-                            "description": "行业代码(申万一级)"
+                            "description": "行业代码(申万一级)",
+                            "example": ""
                           },
                           "industryLV1Name": {
                             "type": "string",
-                            "description": "行业名称(申万一级)"
+                            "description": "行业名称(申万一级)",
+                            "example": ""
                           },
                           "industryName": {
                             "type": "string",
-                            "description": "行业名称(申万二级)"
+                            "description": "行业名称(申万二级)",
+                            "example": ""
                           },
                           "limitDownPrice": {
                             "type": "number",
@@ -52000,7 +52104,8 @@
                           },
                           "limitDownTime": {
                             "type": "string",
-                            "description": "跌停时间(Last)"
+                            "description": "跌停时间(Last)",
+                            "example": ""
                           },
                           "limitUpPrice": {
                             "type": "number",
@@ -52008,7 +52113,8 @@
                           },
                           "limitUpTime": {
                             "type": "string",
-                            "description": "涨停时间(Last)"
+                            "description": "涨停时间(Last)",
+                            "example": ""
                           },
                           "lowPrice": {
                             "type": "number",
@@ -52016,7 +52122,8 @@
                           },
                           "marketType": {
                             "type": "string",
-                            "description": "市场类型"
+                            "description": "市场类型",
+                            "example": ""
                           },
                           "openPrice": {
                             "type": "number",
@@ -52024,19 +52131,23 @@
                           },
                           "status": {
                             "type": "string",
-                            "description": "状态"
+                            "description": "状态",
+                            "example": ""
                           },
                           "stockCode": {
                             "type": "string",
-                            "description": "股票代码"
+                            "description": "股票代码",
+                            "example": ""
                           },
                           "stockName": {
                             "type": "string",
-                            "description": "股票名称"
+                            "description": "股票名称",
+                            "example": ""
                           },
                           "sysTime": {
                             "type": "object",
-                            "description": "系统时间"
+                            "description": "系统时间",
+                            "example": null
                           },
                           "totalValue": {
                             "type": "number",
@@ -53100,16 +53211,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "pageNum": {
+                    "page": {
                       "type": "integer",
                       "format": "int32",
                       "description": "页码"
-                    },
-                    "pageSize": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "page size",
-                      "example": 100
                     },
                     "data": {
                       "type": "array",
