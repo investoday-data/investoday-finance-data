@@ -3147,47 +3147,47 @@
                       "description": "T年",
                       "example": "2024"
                     },
-                    "tYearNetProfitGrowthRatePct": {
+                    "tYearNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T年净利润增长率(%)",
                       "example": 15.5
                     },
-                    "tPlus1YNetProfitGrowthRatePct": {
+                    "tPlus1YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+1年净利润增长率(%)",
                       "example": 18.2
                     },
-                    "tPlus2YNetProfitGrowthRatePct": {
+                    "tPlus2YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+2年净利润增长率(%)",
                       "example": 16.8
                     },
-                    "tPlus3YNetProfitGrowthRatePct": {
+                    "tPlus3YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T+3年净利润增长率(%)",
                       "example": 14.3
                     },
-                    "t1YNetProfitGrowthRatePct": {
+                    "t1YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-1年净利润增长率(%)",
                       "example": 12.1
                     },
-                    "tMinus2YNetProfitGrowthRatePct": {
+                    "tMinus2YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-2年净利润增长率(%)",
                       "example": 8.7
                     },
-                    "future12MonthsNetProfitGrowthRatePct": {
+                    "future12MonthsNetProfitGrowthRate": {
                       "type": "number",
                       "description": "未来12个月净利润增长率(%)",
                       "example": 17.3
                     },
-                    "t3yNetIncomeGrowthRatePct": {
+                    "t3yNetIncomeGrowthRate": {
                       "type": "number",
                       "description": "T-3年净利润增长率(%)",
                       "example": 6.4
                     },
-                    "t4YNetProfitGrowthRatePct": {
+                    "t4YNetProfitGrowthRate": {
                       "type": "number",
                       "description": "T-4年净利润增长率(%)",
                       "example": 4.2
@@ -4088,7 +4088,7 @@
                       "description": "相关度",
                       "example": 1
                     },
-                    "data": {
+                    "entities": {
                       "type": "array",
                       "example": null,
                       "items": {
@@ -4848,11 +4848,6 @@
                       "description": "已动用资本回报率当前值",
                       "example": ""
                     },
-                    "f2500": {
-                      "type": "string",
-                      "description": "盈利能力综合得分",
-                      "example": ""
-                    },
                     "stockCode": {
                       "type": "string",
                       "description": "股票代码",
@@ -5476,21 +5471,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "f2190": {
-                      "type": "string",
-                      "description": "现金负债率当前值",
-                      "example": ""
-                    },
-                    "f2200": {
-                      "type": "string",
-                      "description": "股东权益比率当前值",
-                      "example": ""
-                    },
-                    "f2210": {
-                      "type": "string",
-                      "description": "利息保障倍数当前值",
-                      "example": ""
-                    },
                     "f2220": {
                       "type": "string",
                       "description": "基本面趋势（F分数）当前值",
@@ -5902,11 +5882,6 @@
                       "description": "市盈率当前值",
                       "example": ""
                     },
-                    "f2260": {
-                      "type": "string",
-                      "description": "预估市盈率当前值",
-                      "example": ""
-                    },
                     "f2270": {
                       "type": "string",
                       "description": "市盈增长比当前值",
@@ -5972,28 +5947,9 @@
                       "description": "股票名称",
                       "example": ""
                     },
-                    "year": {
+                    "pubDt": {
                       "type": "string",
-                      "description": "报告年份",
-                      "example": ""
-                    },
-                    "type": {
-                      "type": "string",
-                      "allOf": [
-                        {
-                          "type": "string",
-                          "description": "0103代表第一季度;\n0106代表上半年;\n0109代表前三季度;\n0112代表全年;\nI代表半年报;\nF代表年报",
-                          "enum": [
-                            "0103",
-                            "0106",
-                            "0109",
-                            "0112",
-                            "I",
-                            "F"
-                          ]
-                        }
-                      ],
-                      "description": "报告类型",
+                      "description": "发布日期",
                       "example": ""
                     }
                   }
@@ -10829,15 +10785,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "stockCode": {
+                    "indexCode": {
                       "type": "string",
                       "description": "指数代码",
-                      "example": "000001.SZ"
+                      "example": "000001"
                     },
-                    "stockName": {
+                    "indexName": {
                       "type": "string",
                       "description": "指数名称",
-                      "example": "贵州茅台"
+                      "example": "平安银行"
                     },
                     "return1dPct": {
                       "type": "number",
@@ -22937,6 +22893,28 @@
                             "type": "number",
                             "description": "基于最新报告的持有比重",
                             "example": 0.125
+                          },
+                          "industryStandardCode": {
+                            "type": "integer",
+                            "format": "int32",
+                            "allOf": [
+                              {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "2代表交易所行业体系;\n3代表今日投资行业体系;\n4代表申万行业体系;\n5代表中信行业体系;\n6代表通达信行业体系;\n7代表中焯行业体系;\n8代表中证行业体系",
+                                "enum": [
+                                  2,
+                                  3,
+                                  4,
+                                  5,
+                                  6,
+                                  7,
+                                  8
+                                ]
+                              }
+                            ],
+                            "description": "行业体系(数字型)",
+                            "example": 2
                           }
                         }
                       }
@@ -23057,11 +23035,6 @@
                             "type": "string",
                             "description": "基金名称",
                             "example": "西部利得量化成长混合A"
-                          },
-                          "endDate": {
-                            "type": "string",
-                            "description": "截止日期",
-                            "example": "2024-03-28 00:00:00"
                           },
                           "fundType": {
                             "type": "string",
@@ -25087,6 +25060,28 @@
                             ],
                             "description": "公司成长阶段",
                             "example": 1
+                          },
+                          "boardCode": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "0代表其他;\n1代表主板;\n2代表中小企业;\n3代表代办股份转让系统;\n4代表大宗交易系统;\n5代表上交所固定收益平台;\n6代表创业板;\n7代表代办股份转让系统(新三板);\n8代表科创板`",
+                                "enum": [
+                                  "0",
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8"
+                                ]
+                              }
+                            ],
+                            "description": "板块代码",
+                            "example": "1"
                           }
                         }
                       }
@@ -25325,11 +25320,6 @@
                     "return3y": {
                       "type": "number",
                       "description": "近三年涨跌幅(%)",
-                      "example": 10
-                    },
-                    "returnYtd": {
-                      "type": "number",
-                      "description": "今年以来涨跌幅(%)",
                       "example": 10
                     },
                     "pbPct5y": {
@@ -34557,7 +34547,7 @@
                             "description": "发布日期",
                             "example": "2023-08-15"
                           },
-                          "reportDate": {
+                          "reportPeriodEnd": {
                             "type": "string",
                             "description": "报告期",
                             "example": "2025-09-30"
@@ -34596,67 +34586,47 @@
                             "description": "会计期间",
                             "example": "9"
                           },
-                          "cashReceivedSales": {
+                          "cashRecvSales": {
                             "type": "number",
                             "description": "销售商品提供劳务现金流入（元）",
                             "example": 12450000
                           },
-                          "cashReceivedDepositIncrease": {
+                          "cashRecvDepositIncrease": {
                             "type": "number",
                             "description": "客户存款同业存放净增加额（元）",
                             "example": 123456789
                           },
-                          "cashReceivedBorrowingCb": {
+                          "cashRecvBorrowingCb": {
                             "type": "number",
                             "description": "央行借款净增加额（元）",
                             "example": 1250000000
                           },
-                          "cashReceivedBorrowingOtherFi": {
-                            "type": "number",
-                            "description": "金融机构拆入资金净增加额（元）",
-                            "example": 1250000000
-                          },
-                          "cashReceivedPremiumInsurance": {
+                          "cashRecvPremiumInsurance": {
                             "type": "number",
                             "description": "原保险合同保费现金流入（元）",
                             "example": 1234567.89
                           },
-                          "cashReceivedReinsuranceNet": {
-                            "type": "number",
-                            "description": "再保险业务现金净流入（元）",
-                            "example": 1234.56
-                          },
-                          "cashReceivedPolicyDepositNet": {
+                          "cashRecvPolicyFundsNet": {
                             "type": "number",
                             "description": "保户储金投资款净增加额（元）",
                             "example": 12345678.9
                           },
-                          "cashReceivedDisposalTradingAssetsNet": {
+                          "cashRecvTradingAssetsNet": {
                             "type": "number",
                             "description": "处置交易性金融资产净增加额（元）",
                             "example": -1250000
                           },
-                          "cashReceivedInterestFee": {
+                          "cashRecvInterestFee": {
                             "type": "number",
                             "description": "利息手续费佣金现金流入（元）",
                             "example": 12345.67
                           },
-                          "cashReceivedBorrowingNet": {
-                            "type": "number",
-                            "description": "拆入资金净增加额（元）",
-                            "example": 123456789
-                          },
-                          "cashReceivedRepurchaseNet": {
-                            "type": "number",
-                            "description": "回购业务资金净增加额（元）",
-                            "example": 1234567.89
-                          },
-                          "cashReceivedTaxRefund": {
+                          "cashRecvTaxRefund": {
                             "type": "number",
                             "description": "税费返还现金流入（元）",
                             "example": 123456.78
                           },
-                          "cashReceivedOtherOperating": {
+                          "cashRecvOtherOperating": {
                             "type": "number",
                             "description": "其他经营活动现金流入（元）",
                             "example": 500000
@@ -34721,27 +34691,27 @@
                             "description": "经营活动现金流量净额（元）",
                             "example": 12345678.9
                           },
-                          "cashReceivedInvestWithdrawal": {
+                          "cashRecvDisposalInvestments": {
                             "type": "number",
                             "description": "收回投资现金流入（元）",
                             "example": 1250000
                           },
-                          "cashReceivedInvestIncome": {
+                          "cashRecvInvestIncome": {
                             "type": "number",
                             "description": "投资收益现金流入（元）",
                             "example": 1250000
                           },
-                          "cashReceivedAssetDisposal": {
+                          "cashRecvAssetDisposal": {
                             "type": "number",
                             "description": "处置长期资产收回现金净额（元）",
                             "example": 1250000
                           },
-                          "cashReceivedSubsidiary": {
+                          "cashRecvSubsidiary": {
                             "type": "number",
                             "description": "处置子公司收到现金净额（元）",
                             "example": 12500000
                           },
-                          "cashReceivedOtherInvesting": {
+                          "cashRecvOtherInvesting": {
                             "type": "number",
                             "description": "收到其他投资活动现金（元）",
                             "example": 1250000
@@ -34760,11 +34730,6 @@
                             "type": "number",
                             "description": "投资支付现金（元）",
                             "example": 1500000
-                          },
-                          "cashPaidPledgeLoan": {
-                            "type": "number",
-                            "description": "质押贷款净增加额（元）",
-                            "example": 1250000
                           },
                           "cashPaidSubsidiary": {
                             "type": "number",
@@ -34786,27 +34751,27 @@
                             "description": "投资活动现金流量净额（元）",
                             "example": -125000000
                           },
-                          "cashReceivedCapital": {
+                          "cashRecvCapital": {
                             "type": "number",
                             "description": "吸收投资收到现金（元）",
                             "example": 5000000
                           },
-                          "cashReceivedMinority": {
+                          "cashRecvMinority": {
                             "type": "number",
                             "description": "子公司吸收少数股东投资现金（元）",
                             "example": 5000000
                           },
-                          "cashReceivedBorrowing": {
+                          "cashRecvBorrowing": {
                             "type": "number",
                             "description": "取得借款收到现金（元）",
                             "example": 1500000
                           },
-                          "cashReceivedBonds": {
+                          "cashRecvBonds": {
                             "type": "number",
                             "description": "发行债券收到现金（元）",
                             "example": 1500000000
                           },
-                          "cashReceivedOtherFinancing": {
+                          "cashRecvOtherFinancing": {
                             "type": "number",
                             "description": "收到其他筹资活动现金（元）",
                             "example": 500000
@@ -51228,6 +51193,28 @@
                             "type": "number",
                             "description": "基于最新报告的持有比重",
                             "example": 0.125
+                          },
+                          "industryStandardCode": {
+                            "type": "integer",
+                            "format": "int32",
+                            "allOf": [
+                              {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "2代表交易所行业体系;\n3代表今日投资行业体系;\n4代表申万行业体系;\n5代表中信行业体系;\n6代表通达信行业体系;\n7代表中焯行业体系;\n8代表中证行业体系",
+                                "enum": [
+                                  2,
+                                  3,
+                                  4,
+                                  5,
+                                  6,
+                                  7,
+                                  8
+                                ]
+                              }
+                            ],
+                            "description": "行业体系(数字型)",
+                            "example": 2
                           }
                         }
                       }
@@ -58319,6 +58306,11 @@
                             "type": "number",
                             "description": "持仓量",
                             "example": 86000
+                          },
+                          "futureName": {
+                            "type": "string",
+                            "description": "合约名称",
+                            "example": "富时A50期货股指"
                           }
                         }
                       }
@@ -58966,6 +58958,76 @@
                             "type": "number",
                             "description": "行业5年阿尔法",
                             "example": 12.34
+                          },
+                          "return1d": {
+                            "type": "number",
+                            "description": "近一日涨幅",
+                            "example": 0.01
+                          },
+                          "return2d": {
+                            "type": "number",
+                            "description": "近二日涨幅",
+                            "example": 0.02
+                          },
+                          "return3d": {
+                            "type": "number",
+                            "description": "近三日涨幅",
+                            "example": 0.03
+                          },
+                          "return4d": {
+                            "type": "number",
+                            "description": "近四日涨幅",
+                            "example": 0.04
+                          },
+                          "return1w": {
+                            "type": "number",
+                            "description": "近一周涨幅",
+                            "example": 0.05
+                          },
+                          "return2w": {
+                            "type": "number",
+                            "description": "近二周涨幅",
+                            "example": 0.06
+                          },
+                          "return3w": {
+                            "type": "number",
+                            "description": "近三周涨幅",
+                            "example": 0.07
+                          },
+                          "return1m": {
+                            "type": "number",
+                            "description": "近一月涨幅",
+                            "example": 0.08
+                          },
+                          "return2m": {
+                            "type": "number",
+                            "description": "近二月涨幅",
+                            "example": 0.09
+                          },
+                          "return3m": {
+                            "type": "number",
+                            "description": "近三月涨幅",
+                            "example": 0.1
+                          },
+                          "return6m": {
+                            "type": "number",
+                            "description": "近六月涨幅",
+                            "example": 0.12
+                          },
+                          "return1y": {
+                            "type": "number",
+                            "description": "近一年涨幅",
+                            "example": 0.15
+                          },
+                          "return3y": {
+                            "type": "number",
+                            "description": "近三年涨幅",
+                            "example": 0.3
+                          },
+                          "return5y": {
+                            "type": "number",
+                            "description": "近五年涨幅",
+                            "example": 0.5
                           }
                         }
                       }
