@@ -12597,6 +12597,23 @@
                             "description": "基金类型",
                             "example": 1
                           },
+                          "isEtf": {
+                            "type": "integer",
+                            "format": "int32",
+                            "allOf": [
+                              {
+                                "type": "integer",
+                                "format": "int32",
+                                "description": "1代表是;\n0代表否",
+                                "enum": [
+                                  1,
+                                  0
+                                ]
+                              }
+                            ],
+                            "description": "是否为etf",
+                            "example": 1
+                          },
                           "isQdii": {
                             "type": "integer",
                             "format": "int32",
