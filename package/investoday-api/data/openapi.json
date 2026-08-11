@@ -30012,60 +30012,90 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "fundCode": {
+                          "date": {
                             "type": "string",
-                            "description": "基金代码",
-                            "example": "000006"
+                            "description": "交易日期",
+                            "example": "2023-10-26"
                           },
-                          "fundId": {
+                          "stockCode": {
                             "type": "string",
-                            "description": "今日投资内部编码",
-                            "example": "000006JK"
+                            "description": "股票代码",
+                            "example": "000001"
                           },
-                          "fundName": {
+                          "stockName": {
                             "type": "string",
-                            "description": "基金名称",
-                            "example": "西部利得量化成长混合A"
+                            "description": "股票名称",
+                            "example": "贵州茅台"
                           },
-                          "endDate": {
-                            "type": "string",
-                            "description": "截止日期",
-                            "example": "2024-03-28 00:00:00"
-                          },
-                          "fundType": {
-                            "type": "string",
-                            "description": "基金类型代码",
-                            "example": "2"
-                          },
-                          "conceptCode": {
-                            "type": "string",
-                            "description": "概念代码",
-                            "example": "CLS80005"
-                          },
-                          "conceptName": {
-                            "type": "string",
-                            "description": "概念名称",
-                            "example": "中药"
-                          },
-                          "conceptCategory": {
-                            "type": "string",
-                            "description": "概念类别",
-                            "example": "C01"
-                          },
-                          "holdingWeightLatest": {
+                          "prevClosePrice": {
                             "type": "number",
-                            "description": "基金持仓概念基于最新报告的持有比重(%)",
-                            "example": 2.3452
+                            "description": "昨收盘",
+                            "example": 12.75
                           },
-                          "holdingWeightQuarterly": {
+                          "openPrice": {
                             "type": "number",
-                            "description": "基金持仓概念基于季报的持有比重(%)",
-                            "example": 2.215
+                            "description": "开盘价",
+                            "example": 12.75
                           },
-                          "holdingWeightAnnual": {
+                          "highPrice": {
                             "type": "number",
-                            "description": "基金持仓概念基于年报或半年报的持有比重(%)",
-                            "example": 0.215
+                            "description": "最高价",
+                            "example": 128.75
+                          },
+                          "lowPrice": {
+                            "type": "number",
+                            "description": "最低价",
+                            "example": 12.75
+                          },
+                          "closePrice": {
+                            "type": "number",
+                            "description": "收盘价",
+                            "example": 15.75
+                          },
+                          "volume": {
+                            "type": "number",
+                            "description": "成交量（股）",
+                            "example": 12345.67
+                          },
+                          "amount": {
+                            "type": "number",
+                            "description": "成交金额（元）",
+                            "example": 123456.78
+                          },
+                          "turnover": {
+                            "type": "number",
+                            "description": "换手率",
+                            "example": 0.0256
+                          },
+                          "marketCapFloat": {
+                            "type": "number",
+                            "description": "流通市值（元）",
+                            "example": 1234567890.12
+                          },
+                          "marketCap": {
+                            "type": "number",
+                            "description": "总市值（元）",
+                            "example": 1234567890.12
+                          },
+                          "changePct": {
+                            "type": "number",
+                            "description": "涨跌幅",
+                            "example": 0.025
+                          },
+                          "peTtm": {
+                            "type": "number",
+                            "description": "市盈率TTM",
+                            "example": 15.8
+                          },
+                          "pb": {
+                            "type": "number",
+                            "description": "市净率",
+                            "example": 2.45
+                          },
+                          "vwap": {
+                            "type": "number",
+                            "description": "成交量加权平均价",
+                            "example": 123.45
                           }
                         }
                       }
