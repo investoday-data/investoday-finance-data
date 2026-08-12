@@ -31,10 +31,21 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
+| `publishDate` | 发布日期 | — |
+| `stockCode` | 股票代码 | — |
+| `stockName` | 股票名称 | — |
+| `reportPeriodEnd` | 基准报告截止日期 | `2024-12-31 00:00:00` |
+| `scenarioType` | 情景类型 | `1` |
+| `forecastYears` | 预测年份数 | `5` |
+| `sumFcfPv` | 预测期FCF现值合计 | `123456.789` |
+| `terminalGrowthRate` | 永续增长率 | `0.03` |
+| `terminalValue` | 终值 | `123456.789` |
+| `terminalValuePv` | 终值现值 | `123456.789` |
+| `enterpriseValueEv` | 企业价值EV | `123456.789` |
+| `wacc` | 加权平均资本成本 | `0.085` |
 | `pageNum` | page number | `1` |
 | `pageSize` | page size | `100` |
 | `totalCount` | total count | `0` |
-| `data` |  | — |
 
 ### 接口示例
 

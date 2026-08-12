@@ -31,10 +31,36 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
+| `publishDate` | 发布日期 | `2008-04-21 00:00:00` |
+| `fundId` | 今日投资内部编码 | `KF0183SK` |
+| `fundCode` | 基金代码 | `510181` |
+| `fundName` | 基金名称 | `平安` |
+| `underlyingIndexCode` | 标的指数代码 | `000010` |
+| `prevTradeDate` | 上一交易日期 | `2008-04-18 00:00:00` |
+| `cashBalance` | 现金差额(元) | `1327.5700` |
+| `navPerCreationUnit` | 最小申赎单位资产净值(元) | `2175819.57` |
+| `nav` | 基金份额净值(元) | `7.253` |
+| `estimatedCashComponent` | 预估现金部分(元) | `-320.43` |
+| `cashSubstitutionRatioLimit` | 现金替代比例上限 | `0.2` |
+| `creationUnit` | 最小申赎单位(份) | `300000` |
+| `dividendPerCreationUnit` | 最小申赎单位分红金额(元) | `0.85` |
+| `iopvPublishDesc` | 是否需要公布IOPV描述 | `1` |
+| `subscribeAllowedDesc` | 是否允许申购描述 | `1` |
+| `redeemAllowedDesc` | 是否允许赎回描述 | `1` |
+| `isIopvPublished` | 是否需要公布IOPV | `1` |
+| `isSubscribeAllowed` | 是否允许申购 | `1` |
+| `isRedeemAllowed` | 是否允许赎回 | `1` |
+| `subscribeShareLimit` | 申购份额上限(份) | `1000000` |
+| `redeemShareLimit` | 赎回份额上限(份) | `1000000` |
+| `dailySubscribeLimitPerAccount` | 单个账户当日累计申购上限(份) | `1000000` |
+| `dailyRedeemLimitPerAccount` | 单个账户当日累计赎回上限(份) | `1000000` |
+| `netSubscribeShareLimit` | 净申购份额上限(份) | `1000000` |
+| `netRedeemShareLimit` | 净赎回份额上限(份) | `1000000` |
+| `dailyNetSubscribeLimitPerAccount` | 单个账户当日净申购上限(份) | `1000000` |
+| `dailyNetRedeemLimitPerAccount` | 单个账户当日净赎回上限(份) | `1000000` |
+| `iopvClosePrice` | IOPV收盘价 | `1.2345` |
 | `pageNum` | page number | `1` |
 | `pageSize` | page size | `100` |
-| `totalCount` | total count | `0` |
-| `data` |  | — |
 
 ### 接口示例
 
@@ -74,10 +100,25 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
+| `publishDate` | 发布日期 | `2026-01-08 00:00:00` |
+| `fundId` | 今日投资内部编码 | `159720JK` |
+| `fundCode` | 基金代码 | `159720` |
+| `fundName` | 基金名称 | `泰康中证智能电动汽车ETF` |
+| `stockCode` | 股票代码 | `000009` |
+| `stockName` | 股票名称 | `中国宝安` |
+| `stockQuantity` | 股票数量(股) | `500` |
+| `cashSubstituteFlagDesc` | 现金替代标志描述 | `允许` |
+| `cashSubstituteFlag` | 现金替代标志 | `1` |
+| `cashSubstituteRatio` | 现金替代比例 | `0.15` |
+| `subscribeCashSubstitutePremiumRatio` | 申购现金替代溢价比例 | — |
+| `redeemCashSubstituteDiscountRatio` | 赎回现金替代折价比例 | — |
+| `fixedSubstituteAmount` | 固定替代金额(元) | `1250.75` |
+| `subscribeSubstituteAmount` | 申购替代金额(元) | `0` |
+| `redeemSubstituteAmount` | 赎回替代金额(元) | `0` |
+| `constituentMarketCapWeight` | 成份股市值占比 | `0.0061` |
 | `pageNum` | page number | `1` |
 | `pageSize` | page size | `100` |
 | `totalCount` | total count | `0` |
-| `data` |  | — |
 
 ### 接口示例
 

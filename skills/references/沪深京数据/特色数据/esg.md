@@ -32,10 +32,22 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
+| `publishDate` | 评级发布日期 | — |
+| `dataSource` | 数据来源机构 | — |
+| `stockCode` | 股票代码 | — |
+| `stockName` | 股票名称 | — |
+| `marketCode` | 市场代码 | — |
+| `esgScore` | ESG评分 | — |
+| `esgLevel` | ESG等级 | — |
+| `environmentScore` | 环境得分 | — |
+| `environmentLevel` | 环境等级 | — |
+| `socialScore` | 社会得分 | — |
+| `socialLevel` | 社会等级 | — |
+| `governanceScore` | 公司治理得分 | — |
+| `governanceLevel` | 公司治理等级 | — |
 | `pageNum` | page number | `1` |
 | `pageSize` | page size | `100` |
 | `totalCount` | total count | `0` |
-| `data` |  | — |
 
 ### 接口示例
 

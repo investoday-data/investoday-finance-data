@@ -31,10 +31,36 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
-| `pageNum` | page number | `1` |
-| `pageSize` | page size | `100` |
-| `totalCount` | total count | `0` |
-| `data` |  | — |
+| `stockCode` | 股票代码 | `000001` |
+| `stockName` | 股票名称 | `贵州茅台` |
+| `publishDate` | 发布日期 | `2023-08-15` |
+| `reportDate` | 报告期 | `2025-09-30` |
+| `reportType` | 报告类型 | `Q1` |
+| `fiscalPeriod` | 会计期间 | `9` |
+| `totalOperatingRevenue` | 营业总收入（元） | `123456789` |
+| `revenue` | 营业收入（元） | `1234567.89` |
+| `interestIncome` | 利息收入（元） | `1234.56` |
+| `interestExpense` | 利息支出（元） | `1250.75` |
+| `premiumEarned` | 已赚保费（元） | `12500` |
+| `commissionIncome` | 手续费及佣金收入（元） | `1250` |
+| `commissionExpense` | 手续费及佣金支出（元） | `1250` |
+| `costOfRevenue` | 营业总成本（元） | `1234567.89` |
+| `costOfGoodsSold` | 营业成本（元） | `1234567.89` |
+| `premiumRefund` | 退保金（元） | `5000` |
+| `policyDividendPayout` | 保单红利支出（元） | `12500` |
+| `reinsuranceExpense` | 分保费用（元） | `50000` |
+| `taxAndSurcharge` | 税金及附加（元） | `125000` |
+| `sellingExpense` | 销售费用（元） | `125000` |
+| `adminExpense` | 管理费用（元） | `125000` |
+| `financeExpense` | 财务费用（元） | `-12345.67` |
+| `assetImpairmentLoss` | 资产减值损失（元） | `-500000` |
+| `fairValueChangeIncome` | 公允价值变动收益（元） | `-1234567.89` |
+| `investmentIncome` | 投资收益（元） | — |
+| `investIncomeJv` | 对联营合营企业投资收益（元） | `1250000` |
+| `exchangeGainLoss` | 汇兑收益（元） | `12345.67` |
+| `operatingProfit` | 营业利润（元） | `125000` |
+| `nonOperatingIncome` | 营业外收入（元） | `125000` |
+| `nonOperatingExpense` | 营业外支出（元） | `125000` |
 
 ### 接口示例
 
@@ -74,10 +100,36 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
-| `pageNum` | page number | `1` |
-| `pageSize` | page size | `100` |
-| `totalCount` | total count | `0` |
-| `data` |  | — |
+| `stockCode` | 股票代码 | `000001` |
+| `stockName` | 股票名称 | `贵州茅台` |
+| `publishDate` | 发布日期 | `2023-08-15` |
+| `reportDate` | 报告期 | `2025-09-30` |
+| `reportType` | 报告类型 | `Q1` |
+| `fiscalPeriod` | 会计期间 | `9` |
+| `cashReceivedSales` | 销售商品提供劳务现金流入（元） | `12450000` |
+| `cashReceivedDepositIncrease` | 客户存款同业存放净增加额（元） | `123456789` |
+| `cashReceivedBorrowingCb` | 央行借款净增加额（元） | `1250000000` |
+| `cashReceivedBorrowingOtherFi` | 金融机构拆入资金净增加额（元） | `1250000000` |
+| `cashReceivedPremiumInsurance` | 原保险合同保费现金流入（元） | `1234567.89` |
+| `cashReceivedReinsuranceNet` | 再保险业务现金净流入（元） | `1234.56` |
+| `cashReceivedPolicyDepositNet` | 保户储金投资款净增加额（元） | `12345678.9` |
+| `cashReceivedDisposalTradingAssetsNet` | 处置交易性金融资产净增加额（元） | `-1250000` |
+| `cashReceivedInterestFee` | 利息手续费佣金现金流入（元） | `12345.67` |
+| `cashReceivedBorrowingNet` | 拆入资金净增加额（元） | `123456789` |
+| `cashReceivedRepurchaseNet` | 回购业务资金净增加额（元） | `1234567.89` |
+| `cashReceivedTaxRefund` | 税费返还现金流入（元） | `123456.78` |
+| `cashReceivedOtherOperating` | 其他经营活动现金流入（元） | `500000` |
+| `cashInflowOperating` | 经营活动现金流入小计（元） | `1234567.89` |
+| `cashPaidGoodsServices` | 购买商品接受劳务现金流出（元） | `1234567.89` |
+| `cashPaidLoansAdvancesNet` | 客户贷款垫款净增加额（元） | `1234567.89` |
+| `cashPaidDepositsFiNet` | 存放央行同业款项净增加额（元） | `1234567890.12` |
+| `cashPaidInsuranceClaims` | 原保险合同赔付现金流出（元） | `1234567.89` |
+| `cashPaidInterestFee` | 利息手续费佣金现金流出（元） | `1234567.89` |
+| `cashPaidPolicyDividend` | 保单红利现金流出（元） | `12345.67` |
+| `cashPaidEmployees` | 职工薪酬现金流出（元） | `1234567.89` |
+| `cashPaidTax` | 税费现金流出（元） | `12500` |
+| `cashPaidOtherOperating` | 其他经营活动现金流出（元） | `1234567` |
+| `cashOutflowOperating` | 经营活动现金流出小计（元） | `1234567.89` |
 
 ### 接口示例
 
@@ -117,10 +169,36 @@ _无参数_
 
 | 字段名 | 说明 | 示例 |
 |--------|------|------|
-| `pageNum` | page number | `1` |
-| `pageSize` | page size | `100` |
-| `totalCount` | total count | `0` |
-| `data` |  | — |
+| `publishDate` | 发布日期 | `2023-08-15` |
+| `reportPeriodEnd` | 报告期 | `2025-09-30` |
+| `reportType` | 报告类型 | `Q1` |
+| `fiscalPeriod` | 会计期间 | `9` |
+| `stockCode` | 股票代码 | `000001` |
+| `stockName` | 股票名称 | `贵州茅台` |
+| `totalAssets` | 资产总计（元） | `500` |
+| `totalCurrentAssets` | 流动资产合计（元） | `500` |
+| `cashAndEquiv` | 货币资金（元） | `500` |
+| `settlementProvision` | 结算备付金（元） | `500` |
+| `loanToOtherBankFi` | 拆出资金（元） | `500` |
+| `tradingAssets` | 交易性金融资产（元） | `500` |
+| `assetsPurchasedForResale` | 买入返售金融资产（元） | `500` |
+| `notesReceivable` | 应收票据（元） | `500` |
+| `accountsReceivable` | 应收账款（元） | `500` |
+| `prepayments` | 预付款项（元） | `500` |
+| `otherReceivables` | 其他应收款（元） | `500` |
+| `interestReceivable` | 应收利息（元） | `500` |
+| `dividendReceivable` | 应收股利（元） | `500` |
+| `inventory` | 存货（元） | `500` |
+| `nonCurrentAssets1y` | 一年内到期非流动资产（元） | `500` |
+| `otherCurrentAssets` | 其他流动资产（元） | `500` |
+| `premiumReceivable` | 应收保费（元） | `500` |
+| `reinsuranceReceivable` | 应收分保账款（元） | `500` |
+| `reinsuranceReserveReceivable` | 应收分保合同准备金（元） | `500` |
+| `disbursedLoansAdvances` | 发放贷款及垫款（元） | `500` |
+| `totalNonCurrentAssets` | 非流动资产合计（元） | `500` |
+| `afsFinancialAssets` | 可供出售金融资产（元） | `500` |
+| `heldToMaturityInvestments` | 持有至到期投资（元） | `500` |
+| `longTermReceivable` | 长期应收款（元） | `500` |
 
 ### 接口示例
 
