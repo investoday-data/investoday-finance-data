@@ -1377,6 +1377,213 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "data": {
+                      "type": "array",
+                      "example": [],
+                      "items": {
+                        "type": "object",
+                        "description": "行业数据列表",
+                        "properties": {
+                          "industryCode": {
+                            "type": "string",
+                            "description": "行业代码",
+                            "example": "740000"
+                          },
+                          "industryName": {
+                            "type": "string",
+                            "description": "行业名称",
+                            "example": "煤炭"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "最新价/点位",
+                            "example": 3295.13
+                          },
+                          "changeRatio": {
+                            "type": "number",
+                            "description": "涨跌幅",
+                            "example": -0.0023
+                          },
+                          "volume": {
+                            "type": "number",
+                            "description": "成交量",
+                            "example": 14520977
+                          },
+                          "changeRatio1W": {
+                            "type": "number",
+                            "description": "近一周涨跌幅",
+                            "example": 0.06257223
+                          },
+                          "totalValue": {
+                            "type": "number",
+                            "description": "总市值",
+                            "example": 2219718175118.5396
+                          },
+                          "ratioRank": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "涨跌幅排名",
+                            "example": 11
+                          },
+                          "industryAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "行业成分数量",
+                            "example": 31
+                          },
+                          "limitUpAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "涨停数量",
+                            "example": 0
+                          },
+                          "stockUpAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "上涨股票数量",
+                            "example": 17
+                          },
+                          "stockDownAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "下跌股票数量",
+                            "example": 13
+                          },
+                          "stockBxAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "平盘股票数量",
+                            "example": 3
+                          },
+                          "stockAmount": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "股票数量",
+                            "example": 33
+                          },
+                          "leadUpStockCode": {
+                            "type": "string",
+                            "description": "领涨股票代码",
+                            "example": ""
+                          },
+                          "leadUpStockName": {
+                            "type": "string",
+                            "description": "领涨股票名称",
+                            "example": ""
+                          },
+                          "dataTime": {
+                            "type": "string",
+                            "description": "数据时间",
+                            "example": "null"
+                          },
+                          "stockRealQuotes": {
+                            "type": "array",
+                            "example": [],
+                            "items": {
+                              "type": "object",
+                              "description": "成分股实时行情列表",
+                              "properties": {
+                                "stockCode": {
+                                  "type": "string",
+                                  "description": "股票代码",
+                                  "example": "000571"
+                                },
+                                "stockName": {
+                                  "type": "string",
+                                  "description": "股票名称",
+                                  "example": "新大洲A"
+                                },
+                                "marketType": {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "sh代表上交所;\nsz代表深交所;\nbj代表北交所",
+                                      "enum": [
+                                        "sh",
+                                        "sz",
+                                        "bj"
+                                      ]
+                                    }
+                                  ],
+                                  "description": "市场类型",
+                                  "example": "sz"
+                                },
+                                "openPrice": {
+                                  "type": "number",
+                                  "description": "开盘价",
+                                  "example": 7.1
+                                },
+                                "closePriceCy": {
+                                  "type": "number",
+                                  "description": "昨收价",
+                                  "example": 7.12
+                                },
+                                "currentPrice": {
+                                  "type": "number",
+                                  "description": "最新价",
+                                  "example": 7.38
+                                },
+                                "changeRatio": {
+                                  "type": "number",
+                                  "description": "涨跌幅",
+                                  "example": 0.0365
+                                },
+                                "highPrice": {
+                                  "type": "number",
+                                  "description": "最高价",
+                                  "example": 7.55
+                                },
+                                "lowPrice": {
+                                  "type": "number",
+                                  "description": "最低价",
+                                  "example": 6.78
+                                },
+                                "dataTime": {
+                                  "type": "string",
+                                  "description": "行情数据时间",
+                                  "example": "2026-08-11 15:07:45"
+                                },
+                                "sysTime": {
+                                  "type": "string",
+                                  "description": "系统时间",
+                                  "example": "2026-08-11 15:08:32"
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "description": "状态",
+                                  "example": ""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "总记录数",
+                      "example": 33
+                    },
+                    "pages": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "总页数",
+                      "example": 4
+                    },
+                    "page": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "当前页码",
+                      "example": 4
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "每页条数",
+                      "example": 10
+                    },
                     "hasNextPage": {
                       "type": "boolean",
                       "allOf": [
@@ -1392,219 +1599,26 @@
                       "description": "是否有下一页",
                       "example": true
                     },
-                    "lastPage": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "上一页页码",
-                      "example": 1
-                    },
                     "nextPage": {
                       "type": "integer",
                       "format": "int32",
                       "description": "下一页页码",
-                      "example": 3
-                    },
-                    "page": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "当前页码",
                       "example": 2
                     },
-                    "pageSize": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "每页条数",
-                      "example": 20
-                    },
-                    "pages": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "总页数",
-                      "example": 10
-                    },
-                    "totalCount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "总记录数",
-                      "example": 200
-                    },
-                    "industryCode": {
-                      "type": "string",
-                      "description": "行业代码",
-                      "example": "740000"
-                    },
-                    "industryName": {
-                      "type": "string",
-                      "description": "行业名称",
-                      "example": "煤炭"
-                    },
-                    "price": {
-                      "type": "number",
-                      "description": "行业指数",
-                      "example": 2549.1562
-                    },
-                    "changeRatio": {
-                      "type": "number",
-                      "description": "行业涨跌幅",
-                      "example": -0.0121602
-                    },
-                    "volume": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业成交量",
-                      "example": 9547379
-                    },
-                    "changeRatio1W": {
-                      "type": "number",
-                      "description": "行业一周涨跌幅",
-                      "example": -0.00646898
-                    },
-                    "totalValue": {
-                      "type": "number",
-                      "description": "行业总市值",
-                      "example": 1756873387871.2708
-                    },
-                    "ratioRank": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业涨跌幅排名",
-                      "example": 31
-                    },
-                    "industryAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业成分股数量",
-                      "example": 31
-                    },
-                    "limitUpAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业涨停股数量",
-                      "example": 0
-                    },
-                    "stockUpAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业上涨股数量",
-                      "example": 1
-                    },
-                    "stockDownAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业下跌股数量",
-                      "example": 32
-                    },
-                    "stockBxAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业平盘股数量",
-                      "example": 4
-                    },
-                    "stockAmount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "行业股票总数",
-                      "example": 37
-                    },
-                    "leadUpStockCode": {
-                      "type": "string",
-                      "description": "行业领涨股代码",
-                      "example": ""
-                    },
-                    "leadUpStockName": {
-                      "type": "string",
-                      "description": "行业领涨股名称",
-                      "example": ""
-                    },
-                    "dataTime": {
-                      "type": "string",
-                      "description": "数据时间",
-                      "example": ""
-                    },
-                    "stockRealQuotes": {
-                      "type": "array",
-                      "example": [
+                    "lastPage": {
+                      "type": "boolean",
+                      "allOf": [
                         {
-                          "stockCode": "600397",
-                          "stockName": "安源煤业",
-                          "marketType": "sh",
-                          "openPrice": 6.48,
-                          "closePriceYDay": 6.5,
-                          "currentPrice": 6.29,
-                          "changeRatio": -0.03230769,
-                          "highPrice": 6.48,
-                          "lowPrice": 6.16,
-                          "dataTime": "2025-06-12 14:43:20",
-                          "sysTime": "2025-06-12 14:43:30",
-                          "status": "0"
+                          "type": "boolean",
+                          "description": "true代表是;\nfalse代表否",
+                          "enum": [
+                            false,
+                            false
+                          ]
                         }
                       ],
-                      "items": {
-                        "type": "object",
-                        "description": "股票实时行情数据列表",
-                        "properties": {
-                          "stockCode": {
-                            "type": "string",
-                            "description": "股票代码",
-                            "example": "600397"
-                          },
-                          "stockName": {
-                            "type": "string",
-                            "description": "股票名称",
-                            "example": "安源煤业"
-                          },
-                          "marketType": {
-                            "type": "string",
-                            "description": "市场类型",
-                            "example": "sh"
-                          },
-                          "openPrice": {
-                            "type": "number",
-                            "description": "开盘价",
-                            "example": 6.48
-                          },
-                          "closePriceYDay": {
-                            "type": "number",
-                            "description": "昨日收盘价",
-                            "example": 6.5
-                          },
-                          "currentPrice": {
-                            "type": "number",
-                            "description": "当前价格",
-                            "example": 6.29
-                          },
-                          "changeRatio": {
-                            "type": "number",
-                            "description": "涨跌幅",
-                            "example": -0.03230769
-                          },
-                          "highPrice": {
-                            "type": "number",
-                            "description": "最高价",
-                            "example": 6.48
-                          },
-                          "lowPrice": {
-                            "type": "number",
-                            "description": "最低价",
-                            "example": 6.16
-                          },
-                          "dataTime": {
-                            "type": "string",
-                            "description": "数据时间",
-                            "example": "2025-06-12 14:43:20"
-                          },
-                          "sysTime": {
-                            "type": "string",
-                            "description": "系统时间",
-                            "example": "2025-06-12 14:43:30"
-                          },
-                          "status": {
-                            "type": "string",
-                            "description": "状态",
-                            "example": "0"
-                          }
-                        }
-                      }
+                      "description": "是否最后一页",
+                      "example": false
                     }
                   }
                 }
@@ -1985,7 +1999,7 @@
                                   "description": "开盘价",
                                   "example": 12.5
                                 },
-                                "closePriceYesterday": {
+                                "closePriceYDay": {
                                   "type": "number",
                                   "description": "昨收价",
                                   "example": 12.44
@@ -6072,58 +6086,68 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "stockCode": {
-                      "type": "string",
-                      "description": "股票代码",
-                      "example": ""
-                    },
-                    "stockName": {
-                      "type": "string",
-                      "description": "股票名称",
-                      "example": ""
-                    },
-                    "industryCode": {
-                      "type": "string",
-                      "description": "行业代码",
-                      "example": ""
-                    },
-                    "industryName": {
-                      "type": "string",
-                      "description": "行业名称",
-                      "example": ""
-                    },
-                    "year": {
-                      "type": "string",
-                      "description": "报告年份",
-                      "example": ""
-                    },
-                    "type": {
-                      "type": "string",
-                      "allOf": [
-                        {
-                          "type": "string",
-                          "description": "0103代表第一季度;\n0106代表上半年;\n0109代表前三季度;\n0112代表全年;\nI代表半年报;\nF代表年报",
-                          "enum": [
-                            "0103",
-                            "0106",
-                            "0109",
-                            "0112",
-                            "I",
-                            "F"
-                          ]
-                        }
-                      ],
-                      "description": "报告类型",
-                      "example": ""
-                    },
-                    "mktValue": {
-                      "type": "string",
-                      "description": "总市值",
-                      "example": ""
-                    },
                     "data": {
-                      "type": "number",
-                      "description": "指标当前值"
+                      "type": "array",
+                      "example": [],
+                      "items": {
+                        "type": "object",
+                        "description": "结果集",
+                        "properties": {
+                          "stockCode": {
+                            "type": "string",
+                            "description": "股票代码",
+                            "example": ""
+                          },
+                          "stockName": {
+                            "type": "string",
+                            "description": "股票名称",
+                            "example": ""
+                          },
+                          "industryCode": {
+                            "type": "string",
+                            "description": "行业代码",
+                            "example": ""
+                          },
+                          "industryName": {
+                            "type": "string",
+                            "description": "行业名称",
+                            "example": ""
+                          },
+                          "year": {
+                            "type": "string",
+                            "description": "报告年份",
+                            "example": ""
+                          },
+                          "type": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "type": "string",
+                                "description": "0103代表第一季度;\n0106代表上半年;\n0109代表前三季度;\n0112代表全年;\nI代表半年报;\nF代表年报",
+                                "enum": [
+                                  "0103",
+                                  "0106",
+                                  "0109",
+                                  "0112",
+                                  "I",
+                                  "F"
+                                ]
+                              }
+                            ],
+                            "description": "报告类型",
+                            "example": ""
+                          },
+                          "mktValue": {
+                            "type": "string",
+                            "description": "总市值",
+                            "example": ""
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "指标当前值"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -29102,6 +29126,16 @@
                       "description": "公司成长阶段",
                       "example": 1
                     },
+                    "marketCap": {
+                      "type": "number",
+                      "description": "总市值（元）",
+                      "example": 1234567890.12
+                    },
+                    "marketCapFloat": {
+                      "type": "number",
+                      "description": "流通市值（元）",
+                      "example": 1234567890.12
+                    },
                     "pageNum": {
                       "type": "integer",
                       "format": "int32",
@@ -50778,6 +50812,17 @@
               "type": "integer",
               "format": "int32",
               "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页长",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
             }
           }
         ],
