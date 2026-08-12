@@ -1514,7 +1514,7 @@
                                   "description": "开盘价",
                                   "example": 7.1
                                 },
-                                "closePriceCy": {
+                                "closePriceYDay": {
                                   "type": "number",
                                   "description": "昨收价",
                                   "example": 7.12
