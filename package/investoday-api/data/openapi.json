@@ -59991,7 +59991,10 @@
             "ApiKeyAuth": []
           }
         ]
-      }
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     },
     "/macro/exchange-rates": {
       "post": {
@@ -60948,6 +60951,323 @@
                       "type": "number",
                       "description": "指标数据",
                       "example": 2890000
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/macro/spot-quotes": {
+      "post": {
+        "tags": [
+          "现货每日行情"
+        ],
+        "summary": "现货每日行情",
+        "description": "支持通过现货品种代码、交易日期范围（格式为yyyy-MM-dd）进行筛选，并可设置页码和页长实现分页查询，获取现货每日行情数据，返回交易日期、现货品种代码、现货类型、交易所代码、货币代码、昨收盘价、开盘价、最高价、最低价、最新价、成交量、成交金额等核心指标，可用于现货市场行情监测、价格走势分析、交易决策参考等场景。",
+        "operationId": "list_macro_spot_quotes",
+        "requestBody": {
+          "description": "支持通过现货品种代码、交易日期范围（格式为yyyy-MM-dd）进行筛选，并可设置页码和页长实现分页查询，获取现货每日行情数据，返回交易日期、现货品种代码、现货类型、交易所代码、货币代码、昨收盘价、开盘价、最高价、最低价、最新价、成交量、成交金额等核心指标，可用于现货市场行情监测、价格走势分析、交易决策参考等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "spotCode": {
+                    "type": "string",
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "description": "COPPER代表铜,SILVER代表白银,XAUUSD代表现货黄金,XBRUSD代表布伦特原油",
+                        "enum": [
+                          "COPPER"
+                        ]
+                      }
+                    ],
+                    "description": "现货品种代码",
+                    "example": "SPOT001"
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始交易日期，格式yyyy-MM-dd",
+                    "example": "2026-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束交易日期，格式yyyy-MM-dd",
+                    "example": "2026-08-14"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2026-08-14 00:00:00"
+                    },
+                    "spotCode": {
+                      "type": "string",
+                      "description": "现货品种代码",
+                      "example": "SPOT001"
+                    },
+                    "currencyCode": {
+                      "type": "string",
+                      "description": "货币代码",
+                      "example": "USD"
+                    },
+                    "prevClose": {
+                      "type": "number",
+                      "description": "昨收盘价",
+                      "example": 100.25
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 101
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 103.5
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 99.75
+                    },
+                    "lastPrice": {
+                      "type": "number",
+                      "description": "最新价",
+                      "example": 102.88
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 1234567
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "成交金额",
+                      "example": 987654321.25
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/macro/equity-valuations": {
+      "post": {
+        "tags": [
+          "全球权益市场估值指标"
+        ],
+        "summary": "全球权益市场估值指标",
+        "description": "支持通过指定市场名称、时间范围（开始日期格式为yyyy-MM-dd，结束日期格式为yyyy-MM-dd），并可配合页码、页大小进行分页，查询全球权益市场的估值指标数据，返回截止日期（格式为yyyy-MM-dd HH:mm:ss）、市场名称、指数代码、指数名称、市盈率TTM估值倍数、每股收益TTM指标、预期市盈率估值倍数等核心信息，可用于全球各权益市场的估值分析、指数估值对比等投研场景。",
+        "operationId": "list_macro_equity_val",
+        "requestBody": {
+          "description": "支持通过指定市场名称、时间范围（开始日期格式为yyyy-MM-dd，结束日期格式为yyyy-MM-dd），并可配合页码、页大小进行分页，查询全球权益市场的估值指标数据，返回截止日期（格式为yyyy-MM-dd HH:mm:ss）、市场名称、指数代码、指数名称、市盈率TTM估值倍数、每股收益TTM指标、预期市盈率估值倍数等核心信息，可用于全球各权益市场的估值分析、指数估值对比等投研场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "marketName": {
+                    "type": "string",
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "description": "United States代表美国,Canada代表加拿大,United Kingdom代表英国,France代表法国,Germany代表德国,Italy代表意大利,South Korea代表韩国,India代表印度,Japan代表日本,China代表中国,Hong Kong代表中国香港,Taiwan代表中国台湾,Australia代表澳大利亚,Global Equity Markets代表全球权益市场",
+                        "enum": [
+                          "UnitedStates"
+                        ]
+                      }
+                    ],
+                    "description": "市场名称，传入时优先于marketNames",
+                    "example": "United States"
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始截至日期，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束截至日期，格式yyyy-MM-dd",
+                    "example": "2026-08-14"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "endDate": {
+                      "type": "string",
+                      "description": "截至日期",
+                      "example": "2026-06-30 00:00:00"
+                    },
+                    "marketName": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "United States代表美国;\nCanada代表加拿大;\nUnited Kingdom代表英国;\nFrance代表法国;\nGermany代表德国;\nItaly代表意大利;\nSouth Korea代表韩国;\nIndia代表印度;\nJapan代表日本;\nChina代表中国;\nHong Kong代表中国香港;\nTaiwan代表中国台湾;\nAustralia代表澳大利亚;\nGlobal Equity Markets代表全球权益市场",
+                          "enum": [
+                            "UnitedStates",
+                            "Canada",
+                            "UnitedKingdom",
+                            "France",
+                            "Germany",
+                            "Italy",
+                            "SouthKorea",
+                            "India",
+                            "Japan",
+                            "China",
+                            "HongKong",
+                            "Taiwan",
+                            "Australia",
+                            "GlobalEquityMarkets"
+                          ]
+                        }
+                      ],
+                      "description": "市场名称",
+                      "example": "United States"
+                    },
+                    "indexCode": {
+                      "type": "string",
+                      "description": "代表指数代码",
+                      "example": "SPX"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数名称",
+                      "example": "S&P 500"
+                    },
+                    "peTtm": {
+                      "type": "number",
+                      "description": "市盈率TTM估值倍数",
+                      "example": 24.75
+                    },
+                    "epsTtm": {
+                      "type": "number",
+                      "description": "每股收益TTM指数",
+                      "example": 112.35
+                    },
+                    "peForward": {
+                      "type": "number",
+                      "description": "预期市盈率估值倍数",
+                      "example": 21.63
                     },
                     "pageNum": {
                       "type": "integer",

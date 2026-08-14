@@ -4284,7 +4284,7 @@
                   "toolId": "list_macro_retail_area",
                   "apiPath": "macro/retail-sales-area",
                   "enabled": 1,
-                  "apiAccessLevel": null,
+                  "apiAccessLevel": "L1",
                   "apiVisibility": "external",
                   "apiMethod": "POST"
                 },
@@ -4342,7 +4342,7 @@
                   "remarks": null,
                   "toolName": "list_macro_soc_fin",
                   "toolId": "list_macro_soc_fin",
-                  "apiPath": "/macro/social-financing-flow",
+                  "apiPath": "macro/social-financing-flow",
                   "enabled": 1,
                   "apiAccessLevel": "L1",
                   "apiVisibility": "external",
@@ -4426,6 +4426,38 @@
               "isShow": 1,
               "children": [],
               "apis": []
+            },
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11173,
+              "groupName": "国际宏观",
+              "groupDesc": null,
+              "parentId": 1113,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 1,
+              "children": [],
+              "apis": [
+                {
+                  "apiId": 110693,
+                  "apiName": "全球权益市场估值指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11173,
+                  "remarks": null,
+                  "toolName": "list_macro_equity_val",
+                  "toolId": "list_macro_equity_val",
+                  "apiPath": "macro/equity-valuations",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
             }
           ],
           "apis": []
@@ -6083,6 +6115,38 @@
               "apiPath": "cb/valuation",
               "enabled": 1,
               "apiAccessLevel": "L2",
+              "apiVisibility": "external",
+              "apiMethod": "POST"
+            }
+          ]
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 11172,
+          "groupName": "现货",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 1,
+          "children": [],
+          "apis": [
+            {
+              "apiId": 110692,
+              "apiName": "现货每日行情",
+              "apiType": "SQL",
+              "apiStatus": "release",
+              "groupId": 11172,
+              "remarks": null,
+              "toolName": "list_macro_spot_quotes",
+              "toolId": "list_macro_spot_quotes",
+              "apiPath": "macro/spot-quotes",
+              "enabled": 1,
+              "apiAccessLevel": "L1",
               "apiVisibility": "external",
               "apiMethod": "POST"
             }

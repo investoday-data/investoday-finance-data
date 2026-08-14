@@ -114,6 +114,7 @@ The reference documents themselves are currently maintained in Chinese.
 
 - [价格指数](../references/宏观经济/国内宏观/价格指数.md)
 - [国内宏观](../references/宏观经济/国内宏观.md)
+- [国际宏观](../references/宏观经济/国际宏观.md)
 
 ## 大模型语料
 
@@ -166,3 +167,7 @@ The reference documents themselves are currently maintained in Chinese.
 ## 债券
 
 - [债券](../references/债券.md)
+
+## 现货
+
+- [现货](../references/现货.md)
