@@ -6446,6 +6446,424 @@
           }
         ]
       },
+      "post": {
+        "tags": [
+          "分析师行业景气度"
+        ],
+        "summary": "分析师行业景气度",
+        "description": "通过必填的申万行业代码，可结合发布日期范围（格式yyyy-MM-dd）、分页参数，查询申万行业体系下的分析师行业景气度数据，包含行业代码、行业名称、发布日期、行业体系信息，以及净利润、每股收益、净资产收益率、营业收入的T+1、T+2调整率及方向标签，还有同比增速、3年复合增长率的调整率及方向标签，以及景气度指标，可用于行业盈利预测跟踪、景气度分析等投研场景。",
+        "operationId": "list_industry_pros_idx",
+        "parameters": [
+          {
+            "name": "industryCode",
+            "in": "query",
+            "description": "申万行业代码",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "740000"
+            }
+          },
+          {
+            "name": "beginDate",
+            "in": "query",
+            "description": "开始发布日期，格式yyyy-MM-dd。\n最小值:2020-01-01;",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2025-01-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束发布日期，格式yyyy-MM-dd",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2026-08-18"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "通过必填的申万行业代码，可结合发布日期范围（格式yyyy-MM-dd）、分页参数，查询申万行业体系下的分析师行业景气度数据，包含行业代码、行业名称、发布日期、行业体系信息，以及净利润、每股收益、净资产收益率、营业收入的T+1、T+2调整率及方向标签，还有同比增速、3年复合增长率的调整率及方向标签，以及景气度指标，可用于行业盈利预测跟踪、景气度分析等投研场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "740000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "计算机"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-08-18 00:00:00"
+                    },
+                    "industrySystem": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "4代表申万行业体系",
+                          "enum": [
+                            4
+                          ]
+                        }
+                      ],
+                      "description": "行业体系",
+                      "example": 4
+                    },
+                    "netProfitT1Mom": {
+                      "type": "number",
+                      "description": "一致预测净利润(T+1)相对上月修正率，0.0250表示上调2.5%",
+                      "example": 0.025
+                    },
+                    "netProfitT1MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测净利润(T+1)月度修正标签：上调至少1%为1，下调至少1%为-1，其他为0",
+                      "example": 1
+                    },
+                    "epsT1Mom": {
+                      "type": "number",
+                      "description": "一致预测每股收益(T+1)相对上月修正率",
+                      "example": 0.018
+                    },
+                    "epsT1MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测每股收益(T+1)月度修正标签",
+                      "example": 1
+                    },
+                    "roeT1Mom": {
+                      "type": "number",
+                      "description": "一致预测ROE(T+1)相对上月修正率",
+                      "example": 0.012
+                    },
+                    "roeT1MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测ROE(T+1)月度修正标签",
+                      "example": 1
+                    },
+                    "revenueT1Mom": {
+                      "type": "number",
+                      "description": "一致预测营业收入(T+1)相对上月修正率",
+                      "example": 0.016
+                    },
+                    "revenueT1MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测营业收入(T+1)月度修正标签",
+                      "example": 1
+                    },
+                    "netProfitT2Mom": {
+                      "type": "number",
+                      "description": "一致预测净利润(T+2)相对上月修正率",
+                      "example": 0.021
+                    },
+                    "netProfitT2MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测净利润(T+2)月度修正标签",
+                      "example": 1
+                    },
+                    "epsT2Mom": {
+                      "type": "number",
+                      "description": "一致预测每股收益(T+2)相对上月修正率",
+                      "example": 0.017
+                    },
+                    "epsT2MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测每股收益(T+2)月度修正标签",
+                      "example": 1
+                    },
+                    "roeT2Mom": {
+                      "type": "number",
+                      "description": "一致预测ROE(T+2)相对上月修正率",
+                      "example": 0.011
+                    },
+                    "roeT2MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测ROE(T+2)月度修正标签",
+                      "example": 1
+                    },
+                    "revenueT2Mom": {
+                      "type": "number",
+                      "description": "一致预测营业收入(T+2)相对上月修正率",
+                      "example": 0.014
+                    },
+                    "revenueT2MomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测营业收入(T+2)月度修正标签",
+                      "example": 1
+                    },
+                    "netProfitYoyMom": {
+                      "type": "number",
+                      "description": "一致预测净利润同比增速相对上月的修正率",
+                      "example": 0.03
+                    },
+                    "netProfitYoyMomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测净利润同比增速月度修正标签",
+                      "example": 1
+                    },
+                    "roeYoyMom": {
+                      "type": "number",
+                      "description": "一致预测ROE同比增速相对上月的修正率",
+                      "example": -0.012
+                    },
+                    "roeYoyMomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测ROE同比增速月度修正标签",
+                      "example": -1
+                    },
+                    "revenueYoyMom": {
+                      "type": "number",
+                      "description": "一致预测营业收入同比增速相对上月的修正率",
+                      "example": 0.019
+                    },
+                    "revenueYoyMomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测营业收入同比增速月度修正标签",
+                      "example": 1
+                    },
+                    "netProfitCagr3yMom": {
+                      "type": "number",
+                      "description": "一致预测净利润未来3年CAGR相对上月的修正率",
+                      "example": 0.022
+                    },
+                    "netProfitCagr3yMomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测净利润未来3年CAGR月度修正标签",
+                      "example": 1
+                    },
+                    "revenueCagr3yMom": {
+                      "type": "number",
+                      "description": "一致预测营业收入未来3年CAGR相对上月的修正率",
+                      "example": 0.015
+                    },
+                    "revenueCagr3yMomTag": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "-1代表下调,0代表中性,1代表上调",
+                          "enum": [
+                            -1
+                          ]
+                        }
+                      ],
+                      "description": "一致预测营业收入未来3年CAGR月度修正标签",
+                      "example": 1
+                    },
+                    "prosperity": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "景气度",
+                      "example": 5
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
       "x-apikey-supported": [
         "resource"
       ]

@@ -2987,6 +2987,21 @@
                   "apiAccessLevel": "L2",
                   "apiVisibility": "external",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110694,
+                  "apiName": "分析师行业景气度",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1075,
+                  "remarks": null,
+                  "toolName": "list_industry_pros_idx",
+                  "toolId": "list_industry_pros_idx",
+                  "apiPath": "industry/prosperity-index",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             }
