@@ -52383,7 +52383,7 @@
           {
             "name": "stockCode",
             "in": "query",
-            "description": "股票代码",
+            "description": "股票代码【与industryCode、institutionCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -52393,7 +52393,7 @@
           {
             "name": "industryCode",
             "in": "query",
-            "description": "行业代码",
+            "description": "行业代码【与stockCode、institutionCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -52403,7 +52403,7 @@
           {
             "name": "institutionCode",
             "in": "query",
-            "description": "机构代码",
+            "description": "机构代码【与stockCode、industryCode、categoryCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
@@ -52413,7 +52413,7 @@
           {
             "name": "categoryCode",
             "in": "query",
-            "description": "分类代码",
+            "description": "分类代码【与stockCode、industryCode、institutionCode组成多选多参数，必须传递其中一个至多个】",
             "required": false,
             "schema": {
               "type": "string",
