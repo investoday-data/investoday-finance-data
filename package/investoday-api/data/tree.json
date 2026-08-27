@@ -3085,6 +3085,21 @@
               "children": [],
               "apis": [
                 {
+                  "apiId": 10150,
+                  "apiName": "指数行情技术指标",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1045,
+                  "remarks": null,
+                  "toolName": "list_index_technical_indicators",
+                  "toolId": "list_index_technical_indicators",
+                  "apiPath": "index/technical-indicators",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "GET"
+                },
+                {
                   "apiId": 110507,
                   "apiName": "指数估值信息",
                   "apiType": "SQL",

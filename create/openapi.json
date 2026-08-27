@@ -2593,6 +2593,322 @@
         "resource"
       ]
     },
+    "/index/technical-indicators": {
+      "get": {
+        "tags": [
+          "指数行情技术指标"
+        ],
+        "summary": "指数行情技术指标",
+        "description": "通过指数代码获取指定指数的技术指标数据，包括最新趋势、52周最高/最低点、不同时间维度的涨跌幅、市场热度、主力资金流向、夏普比率、年化波动率及收益率等核心指标，适用于市场分析和投资决策。",
+        "operationId": "list_index_technical_indicators",
+        "parameters": [
+          {
+            "name": "indexCode",
+            "in": "query",
+            "description": "指数代码",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "000001"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-09-18"
+                    },
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000001"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数名称",
+                      "example": "上证指数"
+                    },
+                    "latestTrend": {
+                      "type": "string",
+                      "description": "最新趋势",
+                      "example": "上涨"
+                    },
+                    "high52Week": {
+                      "type": "number",
+                      "description": "52周最高",
+                      "example": 3500.25
+                    },
+                    "low52Week": {
+                      "type": "number",
+                      "description": "52周最低",
+                      "example": 2800.15
+                    },
+                    "weeklyReturn": {
+                      "type": "number",
+                      "description": "一周涨跌幅(%)",
+                      "example": 0.3974
+                    },
+                    "oneMRETURNPct": {
+                      "type": "number",
+                      "description": "一月涨跌幅(%)",
+                      "example": -0.3734
+                    },
+                    "threeMonthReturn": {
+                      "type": "number",
+                      "description": "三月涨跌幅(%)",
+                      "example": 2.5926
+                    },
+                    "halfYearReturn": {
+                      "type": "number",
+                      "description": "半年涨跌幅(%)",
+                      "example": -3.2036
+                    },
+                    "oneYearReturn": {
+                      "type": "number",
+                      "description": "一年涨跌幅(%)",
+                      "example": 5.5032
+                    },
+                    "marketWeather": {
+                      "type": "string",
+                      "description": "市场天气",
+                      "example": "晴"
+                    },
+                    "oneDayReturn": {
+                      "type": "number",
+                      "description": "一日涨跌幅(%)",
+                      "example": 0.8685
+                    },
+                    "peUndervaluedCriticalValue": {
+                      "type": "number",
+                      "description": "PE低估临界值",
+                      "example": 10
+                    },
+                    "peHighOvervaluedCriticalValue": {
+                      "type": "number",
+                      "description": "PE高估临界值",
+                      "example": 30
+                    },
+                    "pbLowCriticalValue": {
+                      "type": "number",
+                      "description": "PB低估临界值",
+                      "example": 1
+                    },
+                    "pbHighOvervaluedThreshold": {
+                      "type": "string",
+                      "description": "PB高估临界值",
+                      "example": "3.0"
+                    },
+                    "peValuationPercentile": {
+                      "type": "number",
+                      "description": "PE估值百分位",
+                      "example": 80
+                    },
+                    "pbValuationPercentile": {
+                      "type": "number",
+                      "description": "PB估值百分位",
+                      "example": 65
+                    },
+                    "applicableValuationIndex": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "适用估值指标（只适用ETF基准指数）",
+                      "example": 1
+                    },
+                    "marketHeat": {
+                      "type": "number",
+                      "description": "市场热度",
+                      "example": 0.72
+                    },
+                    "return3Y": {
+                      "type": "number",
+                      "description": "三年涨跌幅(%)",
+                      "example": 29.2451
+                    },
+                    "ytdReturn": {
+                      "type": "number",
+                      "description": "今年以来涨跌幅(%)",
+                      "example": 6.233
+                    },
+                    "last20DaysMainInflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近20日主力流入(万元)",
+                      "example": 52000
+                    },
+                    "last20DaysMainOutflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近20日主力流出(万元)",
+                      "example": 48000
+                    },
+                    "last20DaysMainNetFlowPer10KUnits": {
+                      "type": "number",
+                      "description": "近20日主力净流(万元)",
+                      "example": 4000
+                    },
+                    "last10DaysMainInflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近10日主力流入(万元)",
+                      "example": 31000
+                    },
+                    "last10DaysMainOutflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近10日主力流出(万元)",
+                      "example": 29500
+                    },
+                    "latest10DaysMainNetFlowPer10KUnits": {
+                      "type": "string",
+                      "description": "近10日主力净流(万元)",
+                      "example": "1500.0"
+                    },
+                    "last5DaysMainInflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近5日主力流入(万元)",
+                      "example": 18000
+                    },
+                    "last5DaysMainOutflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近5日主力流出(万元)",
+                      "example": 17500
+                    },
+                    "last5DaysMainNetFlowIn10k": {
+                      "type": "number",
+                      "description": "近5日主力净流(万元)",
+                      "example": 500
+                    },
+                    "last3DaysMainInflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近3日主力流入(万元)",
+                      "example": 9500
+                    },
+                    "last3DaysMainOutflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近3日主力流出(万元)",
+                      "example": 9000
+                    },
+                    "last3DaysMainNetFlowIn10K": {
+                      "type": "number",
+                      "description": "近3日主力净流(万元)",
+                      "example": 500
+                    },
+                    "rct1DayMainInflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近1日主力流入(万元)",
+                      "example": 4000
+                    },
+                    "latest1DayMainOutflowPer10KUnits": {
+                      "type": "number",
+                      "description": "近1日主力流出(万元)",
+                      "example": 3800
+                    },
+                    "last1DayMainNetFlowIn10kYuan": {
+                      "type": "number",
+                      "description": "近1日主力净流(万元)",
+                      "example": 200
+                    },
+                    "sharpeRatio3Y": {
+                      "type": "number",
+                      "description": "近3年夏普比率",
+                      "example": 0.85
+                    },
+                    "last3YAnnualVolatility": {
+                      "type": "number",
+                      "description": "近3年年化波动率",
+                      "example": 18.25
+                    },
+                    "last3YAnnualizedYield": {
+                      "type": "number",
+                      "description": "近3年年化收益率",
+                      "example": 7.1
+                    },
+                    "sharpeRatio1Y": {
+                      "type": "number",
+                      "description": "近1年夏普比率",
+                      "example": 0.72
+                    },
+                    "annualVolatility1Y": {
+                      "type": "number",
+                      "description": "近1年年化波动率",
+                      "example": 16.4
+                    },
+                    "latest1YAnnualYield": {
+                      "type": "number",
+                      "description": "近1年年化收益率",
+                      "example": 5.8
+                    },
+                    "sharpeRatio6M": {
+                      "type": "number",
+                      "description": "近6月夏普比率",
+                      "example": 0.6
+                    },
+                    "last6MAnnualVolatility": {
+                      "type": "number",
+                      "description": "近6月年化波动率",
+                      "example": 14.2
+                    },
+                    "latest6MAnnualizedYield": {
+                      "type": "string",
+                      "description": "近6月年化收益率",
+                      "example": "4.52"
+                    },
+                    "sharpeRatio3M": {
+                      "type": "number",
+                      "description": "近3月夏普比率",
+                      "example": 0.48
+                    },
+                    "last3MAnnualVolatility": {
+                      "type": "number",
+                      "description": "近3月年化波动率",
+                      "example": 12.05
+                    },
+                    "latest3MAnnualYield": {
+                      "type": "number",
+                      "description": "近3月年化收益率",
+                      "example": 3.2
+                    },
+                    "sharpeRatio1M": {
+                      "type": "number",
+                      "description": "近1月夏普比率",
+                      "example": 0.35
+                    },
+                    "latest1MAnnualVolatility": {
+                      "type": "number",
+                      "description": "近1月年化波动率",
+                      "example": 10.1
+                    },
+                    "recent1MAnnualizedYield": {
+                      "type": "number",
+                      "description": "近1月年化收益率",
+                      "example": 2.1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
     "/research/sentiment": {
       "post": {
         "tags": [
@@ -58349,12 +58665,12 @@
                 "properties": {
                   "cbCode": {
                     "type": "string",
-                    "description": "可转债代码【与cbCodes组成多选一参数，必须且只能传递其中一个】",
+                    "description": "可转债代码",
                     "example": "110059"
                   },
                   "cbCodes": {
                     "type": "array",
-                    "description": "可转债代码列表【与cbCode组成多选一参数，必须且只能传递其中一个】",
+                    "description": "可转债代码列表",
                     "example": [
                       "110059",
                       "113052"
