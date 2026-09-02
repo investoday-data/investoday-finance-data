@@ -8065,358 +8065,6 @@
         "resource"
       ]
     },
-    "/stock/financial-indicators-growth": {
-      "get": {
-        "tags": [
-          "财务指标（成长能力）"
-        ],
-        "summary": "财务指标（成长能力）",
-        "description": "通过股票代码和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入和净利润的同比增长率，用于评估公司的成长潜力和财务健康状况。",
-        "operationId": "get_stock_fin_ind_growth",
-        "parameters": [
-          {
-            "name": "stockCode",
-            "in": "query",
-            "description": "股票代码",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "002594"
-            }
-          },
-          {
-            "name": "beginDate",
-            "in": "query",
-            "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2020-01-01"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "description": "结束日期（格式yyyy-MM-dd）",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "2025-01-01"
-            }
-          },
-          {
-            "name": "pageNum",
-            "in": "query",
-            "description": "页码。\n最小值:1;",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "页长。\n最小值:1;\n最大值:500;",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "example": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "stockCode": {
-                      "type": "string",
-                      "description": "股票代码",
-                      "example": "000001"
-                    },
-                    "stockName": {
-                      "type": "string",
-                      "description": "股票名称",
-                      "example": "平安银行"
-                    },
-                    "publishDate": {
-                      "type": "string",
-                      "description": "披露日期",
-                      "example": "2023-08-25"
-                    },
-                    "reportPeriodEnd": {
-                      "type": "string",
-                      "description": "报告期截止日",
-                      "example": "2023-12-31"
-                    },
-                    "revenueYoy": {
-                      "type": "number",
-                      "description": "营业收入同比",
-                      "example": 0.356
-                    },
-                    "revGrowth1y": {
-                      "type": "number",
-                      "description": "业务收入1年平均增长率",
-                      "example": 0.2
-                    },
-                    "npGrowth1y": {
-                      "type": "number",
-                      "description": "净利润1年平均增长率",
-                      "example": 0.1
-                    },
-                    "epsGrowth1y": {
-                      "type": "number",
-                      "description": "每股收益1年平均增长率",
-                      "example": 0.452
-                    },
-                    "taGrowth1y": {
-                      "type": "number",
-                      "description": "总资产1年平均增长率",
-                      "example": 0.11
-                    },
-                    "npRecurringGrowth1y": {
-                      "type": "number",
-                      "description": "经常性业务产生的净利润1年平均增长率",
-                      "example": 0.25
-                    },
-                    "opProfitGrowth1y": {
-                      "type": "number",
-                      "description": "业务利润1年平均增长率",
-                      "example": 0.33
-                    },
-                    "cfoGrowth1y": {
-                      "type": "number",
-                      "description": "经营活动产生的现金流量净额1年平均增长率",
-                      "example": 0.1
-                    },
-                    "equityGrowth1y": {
-                      "type": "number",
-                      "description": "净资产1年平均增长率",
-                      "example": 0.2
-                    },
-                    "netProfitYoy": {
-                      "type": "number",
-                      "description": "净利润同比增长率",
-                      "example": 0.3399886574
-                    },
-                    "pageNum": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "page number",
-                      "example": 1
-                    },
-                    "pageSize": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "page size",
-                      "example": 100
-                    },
-                    "totalCount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "total count",
-                      "example": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "财务指标（成长能力）"
-        ],
-        "summary": "财务指标（成长能力）",
-        "description": "通过股票代码（单个或批量）和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入和净利润的同比增长率，用于评估公司的成长潜力和财务健康状况。",
-        "operationId": "list_stock_fin_ind_growth",
-        "requestBody": {
-          "description": "通过股票代码（单个或批量）和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入和净利润的同比增长率，用于评估公司的成长潜力和财务健康状况。",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "stockCode": {
-                    "type": "string",
-                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
-                    "example": "002594"
-                  },
-                  "stockCodes": {
-                    "type": "array",
-                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
-                    "example": [
-                      "000001",
-                      "600519"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "beginDate": {
-                    "type": "string",
-                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
-                    "example": "2020-01-01"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "description": "结束日期（格式yyyy-MM-dd）",
-                    "example": "2025-01-01"
-                  },
-                  "pageNum": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "页码。\n最小值:1;",
-                    "example": 1
-                  },
-                  "pageSize": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "页长。\n最小值:1;\n最大值:500;",
-                    "example": 10
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "成功响应",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "stockCode": {
-                      "type": "string",
-                      "description": "股票代码",
-                      "example": "000001"
-                    },
-                    "stockName": {
-                      "type": "string",
-                      "description": "股票名称",
-                      "example": "平安银行"
-                    },
-                    "publishDate": {
-                      "type": "string",
-                      "description": "披露日期",
-                      "example": "2023-08-25"
-                    },
-                    "reportPeriodEnd": {
-                      "type": "string",
-                      "description": "报告期截止日",
-                      "example": "2023-12-31"
-                    },
-                    "revenueYoy": {
-                      "type": "number",
-                      "description": "营业收入同比",
-                      "example": 0.356
-                    },
-                    "revGrowth1y": {
-                      "type": "number",
-                      "description": "业务收入1年平均增长率",
-                      "example": 0.2
-                    },
-                    "npGrowth1y": {
-                      "type": "number",
-                      "description": "净利润1年平均增长率",
-                      "example": 0.1
-                    },
-                    "epsGrowth1y": {
-                      "type": "number",
-                      "description": "每股收益1年平均增长率",
-                      "example": 0.452
-                    },
-                    "taGrowth1y": {
-                      "type": "number",
-                      "description": "总资产1年平均增长率",
-                      "example": 0.11
-                    },
-                    "npRecurringGrowth1y": {
-                      "type": "number",
-                      "description": "经常性业务产生的净利润1年平均增长率",
-                      "example": 0.25
-                    },
-                    "opProfitGrowth1y": {
-                      "type": "number",
-                      "description": "业务利润1年平均增长率",
-                      "example": 0.33
-                    },
-                    "cfoGrowth1y": {
-                      "type": "number",
-                      "description": "经营活动产生的现金流量净额1年平均增长率",
-                      "example": 0.1
-                    },
-                    "equityGrowth1y": {
-                      "type": "number",
-                      "description": "净资产1年平均增长率",
-                      "example": 0.2
-                    },
-                    "netProfitYoy": {
-                      "type": "number",
-                      "description": "净利润同比增长率",
-                      "example": 0.3399886574
-                    },
-                    "pageNum": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "page number",
-                      "example": 1
-                    },
-                    "pageSize": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "page size",
-                      "example": 100
-                    },
-                    "totalCount": {
-                      "type": "integer",
-                      "format": "int32",
-                      "description": "total count",
-                      "example": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "无效请求"
-          },
-          "500": {
-            "description": "服务器内部错误"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "x-apikey-supported": [
-        "resource"
-      ]
-    },
     "/hk-stock/cash-flows": {
       "get": {
         "tags": [
@@ -36466,6 +36114,183 @@
                       "type": "number",
                       "description": "每股股东自由现金流",
                       "example": 0.0728
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/stock/financial-indicators-growth": {
+      "post": {
+        "tags": [
+          "财务指标（成长能力）"
+        ],
+        "summary": "财务指标（成长能力）",
+        "description": "通过股票代码（单个或批量）和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入和净利润的同比增长率，用于评估公司的成长潜力和财务健康状况。",
+        "operationId": "list_stock_fin_ind_growth",
+        "requestBody": {
+          "description": "通过股票代码（单个或批量）和报告期截止日期范围（格式为yyyy-MM-dd），查询沪深京股票的财务成长能力指标，包括营业收入、净利润、每股收益、总资产、经营性净利润、营业利润、经营活动现金流量净额、净资产等关键财务指标的一年平均增长率以及营业收入和净利润的同比增长率，用于评估公司的成长潜力和财务健康状况。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stockCode": {
+                    "type": "string",
+                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "stockCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2020-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockCode": {
+                      "type": "string",
+                      "description": "股票代码",
+                      "example": "000001"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "股票名称",
+                      "example": "平安银行"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "披露日期",
+                      "example": "2023-08-25"
+                    },
+                    "reportPeriodEnd": {
+                      "type": "string",
+                      "description": "报告期截止日",
+                      "example": "2023-12-31"
+                    },
+                    "revenueYoy": {
+                      "type": "number",
+                      "description": "营业收入同比",
+                      "example": 0.356
+                    },
+                    "revGrowth1y": {
+                      "type": "number",
+                      "description": "业务收入1年平均增长率",
+                      "example": 0.2
+                    },
+                    "npGrowth1y": {
+                      "type": "number",
+                      "description": "净利润1年平均增长率",
+                      "example": 0.1
+                    },
+                    "epsGrowth1y": {
+                      "type": "number",
+                      "description": "每股收益1年平均增长率",
+                      "example": 0.452
+                    },
+                    "taGrowth1y": {
+                      "type": "number",
+                      "description": "总资产1年平均增长率",
+                      "example": 0.11
+                    },
+                    "npRecurringGrowth1y": {
+                      "type": "number",
+                      "description": "经常性业务产生的净利润1年平均增长率",
+                      "example": 0.25
+                    },
+                    "opProfitGrowth1y": {
+                      "type": "number",
+                      "description": "业务利润1年平均增长率",
+                      "example": 0.33
+                    },
+                    "cfoGrowth1y": {
+                      "type": "number",
+                      "description": "经营活动产生的现金流量净额1年平均增长率",
+                      "example": 0.1
+                    },
+                    "equityGrowth1y": {
+                      "type": "number",
+                      "description": "净资产1年平均增长率",
+                      "example": 0.2
+                    },
+                    "netProfitYoy": {
+                      "type": "number",
+                      "description": "净利润同比增长率",
+                      "example": 0.3399886574
                     },
                     "pageNum": {
                       "type": "integer",

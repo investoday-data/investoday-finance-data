@@ -897,21 +897,6 @@
                   "children": [],
                   "apis": [
                     {
-                      "apiId": 10355,
-                      "apiName": "财务指标（成长能力）",
-                      "apiType": "SQL",
-                      "apiStatus": "release",
-                      "groupId": 1101,
-                      "remarks": null,
-                      "toolName": "get_stock_fin_ind_growth",
-                      "toolId": "get_stock_fin_ind_growth",
-                      "apiPath": "stock/financial-indicators-growth",
-                      "enabled": 1,
-                      "apiAccessLevel": "L2",
-                      "apiVisibility": "external",
-                      "apiMethod": "GET"
-                    },
-                    {
                       "apiId": 110558,
                       "apiName": "财务衍生指标",
                       "apiType": "SQL",
