@@ -2940,6 +2940,51 @@
                   "apiAccessLevel": "L2",
                   "apiVisibility": "external",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110696,
+                  "apiName": "行业与ETF映射",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1070,
+                  "remarks": null,
+                  "toolName": "list_industry_etf_mapping",
+                  "toolId": "list_industry_etf_mapping",
+                  "apiPath": "industry/etf-mapping",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110697,
+                  "apiName": "概念与ETF映射",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1070,
+                  "remarks": null,
+                  "toolName": "list_concept_etf_mapping",
+                  "toolId": "list_concept_etf_mapping",
+                  "apiPath": "concept/etf-mapping",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110698,
+                  "apiName": "行业概念映射",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1070,
+                  "remarks": null,
+                  "toolName": "list_idu_concept_mappings",
+                  "toolId": "list_idu_concept_mappings",
+                  "apiPath": "industry/concept-mappings",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -3220,6 +3265,38 @@
                   "apiPath": "index/sample-history",
                   "enabled": 1,
                   "apiAccessLevel": "L1",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
+            },
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11174,
+              "groupName": "特色数据",
+              "groupDesc": null,
+              "parentId": 1006,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 1,
+              "children": [],
+              "apis": [
+                {
+                  "apiId": 110702,
+                  "apiName": "指数行业暴露",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11174,
+                  "remarks": null,
+                  "toolName": "list_idx_idu_exposure",
+                  "toolId": "list_idx_idu_exposure",
+                  "apiPath": "index/industry-exposure",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
                   "apiVisibility": "external",
                   "apiMethod": "POST"
                 }

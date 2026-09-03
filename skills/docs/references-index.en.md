@@ -73,6 +73,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [技术指标](../references/指数/技术指标.md)
 - [行情衍生数据](../references/指数/行情衍生数据.md)
 - [指数资料](../references/指数/指数资料.md)
+- [特色数据](../references/指数/特色数据.md)
 
 ## 新闻与观点
 

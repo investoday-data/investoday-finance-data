@@ -61867,6 +61867,776 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/industry/etf-mapping": {
+      "post": {
+        "tags": [
+          "行业与ETF映射"
+        ],
+        "summary": "行业与ETF映射",
+        "description": "支持通过行业代码列表、基金代码列表、年报持仓最小占比进行多条件筛选，分页查询行业与ETF的双向映射关系数据，包含发布日期、报告截止日期、行业代码、名称、级别，以及ETF的内部编码、交易代码、名称、规模，还有最新报告、季报、年报中该行业占ETF总资产、净资产的比例，以及穿透后的净资产占比，可用于构建行业与ETF的关联关系、分析ETF的行业持仓结构、筛选符合持仓占比要求的ETF等投研场景",
+        "operationId": "list_industry_etf_mapping",
+        "requestBody": {
+          "description": "支持通过行业代码列表、基金代码列表、年报持仓最小占比进行多条件筛选，分页查询行业与ETF的双向映射关系数据，包含发布日期、报告截止日期、行业代码、名称、级别，以及ETF的内部编码、交易代码、名称、规模，还有最新报告、季报、年报中该行业占ETF总资产、净资产的比例，以及穿透后的净资产占比，可用于构建行业与ETF的关联关系、分析ETF的行业持仓结构、筛选符合持仓占比要求的ETF等投研场景",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表（通过行业列表获取）【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "640000",
+                      "730000"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表（通过基金基本信息获取）【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "512720",
+                      "515880"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "minAnnualWeight": {
+                    "type": "number",
+                    "description": "年报占基金总资产的最小持仓比重。\n最小值:0;\n最大值:100;",
+                    "example": 20
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-09-01 00:00:00"
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "报告截止日期",
+                      "example": "2026-06-30 00:00:00"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "640000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "计算机"
+                    },
+                    "industryLevel": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表一级行业,2代表二级行业,3代表三级行业",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "行业级别",
+                      "example": 1
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "000001JK"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "512720"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "计算机ETF"
+                    },
+                    "fundScale": {
+                      "type": "number",
+                      "description": "基金规模",
+                      "example": 35.2
+                    },
+                    "holdingAssetLatest": {
+                      "type": "number",
+                      "description": "最新报告占基金总资产比重",
+                      "example": 35.2
+                    },
+                    "holdingAssetQuarterly": {
+                      "type": "number",
+                      "description": "季报占基金总资产比重",
+                      "example": 33.8
+                    },
+                    "holdingAssetAnnual": {
+                      "type": "number",
+                      "description": "年报占基金总资产比重",
+                      "example": 32.6
+                    },
+                    "holdingNavLatest": {
+                      "type": "number",
+                      "description": "最新报告占基金净资产比重",
+                      "example": 36.1
+                    },
+                    "holdingNavQuarterly": {
+                      "type": "number",
+                      "description": "季报占基金净资产比重",
+                      "example": 34.5
+                    },
+                    "holdingNavAnnual": {
+                      "type": "number",
+                      "description": "年报占基金净资产比重",
+                      "example": 33.2
+                    },
+                    "holdingNavLookthrough": {
+                      "type": "number",
+                      "description": "穿透后占基金净资产比重",
+                      "example": 37
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/concept/etf-mapping": {
+      "post": {
+        "tags": [
+          "概念与ETF映射"
+        ],
+        "summary": "概念与ETF映射",
+        "description": "支持通过概念代码列表、ETF代码列表，或设置年报/半年报概念持仓比例下限进行筛选，分页查询概念与ETF的双向映射关系数据，包含概念的代码、类别、名称，ETF的代码、名称、规模，以及最新报告、季报、年报中该概念在对应ETF中的持仓比例，还有报告发布日期、最新报告截止日期、年报/半年报截止日期等信息，可用于分析概念与ETF的关联度、ETF跟踪标的情况等投研场景。",
+        "operationId": "list_concept_etf_mapping",
+        "requestBody": {
+          "description": "支持通过概念代码列表、ETF代码列表，或设置年报/半年报概念持仓比例下限进行筛选，分页查询概念与ETF的双向映射关系数据，包含概念的代码、类别、名称，ETF的代码、名称、规模，以及最新报告、季报、年报中该概念在对应ETF中的持仓比例，还有报告发布日期、最新报告截止日期、年报/半年报截止日期等信息，可用于分析概念与ETF的关联度、ETF跟踪标的情况等投研场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conceptCodes": {
+                    "type": "array",
+                    "description": "概念代码列表（通过概念列表获取）【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "CLS80006",
+                      "CLS80003"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与conceptCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "512480",
+                      "515880"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "minAnnualWeight": {
+                    "type": "number",
+                    "description": "年报或半年报概念持仓比例下限。\n最小值:0;\n最大值:100;",
+                    "example": 20
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-09-01 00:00:00"
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "最新报告截止日期",
+                      "example": "2026-06-30 00:00:00"
+                    },
+                    "annualEndDate": {
+                      "type": "string",
+                      "description": "年报或半年报截止日期",
+                      "example": "2025-12-31 00:00:00"
+                    },
+                    "conceptCode": {
+                      "type": "string",
+                      "description": "概念代码",
+                      "example": "CLS80006"
+                    },
+                    "conceptCategory": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "C01代表财联社概念板块",
+                          "enum": [
+                            "C01"
+                          ]
+                        }
+                      ],
+                      "description": "概念类别",
+                      "example": "C01"
+                    },
+                    "conceptName": {
+                      "type": "string",
+                      "description": "概念名称",
+                      "example": "人工智能"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "000001JK"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "512480"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "半导体ETF"
+                    },
+                    "fundScale": {
+                      "type": "number",
+                      "description": "基金规模",
+                      "example": 52.3
+                    },
+                    "holdingWeightLatest": {
+                      "type": "number",
+                      "description": "最新报告概念持仓比例",
+                      "example": 35.2
+                    },
+                    "holdingWeightQuarterly": {
+                      "type": "number",
+                      "description": "季报概念持仓比例",
+                      "example": 34.8
+                    },
+                    "holdingWeightAnnual": {
+                      "type": "number",
+                      "description": "年报或半年报概念持仓比例",
+                      "example": 33.5
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/concept-mappings": {
+      "post": {
+        "tags": [
+          "行业概念映射"
+        ],
+        "summary": "行业概念映射",
+        "description": "支持通过行业代码列表、概念代码列表、行业级别、发布日期范围（格式yyyy-MM-dd）、总市值占比最小值等多条件组合筛选，查询行业与概念的双向映射关联数据，包括发布日期（格式yyyy-MM-dd HH:mm:ss）、行业代码、行业体系、行业名称、行业级别、概念代码、概念名称、概念基于行业总市值的占比、概念基于行业流通市值的占比，可用于构建行业概念关联体系、投研中的行业概念权重分析等场景，支持分页查询。",
+        "operationId": "list_idu_concept_mappings",
+        "requestBody": {
+          "description": "支持通过行业代码列表、概念代码列表、行业级别、发布日期范围（格式yyyy-MM-dd）、总市值占比最小值等多条件组合筛选，查询行业与概念的双向映射关联数据，包括发布日期（格式yyyy-MM-dd HH:mm:ss）、行业代码、行业体系、行业名称、行业级别、概念代码、概念名称、概念基于行业总市值的占比、概念基于行业流通市值的占比，可用于构建行业概念关联体系、投研中的行业概念权重分析等场景，支持分页查询。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表【与conceptCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "640000",
+                      "730000"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "conceptCodes": {
+                    "type": "array",
+                    "description": "概念代码列表【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "CLS80006",
+                      "CLS80003"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "industryLevel": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表一级行业,2代表二级行业,3代表三级行业",
+                        "enum": [
+                          1
+                        ]
+                      }
+                    ],
+                    "description": "行业级别",
+                    "example": 1
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始发布日期（格式yyyy-MM-dd）",
+                    "example": "2026-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束发布日期（格式yyyy-MM-dd）",
+                    "example": "2026-09-01"
+                  },
+                  "minTotalCapWeight": {
+                    "type": "number",
+                    "description": "概念基于行业总市值的占比",
+                    "example": 0.2
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2026-09-01 00:00:00"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "730000"
+                    },
+                    "industryType": {
+                      "type": "string",
+                      "description": "行业体系",
+                      "example": "INDUS4_CL"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "通信"
+                    },
+                    "industryLevel": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表一级行业,2代表二级行业,3代表三级行业",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "行业级别",
+                      "example": 1
+                    },
+                    "conceptCode": {
+                      "type": "string",
+                      "description": "概念代码",
+                      "example": "CLS80006"
+                    },
+                    "conceptName": {
+                      "type": "string",
+                      "description": "概念名称",
+                      "example": "人工智能"
+                    },
+                    "weightTotalCap": {
+                      "type": "number",
+                      "description": "概念基于行业总市值的占比",
+                      "example": 0.35
+                    },
+                    "weightFreeFloatCap": {
+                      "type": "number",
+                      "description": "概念基于行业流通市值的占比",
+                      "example": 0.32
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/index/industry-exposure": {
+      "post": {
+        "tags": [
+          "指数行业暴露"
+        ],
+        "summary": "指数行业暴露",
+        "description": "支持通过指数代码列表或行业代码列表（二选一），结合指定查询日期（格式yyyy-MM-dd），可筛选行业级别、最小行业持仓权重等条件，查询指数的行业暴露数据，包括指数及对应行业的代码与名称、行业级别、行业在指数中的持仓权重，以及数据的生效日期（格式yyyy-MM-dd HH:mm:ss）和截止日期（格式yyyy-MM-dd HH:mm:ss），可用于分析指数的行业持仓分布、行业权重占比等投研分析场景，支持分页查询。",
+        "operationId": "list_idx_idu_exposure",
+        "requestBody": {
+          "description": "支持通过指数代码列表或行业代码列表（二选一），结合指定查询日期（格式yyyy-MM-dd），可筛选行业级别、最小行业持仓权重等条件，查询指数的行业暴露数据，包括指数及对应行业的代码与名称、行业级别、行业在指数中的持仓权重，以及数据的生效日期（格式yyyy-MM-dd HH:mm:ss）和截止日期（格式yyyy-MM-dd HH:mm:ss），可用于分析指数的行业持仓分布、行业权重占比等投研分析场景，支持分页查询。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "description": "指数代码列表，与industryCodes组成多选一参数【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000300",
+                      "000905"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表，与indexCodes组成多选一参数【与indexCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "640000",
+                      "730000"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "industryLevel": {
+                    "type": "integer",
+                    "format": "int32",
+                    "allOf": [
+                      {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "1代表一级行业,2代表二级行业,3代表三级行业",
+                        "enum": [
+                          1
+                        ]
+                      }
+                    ],
+                    "description": "行业级别",
+                    "example": 1
+                  },
+                  "queryDate": {
+                    "type": "string",
+                    "description": "关系有效日期（格式yyyy-MM-dd）",
+                    "example": "2026-09-01"
+                  },
+                  "minIndustryWeight": {
+                    "type": "number",
+                    "description": "行业在指数中的最小持仓比重。\n最小值:0;\n最大值:100;",
+                    "example": 10
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "queryDate"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": {
+                      "type": "string",
+                      "description": "生效日期",
+                      "example": "2026-08-01 00:00:00"
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "9999-12-31 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000300"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数名称",
+                      "example": "沪深300指数"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "480000"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "银行"
+                    },
+                    "industrySystemInt": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "4代表申万行业体系",
+                          "enum": [
+                            4
+                          ]
+                        }
+                      ],
+                      "description": "行业体系数字代码",
+                      "example": 4
+                    },
+                    "industryLevel": {
+                      "type": "integer",
+                      "format": "int32",
+                      "allOf": [
+                        {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "1代表一级行业,2代表二级行业,3代表三级行业",
+                          "enum": [
+                            1
+                          ]
+                        }
+                      ],
+                      "description": "行业级别",
+                      "example": 1
+                    },
+                    "industryWeight": {
+                      "type": "number",
+                      "description": "行业在指数中的持仓比重",
+                      "example": 12.35
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
