@@ -2677,6 +2677,21 @@
                   "apiAccessLevel": "L3",
                   "apiVisibility": "external",
                   "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110703,
+                  "apiName": "行业历史日行情",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1030,
+                  "remarks": null,
+                  "toolName": "list_industry_quote",
+                  "toolId": "list_industry_quote",
+                  "apiPath": "industry/quote",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             },
@@ -3295,6 +3310,38 @@
                   "toolName": "list_idx_idu_exposure",
                   "toolId": "list_idx_idu_exposure",
                   "apiPath": "index/industry-exposure",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
+            },
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11175,
+              "groupName": "财务数据",
+              "groupDesc": null,
+              "parentId": 1006,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 1,
+              "children": [],
+              "apis": [
+                {
+                  "apiId": 110704,
+                  "apiName": "指数财务数据",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11175,
+                  "remarks": null,
+                  "toolName": "list_index_finance",
+                  "toolId": "list_index_finance",
+                  "apiPath": "index/finance",
                   "enabled": 1,
                   "apiAccessLevel": "L2",
                   "apiVisibility": "external",
@@ -4517,7 +4564,23 @@
               "apiCount": 0,
               "isShow": 1,
               "children": [],
-              "apis": []
+              "apis": [
+                {
+                  "apiId": 110705,
+                  "apiName": "场内基金资金流向",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1146,
+                  "remarks": null,
+                  "toolName": "list_fund_flow",
+                  "toolId": "list_fund_flow",
+                  "apiPath": "fund/flow",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
             },
             {
               "createBy": null,
@@ -5149,7 +5212,23 @@
                   ]
                 }
               ],
-              "apis": []
+              "apis": [
+                {
+                  "apiId": 110706,
+                  "apiName": "基金融资融券交易明细",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11116,
+                  "remarks": null,
+                  "toolName": "list_fund_margin_trade",
+                  "toolId": "list_fund_margin_trade",
+                  "apiPath": "fund/margin-trade",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
             },
             {
               "createBy": null,

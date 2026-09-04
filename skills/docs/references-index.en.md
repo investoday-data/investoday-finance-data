@@ -74,6 +74,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [行情衍生数据](../references/指数/行情衍生数据.md)
 - [指数资料](../references/指数/指数资料.md)
 - [特色数据](../references/指数/特色数据.md)
+- [财务数据](../references/指数/财务数据.md)
 
 ## 新闻与观点
 
@@ -115,6 +116,7 @@ The reference documents themselves are currently maintained in Chinese.
 
 - [价格指数](../references/宏观经济/国内宏观/价格指数.md)
 - [国内宏观](../references/宏观经济/国内宏观.md)
+- [行情衍生数据](../references/宏观经济/行情衍生数据.md)
 - [国际宏观](../references/宏观经济/国际宏观.md)
 
 ## 大模型语料
@@ -138,6 +140,7 @@ The reference documents themselves are currently maintained in Chinese.
 - [基金事件与公告](../references/基金/基金资料/基金事件与公告.md)
 - [基金费率与规模](../references/基金/基金资料/基金费率与规模.md)
 - [基金公司](../references/基金/基金资料/基金公司.md)
+- [基金资料](../references/基金/基金资料.md)
 ### 基金业绩表现
 
 - [净值数据](../references/基金/基金业绩表现/净值数据.md)

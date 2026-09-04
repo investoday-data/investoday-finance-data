@@ -25088,6 +25088,16 @@
                       "description": "板块代码",
                       "example": "1"
                     },
+                    "sizeType": {
+                      "type": "string",
+                      "description": "股票规模分类",
+                      "example": ""
+                    },
+                    "styleClassification": {
+                      "type": "string",
+                      "description": "股票风格",
+                      "example": ""
+                    },
                     "pageNum": {
                       "type": "integer",
                       "format": "int32",
@@ -29517,6 +29527,16 @@
                       "type": "number",
                       "description": "流通市值（元）",
                       "example": 1234567890.12
+                    },
+                    "sizeType": {
+                      "type": "string",
+                      "description": "股票规模分类",
+                      "example": ""
+                    },
+                    "styleClassification": {
+                      "type": "string",
+                      "description": "股票风格",
+                      "example": ""
                     },
                     "pageNum": {
                       "type": "integer",
@@ -62597,6 +62617,708 @@
                       "type": "number",
                       "description": "行业在指数中的持仓比重",
                       "example": 12.35
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/industry/quote": {
+      "post": {
+        "tags": [
+          "行业历史日行情"
+        ],
+        "summary": "行业历史日行情",
+        "description": "支持通过单个行业代码或批量行业代码，结合指定的日期范围（格式yyyy-MM-dd），查询对应行业的历史每日行情数据，包括日期、行业代码及名称、昨收盘价、开盘价、最高价、最低价、收盘价、成交量、成交金额，还可通过页码和页大小分页获取结果，适用于行业走势分析、市场趋势研究等场景",
+        "operationId": "list_industry_quote",
+        "requestBody": {
+          "description": "支持通过单个行业代码或批量行业代码，结合指定的日期范围（格式yyyy-MM-dd），查询对应行业的历史每日行情数据，包括日期、行业代码及名称、昨收盘价、开盘价、最高价、最低价、收盘价、成交量、成交金额，还可通过页码和页大小分页获取结果，适用于行业走势分析、市场趋势研究等场景",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryCode": {
+                    "type": "string",
+                    "description": "行业代码【与industryCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "640000"
+                  },
+                  "industryCodes": {
+                    "type": "array",
+                    "description": "行业代码列表【与industryCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "640000",
+                      "740000"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）。\n最小值:2020-01-01;",
+                    "example": "2025-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2015-05-26 00:00:00"
+                    },
+                    "industryCode": {
+                      "type": "string",
+                      "description": "行业代码",
+                      "example": "000300"
+                    },
+                    "industryName": {
+                      "type": "string",
+                      "description": "行业名称",
+                      "example": "沪深300"
+                    },
+                    "previousClosePrice": {
+                      "type": "number",
+                      "description": "昨收盘价",
+                      "example": 3850.25
+                    },
+                    "openPrice": {
+                      "type": "number",
+                      "description": "开盘价",
+                      "example": 3860.15
+                    },
+                    "highPrice": {
+                      "type": "number",
+                      "description": "最高价",
+                      "example": 3880.45
+                    },
+                    "lowPrice": {
+                      "type": "number",
+                      "description": "最低价",
+                      "example": 3845.3
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 3875.6
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "成交量",
+                      "example": 125000000
+                    },
+                    "tradingAmountCny": {
+                      "type": "number",
+                      "description": "成交金额（元）",
+                      "example": 4850000000
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/index/finance": {
+      "post": {
+        "tags": [
+          "指数财务数据"
+        ],
+        "summary": "指数财务数据",
+        "description": "支持通过单个指数代码、批量指数代码列表，结合报告日期范围（格式yyyy-MM-dd）及分页参数，查询指数的财务数据，包含指数代码、报告年度、报告时期、报告日期（yyyy-MM-dd HH:mm:ss）、营业收入、净利润、净资产收益率、净资产收益率TTM、营业收入同比变化率、净利润同比变化率，可用于分析指数的财务表现及年度同比变动情况",
+        "operationId": "list_index_finance",
+        "requestBody": {
+          "description": "支持通过单个指数代码、批量指数代码列表，结合报告日期范围（格式yyyy-MM-dd）及分页参数，查询指数的财务数据，包含指数代码、报告年度、报告时期、报告日期（yyyy-MM-dd HH:mm:ss）、营业收入、净利润、净资产收益率、净资产收益率TTM、营业收入同比变化率、净利润同比变化率，可用于分析指数的财务表现及年度同比变动情况",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string",
+                    "description": "指数代码【与indexCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000300"
+                  },
+                  "indexCodes": {
+                    "type": "array",
+                    "description": "指数代码列表【与indexCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000300",
+                      "000905"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期，格式yyyy-MM-dd",
+                    "example": "2015-03-31"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期，格式yyyy-MM-dd",
+                    "example": "2025-12-31"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000300"
+                    },
+                    "reportYear": {
+                      "type": "string",
+                      "description": "报告年度",
+                      "example": "2015"
+                    },
+                    "reportPeriod": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "0103代表03-31,0106代表06-30,0109代表09-30,0112代表12-31",
+                          "enum": [
+                            "0103"
+                          ]
+                        }
+                      ],
+                      "description": "报告时段",
+                      "example": "0103"
+                    },
+                    "reportDate": {
+                      "type": "string",
+                      "description": "报告期日期，由报告年度和报告时段转换",
+                      "example": "2015-03-31 00:00:00"
+                    },
+                    "operatingRevenue": {
+                      "type": "number",
+                      "description": "业务收入",
+                      "example": 125000000
+                    },
+                    "netProfit": {
+                      "type": "number",
+                      "description": "净利润",
+                      "example": 16000000
+                    },
+                    "roePct": {
+                      "type": "number",
+                      "description": "净资产报酬率（%）",
+                      "example": 13.27
+                    },
+                    "roeTtmPct": {
+                      "type": "number",
+                      "description": "净资产报酬率 TTM（%）",
+                      "example": 14.05
+                    },
+                    "operatingRevenueYoyPct": {
+                      "type": "number",
+                      "description": "业务收入同比变化率（%），与上年同期比较；对比值为空或0时返回NULL",
+                      "example": 8.5
+                    },
+                    "netProfitYoyPct": {
+                      "type": "number",
+                      "description": "净利润同比变动率（%），分母取上年同期净利润绝对值；正值表示改善或亏损收窄，负值表示恶化或亏损扩大；任一值为空或上年同期为0时返回NULL",
+                      "example": 8.5
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund/flow": {
+      "post": {
+        "tags": [
+          "场内基金资金流向"
+        ],
+        "summary": "场内基金资金流向",
+        "description": "支持通过单个基金代码、多个基金代码列表，结合指定的日期范围（开始日期、结束日期格式均为yyyy-MM-dd），分页查询场内ETF基金的资金流向数据，返回基金基本信息（代码、内部编码、名称）、发布日期、内外盘总量及差值、平均价格，以及主力、超大单、大单、中单、小单各量级的流入流出金额，还有总流入流出、净流入金额、控盘比例等核心指标，可用于场内ETF的资金动向分析、投研决策等场景。",
+        "operationId": "list_fund_flow",
+        "requestBody": {
+          "description": "支持通过单个基金代码、多个基金代码列表，结合指定的日期范围（开始日期、结束日期格式均为yyyy-MM-dd），分页查询场内ETF基金的资金流向数据，返回基金基本信息（代码、内部编码、名称）、发布日期、内外盘总量及差值、平均价格，以及主力、超大单、大单、中单、小单各量级的流入流出金额，还有总流入流出、净流入金额、控盘比例等核心指标，可用于场内ETF的资金动向分析、投研决策等场景。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "510300"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "510300",
+                      "159915"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期，格式yyyy-MM-dd",
+                    "example": "2025-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期，格式yyyy-MM-dd，包含当天",
+                    "example": "2025-12-31"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "510300"
+                    },
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "123456"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "沪深300ETF"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "发布日期",
+                      "example": "2025-09-04 00:00:00"
+                    },
+                    "outerVolume": {
+                      "type": "number",
+                      "description": "外盘总份数",
+                      "example": 1250000
+                    },
+                    "innerVolume": {
+                      "type": "number",
+                      "description": "内盘总份数",
+                      "example": 980000
+                    },
+                    "inflowVolume": {
+                      "type": "number",
+                      "description": "内外盘差值",
+                      "example": 270000
+                    },
+                    "averagePrice": {
+                      "type": "number",
+                      "description": "平均价格，单位元",
+                      "example": 3.852
+                    },
+                    "mainInflowAmount": {
+                      "type": "number",
+                      "description": "主力流入金额，单位万元",
+                      "example": 18650.5
+                    },
+                    "mainOutflowAmount": {
+                      "type": "number",
+                      "description": "主力流出金额，单位万元",
+                      "example": 15220.3
+                    },
+                    "mainNetInflowAmount": {
+                      "type": "number",
+                      "description": "主力净流入金额，单位万元",
+                      "example": 3430.2
+                    },
+                    "superLargeInflowAmount": {
+                      "type": "number",
+                      "description": "超大单流入金额，单位万元",
+                      "example": 8650.5
+                    },
+                    "superLargeOutflowAmount": {
+                      "type": "number",
+                      "description": "超大单流出金额，单位万元",
+                      "example": 7120.3
+                    },
+                    "largeInflowAmount": {
+                      "type": "number",
+                      "description": "大单流入金额，单位万元",
+                      "example": 10000
+                    },
+                    "largeOutflowAmount": {
+                      "type": "number",
+                      "description": "大单流出金额，单位万元",
+                      "example": 8100
+                    },
+                    "mediumInflowAmount": {
+                      "type": "number",
+                      "description": "中单流入金额，单位万元",
+                      "example": 6250.8
+                    },
+                    "mediumOutflowAmount": {
+                      "type": "number",
+                      "description": "中单流出金额，单位万元",
+                      "example": 6890.6
+                    },
+                    "smallInflowAmount": {
+                      "type": "number",
+                      "description": "小单流入金额，单位万元",
+                      "example": 4320.4
+                    },
+                    "smallOutflowAmount": {
+                      "type": "number",
+                      "description": "小单流出金额，单位万元",
+                      "example": 4890.7
+                    },
+                    "totalInflowAmount": {
+                      "type": "number",
+                      "description": "总流入金额，单位万元",
+                      "example": 29221.7
+                    },
+                    "totalOutflowAmount": {
+                      "type": "number",
+                      "description": "总流出金额，单位万元",
+                      "example": 27001.6
+                    },
+                    "netInflowAmount": {
+                      "type": "number",
+                      "description": "净流入金额，单位万元",
+                      "example": 2220.1
+                    },
+                    "controlRatio": {
+                      "type": "number",
+                      "description": "控盘比例",
+                      "example": 0.1265
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/fund/margin-trade": {
+      "post": {
+        "tags": [
+          "基金融资融券交易明细"
+        ],
+        "summary": "基金融资融券交易明细",
+        "description": "支持通过单个基金代码或批量基金代码，结合指定的日期范围（日期格式为yyyy-MM-dd），并可通过页码、页长控制分页，查询基金的融资融券交易明细数据，包括交易日期、基金代码及名称、融资余额、融资买入额、融资偿还额、融券余量、融券卖出量、融券余量金额、融资融券余额等核心指标，可用于分析基金的杠杆交易情况及资金动向。",
+        "operationId": "list_fund_margin_trade",
+        "requestBody": {
+          "description": "支持通过单个基金代码或批量基金代码，结合指定的日期范围（日期格式为yyyy-MM-dd），并可通过页码、页长控制分页，查询基金的融资融券交易明细数据，包括交易日期、基金代码及名称、融资余额、融资买入额、融资偿还额、融券余量、融券卖出量、融券余量金额、融资融券余额等核心指标，可用于分析基金的杠杆交易情况及资金动向。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "股票代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "002594"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "股票代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "600519"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期",
+                    "example": "2025-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "交易日期",
+                      "example": "2023-10-26"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码",
+                      "example": "600519"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称",
+                      "example": "贵州茅台"
+                    },
+                    "marginBalance": {
+                      "type": "number",
+                      "description": "融资余额（元）",
+                      "example": 123456789.12
+                    },
+                    "marginBuyAmount": {
+                      "type": "number",
+                      "description": "融资买入额（元）",
+                      "example": 123456789.12
+                    },
+                    "marginRepayAmount": {
+                      "type": "number",
+                      "description": "融资偿还额（元）",
+                      "example": -1254300.75
+                    },
+                    "shortBalanceVolume": {
+                      "type": "number",
+                      "description": "融券余量（股）",
+                      "example": 123456.78
+                    },
+                    "shortSellVolume": {
+                      "type": "number",
+                      "description": "融券卖出量（股）",
+                      "example": 12345.67
+                    },
+                    "shortBalanceAmount": {
+                      "type": "number",
+                      "description": "融券余量金额（元）",
+                      "example": 123456789.12
+                    },
+                    "marginShortBalance": {
+                      "type": "number",
+                      "description": "融资融券余额（元）",
+                      "example": 1234567890.12
                     },
                     "pageNum": {
                       "type": "integer",
