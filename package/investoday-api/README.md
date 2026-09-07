@@ -159,7 +159,7 @@ investoday-api config remove
 - Uses the local JSON config created by `investoday-api init`
 - Only calls `https://data-api.investoday.net/data`
 - Bundles endpoint metadata for `list` and `search-api`
-- `search-api` defaults to JSON output and includes params, response fields, and `exampleCommand`; use `--text` for a human-readable summary
+- `search-api` defaults to JSON output and includes params, response fields, recursive `responseSchema` metadata, enum labels, and `exampleCommand`; use `--text` for a human-readable summary
 - `search-api` only accepts structured inputs such as `query=` and `tool_ids=`; `query=` accepts one value and supports comma-separated keywords
 - For POST endpoints with JSON body parameters, pass query parameters as `key=value` and pass body parameters with `--body-json`
 - Background update settings are stored in the local JSON config and can be inspected with `investoday-api update status`

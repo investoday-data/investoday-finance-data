@@ -10,34 +10,175 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-function extractResponseFields(operation) {
+function resolveLocalReference(openapi, reference) {
+  if (!String(reference || "").startsWith("#/")) {
+    return {};
+  }
+  return reference
+    .slice(2)
+    .split("/")
+    .map((part) => part.replaceAll("~1", "/").replaceAll("~0", "~"))
+    .reduce((value, part) => value && value[part], openapi) || {};
+}
+
+function mergeSchema(left, right) {
+  const merged = { ...left, ...right };
+  if (left.properties || right.properties) {
+    merged.properties = { ...(left.properties || {}), ...(right.properties || {}) };
+  }
+  return merged;
+}
+
+function resolveSchema(schema, openapi, visited = new Set()) {
+  if (!schema || typeof schema !== "object") {
+    return {};
+  }
+  let resolved = {};
+  if (schema.$ref && !visited.has(schema.$ref)) {
+    const nextVisited = new Set(visited).add(schema.$ref);
+    resolved = resolveSchema(resolveLocalReference(openapi, schema.$ref), openapi, nextVisited);
+  }
+  for (const item of schema.allOf || []) {
+    resolved = mergeSchema(resolved, resolveSchema(item, openapi, visited));
+  }
+  const ownSchema = { ...schema };
+  delete ownSchema.$ref;
+  delete ownSchema.allOf;
+  return mergeSchema(resolved, ownSchema);
+}
+
+function unwrapArraySchema(schema, openapi) {
+  const resolved = resolveSchema(schema, openapi);
+  return resolved.type === "array" || resolved.items
+    ? resolveSchema(resolved.items, openapi)
+    : resolved;
+}
+
+function responseDataSchema(operation, openapi) {
+  const responseSchema = operation.responses["200"].content["application/json"].schema;
+  const resolved = resolveSchema(responseSchema, openapi);
+  const properties = resolved.properties || {};
+  if (properties.data) {
+    return unwrapArraySchema(properties.data, openapi);
+  }
+  return unwrapArraySchema(resolved, openapi);
+}
+
+function extractResponseFields(operation, openapi) {
   try {
-    const schema = operation.responses["200"].content["application/json"].schema;
-    const properties = schema.properties || {};
-    const dataProp = properties.data || {};
+    const source = responseDataSchema(operation, openapi).properties || {};
 
-    let source = {};
-    if (dataProp && Object.keys(dataProp).length > 0) {
-      if (dataProp.type === "array") {
-        source = dataProp.items?.properties || {};
-      } else {
-        source = dataProp.properties || {};
-      }
-    } else if (schema.type === "array") {
-      source = schema.items?.properties || {};
-    } else {
-      source = Object.fromEntries(
-        Object.entries(properties).filter(([key]) => !["code", "message"].includes(key))
-      );
-    }
-
-    return Object.entries(source).map(([name, value]) => ({
-      name,
-      desc: value.description || "",
-      example: value.example ?? "",
-    }));
+    return Object.entries(source)
+      .filter(([name]) => !["code", "message", "responseSchema"].includes(name))
+      .map(([name, value]) => {
+        const resolved = resolveSchema(value, openapi);
+        return {
+          name,
+          desc: resolved.description || "",
+          example: resolved.example ?? "",
+        };
+      });
   } catch {
     return [];
+  }
+}
+
+function findEnumSchema(schema, openapi, visited = new Set()) {
+  if (!schema || typeof schema !== "object") {
+    return null;
+  }
+  if (Array.isArray(schema.enum)) {
+    return schema;
+  }
+  if (schema.$ref && !visited.has(schema.$ref)) {
+    const nextVisited = new Set(visited).add(schema.$ref);
+    const referenced = findEnumSchema(
+      resolveLocalReference(openapi, schema.$ref), openapi, nextVisited
+    );
+    if (referenced) {
+      return referenced;
+    }
+  }
+  for (const key of ["allOf", "oneOf", "anyOf"]) {
+    for (const item of schema[key] || []) {
+      const nested = findEnumSchema(item, openapi, visited);
+      if (nested) {
+        return nested;
+      }
+    }
+  }
+  return null;
+}
+
+function parseEnumDescription(description) {
+  const labels = new Map();
+  for (const item of String(description || "").split(/[;；\r\n]+/)) {
+    const match = item.match(/^\s*(.+?)\s*(?:代表|[:：=])\s*(.+?)\s*$/);
+    if (match) {
+      labels.set(match[1].trim(), match[2].trim());
+    }
+  }
+  return labels;
+}
+
+function formatEnumLabels(schema, openapi) {
+  const enumSchema = findEnumSchema(schema, openapi);
+  if (!enumSchema) {
+    return "";
+  }
+  const labels = parseEnumDescription(enumSchema.description);
+  return enumSchema.enum
+    .map((value) => labels.has(String(value)) ? `${value}:${labels.get(String(value))}` : "")
+    .filter(Boolean)
+    .join(";");
+}
+
+function fieldType(schema) {
+  if (schema.type === "integer") {
+    return "Int";
+  }
+  if (schema.type === "number") {
+    return "Float";
+  }
+  if (schema.type === "boolean") {
+    return "Boolean";
+  }
+  if (schema.type === "object" || schema.type === "array" || schema.properties || schema.items) {
+    return "Object";
+  }
+  return "String";
+}
+
+function buildResponseSchema(schema, openapi) {
+  const source = unwrapArraySchema(schema, openapi);
+  const result = {};
+  for (const [name, value] of Object.entries(source.properties || {})) {
+    if (["code", "message", "responseSchema"].includes(name)) {
+      continue;
+    }
+    const resolved = resolveSchema(value, openapi);
+    const item = {
+      fieldType: fieldType(resolved),
+      fieldDesc: resolved.description || "",
+      enums: formatEnumLabels(value, openapi),
+    };
+    const children = buildResponseSchema(
+      resolved.type === "array" || resolved.items ? resolved.items : resolved,
+      openapi
+    );
+    if (Object.keys(children).length) {
+      item.children = children;
+    }
+    result[name] = item;
+  }
+  return result;
+}
+
+function extractResponseSchema(operation, openapi) {
+  try {
+    return buildResponseSchema(responseDataSchema(operation, openapi), openapi);
+  } catch {
+    return {};
   }
 }
 
@@ -89,7 +230,8 @@ function parseOpenapiPaths(openapi) {
         summary: operation.summary || "",
         description: operation.description || "",
         parameters,
-        responseFields: extractResponseFields(operation),
+        responseFields: extractResponseFields(operation, openapi),
+        responseSchema: extractResponseSchema(operation, openapi),
       };
 
       const existing = pathMap[operationId];
@@ -225,6 +367,7 @@ function buildMetadata() {
       description: detail.description || "",
       parameters: detail.parameters || [],
       responseFields: detail.responseFields || [],
+      responseSchema: detail.responseSchema || {},
     };
     const dedupeKey = [
       normalizedRecord.path,

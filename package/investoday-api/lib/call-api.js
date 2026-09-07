@@ -841,6 +841,7 @@ function runSearchApiCommand(args) {
         description: match.description,
         requestParams: match.parameters,
         responseFields: match.responseFields,
+        responseSchema: match.responseSchema,
         exampleCommand: formatExample(match.path, match.method, match.parameters),
       })),
     };

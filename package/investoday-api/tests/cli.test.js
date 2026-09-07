@@ -490,6 +490,29 @@ test("search-api finds endpoints and includes request and response summaries", (
   assert.match(payload.matches[0].exampleCommand, /--body-json/);
 });
 
+test("search-api includes nested field labels and enum translations", () => {
+  const newsResult = runCli(["search-api", "tool_ids=list_news"]);
+  const quoteResult = runCli([
+    "search-api",
+    "tool_ids=get_industry_stock_realtime_quote",
+  ]);
+
+  assert.equal(newsResult.status, 0);
+  const newsPayload = JSON.parse(newsResult.stdout);
+  assert.equal(newsPayload.matches[0].responseSchema.newsType.fieldDesc, "新闻类型");
+  assert.equal(
+    newsPayload.matches[0].responseSchema.newsType.enums,
+    "1:宏观;2:行业;3:公司;4:行情"
+  );
+
+  assert.equal(quoteResult.status, 0);
+  const quotePayload = JSON.parse(quoteResult.stdout);
+  const stockSchema = quotePayload.matches[0].responseSchema.stockRealQuotes;
+  assert.equal(stockSchema.children.stockCode.fieldDesc, "股票代码");
+  assert.equal(stockSchema.children.stockName.fieldDesc, "股票名称");
+  assert.equal(stockSchema.children.marketType.enums, "sh:上交所;sz:深交所;bj:北交所");
+});
+
 test("search-api supports tool_ids filtering with repeated values", () => {
   const result = runCli([
     "search-api",
