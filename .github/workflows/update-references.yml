@@ -1,6 +1,10 @@
 name: Update API References
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
     inputs:
       triggered_by:
@@ -11,6 +15,10 @@ on:
   # 北京时间每天 19:00 执行；GitHub Actions cron 使用 UTC，即 11:00 UTC。
   schedule:
     - cron: '0 11 * * *'
+
+concurrency:
+  group: investoday-finance-data-release
+  cancel-in-progress: false
 
 jobs:
   update-references:
@@ -55,7 +63,15 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Publish pushed versions
+        if: github.event_name == 'push'
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+          CLAWHUB_PUBLISH_TIMEOUT_SECONDS: '300'
+        run: ./create/publish.sh --release-only --changelog "Automated release from push"
+
       - name: Publish docs release
+        if: github.event_name != 'push'
         env:
           CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
           CLAWHUB_PUBLISH_TIMEOUT_SECONDS: '300'

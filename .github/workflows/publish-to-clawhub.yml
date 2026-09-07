@@ -1,12 +1,6 @@
 name: Publish to ClawHub
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'skills/SKILL.md'
-
   workflow_run:
     workflows: ["Package Skills"]
     types:
@@ -20,6 +14,10 @@ on:
         description: 'Changelog text'
         required: false
         default: 'Manual release'
+
+concurrency:
+  group: investoday-finance-data-release
+  cancel-in-progress: false
 
 jobs:
   publish:

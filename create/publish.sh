@@ -15,6 +15,7 @@ SKILL_NAME="InvestToday Finance Data"
 SKILL_TAGS="stock,fund,etf,index,a-share,hk-stock,finance,financial-data,market-data,quote,macro-economics,quantitative,investment-research"
 
 RUN_REMOTE_SYNC=true
+RELEASE_ONLY=false
 CHANGELOG="Manual release"
 RUN_TESTS=true
 RUN_NPM_PUBLISH=true
@@ -27,6 +28,7 @@ Usage:
   ./create/publish.sh [options]
 
 Options:
+  --release-only      Publish checked-in versions without reference sync, version bump, or git writes
   --remote            Fetch remote OpenAPI/tree and regenerate references before publishing (default)
   --local             Use local cached openapi.json/tree.json instead of fetching remote metadata
   --skip-tests        Skip Python and npm test steps
@@ -228,21 +230,25 @@ publish_npm() {
   local local_version published_version
   local_version="$(trim "$(read_package_version)")"
   published_version="$(
-    python3 - "${PACKAGE_NAME}" "${NPM_REGISTRY}" <<'EOF'
+    python3 - "${PACKAGE_NAME}" "${NPM_REGISTRY}" "${local_version}" <<'EOF'
 import json
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 
 package_name = sys.argv[1]
 registry = sys.argv[2].rstrip("/")
-url = f"{registry}/{urllib.parse.quote(package_name, safe='')}/latest"
+version = sys.argv[3]
+url = f"{registry}/{urllib.parse.quote(package_name, safe='')}/{urllib.parse.quote(version, safe='')}"
 
 try:
     with urllib.request.urlopen(url, timeout=20) as response:
         payload = json.load(response)
     print(payload.get("version", ""))
-except Exception:
+except urllib.error.HTTPError as error:
+    if error.code != 404:
+        raise
     print("")
 EOF
   )"
@@ -340,34 +346,48 @@ commit_and_push_release() {
   )
 }
 
+# 逐个解析发布参数；shift 消费当前参数，带值的参数用 shift 2。
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --release-only)
+      # 用于 push：按当前版本检查并发布 npm CLI 和 ClawHub；不生成文档、不升版、不提交或推送 Git，仍执行测试。
+      RELEASE_ONLY=true
+      RUN_GIT_PUSH=false
+      shift
+      ;;
     --remote)
+      # 默认模式：拉取远程接口元数据并生成文档；OpenAPI 变化时自动递增 CLI 和 Skill 的补丁版本。
       RUN_REMOTE_SYNC=true
       shift
       ;;
     --local)
+      # 使用本地缓存的接口元数据生成文档，不拉取远程数据，也不自动升版。
       RUN_REMOTE_SYNC=false
       shift
       ;;
     --skip-tests)
+      # 跳过 Python、CLI 测试和 npm 打包预检，不跳过发布。
       RUN_TESTS=false
       shift
       ;;
     --skip-npm)
+      # 跳过 npm CLI 发布，仍检查并发布 ClawHub Skill。
       RUN_NPM_PUBLISH=false
       shift
       ;;
     --skip-git)
+      # 不执行发布后的 Git 提交和推送；不阻止文档生成或本地版本文件修改。
       RUN_GIT_PUSH=false
       shift
       ;;
     --changelog)
+      # 读取下一个参数作为 ClawHub 的版本更新说明。
       [[ $# -ge 2 ]] || fail "--changelog requires a value"
       CHANGELOG="$2"
       shift 2
       ;;
     -h|--help)
+      # 显示用法并退出，不执行发布。
       usage
       exit 0
       ;;
@@ -383,9 +403,11 @@ require_bin npm
 require_bin clawhub
 require_bin git
 
-openapi_hash_before="$(file_hash "${OPENAPI_FILE}")"
-run_reference_sync
-bump_versions_if_openapi_changed "${openapi_hash_before}"
+if [[ "${RELEASE_ONLY}" != "true" ]]; then
+  openapi_hash_before="$(file_hash "${OPENAPI_FILE}")"
+  run_reference_sync
+  bump_versions_if_openapi_changed "${openapi_hash_before}"
+fi
 run_verification
 publish_npm
 publish_clawhub
