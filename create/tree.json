@@ -3158,6 +3158,21 @@
                   "apiAccessLevel": "L2",
                   "apiVisibility": "external",
                   "apiMethod": "GET"
+                },
+                {
+                  "apiId": 110707,
+                  "apiName": "指数估值信息",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 1045,
+                  "remarks": null,
+                  "toolName": "get_index_valuation",
+                  "toolId": "get_index_valuation",
+                  "apiPath": "index/valuation",
+                  "enabled": 1,
+                  "apiAccessLevel": "L2",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             },

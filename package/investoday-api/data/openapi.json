@@ -24922,6 +24922,168 @@
           }
         ]
       },
+      "post": {
+        "tags": [
+          "指数估值信息"
+        ],
+        "summary": "指数估值信息",
+        "description": "通过指数代码和时间范围查询指数的估值信息，包括指数名称、发布机构、市场类型、行情时间、总市值、市盈率、市净率、换手率和股息率等核心数据，适用于金融分析和市场研究。",
+        "operationId": "get_index_valuation",
+        "requestBody": {
+          "description": "通过指数代码和时间范围查询指数的估值信息，包括指数名称、发布机构、市场类型、行情时间、总市值、市盈率、市净率、换手率和股息率等核心数据，适用于金融分析和市场研究。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string",
+                    "description": "指数代码【与indexCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "399300"
+                  },
+                  "indexCodes": {
+                    "type": "array",
+                    "description": "指数代码列表【与indexCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "399300",
+                      "399301"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）",
+                    "example": "2025-11-04"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-11-04"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexCode": {
+                      "type": "string",
+                      "description": "指数代码",
+                      "example": "000300"
+                    },
+                    "indexName": {
+                      "type": "string",
+                      "description": "指数的证券简称",
+                      "example": "沪深300"
+                    },
+                    "progFullName": {
+                      "type": "string",
+                      "description": "发布机构全称",
+                      "example": "中证指数有限公司"
+                    },
+                    "exchangeCd": {
+                      "type": "string",
+                      "description": "交易市场代码",
+                      "example": "S"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "行情时间",
+                      "example": "2025-11-06 00:00:00"
+                    },
+                    "indexMarketValue": {
+                      "type": "number",
+                      "description": "指数的总市值",
+                      "example": 122081713834.268
+                    },
+                    "pe": {
+                      "type": "number",
+                      "description": "市盈率",
+                      "example": 14.3326
+                    },
+                    "pb": {
+                      "type": "number",
+                      "description": "市净率",
+                      "example": 1.376
+                    },
+                    "peRank5y": {
+                      "type": "number",
+                      "description": "近五年PE百分位",
+                      "example": 0.8399
+                    },
+                    "pbRank5y": {
+                      "type": "number",
+                      "description": "近五年PB百分位",
+                      "example": 0.6399
+                    },
+                    "turnoverRate": {
+                      "type": "number",
+                      "description": "换手率",
+                      "example": 0.0068
+                    },
+                    "divYield": {
+                      "type": "number",
+                      "description": "股息率",
+                      "example": 0.0269
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
       "x-apikey-supported": [
         "resource"
       ]
