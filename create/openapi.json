@@ -62327,11 +62327,6 @@
                       "description": "最新报告截止日期",
                       "example": "2026-06-30 00:00:00"
                     },
-                    "annualEndDate": {
-                      "type": "string",
-                      "description": "年报或半年报截止日期",
-                      "example": "2025-12-31 00:00:00"
-                    },
                     "conceptCode": {
                       "type": "string",
                       "description": "概念代码",
