@@ -160,10 +160,6 @@ The reference documents themselves are currently maintained in Chinese.
 - [关系图谱](../references/产业链/关系图谱.md)
 - [经营分析](../references/产业链/经营分析.md)
 
-## 一致预期
-
-- [一致预期](../references/一致预期.md)
-
 ## 期货
 
 - [期货](../references/期货.md)
