@@ -107,7 +107,9 @@ def fetch_json_via_curl(
         str(REQUEST_TIMEOUT),
     ]
     for key, value in (headers or {}).items():
-        cmd.extend(["-H", f"{key}: {value}"])
+        safe_key = str(key).replace("\r", "").replace("\n", "")
+        safe_value = str(value).replace("\r", "").replace("\n", "")
+        cmd.extend(["-H", f"{safe_key}: {safe_value}"])
     cmd.append(url)
 
     result = subprocess.run(cmd, text=True, capture_output=True, check=False)
