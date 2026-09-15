@@ -6276,6 +6276,55 @@
               "apiMethod": "POST"
             }
           ]
+        },
+        {
+          "createBy": null,
+          "createByName": null,
+          "createTime": null,
+          "updateBy": null,
+          "updateTime": null,
+          "groupId": 11176,
+          "groupName": "因子库",
+          "groupDesc": null,
+          "parentId": 1,
+          "userId": null,
+          "apiCount": 0,
+          "isShow": 1,
+          "children": [
+            {
+              "createBy": null,
+              "createByName": null,
+              "createTime": null,
+              "updateBy": null,
+              "updateTime": null,
+              "groupId": 11177,
+              "groupName": "股票",
+              "groupDesc": null,
+              "parentId": 11176,
+              "userId": null,
+              "apiCount": 0,
+              "isShow": 1,
+              "children": [],
+              "apis": [
+                {
+                  "apiId": 110709,
+                  "apiName": "股票估值因子",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11177,
+                  "remarks": null,
+                  "toolName": "list_stock_val_factors",
+                  "toolId": "list_stock_val_factors",
+                  "apiPath": "stock/valuation-factors",
+                  "enabled": 1,
+                  "apiAccessLevel": "L5",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
+                }
+              ]
+            }
+          ],
+          "apis": []
         }
       ],
       "apis": []

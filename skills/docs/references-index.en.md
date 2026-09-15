@@ -171,3 +171,7 @@ The reference documents themselves are currently maintained in Chinese.
 ## 现货
 
 - [现货](../references/现货.md)
+
+## 因子库
+
+- [股票](../references/因子库/股票.md)
