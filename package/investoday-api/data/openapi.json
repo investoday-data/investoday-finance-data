@@ -6648,83 +6648,94 @@
                     "industryCode": {
                       "type": "string",
                       "description": "行业代码",
-                      "example": ""
+                      "example": "740000"
                     },
                     "industryName": {
                       "type": "string",
                       "description": "行业名称",
-                      "example": ""
+                      "example": "煤炭"
                     },
                     "reportYear": {
                       "type": "string",
                       "description": "报告年度",
-                      "example": ""
+                      "example": "2026"
                     },
                     "reportPeriod": {
                       "type": "string",
                       "description": "报告时段",
-                      "example": ""
+                      "example": "0106"
                     },
                     "roeTtmQoqGrowth": {
                       "type": "number",
-                      "description": "ROE(TTM)环比增速"
+                      "description": "ROE(TTM)环比增速",
+                      "example": 0.1563
                     },
                     "roeTtmQoqGrowthLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "ROE(TTM)环比增速的标签"
+                      "description": "ROE(TTM)环比增速的标签",
+                      "example": 1
                     },
                     "grossMarginTTMMoMGrowth": {
                       "type": "number",
-                      "description": "毛利率(TTM)环比增速"
+                      "description": "毛利率(TTM)环比增速",
+                      "example": 0.0414
                     },
                     "grossMarginTTMMoMGrowthLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "毛利率(TTM)环比增速的标签"
+                      "description": "毛利率(TTM)环比增速的标签",
+                      "example": 1
                     },
                     "ttmNetProfitMarginQoq": {
                       "type": "string",
                       "description": "净利率(TTM)环比增速",
-                      "example": ""
+                      "example": "0.08"
                     },
                     "ttmNetProfitMarginQoqLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "净利率(TTM)环比增速的标签"
+                      "description": "净利率(TTM)环比增速的标签",
+                      "example": 1
                     },
                     "latestQtrNetProfitYoyQoq": {
                       "type": "number",
-                      "description": "最近一季度归母净利润同比增速的环比增速"
+                      "description": "最近一季度归母净利润同比增速的环比增速",
+                      "example": 14.5252
                     },
                     "latestQtrNetProfitYoyQoqLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "最近一季度归母净利润同比增速的环比增速的标签"
+                      "description": "最近一季度归母净利润同比增速的环比增速的标签",
+                      "example": 1
                     },
                     "latestQtrOpIncomeYoyQoq": {
                       "type": "number",
-                      "description": "最近一季度营业总收入同比增速的环比增速"
+                      "description": "最近一季度营业总收入同比增速的环比增速",
+                      "example": 211.331
                     },
                     "latestQtrOpIncomeYoyQoqLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "最近一季度营业总收入同比增速的环比增速的标签"
+                      "description": "最近一季度营业总收入同比增速的环比增速的标签",
+                      "example": 1
                     },
                     "latestQtrAdjNetProfitYoyMom": {
                       "type": "string",
                       "description": "最近一季度扣非净利润同比增速的环比增速",
-                      "example": ""
+                      "example": "5.8477"
                     },
                     "latestQtrAdjNetProfitYoyMomLabel": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "最近一季度扣非净利润同比增速的环比增速的标签"
+                      "description": "最近一季度扣非净利润同比增速的环比增速的标签",
+                      "example": 1
                     },
                     "totalTag": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "总的标签"
+                      "description": "总的标签",
+                      "example": 6
                     },
                     "pageNum": {
                       "type": "integer",
