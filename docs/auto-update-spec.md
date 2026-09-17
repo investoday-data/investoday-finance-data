@@ -13,7 +13,7 @@
 - node 包：`@investoday/investoday-api`
 - skill：`investoday-finance-data`
 
-`openapi.json` 和 `tree.json` 是 `@investoday/investoday-api` 包内置数据的一部分。API 更新后，只要 CI 重新生成元数据并发布新版 node 包，用户本地通过更新 node 包即可获得最新 `list` / `search-api` 能力。
+`openapi.json` 和 `tree.json` 是 `@investoday/investoday-api` 包内置数据的一部分。API 更新后，只要 CI 重新生成元数据并发布新版 node 包，用户本地通过更新 node 包即可获得最新 `list` 浏览和已知接口调用能力。
 
 因此本 spec 不再把 `openapi.json` 和 `tree.json` 作为独立热更新对象，而是把自动更新对象收敛为：
 
@@ -28,7 +28,7 @@
 - 更新在后台定时任务中执行，不中断用户当前正在使用的 CLI 或 agent 会话。
 - 所有远程版本和下载地址由远程 `manifest.json` 描述。
 - 全局 skill 更新策略固定为 `existing-only`。
-- `list` 和 `search-api` 继续读取 node 包内置 `data/openapi.json` 和 `data/tree.json`。
+- `list` 和已知接口调用继续读取 node 包内置 `data/openapi.json` 和 `data/tree.json`。
 - skill zip 下载必须校验 checksum。
 - 更新失败必须可诊断、可关闭；skill 替换失败必须回滚。
 
@@ -564,7 +564,7 @@ macOS launchd plist 示例：
 
 ## CLI 数据读取顺序
 
-`list` 和 `search-api` 只读取当前已安装 node 包内置数据：
+`list` 和已知接口调用只读取当前已安装 node 包内置数据：
 
 ```text
 package/investoday-api/data/openapi.json
@@ -591,7 +591,7 @@ package/investoday-api/data/tree.json
 - 多 agent 场景下，只更新已经安装过该 skill 的 agent。
 - skill zip checksum 不匹配时拒绝替换。
 - 替换 skill 失败时回滚。
-- `list` / `search-api` 通过新版 node 包读取最新 `openapi.json` 和 `tree.json`。
+- `list` 和已知接口调用通过新版 node 包读取最新 `openapi.json` 和 `tree.json`。
 - `update status` 能展示授权状态、定时任务状态、最近成功时间、最近错误、本地版本和远程版本。
 - `update status` 能展示下一次更新时间。
 
@@ -602,4 +602,4 @@ package/investoday-api/data/tree.json
 - 实现 `existing-only` skill 更新。
 - 实现 `update run/status/enable/disable/register/unregister`。
 - 实现 macOS `launchd`、Linux 用户级 cron、Windows Task Scheduler 定时任务。
-- 保持 `list` / `search-api` 读取 node 包内置 metadata。
+- 保持 `list` 和已知接口调用读取 node 包内置 metadata。

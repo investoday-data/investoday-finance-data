@@ -1,4 +1,4 @@
-const { getMetadata, resolveApi, searchApis } = require("./metadata");
+const { getMetadata } = require("./metadata");
 const {
   BASE_SKILL_NAME,
   DEFAULT_SKILL_PACKAGE_BASE_URL,
@@ -82,7 +82,6 @@ function printHelp() {
     "  investoday-api skill install <skill-name> [--target <skills-dir>] [--target-code <agent>] [--force] [--json]\n" +
     "  investoday-api <endpoint> [key=value ...] [--method GET|POST] [--body-json '<json>']\n" +
     "  investoday-api list [group-or-subgroup]\n" +
-    "  investoday-api search-api query=<query> [tool_ids=<tool_id,...>] [--text]\n" +
     "  investoday-api --version\n" +
     "  investoday-api --help\n\n" +
     "命令:\n" +
@@ -90,8 +89,7 @@ function printHelp() {
     "  config     查看、定位或删除本地配置\n" +
     "  update     管理 investoday-api 和 skill 的后台自动更新\n" +
     "  skill      浏览、搜索或安装 Skill Store 中的 skill\n" +
-    "  list       浏览接口分组、子分组或接口\n" +
-    "  search-api 搜索接口并返回请求参数、响应字段和示例命令\n\n" +
+    "  list       浏览接口分组、子分组或接口\n\n" +
     "示例:\n" +
     "  investoday-api init\n" +
     "  investoday-api config status\n" +
@@ -102,9 +100,6 @@ function printHelp() {
     "  investoday-api list\n" +
     "  investoday-api list 沪深京数据\n" +
     "  investoday-api list 沪深京数据/公司行为/基本信息\n" +
-    "  investoday-api search-api query=股票,基本面分析\n" +
-    "  investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema\n" +
-    "  investoday-api search-api query=股票 --text\n" +
     "  investoday-api search key=贵州茅台 type=11\n" +
     "  investoday-api stock/basic-info stockCode=600519\n" +
     "  investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01-01 endDate=2024-12-31\n" +
@@ -666,7 +661,7 @@ function listTopGroups() {
 
 function listGroup(query) {
   const normalizedQuery = query.trim();
-  const { groupTree, records } = getMetadata();
+  const { groupTree } = getMetadata();
   const directPath = normalizedQuery.split("/").map((part) => part.trim()).filter(Boolean);
 
   const directNode = getGroupNode(groupTree, directPath);
@@ -686,23 +681,7 @@ function listGroup(query) {
     return;
   }
 
-  const { matches: fuzzyMatches } = searchApis({ query: [normalizedQuery] }, 20);
-
-  if (!fuzzyMatches.length) {
-    exitWithError(`错误：未找到匹配的分组或接口 '${normalizedQuery}'`);
-  }
-
-  const lines = [`Matches for '${normalizedQuery}':`];
-  for (const match of fuzzyMatches.slice(0, 20)) {
-    lines.push(`- ${match.apiName} | ${match.path} | ${match.method} | ${match.groupPath.join(" / ")}`);
-    if (match.description || match.summary) {
-      lines.push(`  desc: ${compactText(match.description || match.summary)}`);
-    }
-  }
-  if (fuzzyMatches.length > 20) {
-    lines.push(`... and ${fuzzyMatches.length - 20} more`);
-  }
-  process.stdout.write(`${lines.join("\n")}\n`);
+  exitWithError(`错误：未找到分组 '${normalizedQuery}'`);
 }
 
 function runListCommand(args) {
@@ -712,155 +691,6 @@ function runListCommand(args) {
   }
 
   listGroup(args.join(" "));
-}
-
-function summarizeNames(items, emptyLabel) {
-  if (!items || !items.length) {
-    return emptyLabel;
-  }
-
-  const names = items
-    .map((item) => {
-      const name = item.name ? String(item.name).trim() : "";
-      const desc = item.desc ? String(item.desc).replace(/\s+/g, " ").trim() : "";
-      if (!name) {
-        return "";
-      }
-      if (!desc) {
-        return name;
-      }
-      return `${name}(${desc})`;
-    })
-    .filter(Boolean);
-
-  if (!names.length) {
-    return emptyLabel;
-  }
-  if (names.length <= 6) {
-    return names.join(", ");
-  }
-  return `${names.slice(0, 6).join(", ")} ... (+${names.length - 6})`;
-}
-
-function parseStructuredArgs(args) {
-  const params = {};
-
-  for (const arg of args) {
-    const equalIndex = arg.indexOf("=");
-    if (equalIndex <= 0) {
-      continue;
-    }
-    const key = arg.slice(0, equalIndex);
-    const value = arg.slice(equalIndex + 1);
-
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
-      const existing = params[key];
-      params[key] = Array.isArray(existing) ? [...existing, value] : [existing, value];
-    } else {
-      params[key] = value;
-    }
-  }
-
-  return params;
-}
-
-function normalizeSearchCriteria(args) {
-  const textMode = args.includes("--text");
-  const filteredArgs = args.filter((arg) => arg !== "--text");
-  const structuredArgs = filteredArgs.filter((arg) => arg.includes("="));
-  const positionalArgs = filteredArgs.filter((arg) => !arg.includes("="));
-  if (positionalArgs.length) {
-    exitWithError("错误：search-api 只接受结构化入参，例如 query=... 和 tool_ids=...。");
-  }
-  const params = parseStructuredArgs(structuredArgs);
-
-  const queryInputs = ["query", "q"]
-    .filter((key) => params[key] !== undefined)
-    .flatMap((key) => (Array.isArray(params[key]) ? params[key] : [params[key]]));
-  if (queryInputs.length > 1) {
-    exitWithError("错误：search-api 只允许一个 query=...，多个关键词请在 query=... 内用英文逗号分隔。");
-  }
-
-  const rawQueryValues = [];
-  for (const key of ["query", "q"]) {
-    if (params[key] !== undefined) {
-      const value = params[key];
-      rawQueryValues.push(...(Array.isArray(value) ? value : [value]));
-    }
-  }
-
-  const rawToolIdValues = [];
-  for (const key of ["tool_ids", "tool_id", "toolIds"]) {
-    if (params[key] !== undefined) {
-      const value = params[key];
-      rawToolIdValues.push(...(Array.isArray(value) ? value : [value]));
-    }
-  }
-
-  const query = rawQueryValues
-    .flatMap((value) => String(value || "").split(","))
-    .map((value) => value.trim())
-    .filter(Boolean);
-  const toolIds = rawToolIdValues
-    .flatMap((value) => String(value || "").split(","))
-    .map((value) => value.trim())
-    .filter(Boolean);
-
-  return {
-    textMode,
-    criteria: { query, toolIds },
-  };
-}
-
-function formatSearchLabel(criteria) {
-  const queryLabel = criteria.query.length ? `query='${criteria.query.join(" | ")}'` : null;
-  const toolIdLabel = criteria.toolIds.length ? `tool_ids=${criteria.toolIds.join(",")}` : null;
-  return [queryLabel, toolIdLabel].filter(Boolean).join(" ");
-}
-
-function runSearchApiCommand(args) {
-  const { textMode, criteria } = normalizeSearchCriteria(args);
-  const { matches, error } = searchApis(criteria, 10);
-  if (error) {
-    exitWithError(`错误：${error}`);
-  }
-  if (!matches.length) {
-    exitWithError(`错误：未找到匹配接口 ${formatSearchLabel(criteria) || "当前查询条件"}`);
-  }
-
-  if (!textMode) {
-    const payload = {
-      query: criteria.query.join(" "),
-      toolIds: criteria.toolIds,
-      matches: matches.map((match) => ({
-        apiName: match.apiName,
-        path: match.path,
-        method: match.method,
-        reference: match.reference,
-        toolId: match.toolId,
-        description: match.description,
-        requestParams: match.parameters,
-        responseFields: match.responseFields,
-        responseSchema: match.responseSchema,
-        exampleCommand: formatExample(match.path, match.method, match.parameters),
-      })),
-    };
-    process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
-    return;
-  }
-
-  const lines = [`Matches for ${formatSearchLabel(criteria) || "当前查询条件"}:`];
-  for (const match of matches) {
-    lines.push(`- ${match.apiName} | ${match.path} | ${match.method} | ${match.groupPath.join(" / ")}`);
-    if (match.description || match.summary) {
-      lines.push(`  desc: ${compactText(match.description || match.summary)}`);
-    }
-    lines.push(`  request params: ${summarizeNames(match.parameters, "none")}`);
-    lines.push(`  response fields: ${summarizeNames(match.responseFields, "none")}`);
-    lines.push(`  example: ${formatExample(match.path, match.method, match.parameters)}`);
-  }
-
-  process.stdout.write(`${lines.join("\n")}\n`);
 }
 
 function parseArgs(argv) {
@@ -959,8 +789,9 @@ function resolveRequestEndpoint(apiPath, method = "") {
     }
   }
 
-  const { matches } = resolveApi(apiPath);
-  if (matches.length === 1 && matches[0].path === apiPath) {
+  const { records } = getMetadata();
+  const matches = records.filter((record) => record.path === apiPath);
+  if (matches.length === 1) {
     return matches[0];
   }
 
@@ -1679,12 +1510,12 @@ async function main(argv = process.argv.slice(2)) {
   }
 
   if (argv[0] === "schema" || argv[0] === "example") {
-    exitWithError("错误：schema 和 example 命令已移除，请改用 `investoday-api search-api query=<关键词>`。");
+    exitWithError("错误：schema 和 example 命令已移除，请通过接口 references 文档查看参数和示例。");
     return;
   }
 
   if (argv[0] === "search-api") {
-    runSearchApiCommand(argv.slice(1));
+    exitWithError("错误：search-api 命令已移除，不再支持搜索接口。请使用 `investoday-api list` 浏览接口分组。");
     return;
   }
 
@@ -1713,7 +1544,6 @@ module.exports = {
   runInitCommand,
   runSkillInstallCommand,
   runSkillCommand,
-  runSearchApiCommand,
   runListCommand,
   selectRequestMethod,
   verifyApiKey,

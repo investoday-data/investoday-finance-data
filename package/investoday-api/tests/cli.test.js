@@ -171,8 +171,7 @@ test("--help prints usage", () => {
   assert.match(result.stdout, /investoday-api skill install investoday-finance-data/);
   assert.match(result.stdout, /investoday-api list/);
   assert.match(result.stdout, /investoday-api list 沪深京数据\/公司行为\/基本信息/);
-  assert.match(result.stdout, /investoday-api search-api query=股票,基本面分析/);
-  assert.match(result.stdout, /investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema/);
+  assert.doesNotMatch(result.stdout, /search-api/);
   assert.match(result.stdout, /investoday-api search key=贵州茅台 type=11/);
   assert.match(result.stdout, /investoday-api fund\/daily-quotes --method POST fundCode=000001/);
   assert.doesNotMatch(result.stdout, /schema stock\/basic-info/);
@@ -446,21 +445,12 @@ test("list supports multi-level group paths", () => {
   assert.match(result.stdout, /上市公司违规处罚 \| stock\/violation-penalties \| POST/);
 });
 
-test("list fuzzy matching includes description text", () => {
+test("list does not search endpoints by keyword", () => {
   const result = runCli(["list", "合规风险"]);
 
-  assert.equal(result.status, 0);
-  assert.match(result.stdout, /Matches for '合规风险':/);
-  assert.match(result.stdout, /上市公司违规处罚 \| stock\/violation-penalties \| POST/);
-  assert.match(result.stdout, /desc:/);
-});
-
-test("list fuzzy matching ranks exact endpoint names ahead of description-only hits", () => {
-  const result = runCli(["list", "基本面分析"]);
-
-  assert.equal(result.status, 0);
-  const lines = result.stdout.trim().split("\n");
-  assert.match(lines[1], /股票基本面分析 \| stock\/fundamentals \| POST/);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /未找到分组/);
+  assert.doesNotMatch(result.stdout, /stock\/violation-penalties/);
 });
 
 test("list shows matching groups when subgroup names are ambiguous", () => {
@@ -472,147 +462,12 @@ test("list shows matching groups when subgroup names are ambiguous", () => {
   assert.match(result.stdout, /基金 \/ 基金行情 \/ 实时行情/);
 });
 
-test("search-api finds endpoints and includes request and response summaries", () => {
+test("search-api command is removed", () => {
   const result = runCli(["search-api", "query=违规处罚"]);
 
-  assert.equal(result.status, 0);
-  const payload = JSON.parse(result.stdout);
-  assert.equal(payload.query, "违规处罚");
-  assert.deepEqual(payload.toolIds, []);
-  assert.match(payload.matches[0].path, /stock\/violation-penalties/);
-  assert.match(payload.matches[0].reference, /references\/沪深京数据\/公司行为\/基本信息\.md/);
-  assert.equal(payload.matches[0].toolName, undefined);
-  assert.equal(payload.matches[0].summary, undefined);
-  assert.equal(payload.matches[0].groupPath, undefined);
-  assert.ok(Array.isArray(payload.matches[0].requestParams));
-  assert.ok(Array.isArray(payload.matches[0].responseFields));
-  assert.match(payload.matches[0].exampleCommand, /investoday-api stock\/violation-penalties --method POST/);
-  assert.match(payload.matches[0].exampleCommand, /--body-json/);
-});
-
-test("search-api includes nested field labels and enum translations", () => {
-  const newsResult = runCli(["search-api", "tool_ids=list_news"]);
-  const quoteResult = runCli([
-    "search-api",
-    "tool_ids=get_industry_stock_realtime_quote",
-  ]);
-
-  assert.equal(newsResult.status, 0);
-  const newsPayload = JSON.parse(newsResult.stdout);
-  assert.equal(newsPayload.matches[0].responseSchema.newsType.fieldDesc, "新闻类型");
-  assert.equal(
-    newsPayload.matches[0].responseSchema.newsType.enums,
-    "1:宏观;2:行业;3:公司;4:行情"
-  );
-
-  assert.equal(quoteResult.status, 0);
-  const quotePayload = JSON.parse(quoteResult.stdout);
-  const stockSchema = quotePayload.matches[0].responseSchema.stockRealQuotes;
-  assert.equal(stockSchema.children.stockCode.fieldDesc, "股票代码");
-  assert.equal(stockSchema.children.stockName.fieldDesc, "股票名称");
-  assert.equal(stockSchema.children.marketType.enums, "sh:上交所;sz:深交所;bj:北交所");
-});
-
-test("search-api supports tool_ids filtering with repeated values", () => {
-  const result = runCli([
-    "search-api",
-    "tool_ids=list_stock_violation_penalt",
-    "tool_ids=list_stock_report_schema",
-  ]);
-
-  assert.equal(result.status, 0);
-  const payload = JSON.parse(result.stdout);
-  assert.deepEqual(payload.toolIds, [
-    "list_stock_violation_penalt",
-    "list_stock_report_schema",
-  ]);
-  assert.equal(payload.matches.length, 2);
-  assert.equal(payload.matches[0].toolId, "list_stock_violation_penalt");
-  assert.equal(payload.matches[1].toolId, "list_stock_report_schema");
-});
-
-test("search-api supports query and tool_ids together", () => {
-  const result = runCli([
-    "search-api",
-    "query=违规处罚",
-    "tool_ids=list_stock_violation_penalt,list_stock_report_schema",
-  ]);
-
-  assert.equal(result.status, 0);
-  const payload = JSON.parse(result.stdout);
-  assert.equal(payload.query, "违规处罚");
-  assert.deepEqual(payload.toolIds, [
-    "list_stock_violation_penalt",
-    "list_stock_report_schema",
-  ]);
-  assert.equal(payload.matches.length, 1);
-  assert.equal(payload.matches[0].toolId, "list_stock_violation_penalt");
-});
-
-test("search-api supports multiple query keywords", () => {
-  const result = runCli([
-    "search-api",
-    "query=股票,基本面分析",
-  ]);
-
-  assert.equal(result.status, 0);
-  const payload = JSON.parse(result.stdout);
-  assert.equal(payload.query, "股票 基本面分析");
-  assert.match(payload.matches[0].path, /stock\/fundamentals/);
-});
-
-test("search-api requires all query keywords to match", () => {
-  const result = runCli([
-    "search-api",
-    "query=股票,技术",
-  ]);
-
-  assert.equal(result.status, 0);
-  const payload = JSON.parse(result.stdout);
-  assert.ok(payload.matches.length > 0);
-  assert.ok(
-    payload.matches.every((match) => {
-      const haystack = [
-        match.apiName,
-        match.path,
-        match.toolId,
-        match.description,
-        ...match.requestParams.map((item) => `${item.name} ${item.desc}`),
-        ...match.responseFields.map((item) => `${item.name} ${item.desc}`),
-      ].join(" ");
-      return haystack.includes("股票") && haystack.includes("技术");
-    })
-  );
-});
-
-test("search-api rejects repeated query arguments", () => {
-  const result = runCli([
-    "search-api",
-    "query=股票",
-    "query=基本面分析",
-  ]);
-
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /只允许一个 query=/);
-});
-
-test("search-api --text prints a human-readable summary", () => {
-  const result = runCli(["search-api", "query=违规处罚", "--text"]);
-
-  assert.equal(result.status, 0);
-  assert.match(result.stdout, /Matches for query='违规处罚':/);
-  assert.match(result.stdout, /desc:/);
-  assert.match(result.stdout, /request params:/);
-  assert.match(result.stdout, /response fields:/);
-  assert.match(result.stdout, /example: investoday-api stock\/violation-penalties --method POST/);
-  assert.match(result.stdout, /--body-json/);
-});
-
-test("search-api rejects positional query input", () => {
-  const result = runCli(["search-api", "违规处罚"]);
-
-  assert.equal(result.status, 1);
-  assert.match(result.stderr, /只接受结构化入参/);
+  assert.match(result.stderr, /search-api 命令已移除/);
+  assert.match(result.stderr, /不再支持搜索接口/);
 });
 
 test("deprecated schema and example commands return a migration hint", () => {
@@ -621,7 +476,7 @@ test("deprecated schema and example commands return a migration hint", () => {
 
   assert.equal(schemaResult.status, 1);
   assert.match(schemaResult.stderr, /已移除/);
-  assert.match(schemaResult.stderr, /search-api/);
+  assert.match(schemaResult.stderr, /references 文档/);
   assert.equal(exampleResult.status, 1);
   assert.match(exampleResult.stderr, /已移除/);
 });

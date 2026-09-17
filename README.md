@@ -49,15 +49,6 @@ investoday-api list 沪深京数据
 investoday-api list 沪深京数据/公司行为/基本信息
 ```
 
-按关键词或 `tool_id` 搜索接口：
-
-```bash
-investoday-api search-api query=股票,基本面分析
-investoday-api search-api query=违规处罚
-investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
-investoday-api search-api query=股票 --text
-```
-
 直接调用接口：
 
 ```bash
@@ -71,8 +62,8 @@ investoday-api fund/daily-quotes --method POST fundCode=000001 beginDate=2024-01
 当你还不知道具体接口时：
 
 1. 先用 `investoday-api list` 浏览分组。
-2. 再用 `investoday-api search-api` 按关键词或 `tool_id` 定位接口。
-3. 确认参数后，直接调用目标接口。
+2. 通过分组下的叶子菜单或 references 文档确定接口和参数。
+3. 确认接口路径后，直接调用目标接口。
 
 当你已经知道接口路径时：
 
@@ -91,7 +82,7 @@ investoday-api <endpoint> --method POST [key=value ...]
 推荐的 agent 调用顺序：
 
 1. 先执行 `investoday-api init` 初始化本地运行环境。
-2. 若接口不明确，优先使用 `list` 或 `search-api`。
+2. 若接口不明确，使用 `list` 浏览分组，并读取对应 references 文档。
 3. 找到接口后，再执行真实调用。
 4. 需要进一步查看字段和参数时，再读 references 文档。
 

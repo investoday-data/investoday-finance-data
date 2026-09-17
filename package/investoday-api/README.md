@@ -77,9 +77,6 @@ investoday-api skill install investoday-finance-data --target "<SKILLS_DIR>"
 investoday-api skill install investoday-finance-data --target-code "<TARGET_CODE>"
 investoday-api list
 investoday-api list 沪深京数据
-investoday-api search-api query=违规处罚 tool_ids=list_stock_violation_penalt
-investoday-api search-api query=股票,基本面分析
-investoday-api search-api query=股票 --text
 investoday-api <endpoint> [key=value ...]
 investoday-api <endpoint> --method POST [key=value ...]
 investoday-api <endpoint> --method POST [queryKey=value ...] --body-json '{"bodyKey":[]}'
@@ -89,10 +86,6 @@ Examples:
 
 ```bash
 investoday-api list 沪深京数据/股票行情
-investoday-api search-api query=stockCodes
-investoday-api search-api query=股票,基本面分析
-investoday-api search-api tool_ids=list_stock_violation_penalt,list_stock_report_schema
-investoday-api search-api query=股票 --text
 investoday-api skill list --page 1 --page-size 20
 investoday-api skill list --api-key "<API_KEY>"
 investoday-api skill search 股票 --json
@@ -158,9 +151,8 @@ investoday-api config remove
 
 - Uses the local JSON config created by `investoday-api init`
 - Only calls `https://data-api.investoday.net/data`
-- Bundles endpoint metadata for `list` and `search-api`
-- `search-api` defaults to JSON output and includes params, response fields, recursive `responseSchema` metadata, enum labels, and `exampleCommand`; use `--text` for a human-readable summary
-- `search-api` only accepts structured inputs such as `query=` and `tool_ids=`; `query=` accepts one value and supports comma-separated keywords
+- Bundles endpoint metadata for browsing groups with `list` and resolving known endpoint paths
+- API search is not supported; use `list` and the bundled references to locate endpoints
 - For POST endpoints with JSON body parameters, pass query parameters as `key=value` and pass body parameters with `--body-json`
 - Background update settings are stored in the local JSON config and can be inspected with `investoday-api update status`
 - Prints the API response `data` field as formatted JSON
