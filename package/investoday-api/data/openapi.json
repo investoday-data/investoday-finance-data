@@ -50058,7 +50058,7 @@
                       "description": "连续涨停天数",
                       "example": 5
                     },
-                    "keepLimitDownDays": {
+                    "keepDownDays": {
                       "type": "integer",
                       "format": "int32",
                       "description": "连续跌停天数",
