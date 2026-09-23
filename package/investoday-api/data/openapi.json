@@ -28138,12 +28138,12 @@
                 "properties": {
                   "stockCode": {
                     "type": "string",
-                    "description": "股票代码【与stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "description": "股票代码【与stockCodes、listStatus组成多选一参数，必须且只能传递其中一个】",
                     "example": "000001"
                   },
                   "stockCodes": {
                     "type": "array",
-                    "description": "股票代码列表【与stockCode组成多选一参数，必须且只能传递其中一个】",
+                    "description": "股票代码列表【与stockCode、listStatus组成多选一参数，必须且只能传递其中一个】",
                     "example": [
                       "000001",
                       "600519"
@@ -28151,6 +28151,26 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "listStatus": {
+                    "type": "string",
+                    "allOf": [
+                      {
+                        "type": "string",
+                        "description": "0代表发行待流通;\n1代表首次流通;\n2代表转换后流通;\n3代表暂停后恢复流通;\n4代表暂停流通;\n6代表特别处理;\n7代表撤销特别处理",
+                        "enum": [
+                          "0",
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "6",
+                          "7"
+                        ]
+                      }
+                    ],
+                    "description": "上市状态(不传默认查询上市股票）【与stockCode、stockCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "1"
                   },
                   "pageNum": {
                     "type": "integer",
