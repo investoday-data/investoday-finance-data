@@ -503,6 +503,25 @@ test("parseArgs supports explicit JSON body for POST requests", () => {
   });
 });
 
+test("parseArgs restores values split by a command-string host", () => {
+  const parsed = parseArgs([
+    "news/entity-related",
+    "stockCode=00988",
+    "beginTime=2026-09-15",
+    "00:00:00",
+    "endTime=2026-09-23",
+    "23:59:59",
+    "pageSize=10",
+  ]);
+
+  assert.deepEqual(parsed.params, {
+    stockCode: "00988",
+    beginTime: "2026-09-15 00:00:00",
+    endTime: "2026-09-23 23:59:59",
+    pageSize: "10",
+  });
+});
+
 test("splitPostParams separates OpenAPI query params from JSON body params", () => {
   const endpoint = {
     parameters: [

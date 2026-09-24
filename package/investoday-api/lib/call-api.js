@@ -706,11 +706,13 @@ function parseArgs(argv) {
   let methodSpecified = false;
   const params = {};
   let bodyJson = null;
+  let lastParamKey = null;
 
   let index = 1;
   while (index < argv.length) {
     const arg = argv[index];
     if (arg === "--method") {
+      lastParamKey = null;
       index += 1;
       if (index >= argv.length) {
         exitWithError("错误：--method 只支持 GET 或 POST。");
@@ -722,6 +724,7 @@ function parseArgs(argv) {
         exitWithError(`错误：不支持的 HTTP 方法 '${method}'，目前只支持 GET 和 POST`);
       }
     } else if (arg === "--body-json" || arg.startsWith("--body-json=")) {
+      lastParamKey = null;
       let rawBody = "";
       if (arg === "--body-json") {
         index += 1;
@@ -742,7 +745,21 @@ function parseArgs(argv) {
         exitWithError("错误：--body-json 只支持 JSON 对象。");
       }
     } else if (!arg.includes("=")) {
-      exitWithError(`错误：参数 '${arg}' 格式无效，应使用 key=value`);
+      // 某些宿主只接受 command 字符串，并会在启动进程前按空格拆分参数。
+      // 将这类拆分出来的连续片段拼回上一个 key=value 的值，同时保留对独立非法参数的校验。
+      if (lastParamKey && !arg.startsWith("-")) {
+        const existing = params[lastParamKey];
+        if (Array.isArray(existing)) {
+          const lastIndex = existing.length - 1;
+          existing[lastIndex] = existing[lastIndex]
+            ? `${existing[lastIndex]} ${arg}`
+            : arg;
+        } else {
+          params[lastParamKey] = existing ? `${existing} ${arg}` : arg;
+        }
+      } else {
+        exitWithError(`错误：参数 '${arg}' 格式无效，应使用 key=value`);
+      }
     } else {
       const equalIndex = arg.indexOf("=");
       const key = arg.slice(0, equalIndex);
@@ -758,6 +775,7 @@ function parseArgs(argv) {
       } else {
         params[key] = value;
       }
+      lastParamKey = key;
     }
 
     index += 1;
