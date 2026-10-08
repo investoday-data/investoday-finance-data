@@ -20299,6 +20299,18 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
                   }
                 }
               }
@@ -20405,6 +20417,24 @@
                       ],
                       "description": "基金投资组合持股明细信息来源",
                       "example": 3
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
                     }
                   }
                 }
@@ -20458,6 +20488,18 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
                   }
                 }
               }
@@ -20927,6 +20969,24 @@
                       "type": "number",
                       "description": "其他(包含二次穿透数值)",
                       "example": 0.0035
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
                     }
                   }
                 }
@@ -20980,6 +21040,18 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
                   }
                 }
               }
@@ -21067,6 +21139,24 @@
                       "format": "int32",
                       "description": "基金管理人代码",
                       "example": 100001
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
                     }
                   }
                 }
@@ -21120,6 +21210,18 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
                   }
                 }
               }
@@ -21206,6 +21308,24 @@
                       "type": "string",
                       "description": "债券简称",
                       "example": "精研转债"
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
                     }
                   }
                 }
