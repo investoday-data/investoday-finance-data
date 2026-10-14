@@ -63869,6 +63869,147 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/fund/etf-premium-rates": {
+      "post": {
+        "tags": [
+          "场内基金溢价率"
+        ],
+        "summary": "场内基金溢价率",
+        "description": "支持通过基金代码或代码列表及时间范围查询场内ETF的溢价率数据，返回包括基金代码、名称、日期、单位净值、收盘价及溢价率（百分比）等核心指标，帮助用户分析ETF的市场交易价格与净值偏离情况。",
+        "operationId": "list_etf_premium_rates",
+        "requestBody": {
+          "description": "支持通过基金代码或代码列表及时间范围查询场内ETF的溢价率数据，返回包括基金代码、名称、日期、单位净值、收盘价及溢价率（百分比）等核心指标，帮助用户分析ETF的市场交易价格与净值偏离情况。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundCode": {
+                    "type": "string",
+                    "description": "基金代码【与fundCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "000001"
+                  },
+                  "fundCodes": {
+                    "type": "array",
+                    "description": "基金代码列表【与fundCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "000001",
+                      "000006"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "开始日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "结束日期（格式yyyy-MM-dd）",
+                    "example": "2025-01-01"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fundId": {
+                      "type": "string",
+                      "description": "今日投资内部编码",
+                      "example": "510300"
+                    },
+                    "fundCode": {
+                      "type": "string",
+                      "description": "基金代码"
+                    },
+                    "fundName": {
+                      "type": "string",
+                      "description": "基金名称，优先使用交易所扩展简称，无则使用中文简称",
+                      "example": "沪深300ETF"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-30 00:00:00"
+                    },
+                    "unitNav": {
+                      "type": "number",
+                      "description": "单位净值",
+                      "example": 1.2345
+                    },
+                    "closePrice": {
+                      "type": "number",
+                      "description": "收盘价",
+                      "example": 1.238
+                    },
+                    "premiumRate": {
+                      "type": "number",
+                      "description": "溢价率，单位：%",
+                      "example": 0.2834
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {

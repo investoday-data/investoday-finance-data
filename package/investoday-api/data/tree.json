@@ -5834,6 +5834,21 @@
                   "apiAccessLevel": "L1",
                   "apiVisibility": "external",
                   "apiMethod": "POST"
+                },
+                {
+                  "apiId": 110710,
+                  "apiName": "场内基金溢价率",
+                  "apiType": "SQL",
+                  "apiStatus": "release",
+                  "groupId": 11132,
+                  "remarks": null,
+                  "toolName": "list_etf_premium_rates",
+                  "toolId": "list_etf_premium_rates",
+                  "apiPath": "fund/etf-premium-rates",
+                  "enabled": 1,
+                  "apiAccessLevel": "L1",
+                  "apiVisibility": "external",
+                  "apiMethod": "POST"
                 }
               ]
             },
