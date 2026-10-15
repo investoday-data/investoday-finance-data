@@ -64010,6 +64010,2325 @@
       "x-apikey-supported": [
         "resource"
       ]
+    },
+    "/economic/tic-foreign-bonds": {
+      "post": {
+        "tags": [
+          "外资买入美国债券"
+        ],
+        "summary": "外资买入美国债券",
+        "description": "通过指定指标代码列表及起止日期，查询外资净买入美国债券的历史数据，返回指标名称、发布日、截止日及具体数值等核心信息，支持分页浏览，便于分析跨境资金流向。",
+        "operationId": "list_tic_foreign_bond",
+        "requestBody": {
+          "description": "通过指定指标代码列表及起止日期，查询外资净买入美国债券的历史数据，返回指标名称、发布日、截止日及具体数值等核心信息，支持分页浏览，便于分析跨境资金流向。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150011007代表外资买入美国债券",
+                        "enum": [
+                          "150011007"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      150011007
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDt": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/bis-effective-rate": {
+      "post": {
+        "tags": [
+          "贸易加权有效汇率"
+        ],
+        "summary": "贸易加权有效汇率",
+        "description": "支持通过指标代码列表及起止日期查询加拿大和瑞典广义名义有效汇率指数的历史数据，返回指标名称、发布日、截止日及数值等核心信息，便于进行宏观经济分析与汇率趋势研判。",
+        "operationId": "list_eco_bis_effect_rate",
+        "requestBody": {
+          "description": "支持通过指标代码列表及起止日期查询加拿大和瑞典广义名义有效汇率指数的历史数据，返回指标名称、发布日、截止日及数值等核心信息，便于进行宏观经济分析与汇率趋势研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150010008代表加拿大广义名义有效汇率候选,150010054代表瑞典广义名义有效汇率",
+                        "enum": [
+                          "150010008"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表；为空时返回本接口固定指标",
+                    "example": [
+                      150010008,
+                      150010054
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indexCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/wsts-semiconductor-sales": {
+      "post": {
+        "tags": [
+          " WSTS半导体销售"
+        ],
+        "summary": " WSTS半导体销售",
+        "description": "支持通过指定指标代码列表及起止日期范围，批量查询WSTS半导体销售额数据（涵盖美洲、欧洲、日本、亚太及全球区域），返回指标名称、发布日、截止日、指标代码及数值等核心信息，用于分析全球半导体市场月度销售趋势。",
+        "operationId": "list_wsts_semiconductor",
+        "requestBody": {
+          "description": "支持通过指定指标代码列表及起止日期范围，批量查询WSTS半导体销售额数据（涵盖美洲、欧洲、日本、亚太及全球区域），返回指标名称、发布日、截止日、指标代码及数值等核心信息，用于分析全球半导体市场月度销售趋势。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150011000代表WSTS半导体销售额-美洲-月度值,150011001代表WSTS半导体销售额-欧洲-月度值,150011002代表WSTS半导体销售额-日本-月度值,150011003代表WSTS半导体销售额-亚太-月度值,150011004代表WSTS半导体销售额-全球-月度值,150011005代表WSTS半导体销售额-美洲-3个月移动平均-月度值,150011006代表WSTS半导体销售额-欧洲-3个月移动平均-月度值,150011007代表WSTS半导体销售额-日本-3个月移动平均-月度值,150011008代表WSTS半导体销售额-亚太-3个月移动平均-月度值,150011009代表WSTS半导体销售额-全球-3个月移动平均-月度值",
+                        "enum": [
+                          "150011000"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      150011000,
+                      150011001,
+                      150011002,
+                      150011003,
+                      150011004,
+                      150011005,
+                      150011006,
+                      150011007,
+                      150011008,
+                      150011009
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indexCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/bundesbank-real-yield": {
+      "post": {
+        "tags": [
+          "德国10年实际收益率"
+        ],
+        "summary": "德国10年实际收益率",
+        "description": "支持通过指标代码列表或时间范围查询德国10年期实际收益率及预期实际收益率的历史数据，返回指标名称、发布日、截止日及数值等核心信息，便于进行宏观经济分析与利率趋势研判。",
+        "operationId": "list_bundesbank_yield",
+        "requestBody": {
+          "description": "支持通过指标代码列表或时间范围查询德国10年期实际收益率及预期实际收益率的历史数据，返回指标名称、发布日、截止日及数值等核心信息，便于进行宏观经济分析与利率趋势研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "990910001代表德国10年实际收益率,150011050代表德国10年预期实际收益率",
+                        "enum": [
+                          "990910001"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表；为空时返回本接口固定指标",
+                    "example": [
+                      990910001,
+                      150011050
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indexCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/eia-monthly-crude": {
+      "post": {
+        "tags": [
+          " EIA月度原油产量"
+        ],
+        "summary": " EIA月度原油产量",
+        "description": "通过指定指标代码及起止日期范围，批量查询美国原油月度总产量数据，返回指标名称、发布日、截止日及具体数值等核心信息，支持分页检索，便于进行能源市场趋势分析。",
+        "operationId": "list_eia_monthly_crude",
+        "requestBody": {
+          "description": "通过指定指标代码及起止日期范围，批量查询美国原油月度总产量数据，返回指标名称、发布日、截止日及具体数值等核心信息，支持分页检索，便于进行能源市场趋势分析。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150011055代表美国原油总产量",
+                        "enum": [
+                          "150011055"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      150011055
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indexCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indexName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "pubDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indexCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/eia-monthly-steo": {
+      "post": {
+        "tags": [
+          "EIA月度STEO能源"
+        ],
+        "summary": "EIA月度STEO能源",
+        "description": "支持通过指定指标代码（如美国页岩油/致密油产量、OECD商业原油库存）及起止日期范围，批量查询EIA月度STEO能源数据的发布日、截止日及数值，便于进行能源市场趋势分析。",
+        "operationId": "list_eia_monthly_steo",
+        "requestBody": {
+          "description": "支持通过指定指标代码（如美国页岩油/致密油产量、OECD商业原油库存）及起止日期范围，批量查询EIA月度STEO能源数据的发布日、截止日及数值，便于进行能源市场趋势分析。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indexCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150011054代表美国页岩油/致密油产量,150011056代表OECD商业原油库存",
+                        "enum": [
+                          "150011054"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      150011054,
+                      150011056
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indexCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataVal": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/fred-macro-indicators": {
+      "post": {
+        "tags": [
+          "FRED美国宏观指标"
+        ],
+        "summary": "FRED美国宏观指标",
+        "description": "支持通过指定美国宏观经济指标名称列表及可选的时间范围，批量查询包括核心PCE同比、CPI、投资级与高收益信用利差、5年/10年期盈亏平衡通胀率等关键指标的发布日、数值及单位数据，便于进行宏观经济趋势分析与政策研判。",
+        "operationId": "list_fred_macro_ind",
+        "requestBody": {
+          "description": "支持通过指定美国宏观经济指标名称列表及可选的时间范围，批量查询包括核心PCE同比、CPI、投资级与高收益信用利差、5年/10年期盈亏平衡通胀率等关键指标的发布日、数值及单位数据，便于进行宏观经济趋势分析与政策研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicatorCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "150011060代表美国核心PCE同比,150011063代表美国CPI,150011061代表美国投资级信用利差,150011062代表美国高收益信用利差,150011051代表5年期盈亏平衡通胀,150011052代表10年期盈亏平衡通胀,150011053代表5年10年远期通胀预期",
+                        "enum": [
+                          "150011060"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标编码列表",
+                    "example": [
+                      150011060,
+                      150011063,
+                      150011061,
+                      150011062,
+                      150011051,
+                      150011052,
+                      150011053
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indicatorCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataValue": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/eia-weekly-refinery": {
+      "post": {
+        "tags": [
+          " EIA周度炼厂开工率"
+        ],
+        "summary": " EIA周度炼厂开工率",
+        "description": "支持通过指标代码列表及起止日期范围，查询美国炼厂可运行产能利用率（周度）的历史数据，返回指标名称、发布日、截止日、指标代码及数值等核心信息，便于分析能源行业开工情况。",
+        "operationId": "list_eia_weekly_refinery",
+        "requestBody": {
+          "description": "支持通过指标代码列表及起止日期范围，查询美国炼厂可运行产能利用率（周度）的历史数据，返回指标名称、发布日、截止日、指标代码及数值等核心信息，便于分析能源行业开工情况。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicatorCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "990900003代表美国炼厂可运行产能利用率",
+                        "enum": [
+                          "990900003"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      990900003
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indicatorCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataValue": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/eia-weekly-stock": {
+      "post": {
+        "tags": [
+          "EIA周度库存"
+        ],
+        "summary": "EIA周度库存",
+        "description": "支持通过指定指标代码（如美国商业原油库存、全美汽油总库存）及时间范围，批量查询EIA周度能源库存数据，返回指标名称、发布日、截止日、指标值等核心信息，便于分析美国能源供需变化趋势。",
+        "operationId": "list_eia_weekly_stock",
+        "requestBody": {
+          "description": "支持通过指定指标代码（如美国商业原油库存、全美汽油总库存）及时间范围，批量查询EIA周度能源库存数据，返回指标名称、发布日、截止日、指标值等核心信息，便于分析美国能源供需变化趋势。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicatorCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "990900001代表美国商业原油库存,990900002代表全美汽油库存",
+                        "enum": [
+                          "990900001"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      990900001,
+                      990900002
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indicatorCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataValue": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/china-dr-rates": {
+      "post": {
+        "tags": [
+          "多期限DR资金利率"
+        ],
+        "summary": "多期限DR资金利率",
+        "description": "支持通过指定指标代码列表（如DR001、DR007等）及起止日期范围，批量查询中国多期限DR资金利率的历史数据，返回包含指标名称、发布日、截止日及具体数值等核心信息，便于进行货币市场流动性分析与趋势研判。",
+        "operationId": "list_econ_china_dr_rates",
+        "requestBody": {
+          "description": "支持通过指定指标代码列表（如DR001、DR007等）及起止日期范围，批量查询中国多期限DR资金利率的历史数据，返回包含指标名称、发布日、截止日及具体数值等核心信息，便于进行货币市场流动性分析与趋势研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicatorCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "601180012代表DR001资金利率,601180013代表DR007资金利率,601180014代表DR014资金利率,601180015代表DR021资金利率,601180016代表DR1M资金利率",
+                        "enum": [
+                          "601180012"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表；为空时返回本接口固定指标",
+                    "example": [
+                      601180012,
+                      601180013,
+                      601180014,
+                      601180015,
+                      601180016
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indicatorCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataValue": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/economic/safe-bpm6": {
+      "post": {
+        "tags": [
+          "BPM6国际收支"
+        ],
+        "summary": "BPM6国际收支",
+        "description": "支持通过指定指标代码列表及起止日期范围，查询中国国际收支平衡表（BPM6）中以美元计价的金融账户各类别（如差额、资产、负债、直接投资、证券投资、金融衍生工具及其他投资等）的季度当期值数据，返回指标名称、发布日、截止日及具体数值，便于进行国际收支趋势分析与宏观研判。",
+        "operationId": "list_economic_safe_bpm6",
+        "requestBody": {
+          "description": "支持通过指定指标代码列表及起止日期范围，查询中国国际收支平衡表（BPM6）中以美元计价的金融账户各类别（如差额、资产、负债、直接投资、证券投资、金融衍生工具及其他投资等）的季度当期值数据，返回指标名称、发布日、截止日及具体数值，便于进行国际收支趋势分析与宏观研判。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicatorCodes": {
+                    "type": "array",
+                    "allOf": [
+                      {
+                        "type": "array",
+                        "description": "110349001代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表当期值代表季,110349002代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表当期值代表季,110349003代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表当期值代表季,110349004代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表直接投资代表当期值代表季,110349005代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表直接投资代表当期值代表季,110349006代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表直接投资代表股权代表当期值代表季,110349007代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表直接投资代表债务工具代表当期值代表季,110349008代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表直接投资代表当期值代表季,110349009代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表直接投资代表股权代表当期值代表季,110349010代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表直接投资代表债务工具代表当期值代表季,110349011代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表证券投资代表当期值代表季,110349012代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表证券投资代表当期值代表季,110349013代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表证券投资代表股权代表当期值代表季,110349014代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表证券投资代表债券代表当期值代表季,110349015代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表证券投资代表当期值代表季,110349016代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表证券投资代表股权代表当期值代表季,110349017代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表证券投资代表债券代表当期值代表季,110349018代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表金融衍生工具代表当期值代表季,110349019代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表金融衍生工具代表当期值代表季,110349020代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表金融衍生工具代表当期值代表季,110349021代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表其他投资代表当期值代表季,110349022代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表其他投资代表当期值代表季,110349023代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表其他投资代表货币和存款代表当期值代表季,110349024代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表其他投资代表贷款代表当期值代表季,110349025代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表资产代表其他投资代表贸易信贷代表当期值代表季,110349026代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表其他投资代表当期值代表季,110349027代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表其他投资代表货币和存款代表当期值代表季,110349028代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表其他投资代表贷款代表当期值代表季,110349029代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表负债代表其他投资代表贸易信贷代表当期值代表季,110349030代表中国国际收支平衡表（BPM6）代表以美元计代表金融账户代表差额代表储备资产代表当期值代表季",
+                        "enum": [
+                          "110349001"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ],
+                    "description": "指标代码列表",
+                    "example": [
+                      110349001,
+                      110349002,
+                      110349003,
+                      110349004,
+                      110349005,
+                      110349006,
+                      110349007,
+                      110349008,
+                      110349009,
+                      110349010,
+                      110349011,
+                      110349012,
+                      110349013,
+                      110349014,
+                      110349015,
+                      110349016,
+                      110349017,
+                      110349018,
+                      110349019,
+                      110349020,
+                      110349021,
+                      110349022,
+                      110349023,
+                      110349024,
+                      110349025,
+                      110349026,
+                      110349027,
+                      110349028,
+                      110349029,
+                      110349030
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "指标截止日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "指标截止日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                },
+                "required": [
+                  "indicatorCodes"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indicatorName": {
+                      "type": "string",
+                      "description": "指标中文名称",
+                      "example": "美国商业原油库存（示例）"
+                    },
+                    "publishDate": {
+                      "type": "string",
+                      "description": "信息发布日期",
+                      "example": "2026-09-24 00:00:00"
+                    },
+                    "indicatorCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "指标代码",
+                      "example": 990900001
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "description": "截止日期",
+                      "example": "2026-09-18"
+                    },
+                    "dataValue": {
+                      "type": "number",
+                      "description": "指标数据",
+                      "example": 423429
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/futures/shfe-metal-d": {
+      "post": {
+        "tags": [
+          "上期所金属库存日报"
+        ],
+        "summary": "上期所金属库存日报",
+        "description": "支持通过期货品种代码及日期范围查询上期所金属类期货的每日库存日报数据，返回包含报告类型、交易日期、交易所代码、期货代码与名称、地区、仓单数量及增减量等核心指标，便于进行库存趋势分析与市场监测。",
+        "operationId": "list_futures_shfe_metal_d",
+        "requestBody": {
+          "description": "支持通过期货品种代码及日期范围查询上期所金属类期货的每日库存日报数据，返回包含报告类型、交易日期、交易所代码、期货代码与名称、地区、仓单数量及增减量等核心指标，便于进行库存趋势分析与市场监测。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "futureCode": {
+                    "type": "string",
+                    "description": "期货品种代码；不传返回全部品种",
+                    "example": "CU"
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "报告日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "报告日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportType": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "dailyDetail代表日报明细,dailySummary代表日报汇总",
+                          "enum": [
+                            "dailyDetail"
+                          ]
+                        }
+                      ],
+                      "description": "日报明细或日报汇总",
+                      "example": "dailyDetail"
+                    },
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "报告日期",
+                      "example": "2026-09-22 00:00:00"
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "交易所代码",
+                      "example": "SHFE"
+                    },
+                    "futureCode": {
+                      "type": "string",
+                      "description": "期货品种代码",
+                      "example": "ZN"
+                    },
+                    "regionName": {
+                      "type": "string",
+                      "description": "地区名称",
+                      "example": "浙江"
+                    },
+                    "statType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "汇总类型"
+                    },
+                    "futureName": {
+                      "type": "string",
+                      "description": "品种名称",
+                      "example": "锌"
+                    },
+                    "warehouseReceiptQuantity": {
+                      "type": "number",
+                      "description": "仓单数量",
+                      "example": 9786
+                    },
+                    "warehouseReceiptChange": {
+                      "type": "number",
+                      "description": "仓单增减数量",
+                      "example": 0
+                    },
+                    "measureUnit": {
+                      "type": "string",
+                      "description": "计量单位",
+                      "example": "吨"
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/futures/shfe-metal-w": {
+      "post": {
+        "tags": [
+          "上期所金属库存周报"
+        ],
+        "summary": "上期所金属库存周报",
+        "description": "支持通过单个或批量期货合约代码及日期范围查询上期所金属类期货的周度库存周报，返回包含报告类型、交易日期、交易所代码、地区名称、期货品种信息、上周与本期的库存数量、仓单数量、库存增减量、可用库容量及其变化量等核心指标，便于分析金属期货的供需动态与库存趋势。",
+        "operationId": "list_futures_shfe_metal_w",
+        "requestBody": {
+          "description": "支持通过单个或批量期货合约代码及日期范围查询上期所金属类期货的周度库存周报，返回包含报告类型、交易日期、交易所代码、地区名称、期货品种信息、上周与本期的库存数量、仓单数量、库存增减量、可用库容量及其变化量等核心指标，便于分析金属期货的供需动态与库存趋势。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "futureCode": {
+                    "type": "string",
+                    "description": "单个期货合约或品种代码；与futureCodes二选一【与futureCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "CU"
+                  },
+                  "futureCodes": {
+                    "type": "array",
+                    "description": "多个期货合约或品种代码；与futureCode二选一【与futureCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "CU",
+                      "ZN"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "报告日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "报告日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportType": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "weeklyDetail代表周报明细,weeklySummary代表周报汇总",
+                          "enum": [
+                            "weeklyDetail"
+                          ]
+                        }
+                      ],
+                      "description": "周报明细或周报汇总",
+                      "example": "weeklyDetail"
+                    },
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "报告日期",
+                      "example": "2026-09-04 00:00:00"
+                    },
+                    "futureCode": {
+                      "type": "string",
+                      "description": "期货品种代码",
+                      "example": "BC"
+                    },
+                    "exchangeCode": {
+                      "type": "string",
+                      "description": "交易所代码",
+                      "example": "INE"
+                    },
+                    "statType": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "汇总类型"
+                    },
+                    "regionName": {
+                      "type": "string",
+                      "description": "地区名称",
+                      "example": "广东"
+                    },
+                    "futureName": {
+                      "type": "string",
+                      "description": "期货品种名称",
+                      "example": "铜(BC)"
+                    },
+                    "inventoryLwk": {
+                      "type": "number",
+                      "description": "上周库存数量",
+                      "example": 350
+                    },
+                    "warehouseReceiptLwk": {
+                      "type": "number",
+                      "description": "上周仓单数量",
+                      "example": 350
+                    },
+                    "inventoryCwk": {
+                      "type": "number",
+                      "description": "本周库存数量",
+                      "example": 325
+                    },
+                    "warehouseReceiptCwk": {
+                      "type": "number",
+                      "description": "本周仓单数量",
+                      "example": 325
+                    },
+                    "inventoryChange": {
+                      "type": "number",
+                      "description": "库存增减数量",
+                      "example": -25
+                    },
+                    "warehouseReceiptChange": {
+                      "type": "number",
+                      "description": "仓单增减数量",
+                      "example": -25
+                    },
+                    "capacityLwk": {
+                      "type": "number",
+                      "description": "上周可用库容量",
+                      "example": 9650
+                    },
+                    "capacityCwk": {
+                      "type": "number",
+                      "description": "本周可用库容量",
+                      "example": 9675
+                    },
+                    "capacityChange": {
+                      "type": "number",
+                      "description": "可用库容量增减",
+                      "example": 25
+                    },
+                    "measureUnit": {
+                      "type": "string",
+                      "description": "计量单位",
+                      "example": "吨"
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/futures/lme-metal": {
+      "post": {
+        "tags": [
+          "LME金属库存"
+        ],
+        "summary": "LME金属库存",
+        "description": "支持通过单个或批量LME期货产品代码及日期范围查询指定仓库地点的库存变动详情，返回交易日期、国家地区、期初/期末库存、入库/出库量及有效与注销仓单数量等核心指标，便于分析全球金属库存动态。",
+        "operationId": "list_futures_lme_meta",
+        "requestBody": {
+          "description": "支持通过单个或批量LME期货产品代码及日期范围查询指定仓库地点的库存变动详情，返回交易日期、国家地区、期初/期末库存、入库/出库量及有效与注销仓单数量等核心指标，便于分析全球金属库存动态。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "futureCode": {
+                    "type": "string",
+                    "description": "单个LME产品或品种代码；与futureCodes二选一【与futureCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "Aluminium Alloy Ingots 226"
+                  },
+                  "futureCodes": {
+                    "type": "array",
+                    "description": "多个LME产品或品种代码；与futureCode二选一【与futureCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "Aluminium Alloy Ingots 226",
+                      "Aluminium Alloy Ingots A380.1"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "库存日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "库存日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tradeDate": {
+                      "type": "string",
+                      "description": "库存日期",
+                      "example": "2026-09-22 00:00:00"
+                    },
+                    "futureCode": {
+                      "type": "string",
+                      "description": "LME产品或品种代码",
+                      "example": "Aluminium Alloy Ingots 226"
+                    },
+                    "countryRegion": {
+                      "type": "string",
+                      "description": "国家或地区",
+                      "example": "Belgium"
+                    },
+                    "warehouseLocation": {
+                      "type": "string",
+                      "description": "仓库地点",
+                      "example": "Antwerp"
+                    },
+                    "inventoryOpen": {
+                      "type": "number",
+                      "description": "期初库存",
+                      "example": 300
+                    },
+                    "inboundQuantity": {
+                      "type": "number",
+                      "description": "入库量",
+                      "example": 0
+                    },
+                    "outboundQuantity": {
+                      "type": "number",
+                      "description": "出库量",
+                      "example": 0
+                    },
+                    "inventoryClose": {
+                      "type": "number",
+                      "description": "期末库存总量",
+                      "example": 300
+                    },
+                    "validWarehouseReceipt": {
+                      "type": "number",
+                      "description": "可用吨数",
+                      "example": 300
+                    },
+                    "cancelledWarehouseReceipt": {
+                      "type": "number",
+                      "description": "已注销吨数",
+                      "example": 0
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
+    },
+    "/bonds/duration": {
+      "post": {
+        "tags": [
+          "债券久期估值"
+        ],
+        "summary": "债券久期估值",
+        "description": "支持通过单个或批量债券代码及指定日期范围，查询债券估值数据，返回发布日、债券代码、币种、名称、类型、全价、净价、收益率、票息类型、修正久期、凸性、基点价值、利差久期、利差凸性、利率久期、利率凸性及推荐度等核心指标，用于债券投资分析与风险管理。",
+        "operationId": "list_bonds_duration",
+        "requestBody": {
+          "description": "支持通过单个或批量债券代码及指定日期范围，查询债券估值数据，返回发布日、债券代码、币种、名称、类型、全价、净价、收益率、票息类型、修正久期、凸性、基点价值、利差久期、利差凸性、利率久期、利率凸性及推荐度等核心指标，用于债券投资分析与风险管理。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bondCode": {
+                    "type": "string",
+                    "description": "单个债券代码；与bondCodes二选一【与bondCodes组成多选一参数，必须且只能传递其中一个】",
+                    "example": "110001"
+                  },
+                  "bondCodes": {
+                    "type": "array",
+                    "description": "多个债券代码；与bondCode二选一【与bondCode组成多选一参数，必须且只能传递其中一个】",
+                    "example": [
+                      "110001",
+                      "110002"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "beginDate": {
+                    "type": "string",
+                    "description": "估值发布日期起始值，格式yyyy-MM-dd",
+                    "example": "2024-01-01"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "估值发布日期结束值，格式yyyy-MM-dd",
+                    "example": "2026-09-27"
+                  },
+                  "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页码。\n最小值:1;",
+                    "example": 1
+                  },
+                  "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "页长。\n最小值:1;\n最大值:500;",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publishDate": {
+                      "type": "string",
+                      "description": "估值发布日期",
+                      "example": "2026-09-22 00:00:00"
+                    },
+                    "bondCode": {
+                      "type": "string",
+                      "description": "债券代码",
+                      "example": "110001"
+                    },
+                    "currencyCode": {
+                      "type": "string",
+                      "description": "债券币种类型",
+                      "example": "CNY"
+                    },
+                    "bondName": {
+                      "type": "string",
+                      "description": "债券简称",
+                      "example": "示例债券"
+                    },
+                    "bondType": {
+                      "type": "string",
+                      "description": "债券类型名称",
+                      "example": "国债"
+                    },
+                    "dirtyPrice": {
+                      "type": "number",
+                      "description": "估值全价",
+                      "example": 101.12345678
+                    },
+                    "cleanPrice": {
+                      "type": "number",
+                      "description": "估值净价",
+                      "example": 100.98765432
+                    },
+                    "yieldRate": {
+                      "type": "number",
+                      "description": "估值收益率",
+                      "example": 2.3456789
+                    },
+                    "couponType": {
+                      "type": "string",
+                      "description": "息票类型",
+                      "example": "固定利率"
+                    },
+                    "modifiedDuration": {
+                      "type": "number",
+                      "description": "估值修正久期",
+                      "example": 5.12345678
+                    },
+                    "convexity": {
+                      "type": "number",
+                      "description": "估值凸性",
+                      "example": 32.12345678
+                    },
+                    "basisPointValue": {
+                      "type": "number",
+                      "description": "估值基点价值",
+                      "example": 0.12345678
+                    },
+                    "spreadDuration": {
+                      "type": "number",
+                      "description": "估值利差久期",
+                      "example": 4.12345678
+                    },
+                    "spreadConvexity": {
+                      "type": "number",
+                      "description": "估值利差凸性",
+                      "example": 28.12345678
+                    },
+                    "rateDuration": {
+                      "type": "number",
+                      "description": "估值利率久期",
+                      "example": 5.12345678
+                    },
+                    "rateConvexity": {
+                      "type": "number",
+                      "description": "估值利率凸性",
+                      "example": 30.12345678
+                    },
+                    "recommendation": {
+                      "type": "string",
+                      "description": "推荐度",
+                      "example": "持有"
+                    },
+                    "pageNum": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "page size",
+                      "example": 100
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "total count",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "无效请求"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "x-apikey-supported": [
+        "resource"
+      ]
     }
   },
   "components": {
