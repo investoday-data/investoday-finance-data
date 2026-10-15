@@ -51684,7 +51684,7 @@
           {
             "name": "pageSize",
             "in": "query",
-            "description": "页长",
+            "description": "页长。\n最大值:500;",
             "required": false,
             "schema": {
               "type": "integer",
